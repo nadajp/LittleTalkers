@@ -1,0 +1,86 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:tools="http://schemas.android.com/tools"
+   android:layout_height="match_parent"
+   android:layout_width="match_parent" >
+
+   <RelativeLayout 
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:padding="5dp"
+      tools:context=".AddKidFragment" >
+
+   <ImageButton
+      android:id="@+id/profilePicture"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentTop="true"
+      android:layout_marginTop="15dp"
+      android:contentDescription="@string/profile_picture"
+      android:src="@drawable/profilepicture" />
+
+    <EditText
+        android:id="@+id/editName"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:hint="@string/name_required"
+        android:inputType="textPersonName|textCapWords|textNoSuggestions" >
+        <requestFocus />
+    </EditText>
+    
+    <EditText
+        android:id="@+id/editBirthDate"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/editName"
+        android:layout_marginTop="25dp"
+        android:hint="@string/birthdate_required"
+        android:ems="10"
+        android:inputType="none" 
+        android:focusable="false"/>
+    
+     <EditText
+         android:id="@+id/editDefaultLocation"
+         android:layout_width="200dp"
+         android:layout_height="wrap_content"
+         android:layout_alignParentLeft="true"
+         android:layout_below="@+id/editBirthDate"
+         android:layout_marginTop="25dp"
+         android:hint="@string/default_location"
+         android:inputType="textCapWords" />
+        
+    <TextView
+        android:id="@+id/textChooseLanguage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/editDefaultLocation"
+        android:layout_marginTop="26dp"
+        android:text="@string/choose_default_language" />
+    
+    <Spinner
+        android:id="@+id/spinnerDefaultLanguage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/textChooseLanguage"
+        android:layout_marginTop="18dp" 
+        android:entries="@+array/array_languages"/>
+
+    <Button
+        android:id="@+id/buttonSaveKid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/spinnerDefaultLanguage"
+        android:layout_marginTop="30dp"
+        android:text="@string/save" />
+    
+</RelativeLayout>
+</ScrollView>

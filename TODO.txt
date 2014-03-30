@@ -1,0 +1,21 @@
+
+	X Add kid managing capabilities.
+	X Add kid summary bar
+	X Add back navigation
+	X Add scrolling to dictionary view
+	TODO Make titlebar scroll or hide
+	X Add long click selection to dictionary to allow deletion
+	X Add word history (timeline)
+	X Add picture cropping: Choose from gallery only, or if from camera, crop automatically (fit center)
+	X Add picture to header and kid view
+	X Add sharing
+	X Landscape layouts
+	TODO Add data backup
+	TODO Load dictionary data asynchronously
+	X Fix empty dictionary
+	TODO Style: new design, field sizes/spacing, default picture, buttons
+	TODO Icon
+	*************************** v2 *********************************
+	TODO Add child questions and answers
+	TODO Add songs
+	TODO Tablet version

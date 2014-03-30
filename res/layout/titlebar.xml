@@ -1,0 +1,65 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/titlebar"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    style="@style/LittleTalkersTheme.titlebar">
+      
+      <ImageView 
+          android:id="@+id/ivProfilePic"
+          android:layout_alignParentLeft="true"
+          android:layout_width="70dp"
+          android:layout_height="70dp"
+          android:paddingRight="10dp"
+          android:clickable="true"
+          android:onClick="clickTitlebar"
+          android:contentDescription="@string/profile_picture"/>
+          
+		<!-- <TextView style="@style/LittleTalkersTheme.titlebar"
+		  android:id="@+id/tvName"
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content" 
+		  android:clickable="true"
+		  android:onClick="clickTitlebar"
+		  android:layout_toRightOf="@id/ivProfilePic"/> -->
+
+		<TextView style="@style/LittleTalkersTheme.titlebar"
+		    android:id="@+id/headingBirthdate"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:paddingTop="10dp"
+		    android:paddingBottom="5dp"
+		    android:clickable="true"
+          android:onClick="clickTitlebar"
+		    android:layout_toRightOf="@id/ivProfilePic"
+		    android:text="@string/date_of_birth_heading"/>
+		
+		<TextView style="@style/LittleTalkersTheme.titlebar"
+		    android:id="@+id/tvBirthdate"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:paddingTop="10dp"
+          android:paddingBottom="5dp"
+		    android:clickable="true"
+          android:onClick="clickTitlebar"
+		    android:layout_toRightOf="@id/headingBirthdate"
+		    android:layout_marginLeft="5dp"/>
+		
+		<TextView style="@style/LittleTalkersTheme.titlebar"
+		    android:id="@+id/headingNumOfWords"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_below="@id/headingBirthdate"
+		    android:layout_toRightOf="@id/ivProfilePic"
+		    android:clickable="true"
+          android:onClick="clickTitlebar"
+		    android:text="@string/number_of_words_heading"/>
+		
+		<TextView style="@style/LittleTalkersTheme.titlebar"
+		    android:id="@+id/tvNumOfWords"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_below="@id/headingBirthdate"
+		    android:layout_toRightOf="@id/headingNumOfWords"
+		    android:clickable="true"
+          android:onClick="clickTitlebar"/>
+</RelativeLayout>

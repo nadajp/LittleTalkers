@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <ScrollView xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+ <RelativeLayout 
+    android:id="@+id/relative_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:scrollbars="horizontal"
+    android:windowSoftInputMode="stateAlwaysHidden" >
+
+    <include layout="@layout/titlebar"
+        android:id="@+id/titlebar"/>
+ 
+    <Button
+        android:id="@+id/buttonShowDictionary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/titlebar"
+        android:text="@string/show_dictionary" />
+    
+    <ImageButton
+        android:id="@+id/buttonMic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/buttonShowDictionary"
+        android:layout_marginTop="30dp"
+        android:contentDescription="@string/start_recording"
+        android:scaleType="fitCenter"
+        android:src="@android:drawable/ic_btn_speak_now" />
+
+    <EditText
+        android:id="@+id/editWord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/buttonMic"
+        android:layout_toRightOf="@id/buttonMic"
+        android:gravity="center_vertical|bottom"
+        android:hint="@string/enter_word"
+        android:inputType="textCapSentences"
+        android:maxLines="1"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbarStyle="insideInset"
+        android:scrollbars="horizontal" >
+    </EditText>
+
+    <ImageButton
+        android:id="@+id/buttonDeleteAudio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editWord"
+        android:layout_alignParentRight = "true"
+        android:src="@android:drawable/ic_delete"
+        android:contentDescription="@string/delete_audio"
+        android:scaleType="fitCenter"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/buttonPlayAudio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editWord"
+        android:layout_toLeftOf="@id/buttonDeleteAudio"
+        android:contentDescription="@string/play_audio"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_media_play"
+        android:visibility="invisible" />
+    
+    <Spinner
+        android:id="@+id/spinnerLanguage"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/buttonMic"
+        android:layout_marginTop="18dp"
+        android:entries="@+array/array_languages" />
+
+    <EditText
+        android:id="@+id/editDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/spinnerLanguage"
+        android:ems="10"
+        android:focusable="false"
+        android:inputType="none" />
+
+    <EditText
+        android:id="@+id/editLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/editDate"
+        android:ems="10"
+        android:hint="@string/enter_location" />
+
+    <!-- <ImageButton
+        android:id="@+id/buttonLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/editLocation"
+        android:layout_toRightOf="@id/editLocation"
+        android:contentDescription="@string/change_location"
+        android:src="@android:drawable/ic_menu_mylocation" />-->
+
+    <EditText
+        android:id="@+id/editTranslation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/editLocation"
+        android:inputType="textCapSentences"
+        android:ems="10"
+        android:hint="@string/enter_translation" />
+
+    <EditText
+        android:id="@+id/editToWhom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/editTranslation"
+        android:ems="10"
+        android:hint="@string/to_whom" />
+
+    <EditText
+        android:id="@+id/editNotes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/editToWhom"
+        android:ems="10"
+        android:hint="@string/notes"
+        android:inputType="textMultiLine" />
+    
+    <Button
+        android:id="@+id/buttonSaveWord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/editNotes"
+        android:text="@string/save" />
+
+    <TextView 
+       android:id = "@+id/txtWordHistory"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_below="@id/buttonSaveWord"
+       android:text="@string/word_history" 
+       android:layout_centerHorizontal="true"
+       android:textSize="20sp"
+       android:layout_marginBottom="5dp"
+       android:visibility="invisible"/>
+             
+    <!-- <LinearLayout android:id="@+id/layoutWordHistory"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@id/txtWordHistory"
+         android:layout_alignParentLeft="true"
+         android:orientation="horizontal"> 
+    </LinearLayout>-->
+
+</RelativeLayout>
+</ScrollView>

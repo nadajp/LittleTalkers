@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <include layout="@layout/titlebar"
+        android:id="@+id/titlebar"/>
+    
+    <LinearLayout 
+        android:id="@+id/topRow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_below="@id/titlebar"
+        android:layout_marginBottom="10dp">
+        
+     <Button 
+        android:id="@+id/buttonAddWord"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="50"
+        android:layout_marginRight="10dp"
+        android:text="@string/button_add_new_word"       
+        android:onClick="addNewWord"/>
+     
+    <Spinner
+       android:id="@+id/spinnerLanguageFilter"
+       android:layout_width="0dp"
+       android:layout_height="wrap_content"
+       android:layout_weight="50"/>
+   </LinearLayout>
+    
+   <LinearLayout 
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="horizontal"
+       android:layout_below="@id/topRow"> 
+   
+    <TextView
+       android:id="@+id/header_word"
+       style="?android:attr/listSeparatorTextViewStyle"
+       android:layout_width="0dp"
+       android:layout_weight="50"
+       android:layout_height="wrap_content"  
+       android:gravity="center_horizontal"
+       android:layout_marginRight="15dp"
+       android:clickable="true"
+       android:onClick="sortByWord"
+       android:text="@string/word_or_phrase" />
+   
+     <TextView
+       android:id="@+id/header_date"
+       style="?android:attr/listSeparatorTextViewStyle"
+       android:layout_width="0dp"
+       android:layout_weight="35"
+       android:layout_height="wrap_content"
+       android:gravity="center_horizontal"
+       android:layout_marginRight="15dp"
+       android:text="@string/date"
+       android:clickable="true"
+       android:onClick="sortByDate" />
+   
+    <TextView
+      android:id="@+id/header_audio"
+      style="?android:attr/listSeparatorTextViewStyle"
+      android:layout_width="0dp"
+      android:layout_weight="15"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:text="@string/audio" />
+   </LinearLayout>
+   
+</RelativeLayout>

@@ -1,0 +1,169 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+    	android:layout_height="match_parent"
+    	android:layout_width="match_parent" >
+    	
+<RelativeLayout android:id="@+id/relative_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:paddingLeft="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:scrollbars="horizontal"
+    android:windowSoftInputMode="stateAlwaysHidden"
+    tools:context=".AddWordFragment" >
+       
+   <include layout="@layout/titlebar"
+        android:id="@+id/titlebar"/>
+ 
+    <Button
+        android:id="@+id/buttonShowDictionary"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/titlebar"
+        android:layout_marginBottom="15dp"
+        android:text="@string/show_dictionary" />
+    
+    <Spinner
+        android:id="@+id/spinnerLanguage"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/buttonShowDictionary"
+        android:entries="@+array/array_languages" />
+    
+    <ImageButton
+        android:id="@+id/buttonMic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/buttonShowDictionary"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="@string/start_recording"
+        android:scaleType="fitCenter"
+        android:src="@android:drawable/ic_btn_speak_now" />
+
+    <EditText
+        android:id="@+id/editWord"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/buttonMic"
+        android:layout_toRightOf="@id/buttonMic"
+        android:gravity="center_vertical|bottom"
+        android:hint="@string/enter_word"
+        android:inputType="textCapSentences"
+        android:maxLines="1"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbarStyle="insideInset"
+        android:scrollbars="horizontal" >
+    </EditText>
+
+    <ImageButton
+        android:id="@+id/buttonDeleteAudio"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/buttonShowDictionary"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/editWord"
+        android:src="@android:drawable/ic_delete"
+        android:contentDescription="@string/delete_audio"
+        android:scaleType="fitCenter"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/buttonPlayAudio"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/buttonShowDictionary"
+        android:layout_toLeftOf="@id/buttonDeleteAudio"
+        android:layout_alignBottom="@id/editWord"
+        android:contentDescription="@string/play_audio"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_media_play"
+        android:visibility="invisible" />
+
+    <EditText
+        android:id="@+id/editDate"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonMic"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:inputType="none" />
+
+    <EditText
+        android:id="@+id/editLocation"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonMic"
+        android:layout_toRightOf="@id/editDate"
+        android:layout_marginLeft="10dp"
+        android:ems="10"
+        android:hint="@string/enter_location" />
+
+    <!-- <ImageButton
+        android:id="@+id/buttonLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/editLocation"
+        android:layout_toRightOf="@id/editLocation"
+        android:contentDescription="@string/change_location"
+        android:src="@android:drawable/ic_menu_mylocation" />-->
+
+    <EditText
+        android:id="@+id/editTranslation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/editDate"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:hint="@string/enter_translation" />
+
+    <EditText
+        android:id="@+id/editToWhom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/editTranslation"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:hint="@string/to_whom" />
+
+    <EditText
+        android:id="@+id/editNotes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/editToWhom"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:hint="@string/notes"
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/buttonSaveWord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/editNotes"
+        android:text="@string/save" />
+    
+    
+    <TextView 
+       android:id = "@+id/txtWordHistory"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_below="@id/buttonSaveWord"
+       android:text="@string/word_history" 
+       android:layout_centerHorizontal="true"
+       android:textSize="20sp"
+       android:layout_marginBottom="5dp"
+       android:visibility="invisible"/>
+
+</RelativeLayout>
+
+</ScrollView>
