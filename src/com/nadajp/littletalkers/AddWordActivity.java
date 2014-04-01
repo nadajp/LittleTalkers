@@ -35,7 +35,7 @@ public class AddWordActivity extends BaseActivity implements OnAddWordListener
 	public void onClickedShowDictionary(long kidId)
 	{
 		Intent intent = new Intent(this, DictionaryActivity.class);
-    	intent.putExtra("current_kid_id", kidId);
+    	intent.putExtra(getString(R.string.current_kid_id), kidId);
     	startActivity(intent);	
    }
 	

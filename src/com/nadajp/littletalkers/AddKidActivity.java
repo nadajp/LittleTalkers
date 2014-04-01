@@ -24,7 +24,7 @@ public class AddKidActivity extends Activity implements AddKidFragment.OnKidAdde
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.add_kid, menu);		
 		MenuItem item = menu.findItem(R.id.action_add_word);
-		mCurrentKidId = this.getIntent().getLongExtra("current_kid_id", -1);
+		mCurrentKidId = this.getIntent().getLongExtra(getString(R.string.current_kid_id), -1);
 		if (mCurrentKidId < 0)
 		{
 		   item.setVisible(false); 
@@ -59,14 +59,14 @@ public class AddKidActivity extends Activity implements AddKidFragment.OnKidAdde
 	public void onKidAdded(long kidId)
 	{
 	   Intent intent = new Intent(this, AddWordActivity.class);
-    	intent.putExtra("current_kid_id", kidId);
+    	intent.putExtra(getString(R.string.current_kid_id), kidId);
     	startActivity(intent); 
 	}
 	
 	private void switchToAddWord()
 	{
 		Intent intent = new Intent(this, AddWordActivity.class);
-		intent.putExtra("current_kid_id", mCurrentKidId);
+		intent.putExtra(getString(R.string.current_kid_id), mCurrentKidId);
       startActivity(intent);
 	}
 

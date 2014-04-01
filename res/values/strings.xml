@@ -59,11 +59,19 @@
     <string name="share">Share</string>
     <string name="word_history">Word history:</string>
     <string name="action_backup">Backup Data</string>
-
+    
+    <!--  shared preferences -->
+    <string name="current_kid_id">current_kid_id</string>
+    <string name="language_filter">language_filter</string>
+    <string name="sort_column">sort_column</string>
+    <string name="sort_ascending">sort_ascending</string>
+    
+    <!-- arrays -->
     <string-array name="choose_profile_pic_array">
         <item>Take photo</item>
         <item>Choose photo from Gallery</item>
     </string-array>
+    
     <string-array name="array_languages">
         <item>English</item>
         <item>Arabic</item>
@@ -74,11 +82,10 @@
         <item>Czech</item>
         <item>Danish</item>
         <item>Dutch</item>
-        <item>German</item>
-        <item>Greek</item>
-        <item>Spanish</item>
         <item>Finnish</item>
         <item>French</item>
+        <item>German</item>
+        <item>Greek</item>
         <item>Hebrew</item>
         <item>Hindi</item>
         <item>Hungarian</item>
@@ -96,6 +103,7 @@
         <item>Slovak</item>
         <item>Slovenian</item>
         <item>Serbian</item>
+        <item>Spanish</item>
         <item>Swedish</item>
         <item>Thai</item>
         <item>Tagalog</item>

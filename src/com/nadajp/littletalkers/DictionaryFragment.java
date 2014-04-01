@@ -64,18 +64,18 @@ public class DictionaryFragment extends ListFragment implements OnItemSelectedLi
       mSharedPrefs = this.getActivity().getSharedPreferences(getString(R.string.shared_preferences_filename), Context.MODE_PRIVATE);
       
       // Get latest kid id from shared preferences
-		long latestKidId = mSharedPrefs.getLong("current_kid_id", DbSingleton.get().getLastAddedKid());	    
+		long latestKidId = mSharedPrefs.getLong(getString(R.string.current_kid_id), DbSingleton.get().getLastAddedKid());	    
       
 		// If we are getting re-created, then get current kid from saved instance state
 		if (savedInstanceState != null)
 		{
-        	mCurrentKidId = savedInstanceState.getLong("current_kid_id");
+        	mCurrentKidId = savedInstanceState.getLong(getString(R.string.current_kid_id));
 	    	Log.i(DEBUG_TAG, "Retrieving Instance State: " + mCurrentKidId);	
 		}
       // Otherwise, get it from intent, or if not available, then get latest from shared prefs
 		else if (this.getActivity().getIntent() != null) 
 		{
-	      mCurrentKidId = this.getActivity().getIntent().getLongExtra("current_kid_id", latestKidId);
+	      mCurrentKidId = this.getActivity().getIntent().getLongExtra(getString(R.string.current_kid_id), latestKidId);
 		}
       else 
       {
@@ -95,7 +95,7 @@ public class DictionaryFragment extends ListFragment implements OnItemSelectedLi
       dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
       		
       mLanguageFilter.setAdapter(dataAdapter);   
-      mLanguage = mSharedPrefs.getString("language_filter", this.getString(R.string.all_languages));
+      mLanguage = mSharedPrefs.getString(getString(R.string.language_filter), this.getString(R.string.all_languages));
       mLanguageFilter.setSelection(dataAdapter.getPosition(mLanguage));
       mLanguageFilter.setOnItemSelectedListener(this);
       
@@ -106,8 +106,8 @@ public class DictionaryFragment extends ListFragment implements OnItemSelectedLi
       mHeaderDate = (TextView) mHeaderView.findViewById(R.id.header_date);
 	    
       // Now do the sorting by column
-      mSortColumn = mSharedPrefs.getString("sort_column", DbContract.Words.COLUMN_NAME_WORD);
-      mbSortAscending = mSharedPrefs.getBoolean("sort_ascending", true);
+      mSortColumn = mSharedPrefs.getString(getString(R.string.sort_column), DbContract.Words.COLUMN_NAME_WORD);
+      mbSortAscending = mSharedPrefs.getBoolean(getString(R.string.sort_ascending), true);
        
       if (mSortColumn.equals(DbContract.Words.COLUMN_NAME_WORD))
       {
@@ -264,7 +264,7 @@ public class DictionaryFragment extends ListFragment implements OnItemSelectedLi
    {
       // show word detail view
     	Intent intent = new Intent(this.getActivity(), AddWordActivity.class);
-		intent.putExtra("current_kid_id", mCurrentKidId);
+		intent.putExtra(getString(R.string.current_kid_id), mCurrentKidId);
       intent.putExtra("word_id", id);		
       startActivity(intent);    
    }
@@ -460,7 +460,7 @@ public class DictionaryFragment extends ListFragment implements OnItemSelectedLi
    public void onSaveInstanceState(Bundle outState)
    {
    	super.onSaveInstanceState(outState);	
-   	outState.putLong("current_kid_id", mCurrentKidId);
+   	outState.putLong(getString(R.string.current_kid_id), mCurrentKidId);
     	Log.i(DEBUG_TAG, "Saving Instance State: " + mCurrentKidId);
    }
     
@@ -488,10 +488,10 @@ public class DictionaryFragment extends ListFragment implements OnItemSelectedLi
       super.onPause();	    
       SharedPreferences sharedPrefs = this.getActivity().getSharedPreferences(getString(R.string.shared_preferences_filename), Context.MODE_PRIVATE);
       SharedPreferences.Editor editor = sharedPrefs.edit();
-      editor.putString("sort_column", this.mSortColumn);
-      editor.putBoolean("sort_ascending", this.mbSortAscending);
-      editor.putString("language_filter", mLanguage);
-      editor.putLong("current_kid_id", mCurrentKidId);
+      editor.putString(getString(R.string.sort_column), this.mSortColumn);
+      editor.putBoolean(getString(R.string.sort_ascending), this.mbSortAscending);
+      editor.putString(getString(R.string.language_filter), mLanguage);
+      editor.putLong(getString(R.string.current_kid_id), mCurrentKidId);
       editor.commit();
       if (mPlayer != null) 
       {

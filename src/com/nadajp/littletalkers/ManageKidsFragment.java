@@ -167,7 +167,7 @@ public class ManageKidsFragment extends ListFragment
 	{
 		// show kid detail view
 		Intent intent = new Intent(this.getActivity(), AddKidActivity.class);
-		intent.putExtra("current_kid_id", id);		
+		intent.putExtra(getString(R.string.current_kid_id), id);		
       startActivity(intent);    
    }	
 	

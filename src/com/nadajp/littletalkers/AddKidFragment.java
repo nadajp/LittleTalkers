@@ -88,7 +88,7 @@ public class AddKidFragment extends Fragment implements OnClickListener, OnItemS
       adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
       mLangSpinner.setAdapter(adapter);
 
-      mCurrentKidId = this.getActivity().getIntent().getLongExtra("current_kid_id", -1);
+      mCurrentKidId = this.getActivity().getIntent().getLongExtra(getString(R.string.current_kid_id), -1);
       //Log.i(DEBUG_TAG, "kid id = " + mCurrentKidId);
         		
       if (savedInstanceState != null)
@@ -269,7 +269,7 @@ public class AddKidFragment extends Fragment implements OnClickListener, OnItemS
 	    
 	   SharedPreferences sharedPrefs = getActivity().getSharedPreferences(getString(R.string.shared_preferences_filename), Context.MODE_PRIVATE);
       SharedPreferences.Editor editor = sharedPrefs.edit();
-      editor.putLong("current_kid_id", mCurrentKidId);
+      editor.putLong(getString(R.string.current_kid_id), mCurrentKidId);
       editor.commit();
 		listener.onKidAdded(mCurrentKidId);
 	}

@@ -19,20 +19,20 @@ public class MainActivity extends Activity
 		
 		// Find out from shared preferences whether there are any kids yet
  	   SharedPreferences sharedPrefs = getSharedPreferences(getString(R.string.shared_preferences_filename), MODE_PRIVATE);
-		long kidId = sharedPrefs.getLong("current_kid_id", -1);
+		long kidId = sharedPrefs.getLong(getString(R.string.current_kid_id), -1);
 		
 		// If no kids have been added yet, go to AddKidActivity
 		if (kidId == -1)
 		{
 		   Intent intent = new Intent(this, AddKidActivity.class);
-		   intent.putExtra("current_kid_id", kidId);
+		   intent.putExtra(getString(R.string.current_kid_id), kidId);
 		   startActivity(intent);
 		}
             
       else // Go to AddWordActivity
       {  
         	Intent intent = new Intent(this, AddWordActivity.class);
-        	intent.putExtra("current_kid_id", kidId);
+        	intent.putExtra(getString(R.string.current_kid_id), kidId);
          startActivity(intent);
       }
 	}

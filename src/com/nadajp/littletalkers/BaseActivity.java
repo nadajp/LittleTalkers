@@ -35,8 +35,8 @@ public class BaseActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		SharedPreferences sharedPrefs = getSharedPreferences(getString(R.string.shared_preferences_filename), MODE_PRIVATE);
-		long latestKidId = sharedPrefs.getLong("current_kid_id", DbSingleton.get().getLastAddedKid());	
-		mCurrentKidId = this.getIntent().getLongExtra("current_kid_id", latestKidId);
+		long latestKidId = sharedPrefs.getLong(getString(R.string.current_kid_id), DbSingleton.get().getLastAddedKid());	
+		mCurrentKidId = this.getIntent().getLongExtra(getString(R.string.current_kid_id), latestKidId);
 		if (savedInstanceState!= null)
 		{
 			mPosition = savedInstanceState.getInt("position");
@@ -148,14 +148,14 @@ public class BaseActivity extends Activity
 	private void switchToAddWord()
 	{
 		Intent intent = new Intent(this, AddWordActivity.class);
-		intent.putExtra("current_kid_id", mCurrentKidId);
+		intent.putExtra(getString(R.string.current_kid_id), mCurrentKidId);
 		startActivity(intent);
 	}
 
 	public void clickTitlebar(View v)
 	{
 	   Intent intent = new Intent(this, AddKidActivity.class);
-	   intent.putExtra("current_kid_id", mCurrentKidId);
+	   intent.putExtra(getString(R.string.current_kid_id), mCurrentKidId);
 	   startActivity(intent);
 	}
 	
@@ -173,7 +173,7 @@ public class BaseActivity extends Activity
 
  	   SharedPreferences sharedPrefs = getSharedPreferences(getString(R.string.shared_preferences_filename), MODE_PRIVATE);
       SharedPreferences.Editor editor = sharedPrefs.edit();
-      editor.putLong("current_kid_id", mCurrentKidId);
+      editor.putLong(getString(R.string.current_kid_id), mCurrentKidId);
       editor.commit();
     }
 	
@@ -238,7 +238,7 @@ public class BaseActivity extends Activity
 	{
 	   super.onSaveInstanceState(outState);
 		outState.putInt("position", mPosition);
-		outState.putLong("current_kid_id", mCurrentKidId);
+		outState.putLong(getString(R.string.current_kid_id), mCurrentKidId);
 	}
 	 
 	@Override

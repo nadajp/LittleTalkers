@@ -131,14 +131,14 @@ public class AddWordFragment extends Fragment implements OnItemSelectedListener,
 				mButtonDeleteAudio.setVisibility(View.VISIBLE);
 			}
 		   mWordId = savedInstanceState.getLong("wordID");
-			mCurrentKidId = savedInstanceState.getLong("current_kid_id");
+			mCurrentKidId = savedInstanceState.getLong(getString(R.string.current_kid_id));
 	    	Log.i(DEBUG_TAG, "Retreiving Instance State: " + mCurrentKidId);
 		}
 		else 
 		{
 		   SharedPreferences sharedPrefs = this.getActivity().getSharedPreferences(getString(R.string.shared_preferences_filename), Context.MODE_PRIVATE);
-			long latestKidId = sharedPrefs.getLong("current_kid_id", -1);
-			mCurrentKidId = this.getActivity().getIntent().getLongExtra("current_kid_id", latestKidId);
+			long latestKidId = sharedPrefs.getLong(getString(R.string.current_kid_id), -1);
+			mCurrentKidId = this.getActivity().getIntent().getLongExtra(getString(R.string.current_kid_id), latestKidId);
 			Log.i(DEBUG_TAG, "kid id in addWord = " + mCurrentKidId);
 			mWordId = this.getActivity().getIntent().getLongExtra("word_id", 0);
 			Log.i(DEBUG_TAG, "word ID = " + mWordId);		
@@ -440,7 +440,7 @@ public class AddWordFragment extends Fragment implements OnItemSelectedListener,
     	   outState.putBoolean("showAudioButtons", true);
     	}
     	
-    	outState.putLong("current_kid_id", mCurrentKidId);
+    	outState.putLong(getString(R.string.current_kid_id), mCurrentKidId);
     	outState.putLong("wordID", mWordId);
     	Log.i(DEBUG_TAG, "Saving Instance State: " + mCurrentKidId);
    }
