@@ -17,21 +17,22 @@ public class ListRowViewBinder implements ViewBinder
 {
    private static final String DEBUG_TAG = "ListRowViewBinder";
    private MediaPlayer mPlayer;
-   
+
    public ListRowViewBinder(MediaPlayer mediaPlayer)
    {
       mPlayer = mediaPlayer;
    }
-   
+
    public void setMediaPlayer(MediaPlayer mediaPlayer)
    {
       mPlayer = mediaPlayer;
    }
-   
+
    @Override
-   public boolean setViewValue(View view, Cursor cursor, int columnIndex) 
-   {           
-      if (columnIndex == cursor.getColumnIndex(DbContract.Words.COLUMN_NAME_DATE))
+   public boolean setViewValue(View view, Cursor cursor, int columnIndex)
+   {
+      if (columnIndex == cursor
+            .getColumnIndex(DbContract.Words.COLUMN_NAME_DATE))
       {
          long rawdate = cursor.getLong(columnIndex);
          String formatted = Utils.getDateForDisplay(rawdate, view.getContext());
@@ -39,32 +40,33 @@ public class ListRowViewBinder implements ViewBinder
          txt.setText(formatted);
          return true;
       }
-      
-      else if (columnIndex == cursor.getColumnIndex(DbContract.Words.COLUMN_NAME_AUDIO_FILE)) 
+
+      else if (columnIndex == cursor
+            .getColumnIndex(DbContract.Words.COLUMN_NAME_AUDIO_FILE))
       {
          // If the column is COLUMN_NAME_AUDIO_FILE then we use custom view.
          String mAudioFile = cursor.getString(columnIndex);
 
-         if (mAudioFile.isEmpty()) 
+         if (mAudioFile.isEmpty())
          {
             view.setVisibility(View.INVISIBLE);
          }
-            
-         else if (!mAudioFile.isEmpty()) 
+
+         else if (!mAudioFile.isEmpty())
          {
             view.setFocusable(false);
             view.setFocusableInTouchMode(false);
             // set the visibility of the view to visible
             view.setVisibility(View.VISIBLE);
-            view.setOnClickListener(new  MyListener(mAudioFile)); 
-         }                 
+            view.setOnClickListener(new MyListener(mAudioFile));
+         }
          return true;
-      }             
+      }
       // For others, we simply return false so that the default binding happens.
       return false;
    }
-             
-   private class MyListener implements OnClickListener, OnCompletionListener 
+
+   private class MyListener implements OnClickListener, OnCompletionListener
    {
       private String mAudioFile;
 
@@ -74,36 +76,35 @@ public class ListRowViewBinder implements ViewBinder
       }
 
       @Override
-      public void onClick(View v)   
+      public void onClick(View v)
       {
          if (mPlayer.isPlaying())
          {
             Stop();
          }
          v.setPressed(true);
-         try 
+         try
          {
             mPlayer.setDataSource(mAudioFile);
             mPlayer.setOnCompletionListener(this);
             Log.i(DEBUG_TAG, "Started Playing " + mAudioFile);
             mPlayer.prepare();
             mPlayer.start();
-          } 
-          catch (IOException e) {
-               Log.e(DEBUG_TAG, "Audio player start failed");
-          } 
-      }  
+         } catch (IOException e)
+         {
+            Log.e(DEBUG_TAG, "Audio player start failed");
+         }
+      }
 
-      public void onCompletion(MediaPlayer mp) 
-      { 
+      public void onCompletion(MediaPlayer mp)
+      {
          Stop();
-      }  
-             
+      }
+
       public void Stop()
       {
          mPlayer.stop();
          mPlayer.reset();
-      }            
+      }
    }
 }
-   

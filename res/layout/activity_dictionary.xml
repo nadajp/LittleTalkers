@@ -1,13 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" 
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <!-- <fragment class="com.nadajp.littletalkers.TitlebarFragment"
-            android:id="@+id/titlebar_fragment"
-            android:layout_width="match_parent"  
-            android:layout_height="70dp" /> -->
-    <fragment class="com.nadajp.littletalkers.DictionaryFragment"
-            android:id="@+id/dictionary_fragment"
-            android:layout_width="match_parent" 
-            android:layout_height="match_parent" />
+    android:orientation="vertical" >
+
+    <fragment
+        android:id="@+id/dictionary_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.nadajp.littletalkers.DictionaryFragment" />
+
 </LinearLayout>

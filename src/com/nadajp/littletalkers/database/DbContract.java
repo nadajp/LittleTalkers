@@ -6,22 +6,25 @@ package com.nadajp.littletalkers.database;
 import android.provider.BaseColumns;
 
 /**
- * @author nadajp
- * Defines the littletalkers_db schema
+ * @author nadajp Defines the littletalkers_db schema
  */
-public final class DbContract 
-{		 
+public final class DbContract
+{
    // This class cannot be instantiated
-	private DbContract()
-	{}
-	
-  /**
-   * Words table contract
-   */
-   public final class Words implements BaseColumns 
+   private DbContract()
+   {
+   }
+
+   /**
+    * Words table contract
+    */
+   public final class Words implements BaseColumns
    {
       // This class cannot be instantiated
-      private Words() {}
+      private Words()
+      {
+      }
+
       public static final String TABLE_NAME = "words";
       public static final String _ID = "_id";
       public static final String COLUMN_NAME_WORD = "word";
@@ -34,15 +37,17 @@ public final class DbContract
       public static final String COLUMN_NAME_TOWHOM = "towhom";
       public static final String COLUMN_NAME_NOTES = "notes";
    }
-    
-  /**
-   * Kids table contract
-   */
-   public static abstract class Kids implements BaseColumns 
+
+   /**
+    * Kids table contract
+    */
+   public static abstract class Kids implements BaseColumns
    {
       // This class cannot be instantiated
-      private Kids() 
-      {}
+      private Kids()
+      {
+      }
+
       public static final String TABLE_NAME = "kids";
       public static final String _ID = "_id";
       public static final String COLUMN_NAME_NAME = "name";

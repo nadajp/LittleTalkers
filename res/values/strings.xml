@@ -46,7 +46,6 @@
     <string name="audio">Audio</string>
     <string name="no_words">There are no words or phrases to display.</string>
     <string name="no_kids">There are no Little Talkers to display. Click on the button above to add a Little Talker.</string>
-    <string name="shared_preferences_filename">com.nadajp.littletalkers.shared_prefs</string>
     <string name="all_languages">All Languages</string>
     <string name="action_delete">Delete</string>
     <string name="delete_kids_dialog">Are you sure you want to delete all selected Little Talkers and their word dictionaries?</string>
@@ -59,12 +58,6 @@
     <string name="share">Share</string>
     <string name="word_history">Word history:</string>
     <string name="action_backup">Backup Data</string>
-    
-    <!--  shared preferences -->
-    <string name="current_kid_id">current_kid_id</string>
-    <string name="language_filter">language_filter</string>
-    <string name="sort_column">sort_column</string>
-    <string name="sort_ascending">sort_ascending</string>
     
     <!-- arrays -->
     <string-array name="choose_profile_pic_array">

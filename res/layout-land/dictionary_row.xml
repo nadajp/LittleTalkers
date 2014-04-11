@@ -3,37 +3,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:background="?android:attr/activatedBackgroundIndicator">
+    android:background="?android:attr/activatedBackgroundIndicator"
+    android:orientation="horizontal" 
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin">
 
     <!-- word -->
+
     <TextView
         android:id="@+id/dictionary_word"
         android:layout_width="0dp"
-        android:layout_weight="50"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:layout_marginRight="15dp"/>
-    
+        android:layout_marginRight="15dp"
+        android:layout_weight="50"
+        android:paddingLeft="10dp" />
+
     <!-- date -->
+
     <TextView
         android:id="@+id/dictionary_word_date"
         android:layout_width="0dp"
-        android:layout_weight="35"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
         android:layout_marginRight="15dp"
-        />
-    
+        android:layout_weight="35"
+        android:paddingLeft="10dp" />
+
     <!-- audio_button -->
-     <ImageButton
+
+    <ImageButton
         android:id="@+id/dictionary_audio_button"
         android:layout_width="0dp"
-        android:layout_weight="15"
-        android:paddingLeft="10dp"
         android:layout_height="wrap_content"
+        android:layout_weight="15"
         android:contentDescription="@string/play_audio"
         android:gravity="center_horizontal"
+        android:paddingLeft="10dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_media_play"
         android:visibility="invisible" />

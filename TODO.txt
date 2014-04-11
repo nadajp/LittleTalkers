@@ -8,7 +8,7 @@
 	X Add word history (timeline)
 	X Add picture cropping: Choose from gallery only, or if from camera, crop automatically (fit center)
 	X Add picture to header and kid view
-	X Add sharing
+	TODO Fix up' sharing
 	X Landscape layouts
 	TODO Add data backup
 	TODO Load dictionary data asynchronously

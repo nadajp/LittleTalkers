@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"        
+        android:layout_marginRight="40dp"        
         tools:context=".AddKidFragment" >
 
         <ImageButton
@@ -22,19 +22,19 @@
 
         <EditText
             android:id="@+id/editName"
-            android:layout_width="200dp"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="@string/name_required"
-            android:inputType="textPersonName|textCapWords|textNoSuggestions" >
+            android:inputType="textPersonName|textCapWords|textNoSuggestions">
         </EditText>
 
         <EditText
             android:id="@+id/editBirthDate"
-            android:layout_width="200dp"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/editName"
@@ -46,7 +46,7 @@
 
         <EditText
             android:id="@+id/editDefaultLocation"
-            android:layout_width="200dp"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/editBirthDate"
@@ -65,7 +65,7 @@
 
         <Spinner
             android:id="@+id/spinnerDefaultLanguage"
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/textChooseLanguage"
@@ -74,7 +74,7 @@
 
         <Button
             android:id="@+id/buttonSaveKid"
-            android:layout_width="wrap_content"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
