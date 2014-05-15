@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-         
-   <item android:id="@+id/menu_item_share"
+   
+   <item
+        android:id="@+id/action_add_qa"
+        android:showAsAction="ifRoom"
+        android:title="@string/q_and_a"
+        android:icon="@drawable/ic_menu_qa"/>          
+
+   <item android:id="@+id/action_share"
          android:showAsAction="ifRoom"
          android:title="@string/share"
-         android:actionProviderClass=
-         "android.widget.ShareActionProvider" />
+         android:icon="@android:drawable/ic_menu_share"/>
 </menu>

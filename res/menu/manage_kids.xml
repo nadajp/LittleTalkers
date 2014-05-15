@@ -2,13 +2,13 @@
    <item
         android:id="@+id/action_add_kid"
         android:showAsAction="ifRoom"
-        android:title="@string/action_add_kid"
+        android:title="@string/add_kid"
 		  android:icon="@drawable/ic_menu_invite"/>
    
    <item
-        android:id="@+id/action_backup"
+        android:id="@+id/action_export"
         android:orderInCategory="200"
         android:showAsAction="never"
-        android:title="@string/action_backup"/>
+        android:title="@string/export_data"/>
 
 </menu>

@@ -32,8 +32,9 @@ public class MainActivity extends Activity
       else
       // Go to AddWordActivity
       {
-         Intent intent = new Intent(this, AddWordActivity.class);
+         Intent intent = new Intent(this, AddItemActivity.class);
          intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
+         intent.putExtra(Prefs.ADD_TYPE, Prefs.TYPE_WORD);
          startActivity(intent);
       }
    }

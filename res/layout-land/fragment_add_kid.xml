@@ -10,13 +10,14 @@
         android:layout_marginRight="40dp"        
         tools:context=".AddKidFragment" >
 
-        <ImageButton
+        <ImageView
             android:id="@+id/profilePicture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="20dp"
+            android:clickable="true"
             android:contentDescription="@string/profile_picture"
             android:src="@drawable/profilepicture" />
 
@@ -61,7 +62,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/editDefaultLocation"
             android:layout_marginTop="25dp"
-            android:text="@string/choose_default_language" />
+            android:text="@string/default_language" />
 
         <Spinner
             android:id="@+id/spinnerDefaultLanguage"
@@ -77,7 +78,6 @@
             android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
             android:layout_below="@+id/spinnerDefaultLanguage"
             android:layout_marginTop="30dp"
             android:text="@string/save" />

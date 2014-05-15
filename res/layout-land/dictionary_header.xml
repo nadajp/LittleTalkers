@@ -6,9 +6,9 @@
     <include
         android:id="@+id/titlebar"
         layout="@layout/titlebar" />
-<!-- 
-   <LinearLayout
-        android:id="@+id/topRow"
+
+    <LinearLayout
+        android:id="@+id/top_row"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/titlebar"
@@ -17,42 +17,36 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/buttonAddWord"
+        <Spinner
+            android:id="@+id/spinner_language_filter"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_weight="50" >
+        </Spinner>
+
+        <Button
+            android:id="@+id/button_add_word"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="50"
             android:onClick="addNewWord"
-            android:text="@string/button_add_new_word" /> -->
-
-        <Spinner
-            android:id="@+id/spinnerLanguageFilter"
-            android:layout_width="400dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/titlebar"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp" />
-
+            android:text="@string/button_add_new_word" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/spinnerLanguageFilter"
+        android:layout_below="@id/top_row"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/header_word"
-            style="?android:attr/listSeparatorTextViewStyle"
+            style="@style/list_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
             android:layout_weight="50"
             android:clickable="true"
             android:gravity="center_horizontal"
@@ -61,10 +55,9 @@
 
         <TextView
             android:id="@+id/header_date"
-            style="?android:attr/listSeparatorTextViewStyle"
+            style="@style/list_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
             android:layout_weight="35"
             android:clickable="true"
             android:gravity="center_horizontal"
@@ -73,7 +66,7 @@
 
         <TextView
             android:id="@+id/header_audio"
-            style="?android:attr/listSeparatorTextViewStyle"
+            style="@style/list_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="15"

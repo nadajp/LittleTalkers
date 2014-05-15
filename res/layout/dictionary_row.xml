@@ -6,7 +6,8 @@
     android:background="?android:attr/activatedBackgroundIndicator"
     android:orientation="horizontal" 
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin">
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
 
     <!-- word -->
 
@@ -16,7 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
         android:layout_weight="45"
-        android:paddingLeft="10dp" />
+        android:paddingLeft="10dp" 
+        android:minLines="2"/>
 
     <!-- date -->
 
@@ -26,19 +28,19 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
         android:layout_weight="35"
-        android:paddingLeft="10dp" />
+        android:paddingLeft="10dp"/>
 
     <!-- audio_button -->
 
-    <ImageButton
+    <ImageView
         android:id="@+id/dictionary_audio_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="20"
         android:contentDescription="@string/play_audio"
-        android:gravity="center_horizontal"
+        android:layout_gravity="center"
         android:paddingLeft="10dp"
-        android:scaleType="fitCenter"
+        android:clickable="true"
         android:src="@drawable/ic_media_play"
         android:visibility="invisible" />
 

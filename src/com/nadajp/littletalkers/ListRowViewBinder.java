@@ -45,20 +45,20 @@ public class ListRowViewBinder implements ViewBinder
             .getColumnIndex(DbContract.Words.COLUMN_NAME_AUDIO_FILE))
       {
          // If the column is COLUMN_NAME_AUDIO_FILE then we use custom view.
-         String mAudioFile = cursor.getString(columnIndex);
+         String audioFile = cursor.getString(columnIndex);
 
-         if (mAudioFile.isEmpty())
+         if (audioFile == null || audioFile.isEmpty())
          {
             view.setVisibility(View.INVISIBLE);
          }
 
-         else if (!mAudioFile.isEmpty())
+         else
          {
             view.setFocusable(false);
             view.setFocusableInTouchMode(false);
             // set the visibility of the view to visible
             view.setVisibility(View.VISIBLE);
-            view.setOnClickListener(new MyListener(mAudioFile));
+            view.setOnClickListener(new MyListener(audioFile));
          }
          return true;
       }

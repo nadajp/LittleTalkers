@@ -8,7 +8,8 @@
         android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbarAlwaysDrawVerticalTrack="false" />
+        android:scrollbarAlwaysDrawVerticalTrack="false" 
+        android:layout_marginBottom="@dimen/activity_vertical_margin"/>
 
     <RelativeLayout
         android:id="@android:id/empty"
@@ -26,7 +27,7 @@
             android:text="@string/no_words" />
 
         <Button
-            android:id="@+id/buttonAddWord"
+            android:id="@+id/button_add_word"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/no_words"

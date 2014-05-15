@@ -3,19 +3,37 @@
 	X Add kid summary bar
 	X Add back navigation
 	X Add scrolling to dictionary view
-	TODO Make titlebar scroll or hide
+	X Make titlebar scroll or hide
 	X Add long click selection to dictionary to allow deletion
 	X Add word history (timeline)
 	X Add picture cropping: Choose from gallery only, or if from camera, crop automatically (fit center)
 	X Add picture to header and kid view
-	TODO Fix up' sharing
+	TODO Fix sharing
 	X Landscape layouts
+<<<<<<< HEAD
+	TODO Add Q & A to Data export
+	TODO Load dictionary data asynchronously - Is it necessary????
+=======
 	TODO Add data backup
-	TODO Load dictionary data asynchronously
+	X Data export
+	TODO Load dictionary data asynchronously - Is it necessary????
+	TODO Add Search to dictionary
+>>>>>>> master
 	X Fix empty dictionary
 	TODO Style: new design, field sizes/spacing, default picture, buttons
 	TODO Icon
+	X Add child questions and answers
 	*************************** v2 *********************************
+<<<<<<< HEAD
+	TODO Add songs with video
+	TODO Add Search to dictionary
+	TODO Server backup
+	TODO Tablet layouts
+	TODO In-App purchases (data backup)
+=======
 	TODO Add child questions and answers
 	TODO Add songs
+	TODO Server backup
 	TODO Tablet version
+	TODO In-App purchases
+>>>>>>> master

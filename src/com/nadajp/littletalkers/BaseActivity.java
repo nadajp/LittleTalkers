@@ -74,15 +74,24 @@ public class BaseActivity extends Activity
          startActivity(intent);
          return true;
       case R.id.action_add_word:
-         switchToAddWord();
+         switchToAddNewItem(Prefs.TYPE_WORD);
          return true;
-      case R.id.action_backup:
-         Intent backup_intent = new Intent(this, DataBackupActivity.class);
+      case R.id.action_add_qa:
+         switchToAddNewItem(Prefs.TYPE_QA);
+         return true;
+      case R.id.action_export:
+         Intent backup_intent = new Intent(this, DataExportActivity.class);
          startActivity(backup_intent);
          return true;
       case R.id.action_manage_kids:
          Intent manage_intent = new Intent(this, ManageKidsActivity.class);
          startActivity(manage_intent);
+         return true;
+      case R.id.action_qa_list:
+         showItemList(Prefs.TYPE_QA);
+         return true;
+      case R.id.action_word_list:
+         showItemList(Prefs.TYPE_WORD);
          return true;
       default:
          return super.onOptionsItemSelected(item);
@@ -94,7 +103,8 @@ public class BaseActivity extends Activity
       @Override
       public boolean onNavigationItemSelected(int position, long itemId)
       {
-         Log.i(DEBUG_TAG, "Selectied item with ID " + itemId);
+         Log.i(DEBUG_TAG, "Selected item with ID " + itemId);
+         if (itemId == mCurrentKidId) { return true; }
          mCurrentKidId = itemId;
          mPosition = position;
          setCurrentKidData(itemId);
@@ -153,19 +163,30 @@ public class BaseActivity extends Activity
       }
    }
 
-   private void switchToAddWord()
+   private void switchToAddNewItem(int type)
    {
-      Intent intent = new Intent(this, AddWordActivity.class);
+      Intent intent = new Intent(this, AddItemActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, mCurrentKidId);
+      intent.putExtra(Prefs.TYPE, type);
+      intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
       startActivity(intent);
    }
-
+   
+   private void showItemList(int type) 
+   {
+      Intent intent = new Intent(this, ItemListActivity.class);
+      intent.putExtra(Prefs.CURRENT_KID_ID, mCurrentKidId);
+      intent.putExtra(Prefs.TYPE, type);
+      intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+      startActivity(intent);  
+   }
+  
    public void clickTitlebar(View v)
    {
       Intent intent = new Intent(this, AddKidActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, mCurrentKidId);
       startActivity(intent);
-   }
+  }
 
    @Override
    protected void onResume()
@@ -194,7 +215,7 @@ public class BaseActivity extends Activity
          }
       }
       mCursorAdapter = null;
-      // exportDB();
+      //exportDB();
    }
 
    public void exportDB()
@@ -256,5 +277,6 @@ public class BaseActivity extends Activity
    public void onRestoreInstanceState(Bundle savedInstanceState)
    {
       mPosition = savedInstanceState.getInt(Prefs.POSITION);
+      mCurrentKidId = savedInstanceState.getLong(Prefs.CURRENT_KID_ID);
    }
 }

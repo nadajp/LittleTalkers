@@ -61,7 +61,7 @@ public class ManageKidsFragment extends ListFragment
             android.R.layout.simple_list_item_activated_1, cursor, adapterCols,
             adapterRowViews, 0);
       this.setListAdapter(mCursorAdapter);
-
+      
       // Implement contextual menu
       listView = getListView();
       listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);

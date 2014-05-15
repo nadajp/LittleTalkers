@@ -5,13 +5,13 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="11"
-        android:targetSdkVersion="18" />
+        android:minSdkVersion="14"
+        android:targetSdkVersion="19" />
 
+    <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name="com.nadajp.littletalkers.LittleTalkersApp"
@@ -29,11 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.nadajp.littletalkers.AddWordActivity" >
-        </activity>
-        <activity
-            android:name="com.nadajp.littletalkers.SettingsActivity"
-            android:label="@string/title_activity_settings" >
+        <activity android:name="com.nadajp.littletalkers.AddItemActivity" >
         </activity>
         <activity
             android:name="com.nadajp.littletalkers.AddKidActivity"
@@ -43,6 +39,8 @@
         <activity android:name="com.nadajp.littletalkers.BaseActivity" >
         </activity>
         <activity android:name="com.nadajp.littletalkers.DictionaryActivity" >
+        </activity>
+        <activity android:name="com.nadajp.littletalkers.ItemListActivity" >
         </activity>
         <activity
             android:name="com.nadajp.littletalkers.ManageKidsActivity"
@@ -54,7 +52,7 @@
             android:label="@string/title_activity_manage_kids_fragment" >
         </activity>
         <activity
-            android:name="com.nadajp.littletalkers.DataBackupActivity"
+            android:name="com.nadajp.littletalkers.DataExportActivity"
             android:label="@string/title_activity_data_backup"
             android:parentActivityName="com.nadajp.littletalkers.MainActivity" >
         </activity>

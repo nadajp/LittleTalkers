@@ -10,7 +10,7 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"        
         tools:context=".AddKidFragment" >
 
-        <ImageButton
+        <ImageView
             android:id="@+id/profilePicture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -18,6 +18,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/profile_picture"
+            android:clickable="true"
             android:src="@drawable/profilepicture" />
 
         <EditText
@@ -61,7 +62,10 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/editDefaultLocation"
             android:layout_marginTop="25dp"
-            android:text="@string/choose_default_language" />
+            android:layout_marginLeft="5dp"
+            android:textColor="#696969"
+            android:text="@string/default_language" 
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Spinner
             android:id="@+id/spinnerDefaultLanguage"
@@ -69,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/textChooseLanguage"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:entries="@+array/array_languages" />
 
         <Button
@@ -81,6 +85,7 @@
             android:layout_below="@+id/spinnerDefaultLanguage"
             android:layout_marginTop="30dp"
             android:text="@string/save" />
+
     </RelativeLayout>
 
 </ScrollView>

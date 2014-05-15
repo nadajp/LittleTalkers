@@ -23,12 +23,23 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
    // Table Create Statements
 
+   // Kids table create statement
+   private static final String CREATE_TABLE_KIDS = "CREATE TABLE "
+         + DbContract.Kids.TABLE_NAME + "(" 
+         + DbContract.Kids._ID + " INTEGER PRIMARY KEY," 
+         + DbContract.Kids.COLUMN_NAME_NAME + " TEXT UNIQUE," 
+         + DbContract.Kids.COLUMN_NAME_BIRTHDATE + " TEXT,"
+         + DbContract.Kids.COLUMN_NAME_DEFAULT_LOCATION + " TEXT,"
+         + DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE + " TEXT,"
+         + DbContract.Kids.COLUMN_NAME_PICTURE_URI + " TEXT" + ");";
+
    // Words table create statement
    private static final String CREATE_TABLE_WORDS = "CREATE TABLE "
-         + DbContract.Words.TABLE_NAME + "(" + DbContract.Words._ID
-         + " INTEGER PRIMARY KEY," + DbContract.Words.COLUMN_NAME_WORD
-         + " TEXT," + DbContract.Words.COLUMN_NAME_AUDIO_FILE + " TEXT,"
+         + DbContract.Words.TABLE_NAME + "(" 
+         + DbContract.Words._ID + " INTEGER PRIMARY KEY," 
          + DbContract.Words.COLUMN_NAME_KID + " TEXT,"
+         + DbContract.Words.COLUMN_NAME_WORD + " TEXT," 
+         + DbContract.Words.COLUMN_NAME_AUDIO_FILE + " TEXT,"
          + DbContract.Words.COLUMN_NAME_LANGUAGE + " TEXT,"
          + DbContract.Words.COLUMN_NAME_DATE + " INTEGER,"
          + DbContract.Words.COLUMN_NAME_LOCATION + " TEXT,"
@@ -36,21 +47,29 @@ public class DatabaseHelper extends SQLiteOpenHelper
          + DbContract.Words.COLUMN_NAME_TOWHOM + " TEXT,"
          + DbContract.Words.COLUMN_NAME_NOTES + " TEXT" + ");";
 
-   // Kids table create statement
-   private static final String CREATE_TABLE_KIDS = "CREATE TABLE "
-         + DbContract.Kids.TABLE_NAME + "(" + DbContract.Kids._ID
-         + " INTEGER PRIMARY KEY," + DbContract.Kids.COLUMN_NAME_NAME
-         + " TEXT UNIQUE," + DbContract.Kids.COLUMN_NAME_BIRTHDATE + " TEXT,"
-         + DbContract.Kids.COLUMN_NAME_DEFAULT_LOCATION + " TEXT,"
-         + DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE + " TEXT,"
-         + DbContract.Kids.COLUMN_NAME_PICTURE_URI + " TEXT" + ");";
+   // Questions table create statement
+   private static final String CREATE_TABLE_QUESTIONS = "CREATE TABLE "
+         + DbContract.Questions.TABLE_NAME + "(" 
+         + DbContract.Questions._ID + " INTEGER PRIMARY KEY," 
+         + DbContract.Questions.COLUMN_NAME_KID + " INTEGER," 
+         + DbContract.Questions.COLUMN_NAME_QUESTION + " TEXT,"
+         + DbContract.Questions.COLUMN_NAME_ANSWER + " TEXT,"
+         + DbContract.Questions.COLUMN_NAME_TOWHOM + " TEXT,"
+         + DbContract.Questions.COLUMN_NAME_ASKED + " INTEGER,"
+         + DbContract.Questions.COLUMN_NAME_ANSWERED + " INTEGER,"
+         + DbContract.Questions.COLUMN_NAME_LANGUAGE + " TEXT,"
+         + DbContract.Questions.COLUMN_NAME_DATE + " INTEGER,"
+         + DbContract.Questions.COLUMN_NAME_LOCATION + " TEXT,"
+         + DbContract.Questions.COLUMN_NAME_AUDIO_FILE + " TEXT,"
+         + DbContract.Words.COLUMN_NAME_NOTES + " TEXT" + ");";
 
    @Override
    public void onCreate(SQLiteDatabase db)
    {
       // creating required tables
-      db.execSQL(CREATE_TABLE_WORDS);
       db.execSQL(CREATE_TABLE_KIDS);
+      db.execSQL(CREATE_TABLE_WORDS);
+      db.execSQL(CREATE_TABLE_QUESTIONS);
    }
 
    @Override
@@ -61,8 +80,9 @@ public class DatabaseHelper extends SQLiteOpenHelper
             + newVersion + ", which will destroy all old data");
 
       // Kills the table and existing data
-      db.execSQL("DROP TABLE IF EXISTS " + DbContract.Words.TABLE_NAME);
       db.execSQL("DROP TABLE IF EXISTS " + DbContract.Kids.TABLE_NAME);
+      db.execSQL("DROP TABLE IF EXISTS " + DbContract.Words.TABLE_NAME);
+      db.execSQL("DROP TABLE IF EXISTS " + DbContract.Questions.TABLE_NAME);
 
       // Recreates the database with a new version
       onCreate(db);

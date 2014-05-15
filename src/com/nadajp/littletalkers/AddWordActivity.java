@@ -37,5 +37,4 @@ public class AddWordActivity extends BaseActivity implements OnAddWordListener
       intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
       startActivity(intent);
    }
-
 }

@@ -51,8 +51,8 @@ public class AddKidActivity extends Activity implements
          Intent manage_intent = new Intent(this, ManageKidsActivity.class);
          startActivity(manage_intent);
          return true;
-      case R.id.action_backup:
-         Intent backup_intent = new Intent(this, DataBackupActivity.class);
+      case R.id.action_export:
+         Intent backup_intent = new Intent(this, DataExportActivity.class);
          startActivity(backup_intent);
       default:
          return super.onOptionsItemSelected(item);
@@ -61,14 +61,19 @@ public class AddKidActivity extends Activity implements
 
    public void onKidAdded(long kidId)
    {
-      Intent intent = new Intent(this, AddWordActivity.class);
+      Intent intent = new Intent(this, AddItemActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
       startActivity(intent);
+   }
+   
+   public void onKidUpdated(long kidId)
+   {
+      finish();
    }
 
    private void switchToAddWord()
    {
-      Intent intent = new Intent(this, AddWordActivity.class);
+      Intent intent = new Intent(this, AddItemActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, mCurrentKidId);
       startActivity(intent);
    }

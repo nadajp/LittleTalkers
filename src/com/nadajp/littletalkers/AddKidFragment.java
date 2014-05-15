@@ -29,7 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -52,7 +52,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
    private EditText mEditName;
    private EditText mEdiBirthDate;
    private EditText mEditLocation;
-   private ImageButton mButtonProfilePic;
+   private ImageView mImgProfilePic;
    private Button mButtonSave;
    private Spinner mSpinnerLanguage;
    private Uri mUriPicture;
@@ -76,11 +76,11 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       mEditName = (EditText) v.findViewById(R.id.editName);
       mEdiBirthDate = (EditText) v.findViewById(R.id.editBirthDate);
       mEditLocation = (EditText) v.findViewById(R.id.editDefaultLocation);
-      mButtonProfilePic = (ImageButton) v.findViewById(R.id.profilePicture);
+      mImgProfilePic = (ImageView) v.findViewById(R.id.profilePicture);
       mButtonSave = (Button) v.findViewById(R.id.buttonSaveKid);
 
       mEdiBirthDate.setOnClickListener(this);
-      mButtonProfilePic.setOnClickListener(this);
+      mImgProfilePic.setOnClickListener(this);
       mButtonSave.setOnClickListener(this);
 
       // Create a spinner for language selection
@@ -88,9 +88,9 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       mSpinnerLanguage.setOnItemSelectedListener(this);
       ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
             getActivity(), R.array.array_languages,
-            android.R.layout.simple_spinner_item);
+            R.layout.lt_spinner_item);
       adapter
-            .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            .setDropDownViewResource(R.layout.lt_spinner_dropdown_item);
       mSpinnerLanguage.setAdapter(adapter);
 
       mCurrentKidId = getActivity().getIntent().getLongExtra(
@@ -106,7 +106,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
             try
             {
                Bitmap photo = BitmapFactory.decodeFile(mPicturePath);
-               mButtonProfilePic.setImageBitmap(photo);
+               mImgProfilePic.setImageBitmap(photo);
                photo = null;
             } catch (Exception e)
             {
@@ -215,7 +215,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       Log.i(DEBUG_TAG, "Width: " + photoBitmap.getWidth());
       Log.i(DEBUG_TAG, "Height: " + photoBitmap.getHeight());
 
-      mButtonProfilePic.setImageBitmap(photoBitmap);
+      mImgProfilePic.setImageBitmap(photoBitmap);
    }
 
    private void saveKid()
@@ -258,6 +258,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
          if (!DbSingleton.get().updateKid(mCurrentKidId, name, birthday,
                location, mLanguage, mPicturePath))
          {
+            // TODO error message (duplicate kid name)
             return;
          } else
          {
@@ -265,6 +266,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
             String msg = name + " " + getString(R.string.kid_updated);
             Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG);
             toast.show();
+            mListener.onKidUpdated(mCurrentKidId);
             return;
          }
       }
@@ -281,7 +283,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       toast.show();
       if (mCurrentKidId < 0)
       {
-         this.getActivity().invalidateOptionsMenu();
+         getActivity().invalidateOptionsMenu();
       }
 
       Prefs.saveKidId(getActivity(), mCurrentKidId);
@@ -402,7 +404,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
                      .getActivity().getContentResolver(), mUriPicture);
                photo = ThumbnailUtils.extractThumbnail(photo,
                      IMAGE_SIZE, IMAGE_SIZE);
-               mButtonProfilePic.setImageBitmap(photo);
+               mImgProfilePic.setImageBitmap(photo);
                saveProfileBitmapFile(photo);
             } catch (Exception e)
             {
@@ -415,7 +417,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
          Bundle extras = data.getExtras();
          Bitmap thePic = extras.getParcelable("data");
          mUriPicture = data.getData();
-         mButtonProfilePic.setImageBitmap(thePic);
+         mImgProfilePic.setImageBitmap(thePic);
          break;
       }
       super.onActivityResult(requestCode, resultCode, data);
@@ -537,6 +539,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
    public interface OnKidAddedListener
    {
       public void onKidAdded(long kidId);
+      public void onKidUpdated(long kidId);
    }
 
    @Override

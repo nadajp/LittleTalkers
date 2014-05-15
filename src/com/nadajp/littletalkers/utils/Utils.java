@@ -1,13 +1,17 @@
 package com.nadajp.littletalkers.utils;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,6 +23,7 @@ import com.nadajp.littletalkers.database.DbSingleton;
 public class Utils
 {
    private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
+   private static final String DEBUG_TAG = "Utils";
 
    public static String getDateForDisplay(String rawdate, Context context)
    {
@@ -36,11 +41,34 @@ public class Utils
 
    public static String getDateForDisplay(long msDate, Context context)
    {
-      String formatted = DateUtils.formatDateTime(context, msDate,
+      String formatted = "";
+      if (msDate == 0) { return formatted; }
+      return DateUtils.formatDateTime(context, msDate,
             DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR);
-      return formatted;
    }
 
+   public static File getPublicDirectory(String subdirectory, Context context)
+   {
+      String state = Environment.getExternalStorageState();
+      File directory;
+      
+      if (Environment.MEDIA_MOUNTED.equals(state))
+      {
+         directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                                   subdirectory);
+      } else
+      {
+         directory = new File(context.getFilesDir(), subdirectory);
+      }
+
+      if (!directory.exists())
+      {
+         directory.mkdir();
+      }
+      return directory;
+   }
+   
+   
    /**
     * Generate a value suitable for use in {@link #setId(int)}. This value will
     * not collide with ID values generated at build time by aapt for R.id.
@@ -94,4 +122,42 @@ public class Utils
       }
       mImageView.setImageBitmap(profilePicture);
    }
+   
+   public static File renameAudioFile(String phrase, String kidName, File audioFile, File directory, Calendar date)
+   {
+      String[] a = phrase.split(" ");
+      StringBuffer str = new StringBuffer(a[0].trim());
+      for (int i = 1; i < a.length; i++)
+      {
+         str.append(a[i].trim());
+         if (i == 5)
+         {
+            break;
+         }
+      }
+      String baseFilename = kidName + "-" + str + date.getTimeInMillis()
+            + ".3gp";
+
+      File newfile = new File(directory, baseFilename);
+
+      if (newfile.exists()) { newfile.delete(); }
+
+      Log.i(DEBUG_TAG, "Oldfile: " + audioFile.getAbsolutePath());
+      Log.i(DEBUG_TAG, "Newfile: " + newfile.getAbsolutePath());
+
+      if (audioFile.renameTo(newfile))
+      {
+         Log.i(DEBUG_TAG, "Rename succesful");
+      } else
+      {
+         Log.i(DEBUG_TAG, "Rename failed");
+      }
+
+      audioFile.delete();
+      audioFile = newfile;
+      return audioFile;
+   }
+   
+   
+
 }

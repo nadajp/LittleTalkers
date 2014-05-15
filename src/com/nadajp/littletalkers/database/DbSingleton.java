@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.nadajp.littletalkers.R;
+import com.nadajp.littletalkers.database.DbContract.Words;
 
 public class DbSingleton
 {
@@ -74,6 +75,24 @@ public class DbSingleton
       }
    }
 
+   public int getNumberOfQAs(long kidId)
+   {
+      Cursor cursor = null;
+      try
+      {
+         cursor = mDb.rawQuery("SELECT COUNT(*) FROM Questions WHERE "
+               + DbContract.Questions.COLUMN_NAME_KID + " = " + kidId, null);
+         cursor.moveToFirst();
+         return cursor.getInt(0);
+      } finally
+      {
+         if (cursor != null)
+         {
+            cursor.close();
+         }
+      }
+   }
+
    public String getKidName(long kidId)
    {
       Cursor cursor = null;
@@ -110,13 +129,49 @@ public class DbSingleton
                + DbContract.Words.COLUMN_NAME_AUDIO_FILE + " FROM Words WHERE "
                + DbContract.Words.COLUMN_NAME_KID + " = " + kidId
                + " ORDER BY " + sortColumn;
-      } else
-      {
+      } else {
          query = "SELECT _id, " + DbContract.Words.COLUMN_NAME_WORD + ", "
                + DbContract.Words.COLUMN_NAME_DATE + ", "
                + DbContract.Words.COLUMN_NAME_AUDIO_FILE + " FROM Words WHERE "
                + DbContract.Words.COLUMN_NAME_KID + " = " + kidId + " AND "
                + DbContract.Words.COLUMN_NAME_LANGUAGE + " = '" + language
+               + "' ORDER BY " + sortColumn;
+      }
+      if (bAscending) { query += " ASC"; } 
+      else { query += " DESC"; }
+
+      return mDb.rawQuery(query, null);
+   }
+
+   public Cursor getQuestions(long kidId, String sortColumn,
+         boolean bAscending, String language)
+   {
+      String query;
+
+      if (language.equals(mContext.getString(R.string.all_languages)))
+      {
+         query = "SELECT _id, " + DbContract.Questions.COLUMN_NAME_QUESTION
+               + ", " + DbContract.Questions.COLUMN_NAME_ANSWER + ", "
+               + DbContract.Questions.COLUMN_NAME_ASKED + ","
+               + DbContract.Questions.COLUMN_NAME_ANSWERED + ","
+               + DbContract.Questions.COLUMN_NAME_TOWHOM + ","
+               + DbContract.Questions.COLUMN_NAME_DATE + ", "
+               + DbContract.Questions.COLUMN_NAME_AUDIO_FILE
+               + " FROM Questions WHERE "
+               + DbContract.Questions.COLUMN_NAME_KID + " = " + kidId
+               + " ORDER BY " + sortColumn;
+      } else
+      {
+         query = "SELECT _id, " + DbContract.Questions.COLUMN_NAME_QUESTION
+               + ", " + DbContract.Questions.COLUMN_NAME_ANSWER + ", "
+               + DbContract.Questions.COLUMN_NAME_ASKED + ","
+               + DbContract.Questions.COLUMN_NAME_ANSWERED + ","
+               + DbContract.Questions.COLUMN_NAME_TOWHOM + ","
+               + DbContract.Questions.COLUMN_NAME_DATE + ", "
+               + DbContract.Questions.COLUMN_NAME_AUDIO_FILE
+               + " FROM Questions WHERE "
+               + DbContract.Questions.COLUMN_NAME_KID + " = " + kidId + " AND "
+               + DbContract.Questions.COLUMN_NAME_LANGUAGE + " = '" + language
                + "' ORDER BY " + sortColumn;
       }
       if (bAscending)
@@ -126,6 +181,20 @@ public class DbSingleton
       {
          query += " DESC";
       }
+
+      return mDb.rawQuery(query, null);
+   }
+
+   public Cursor getWordsForExport(long kidId)
+   {
+      String query;
+
+      query = "SELECT _id, " + DbContract.Words.COLUMN_NAME_WORD + ", "
+            + DbContract.Words.COLUMN_NAME_DATE + ", "
+            + DbContract.Words.COLUMN_NAME_LANGUAGE + ", "
+            + DbContract.Words.COLUMN_NAME_TRANSLATION + " FROM Words WHERE "
+            + DbContract.Words.COLUMN_NAME_KID + " = " + kidId + " ORDER BY "
+            + Words.COLUMN_NAME_DATE + " ASC";
 
       return mDb.rawQuery(query, null);
    }
@@ -141,10 +210,8 @@ public class DbSingleton
          cursor = mDb.rawQuery(query, null);
          cursor.moveToFirst();
          return cursor.getString(0);
-      } finally
-      {
-         if (cursor != null)
-         {
+      } finally {
+         if (cursor != null) {
             cursor.close();
          }
       }
@@ -191,6 +258,12 @@ public class DbSingleton
    public Cursor getWordDetails(long wordId)
    {
       String query = "SELECT * FROM Words WHERE _id = " + wordId;
+      return mDb.rawQuery(query, null);
+   }
+
+   public Cursor getQuestionDetails(long questionID)
+   {
+      String query = "SELECT * FROM Questions WHERE _id = " + questionID;
       return mDb.rawQuery(query, null);
    }
 
@@ -355,6 +428,14 @@ public class DbSingleton
          mDb.delete("Words", "_id = " + id, null);
       }
    }
+   
+   public void deleteQuestions(long[] ids)
+   {
+      for (long id : ids)
+      {
+         mDb.delete("Questions", "_id = " + id, null);
+      }
+   }
 
    public boolean saveWord(long kidId, String word, String language, long date,
          String location, String audioFile, String translation, String towhom,
@@ -385,6 +466,41 @@ public class DbSingleton
       // Inserting Row
       mDb.insert("Words", null, values);
       return true;
+   }
+
+   public boolean saveQuestion(long kidId, String question, String answer,
+         int asked, int answered, String towhom, String language, long date,
+         String location, String audioFile, String notes)
+   {
+      // check if qa already exists for this kid
+      String query = "SELECT question FROM Questions WHERE "
+            + DbContract.Questions.COLUMN_NAME_KID + " = " + kidId
+            + " AND question = '" + question + "'" + " AND answer = '" + answer
+            + "'";
+      Cursor cursor = mDb.rawQuery(query, null);
+      if (cursor.getCount() > 0)
+      {
+         cursor.close();
+         return false;
+      }
+      cursor.close();
+      ContentValues values = new ContentValues();
+      values.put(DbContract.Questions.COLUMN_NAME_KID, kidId);
+      values.put(DbContract.Questions.COLUMN_NAME_QUESTION, question);
+      values.put(DbContract.Questions.COLUMN_NAME_ANSWER, answer);
+      values.put(DbContract.Questions.COLUMN_NAME_TOWHOM, towhom);
+      values.put(DbContract.Questions.COLUMN_NAME_ASKED, asked);
+      values.put(DbContract.Questions.COLUMN_NAME_ANSWERED, answered);
+      values.put(DbContract.Questions.COLUMN_NAME_LANGUAGE, language);
+      values.put(DbContract.Questions.COLUMN_NAME_DATE, date);
+      values.put(DbContract.Questions.COLUMN_NAME_LOCATION, location);
+      values.put(DbContract.Questions.COLUMN_NAME_AUDIO_FILE, audioFile);
+      values.put(DbContract.Questions.COLUMN_NAME_NOTES, notes);
+
+      // Inserting Row
+      mDb.insert("Questions", null, values);
+      return true;
+
    }
 
    public boolean updateWord(long wordId, long kidId, String word,
@@ -419,6 +535,43 @@ public class DbSingleton
       // update
       mDb.update("Words", values, "_id=" + wordId, null);
       return true;
+   }
+
+   public boolean updateQuestion(long questionID, long kidId, String question,
+         String answer, int asked, int answered, String towhom,
+         String language, long date, String location, String audioFile,
+         String notes)
+   {
+      // check if qa already exists for this kid
+      String query = "SELECT question FROM Questions WHERE "
+            + DbContract.Questions.COLUMN_NAME_KID + " = " + kidId
+            + " AND question = '" + question + "'" + " AND answer = '" + answer
+            + "' AND _id != " + questionID;
+      Cursor cursor = mDb.rawQuery(query, null);
+      if (cursor.getCount() > 0)
+      {
+         cursor.close();
+         return false;
+      }
+      cursor.close();
+
+      ContentValues values = new ContentValues();
+      values.put(DbContract.Questions.COLUMN_NAME_KID, kidId);
+      values.put(DbContract.Questions.COLUMN_NAME_QUESTION, question);
+      values.put(DbContract.Questions.COLUMN_NAME_ANSWER, answer);
+      values.put(DbContract.Questions.COLUMN_NAME_TOWHOM, towhom);
+      values.put(DbContract.Questions.COLUMN_NAME_ASKED, asked);
+      values.put(DbContract.Questions.COLUMN_NAME_ANSWERED, answered);
+      values.put(DbContract.Questions.COLUMN_NAME_LANGUAGE, language);
+      values.put(DbContract.Questions.COLUMN_NAME_DATE, date);
+      values.put(DbContract.Questions.COLUMN_NAME_LOCATION, location);
+      values.put(DbContract.Questions.COLUMN_NAME_AUDIO_FILE, audioFile);
+      values.put(DbContract.Questions.COLUMN_NAME_NOTES, notes);
+
+      // Update Row
+      mDb.update("Questions", values, "_id=" + questionID, null);
+      return true;
+
    }
 
    public void updateAudoFile(long wordId, String audioFile)
