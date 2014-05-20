@@ -24,20 +24,21 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonSave"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_weight="50"
-                android:text="@string/save" />
-
-            <Button
                 android:id="@+id/buttonCancel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:layout_weight="50"
                 android:text="@string/show_q_and_a" />
+                        
+            <Button
+                android:id="@+id/buttonSave"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_weight="50"
+                android:text="@string/save" />
+            
         </LinearLayout>
         
          <LinearLayout

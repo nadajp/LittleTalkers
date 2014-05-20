@@ -93,7 +93,7 @@ public abstract class AddItemFragment extends Fragment implements
    private ImageView mImgDelete;
    private ImageView mImgMic;
    protected Spinner mLangSpinner;
-   protected Button mButtonSave, mButtonCancel;
+   protected Button mButtonSave, mButtonCancel, mButtonShare;
    private boolean mAudioRecorded;
 
    // to be set by derived classes
@@ -218,8 +218,14 @@ public abstract class AddItemFragment extends Fragment implements
       if (mItemId > 0)
       {
          updateItem(v);
+         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+         mButtonCancel.setText(R.string.share);
+         mButtonSave.setText(R.string.save_changes);
+         
       } else
       {
+         getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
+         
          if (mAudioRecorded)
          {
             mTempFile = new File(mDirectory, "temp.3gp");
@@ -237,9 +243,9 @@ public abstract class AddItemFragment extends Fragment implements
    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
    {
       // Inflate the menu; this adds items to the action bar if it is present.
-      MenuItem share = menu.findItem(R.id.action_share);
-      if (mItemId > 0) { share.setVisible(true); }
-      else { share.setVisible(false); }
+      //MenuItem share = menu.findItem(R.id.action_share);
+      //if (mItemId > 0) { share.setVisible(true); }
+      //else { share.setVisible(false); }
       /*if (android.os.Build.VERSION.SDK_INT > 13 && mItemId > 0)
       {
          // Fetch and store ShareActionProvider
@@ -390,9 +396,6 @@ public abstract class AddItemFragment extends Fragment implements
       case R.id.imgPlay:
          clickedAudioPlay(v);
          break;
-      case R.id.buttonSaveWord:
-         saveItem();
-         break;
       case R.id.imgDelete:
          deleteAudio();
          break;
@@ -400,7 +403,15 @@ public abstract class AddItemFragment extends Fragment implements
          saveItem();
          break;
       case R.id.buttonCancel:
-         mListener.onClickedShowDictionary(mCurrentKidId);
+         if (mButtonCancel.getText().toString().contains("Show"))
+         {
+            mListener.onClickedShowDictionary(mCurrentKidId);
+         }
+         else {
+            ShareDialog dlg = new ShareDialog();
+            dlg.setTargetFragment(this, SHARE_DIALOG_ID);
+            dlg.show(getFragmentManager(), ShareDialog.class.toString());
+         }
          break;
       default:
          return;

@@ -29,7 +29,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.nadajp.littletalkers.AddItemActivity" >
+        <activity android:name="com.nadajp.littletalkers.AddItemActivity" 
+                 android:parentActivityName="com.nadajp.littletalkers.ItemListActivity" >
         </activity>
         <activity
             android:name="com.nadajp.littletalkers.AddKidActivity"
@@ -37,8 +38,6 @@
             android:parentActivityName="com.nadajp.littletalkers.ManageKidsActivity" >
         </activity>
         <activity android:name="com.nadajp.littletalkers.BaseActivity" >
-        </activity>
-        <activity android:name="com.nadajp.littletalkers.DictionaryActivity" >
         </activity>
         <activity android:name="com.nadajp.littletalkers.ItemListActivity" >
         </activity>
