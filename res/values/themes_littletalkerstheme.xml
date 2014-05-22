@@ -27,6 +27,8 @@
     <item name="android:listChoiceBackgroundIndicator">@drawable/littletalkerstheme_list_selector_holo_light</item>
 
     <item name="android:activatedBackgroundIndicator">@drawable/littletalkerstheme_activated_background_holo_light</item>
+
+    <item name="android:actionBarTabStyle">@style/TabLittleTalkersTheme</item>
     
   </style>
 

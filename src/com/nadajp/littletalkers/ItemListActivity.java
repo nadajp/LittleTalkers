@@ -2,6 +2,8 @@ package com.nadajp.littletalkers;
 
 import com.nadajp.littletalkers.utils.Prefs;
 
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +12,6 @@ import android.view.View;
 public class ItemListActivity extends BaseActivity
 {
    private static String DEBUG_TAG = "PhraseList Activity";
-   private int mType;
 
    @Override
    protected void onCreate(Bundle savedInstanceState)
@@ -19,73 +20,53 @@ public class ItemListActivity extends BaseActivity
       setContentView(R.layout.activity_dictionary);
       Log.i(DEBUG_TAG, "Entering dictionary...");
 
-      mType = getIntent().getIntExtra(Prefs.TYPE, Prefs.TYPE_WORD);
+      final ActionBar actionBar = getActionBar();
 
-      if (savedInstanceState != null)
-      {
-         mType = savedInstanceState.getInt(Prefs.TYPE);
-         return;
-      }
+      ItemListFragment wordListFragment = new WordListFragment();
+      Tab wordListTab = actionBar.newTab().setText(R.string.word_or_phrase);
+      wordListTab.setTag(Prefs.TYPE_WORD);
+      actionBar.addTab(wordListTab
+            .setTabListener(new MyTabListener(wordListFragment, Prefs.TYPE_WORD)));
 
-      if (mType == Prefs.TYPE_WORD)
-      {
-         WordListFragment wordListFragment = new WordListFragment();
-         getFragmentManager().beginTransaction()
-               .replace(R.id.dictionary_fragment_container, wordListFragment)
-               .commit();
+      ItemListFragment QAListFragment = new QAListFragment();
+      Tab qaListTab = actionBar.newTab().setText(R.string.q_and_a);
+      qaListTab.setTag(Prefs.TYPE_QA);
+      actionBar.addTab(qaListTab
+            .setTabListener(new MyTabListener(QAListFragment, Prefs.TYPE_QA)));
 
-      } else if (mType == Prefs.TYPE_QA)
-      {
-         QAListFragment qaListFragment = new QAListFragment();
-         getFragmentManager().beginTransaction()
-               .replace(R.id.dictionary_fragment_container, qaListFragment).commit();
-      }
+      if (mType == Prefs.TYPE_WORD) { actionBar.selectTab(wordListTab); }
+      else { actionBar.selectTab(qaListTab); }
    }
 
    @Override
    protected void setCurrentKidData(long kidId)
    {
       ItemListFragment listFragment = (ItemListFragment) getFragmentManager()
-            .findFragmentById(R.id.dictionary_fragment_container);
-         if (listFragment != null)
-         {
-            listFragment.updateData(kidId);
-         }
+            .findFragmentById(R.id.fragment_container);
+      if (listFragment != null) { listFragment.updateData(kidId); }
    }
 
    public void sortByWord(View v)
    {
       ItemListFragment listFragment = (ItemListFragment) getFragmentManager()
-            .findFragmentById(R.id.dictionary_fragment_container);
-      if (listFragment != null)
-      {
-         listFragment.sortByPhrase(v);
-      }
+            .findFragmentById(R.id.fragment_container);
+      if (listFragment != null) { listFragment.sortByPhrase(v); }
    }
 
    public void sortByDate(View v)
    {
       ItemListFragment listFragment = (ItemListFragment) getFragmentManager()
-            .findFragmentById(R.id.dictionary_fragment_container);
-      if (listFragment != null)
-      {
-         listFragment.sortByDate(v);
-      }
+            .findFragmentById(R.id.fragment_container);
+      if (listFragment != null) { listFragment.sortByDate(v); }
    }
 
    public void addNewWord(View view)
    {
       Intent intent = new Intent(this, AddItemActivity.class);
       intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-      intent.putExtra(Prefs.TYPE, mType);
+      final ActionBar actionBar = getActionBar();
+      mType = (Integer) actionBar.getSelectedTab().getTag(); 
       startActivity(intent);
-   }
-   
-   @Override
-   public void onSaveInstanceState(Bundle outState)
-   {
-      super.onSaveInstanceState(outState);      
-      outState.putInt(Prefs.TYPE, mType);
    }
 
 }

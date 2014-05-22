@@ -5,9 +5,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -41,20 +38,6 @@ public class AddWordFragment extends AddItemFragment
    public void initializeExtras(View v)
    {
       mEditTranslation = (EditText) v.findViewById(R.id.editTranslation);
-   }
-
-   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-   {
-      // Inflate the menu; this adds items to the action bar if it is present.
-      inflater.inflate(R.menu.add_word, menu);
-      super.onCreateOptionsMenu(menu, inflater);
-      if (mItemId > 0)
-      {
-         MenuItem switchType = menu.findItem(R.id.action_add_qa);
-         if (switchType != null){
-            switchType.setVisible(false);
-         }
-      }
    }
 
    public void setShareData(String data)

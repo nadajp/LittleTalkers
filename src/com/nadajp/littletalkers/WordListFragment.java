@@ -36,7 +36,7 @@ public class WordListFragment extends ItemListFragment
          mSortColumn = DbContract.Words.COLUMN_NAME_WORD;
       }
       else mSortColumn = DbContract.Words.COLUMN_NAME_DATE;
-      setHasOptionsMenu(true);
+      //setHasOptionsMenu(true);
       return super.onCreateView(inflater, container, savedInstanceState);      
    }
    
@@ -52,9 +52,11 @@ public class WordListFragment extends ItemListFragment
       int[] adapterRowViews = new int[] { R.id.dictionary_word,
             R.id.dictionary_word_date, R.id.dictionary_audio_button };
 
-      mscAdapter = new SimpleCursorAdapter(this.getActivity(),
-            R.layout.dictionary_row, cursor, adapterCols, adapterRowViews, 0);
-      
+      if (mscAdapter == null)
+      {
+         mscAdapter = new SimpleCursorAdapter(this.getActivity(),
+               R.layout.dictionary_row, cursor, adapterCols, adapterRowViews, 0);
+      }
       super.onActivityCreated(savedInstanceState);
    }
    
@@ -64,17 +66,6 @@ public class WordListFragment extends ItemListFragment
       // Inflate the menu; this adds items to the action bar if it is present.
       inflater.inflate(R.menu.dictionary, menu);
       super.onCreateOptionsMenu(menu, inflater);
-   }
-   
-   @Override
-   public void onListItemClick(ListView l, View v, int position, long id)
-   {
-      // show word detail view
-      Intent intent = new Intent(this.getActivity(), AddItemActivity.class);
-      intent.putExtra(Prefs.CURRENT_KID_ID, mCurrentKidId);
-      intent.putExtra(Prefs.ITEM_ID, id);
-      intent.putExtra(Prefs.TYPE, Prefs.TYPE_WORD);
-      startActivity(intent);
    }
 
    public Cursor deleteFromDatabase()

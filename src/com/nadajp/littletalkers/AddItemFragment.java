@@ -1,5 +1,6 @@
 package com.nadajp.littletalkers;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -28,7 +29,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -80,7 +80,7 @@ public abstract class AddItemFragment extends Fragment implements
                                                                  // from fully
                                                                  // visible to
                                                                  // invisible
-   protected Calendar mDate = Calendar.getInstance(); // calendar for current date
+   protected Calendar mDate;  // calendar for current date
    protected String mLanguage; // current language
    protected ShareActionProvider mShareActionProvider; // used to share data from
                                                      // action bar
@@ -182,6 +182,7 @@ public abstract class AddItemFragment extends Fragment implements
       // this is where the additional view initialization takes place in the derived classes
       
       // set current date in the date field
+      mDate = Calendar.getInstance();
       updateDate();
 
       // set directory for storing audio files
@@ -208,7 +209,7 @@ public abstract class AddItemFragment extends Fragment implements
                Prefs.CURRENT_KID_ID, latestKidId);
          Log.i(DEBUG_TAG, "kid id in addWord = " + mCurrentKidId);
          mItemId = getActivity().getIntent().getLongExtra(Prefs.ITEM_ID, 0);
-         Log.i(DEBUG_TAG, "word ID = " + mItemId);
+         Log.i(DEBUG_TAG, "item ID = " + mItemId);
       }
 
       //Utils.updateTitlebar(mCurrentKidId, v, this.getActivity());
@@ -231,10 +232,25 @@ public abstract class AddItemFragment extends Fragment implements
             mTempFile = new File(mDirectory, "temp.3gp");
          }
       }
-      setHasOptionsMenu(true);
       return v;
    }
 
+   @Override
+   public void onActivityCreated(Bundle savedInstanceState)
+   {     
+      super.onActivityCreated(savedInstanceState);
+
+      if (mItemId > 0)
+      {
+         updateItem(this.getView());
+         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+         mButtonCancel.setText(R.string.share);
+         mButtonSave.setText(R.string.save_changes);
+         //ActionBar bar = this.getActivity().getActionBar();
+         //bar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+      }
+   } 
+   
    public File getAudioFile()
    {
       return mOutFile;
@@ -257,7 +273,7 @@ public abstract class AddItemFragment extends Fragment implements
       }*/
    }
    
-   @Override
+  /* @Override
    public boolean onOptionsItemSelected(MenuItem item)
    {
       // Handle presses on the action bar items
@@ -271,9 +287,8 @@ public abstract class AddItemFragment extends Fragment implements
         default:
           return super.onOptionsItemSelected(item);
       }
-   }
-
-    
+   }*/
+   
    public static class ShareDialog extends DialogFragment
    {
       private AppListAdapter mAdapter;
@@ -605,7 +620,7 @@ public abstract class AddItemFragment extends Fragment implements
 
    private void updateDate()
    {
-      mEditDate.setText(DateUtils.formatDateTime(this.getActivity(),
+      mEditDate.setText(DateUtils.formatDateTime(getActivity(),
             mDate.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE
                   | DateUtils.FORMAT_SHOW_YEAR));
    }
@@ -752,17 +767,6 @@ public abstract class AddItemFragment extends Fragment implements
       mLangSpinner.setSelection(adapter.getPosition(mLanguage));
       mEditLocation.setText(defaults[1]);
 
-      // clear all other fields
-      if (clear)
-      {
-         mEditPhrase.setText("");
-         mEditToWhom.setText("");
-         mEditNotes.setText("");
-         mImgPlay.setVisibility(View.INVISIBLE);
-         mImgDelete.setVisibility(View.INVISIBLE);
-         mAudioRecorded = false;
-         clearExtraViews();
-      }
       updateExtraKidDetails();
       Utils.updateTitlebar(mCurrentKidId, v, this.getActivity());
    }

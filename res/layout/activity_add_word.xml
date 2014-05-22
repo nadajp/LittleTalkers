@@ -2,20 +2,4 @@
     android:id="@+id/fragment_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
-
-    <!--
-   <fragment
-        android:id="@+id/add_qa_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="com.nadajp.littletalkers.AddQAFragment" />
-    
-     
-    <fragment
-        android:id="@+id/add_word_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        class="com.nadajp.littletalkers.AddWordFragment" />
-    -->
-
 </FrameLayout>

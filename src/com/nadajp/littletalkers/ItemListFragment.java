@@ -12,6 +12,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ListFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -70,10 +71,9 @@ public abstract class ItemListFragment extends ListFragment implements
                       // Prefs.java
    String mPhraseColumnName; // name of the main phrase column (i.e. word,
                              // question)
-
+   
    // abstract classes for getting appropriate data from the database
    public abstract Cursor deleteFromDatabase();
-
    public abstract Cursor getFromDatabase();
 
    @Override
@@ -195,6 +195,7 @@ public abstract class ItemListFragment extends ListFragment implements
          mListView.addHeaderView(mHeaderView);
       }
       mscAdapter.setViewBinder(mViewBinder);
+      mscAdapter.notifyDataSetChanged();
       setListAdapter(mscAdapter);
 
       // Implement contextual menu
@@ -264,6 +265,16 @@ public abstract class ItemListFragment extends ListFragment implements
       });
    }
 
+   @Override
+   public void onListItemClick(ListView l, View v, int position, long id)
+   {
+      // show word detail view
+      Intent intent = new Intent(this.getActivity(), AddItemActivity.class);
+      intent.putExtra(Prefs.CURRENT_KID_ID, mCurrentKidId);
+      intent.putExtra(Prefs.ITEM_ID, id);
+      startActivity(intent);
+   }
+   
    public void deleteSelectedItems()
    {
       DeleteSelectedDialogFragment dlg = new DeleteSelectedDialogFragment();
@@ -394,6 +405,8 @@ public abstract class ItemListFragment extends ListFragment implements
       {
          mscAdapter.getCursor().close();
       }
+      setListAdapter(null);
+      mscAdapter = null;
       mTextHeaderPhrase = null;
       mTextHeaderDate = null;
       mLanguageFilter = null;

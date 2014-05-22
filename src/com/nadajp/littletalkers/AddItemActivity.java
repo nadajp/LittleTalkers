@@ -1,5 +1,7 @@
 package com.nadajp.littletalkers;
 
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -7,42 +9,30 @@ import com.nadajp.littletalkers.AddItemFragment.OnAddNewPhraseListener;
 import com.nadajp.littletalkers.utils.Prefs;
 
 public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListener
-{
-   private int mType; 
+{   
    
    @Override
    protected void onCreate(Bundle savedInstanceState)
    {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_add_word);
-      
-      mType = getIntent().getIntExtra(Prefs.TYPE, Prefs.TYPE_WORD);
-      
-      if (savedInstanceState != null)
-      {
-         mType = savedInstanceState.getInt(Prefs.TYPE);  
-         return;
-      } 
 
-      if (mType == Prefs.TYPE_WORD)
-      {
-         AddWordFragment addWordFragment = new AddWordFragment();
-         getFragmentManager().beginTransaction().replace(R.id.fragment_container, addWordFragment).commit();
-         
-      }
-      else if (mType == Prefs.TYPE_QA)
-      {
-         AddQAFragment addQAFragment = new AddQAFragment();
-         getFragmentManager().beginTransaction().replace(R.id.fragment_container, addQAFragment).commit();
-      }
-      
-   }
+      final ActionBar actionBar = getActionBar();
 
-   @Override
-   public void onSaveInstanceState(Bundle outState)
-   {
-      super.onSaveInstanceState(outState);      
-      outState.putInt(Prefs.TYPE, mType);
+      AddItemFragment addWordFragment = new AddWordFragment();
+      Tab addWordTab = actionBar.newTab().setText(R.string.word_or_phrase);
+      addWordTab.setTag(Prefs.TYPE_WORD);
+      actionBar.addTab(addWordTab
+            .setTabListener(new MyTabListener(addWordFragment, Prefs.TYPE_WORD)));
+
+      AddItemFragment addQAFragment = new AddQAFragment();
+      Tab addQATab = actionBar.newTab().setText(R.string.q_and_a);
+      addQATab.setTag(Prefs.TYPE_QA);
+      actionBar.addTab(addQATab
+            .setTabListener(new MyTabListener(addQAFragment, Prefs.TYPE_QA)));  
+      
+      if (mType == Prefs.TYPE_WORD) { actionBar.selectTab(addWordTab); }
+      else { actionBar.selectTab(addQATab); }
    }
 
    @Override
@@ -64,8 +54,9 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
    {
       Intent intent = new Intent(this, ItemListActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
-      intent.putExtra(Prefs.TYPE, mType);
       intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+      final ActionBar actionBar = getActionBar();
+      mType = (Integer) actionBar.getSelectedTab().getTag(); 
       startActivity(intent);
    }
 }

@@ -35,7 +35,7 @@ public class QAListFragment extends ItemListFragment
          mSortColumn = DbContract.Words.COLUMN_NAME_WORD;
       }
       else mSortColumn = DbContract.Words.COLUMN_NAME_DATE;
-      setHasOptionsMenu(true);
+      //setHasOptionsMenu(true);
       
       return super.onCreateView(inflater, container, savedInstanceState);
    }
@@ -53,8 +53,11 @@ public class QAListFragment extends ItemListFragment
       int[] adapterRowViews = new int[] { R.id.question, R.id.answer, 
             R.id.dictionary_word_date, R.id.dictionary_audio_button };
 
-      mscAdapter = new SimpleCursorAdapter(this.getActivity(),
-            R.layout.qa_list_row, cursor, adapterCols, adapterRowViews, 0);
+      if (mscAdapter == null)
+      {
+         mscAdapter = new SimpleCursorAdapter(this.getActivity(),
+               R.layout.qa_list_row, cursor, adapterCols, adapterRowViews, 0);
+      }
       
       /*if (cursor.getCount() == 0)
       {
@@ -92,17 +95,7 @@ public class QAListFragment extends ItemListFragment
       inflater.inflate(R.menu.qa_list, menu);
       super.onCreateOptionsMenu(menu, inflater);
    }
-   
-   @Override
-   public void onListItemClick(ListView l, View v, int position, long id)
-   {
-      // show word detail view
-      Intent intent = new Intent(this.getActivity(), AddItemActivity.class);
-      intent.putExtra(Prefs.CURRENT_KID_ID, mCurrentKidId);
-      intent.putExtra(Prefs.ITEM_ID, id);
-      intent.putExtra(Prefs.TYPE, Prefs.TYPE_QA);
-      startActivity(intent);
-   }
+
 
    public Cursor deleteFromDatabase()
    {

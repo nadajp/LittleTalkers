@@ -42,6 +42,13 @@ public class Prefs
       return sharedPrefs.getLong(CURRENT_KID_ID, defaultId);
    }
 
+   public static int getType(Context context, int defaultType)
+   {
+      SharedPreferences sharedPrefs = context.getSharedPreferences(
+            SHARED_PREFS_FILENAME, Context.MODE_PRIVATE);
+      return sharedPrefs.getInt(TYPE, defaultType);
+   }
+   
    public static void saveKidId(Context context, long id)
    {
       SharedPreferences sharedPrefs = context.getSharedPreferences(
@@ -51,6 +58,15 @@ public class Prefs
       editor.commit();
    }
 
+   public static void saveType(Context context, int type)
+   {
+      SharedPreferences sharedPrefs = context.getSharedPreferences(
+            SHARED_PREFS_FILENAME, Context.MODE_PRIVATE);
+      SharedPreferences.Editor editor = sharedPrefs.edit();
+      editor.putInt(TYPE, type);
+      editor.commit();
+   }
+   
    public static String getLanguage(Context context)
    {
       SharedPreferences sharedPrefs = context.getSharedPreferences(
