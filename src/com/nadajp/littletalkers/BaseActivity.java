@@ -80,9 +80,9 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       @Override
       public void onTabSelected(Tab tab, FragmentTransaction ft) {
          if (null != mFragment) {
+            Prefs.saveKidId(getApplicationContext(), mCurrentKidId);
             ft.replace(R.id.fragment_container, mFragment);
             Prefs.saveType(getApplicationContext(), (Integer) tab.getTag());
-            Prefs.saveKidId(getApplicationContext(), mCurrentKidId);
          }
       }
 

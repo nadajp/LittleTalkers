@@ -209,9 +209,7 @@ public abstract class ItemDetailFragment extends Fragment implements
          Log.i(DEBUG_TAG, "Retreiving Instance State: " + mCurrentKidId);
       } else
       {
-         long latestKidId = Prefs.getKidId(getActivity(), -1);
-         mCurrentKidId = getActivity().getIntent().getLongExtra(
-               Prefs.CURRENT_KID_ID, latestKidId);
+         mCurrentKidId = Prefs.getKidId(getActivity(), -1);
          Log.i(DEBUG_TAG, "kid id in addWord = " + mCurrentKidId);
          mItemId = getActivity().getIntent().getLongExtra(ITEM_ID, 0);
          Log.i(DEBUG_TAG, "item ID = " + mItemId);
