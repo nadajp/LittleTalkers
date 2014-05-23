@@ -68,7 +68,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
    {
       private final Fragment mFragment;
 
-      public MyTabListener(Fragment fragment, int type) {
+      public MyTabListener(Fragment fragment) {
          mFragment = fragment;
       }
 
@@ -360,7 +360,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
 
    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
    {
-      Log.i(DEBUG_TAG, "Selected item with ID " + id);
+      Log.i(DEBUG_TAG, "Selected kid with ID " + id);
       mCurrentKidId = id;
       mPosition = pos;
       setCurrentKidData(id); 

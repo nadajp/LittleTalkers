@@ -1,6 +1,5 @@
 package com.nadajp.littletalkers;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -27,8 +26,6 @@ import android.text.TextWatcher;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -57,11 +54,12 @@ import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
-public abstract class AddItemFragment extends Fragment implements
+public abstract class ItemDetailFragment extends Fragment implements
       OnItemSelectedListener, OnClickListener, OnErrorListener, OnInfoListener,
       OnCompletionListener
 {
    private static final String DEBUG_TAG = "AddItemFragment";
+   public static final String ITEM_ID = "Item_ID";
    private static final int DELETE_AUDIO_DIALOG_ID = 1;
    private static final int REPLACE_AUDIO_DIALOG_ID = 2;
    private static final int SHARE_DIALOG_ID = 3;
@@ -70,7 +68,8 @@ public abstract class AddItemFragment extends Fragment implements
    private File mDirectory = null; // directory to store audio file
    private File mOutFile = null; // audio file
    private File mTempFile = null; // temporary audio file
-   protected String mCurrentAudioFile; // name of audio file, empty string if none
+   protected String mCurrentAudioFile; // name of audio file, empty string if
+                                       // none
    protected long mCurrentKidId; // current kid id, must be valid
    protected long mItemId; // current item id, 0 if nothing has been saved yet
    private MediaRecorder mRecorder; // audio recorder
@@ -80,15 +79,16 @@ public abstract class AddItemFragment extends Fragment implements
                                                                  // from fully
                                                                  // visible to
                                                                  // invisible
-   protected Calendar mDate;  // calendar for current date
+   protected Calendar mDate; // calendar for current date
    protected String mLanguage; // current language
-   protected ShareActionProvider mShareActionProvider; // used to share data from
-                                                     // action bar
+   protected ShareActionProvider mShareActionProvider; // used to share data
+                                                       // from
+                                                       // action bar
    protected String mKidName; // name of current kid, used for audio file name
 
    // common user interface elements
-   protected EditText mEditPhrase, mEditDate, mEditLocation,
-         mEditToWhom, mEditNotes;
+   protected EditText mEditPhrase, mEditDate, mEditLocation, mEditToWhom,
+         mEditNotes;
    private ImageView mImgPlay;
    private ImageView mImgDelete;
    private ImageView mImgMic;
@@ -98,16 +98,23 @@ public abstract class AddItemFragment extends Fragment implements
 
    // to be set by derived classes
    int mFragmentLayout; // res id of the layout for this fragment
-   int mEditPhraseResId; // res id of the edittext containing main item (word, question)
-   
+   int mEditPhraseResId; // res id of the edittext containing main item (word,
+                         // question)
+
    public abstract void initializeExtras(View v);
+
    public abstract void setShareData(String data);
+
    public abstract void savePhrase();
+
    public abstract void clearExtraViews();
+
    public abstract void insertItemDetails(View v);
+
    public abstract void updateExtraKidDetails();
+
    public abstract String getShareBody();
-   
+
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
          Bundle savedInstanceState)
@@ -179,8 +186,6 @@ public abstract class AddItemFragment extends Fragment implements
          }
       });
 
-      // this is where the additional view initialization takes place in the derived classes
-      
       // set current date in the date field
       mDate = Calendar.getInstance();
       updateDate();
@@ -208,12 +213,12 @@ public abstract class AddItemFragment extends Fragment implements
          mCurrentKidId = getActivity().getIntent().getLongExtra(
                Prefs.CURRENT_KID_ID, latestKidId);
          Log.i(DEBUG_TAG, "kid id in addWord = " + mCurrentKidId);
-         mItemId = getActivity().getIntent().getLongExtra(Prefs.ITEM_ID, 0);
+         mItemId = getActivity().getIntent().getLongExtra(ITEM_ID, 0);
          Log.i(DEBUG_TAG, "item ID = " + mItemId);
       }
 
-      //Utils.updateTitlebar(mCurrentKidId, v, this.getActivity());
-      //insertKidDefaults(mCurrentKidId, v, false);
+      // Utils.updateTitlebar(mCurrentKidId, v, this.getActivity());
+      // insertKidDefaults(mCurrentKidId, v, false);
 
       // If editing/viewing an existing item, fill in all the fields
       if (mItemId > 0)
@@ -222,11 +227,10 @@ public abstract class AddItemFragment extends Fragment implements
          getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
          mButtonCancel.setText(R.string.share);
          mButtonSave.setText(R.string.save_changes);
-         
       } else
       {
          getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
-         
+
          if (mAudioRecorded)
          {
             mTempFile = new File(mDirectory, "temp.3gp");
@@ -237,166 +241,148 @@ public abstract class AddItemFragment extends Fragment implements
 
    @Override
    public void onActivityCreated(Bundle savedInstanceState)
-   {     
+   {
       super.onActivityCreated(savedInstanceState);
-
       if (mItemId > 0)
       {
          updateItem(this.getView());
-         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-         mButtonCancel.setText(R.string.share);
-         mButtonSave.setText(R.string.save_changes);
-         //ActionBar bar = this.getActivity().getActionBar();
-         //bar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
       }
-   } 
-   
+   }
+
    public File getAudioFile()
    {
       return mOutFile;
    }
-   
-   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-   {
-      // Inflate the menu; this adds items to the action bar if it is present.
-      //MenuItem share = menu.findItem(R.id.action_share);
-      //if (mItemId > 0) { share.setVisible(true); }
-      //else { share.setVisible(false); }
-      /*if (android.os.Build.VERSION.SDK_INT > 13 && mItemId > 0)
-      {
-         // Fetch and store ShareActionProvider
-         mShareActionProvider = (ShareActionProvider) share.getActionProvider();
-         setShareData(mEditPhrase.getText().toString());
-      } else
-      {
-         share.setVisible(false);
-      }*/
-   }
-   
-  /* @Override
-   public boolean onOptionsItemSelected(MenuItem item)
-   {
-      // Handle presses on the action bar items
-      switch (item.getItemId())
-      {
-        case R.id.action_share:
-           ShareDialog dlg = new ShareDialog();
-           dlg.setTargetFragment(this, SHARE_DIALOG_ID);
-           dlg.show(getFragmentManager(), ShareDialog.class.toString());
-          return true;
-        default:
-          return super.onOptionsItemSelected(item);
-      }
-   }*/
-   
+
+   /*
+    * @Override public boolean onOptionsItemSelected(MenuItem item) { // Handle
+    * presses on the action bar items switch (item.getItemId()) { case
+    * R.id.action_share: ShareDialog dlg = new ShareDialog();
+    * dlg.setTargetFragment(this, SHARE_DIALOG_ID);
+    * dlg.show(getFragmentManager(), ShareDialog.class.toString()); return true;
+    * default: return super.onOptionsItemSelected(item); } }
+    */
+
    public static class ShareDialog extends DialogFragment
    {
       private AppListAdapter mAdapter;
       private ArrayList<ComponentName> mComponents;
       private Intent mIntent;
-      
+
       @Override
-      public Dialog onCreateDialog(Bundle savedInstanceState) 
+      public Dialog onCreateDialog(Bundle savedInstanceState)
       {
          super.onCreate(savedInstanceState);
          setupSharing();
          AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-         builder.setTitle(R.string.share)
-                .setNegativeButton(R.string.cancel,
+         builder
+               .setTitle(R.string.share)
+               .setNegativeButton(R.string.cancel,
                      new DialogInterface.OnClickListener()
                      {
                         public void onClick(DialogInterface dialog, int id)
                         {
                         }
                      })
-                .setAdapter(mAdapter, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) 
-                    {
-                       // The 'which' argument contains the index position
-                       // of the selected item
-                       mIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-                       mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                       mIntent.setComponent(mComponents.get(which));
-                       getActivity().startActivity(mIntent);
-                    }
-                });
+               .setAdapter(mAdapter, new DialogInterface.OnClickListener()
+               {
+                  public void onClick(DialogInterface dialog, int which)
+                  {
+                     // The 'which' argument contains the index position
+                     // of the selected item
+                     mIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+                     mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                           | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                     mIntent.setComponent(mComponents.get(which));
+                     getActivity().startActivity(mIntent);
+                  }
+               });
          return builder.create();
-     } 
-      
+      }
+
       private void setupSharing()
-      {      
+      {
          mIntent = new Intent(android.content.Intent.ACTION_SEND);
-         File audioFile = ((AddItemFragment) getTargetFragment()).getAudioFile();
-         
-         if (audioFile != null) 
-         { 
+         File audioFile = ((ItemDetailFragment) getTargetFragment())
+               .getAudioFile();
+
+         if (audioFile != null)
+         {
             Uri uri = Uri.fromFile(audioFile);
             mIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             mIntent.putExtra(Intent.EXTRA_STREAM, uri);
-            mIntent.setType("audio/*");            
+            mIntent.setType("audio/*");
+         } else
+         {
+            mIntent.setType("text/plain");
          }
-         else { mIntent.setType("text/plain"); }
 
          mIntent.addCategory(Intent.CATEGORY_DEFAULT);
-         mIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, (String) getString(R.string.app_name));
-         mIntent.putExtra(android.content.Intent.EXTRA_TEXT, 
-                              ((AddItemFragment) this.getTargetFragment()).getShareBody());
+         mIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+               (String) getString(R.string.app_name));
+         mIntent.putExtra(android.content.Intent.EXTRA_TEXT,
+               ((ItemDetailFragment) this.getTargetFragment()).getShareBody());
 
          PackageManager packageManager = getActivity().getPackageManager();
 
-         List<ResolveInfo> activities = packageManager.queryIntentActivities(mIntent, 0); 
+         List<ResolveInfo> activities = packageManager.queryIntentActivities(
+               mIntent, 0);
          ArrayList<String> appNames = new ArrayList<String>();
          ArrayList<Drawable> icons = new ArrayList<Drawable>();
          mComponents = new ArrayList<ComponentName>();
-         
+
          for (ResolveInfo app : activities)
          {
             String name = app.loadLabel(packageManager).toString();
             Log.i(DEBUG_TAG, "*" + name + "*" + "\n");
             if (!name.equals("Facebook"))
             {
-               mComponents.add(new ComponentName(app.activityInfo.applicationInfo.packageName, app.activityInfo.name));
+               mComponents.add(new ComponentName(
+                     app.activityInfo.applicationInfo.packageName,
+                     app.activityInfo.name));
                appNames.add(app.loadLabel(packageManager).toString());
                icons.add(app.loadIcon(packageManager));
             }
          }
          mAdapter = new AppListAdapter(getActivity(), appNames, icons);
       }
-      
-      public class AppListAdapter extends ArrayAdapter<String> 
+
+      public class AppListAdapter extends ArrayAdapter<String>
       {
          private final Context context;
          private final ArrayList<String> names;
          private final ArrayList<Drawable> icons;
 
-         public AppListAdapter(Context context, ArrayList<String> names, ArrayList<Drawable> icons) 
+         public AppListAdapter(Context context, ArrayList<String> names,
+               ArrayList<Drawable> icons)
          {
-           super(context, R.layout.app_list_row, names);
-           this.context = context;
-           this.names = names;
-           this.icons = icons;
+            super(context, R.layout.app_list_row, names);
+            this.context = context;
+            this.names = names;
+            this.icons = icons;
          }
 
          @Override
-         public View getView(int position, View convertView, ViewGroup parent) 
+         public View getView(int position, View convertView, ViewGroup parent)
          {
-           LayoutInflater inflater = (LayoutInflater) context
-               .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-           
-           View rowView = inflater.inflate(R.layout.app_list_row, parent, false);
-           TextView textView = (TextView) rowView.findViewById(R.id.app_name);
-           ImageView imageView = (ImageView) rowView.findViewById(R.id.app_icon);
-           
-           textView.setText(names.get(position));
-           // change the icon for Windows and iPhone
-           imageView.setImageDrawable(icons.get(position));
+            LayoutInflater inflater = (LayoutInflater) context
+                  .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-           return rowView;
+            View rowView = inflater.inflate(R.layout.app_list_row, parent,
+                  false);
+            TextView textView = (TextView) rowView.findViewById(R.id.app_name);
+            ImageView imageView = (ImageView) rowView
+                  .findViewById(R.id.app_icon);
+
+            textView.setText(names.get(position));
+            // change the icon for Windows and iPhone
+            imageView.setImageDrawable(icons.get(position));
+
+            return rowView;
          }
-       } 
+      }
    }
 
-   
    @Override
    public void onClick(View v)
    {
@@ -421,8 +407,8 @@ public abstract class AddItemFragment extends Fragment implements
          if (mButtonCancel.getText().toString().contains("Show"))
          {
             mListener.onClickedShowDictionary(mCurrentKidId);
-         }
-         else {
+         } else
+         {
             ShareDialog dlg = new ShareDialog();
             dlg.setTargetFragment(this, SHARE_DIALOG_ID);
             dlg.show(getFragmentManager(), ShareDialog.class.toString());
@@ -494,17 +480,14 @@ public abstract class AddItemFragment extends Fragment implements
       mImgPlay.startAnimation(mAnimation);
       if (mTempFile != null)
       {
-         Log.i(DEBUG_TAG, "temp file: " + mTempFile.getAbsolutePath());
+         Log.i(DEBUG_TAG, "Playing file: " + mTempFile.getAbsolutePath());
       }
       try
       {
          if (mTempFile != null)
          {
             mPlayer.setDataSource(mTempFile.getAbsolutePath());
-         } else
-         {
-            mPlayer.setDataSource(mOutFile.getAbsolutePath());
-         }
+         } else { mPlayer.setDataSource(mOutFile.getAbsolutePath());}
          mPlayer.prepare();
          mPlayer.start();
       } catch (IOException e)
@@ -639,7 +622,7 @@ public abstract class AddItemFragment extends Fragment implements
                      {
                         public void onClick(DialogInterface dialog, int id)
                         {
-                           ((AddItemFragment) getTargetFragment())
+                           ((ItemDetailFragment) getTargetFragment())
                                  .confirmDeleteAudio();
                         }
                      })
@@ -670,7 +653,7 @@ public abstract class AddItemFragment extends Fragment implements
                      {
                         public void onClick(DialogInterface dialog, int id)
                         {
-                           ((AddItemFragment) getTargetFragment()).saveItem();
+                           ((ItemDetailFragment) getTargetFragment()).saveItem();
                         }
                      })
                .setNegativeButton(R.string.cancel,
@@ -678,7 +661,7 @@ public abstract class AddItemFragment extends Fragment implements
                      {
                         public void onClick(DialogInterface dialog, int id)
                         {
-                           ((AddItemFragment) getTargetFragment()).mTempFile = null;
+                           ((ItemDetailFragment) getTargetFragment()).mTempFile = null;
                         }
                      });
 
@@ -722,7 +705,6 @@ public abstract class AddItemFragment extends Fragment implements
       savePhrase();
    }
 
-   
    private void saveAudioFile()
    {
       if (mTempFile != null && mTempFile.exists())
@@ -731,9 +713,9 @@ public abstract class AddItemFragment extends Fragment implements
       } else if (mOutFile != null && mOutFile.exists())
       {
          renameFile();
-      } 
+      }
    }
-   
+
    private void clearForm()
    {
       mEditPhrase.setText("");
@@ -753,8 +735,8 @@ public abstract class AddItemFragment extends Fragment implements
       insertItemDetails(v);
       setAudio();
    }
-   
-   public void insertKidDefaults(long kidId, View v, boolean clear)
+
+   public void insertKidDefaults(long kidId, View v)
    {
       mCurrentKidId = kidId;
       mKidName = DbSingleton.get().getKidName(mCurrentKidId);
@@ -782,7 +764,7 @@ public abstract class AddItemFragment extends Fragment implements
          mAudioRecorded = true;
       }
    }
-   
+
    private void renameFile()
    {
       String[] a = mEditPhrase.getText().toString().split(" ");
@@ -828,31 +810,17 @@ public abstract class AddItemFragment extends Fragment implements
       for (int i = 1; i < a.length; i++)
       {
          str.append(a[i].trim());
-         if (i == 5)
-         {
-            break;
-         }
+         if (i == 5) { break; }
       }
       String baseFilename = mKidName + "-" + str + mDate.getTimeInMillis()
             + ".3gp";
 
       mOutFile = new File(mDirectory, baseFilename);
 
-      if (mOutFile.exists())
-      {
-         mOutFile.delete();
-      }
+      if (mOutFile.exists()) { mOutFile.delete(); }
 
-      Log.i(DEBUG_TAG, "Oldfile: " + mTempFile.getAbsolutePath());
-      // Log.i(DEBUG_TAG, "Newfile: " + newfile.getAbsolutePath());
-
-      if (mTempFile.renameTo(mOutFile))
-      {
-         Log.i(DEBUG_TAG, "Rename succesful");
-      } else
-      {
-         Log.i(DEBUG_TAG, "Rename failed");
-      }
+      if (mTempFile.renameTo(mOutFile)) { Log.i(DEBUG_TAG, "Rename succesful"); } 
+      else { Log.i(DEBUG_TAG, "Rename failed"); }
 
       mTempFile.delete();
       mTempFile = null;
@@ -873,14 +841,14 @@ public abstract class AddItemFragment extends Fragment implements
    public void setCurrentKidId(long kidId)
    {
       mCurrentKidId = kidId;
-      insertKidDefaults(kidId, getView(), true);     
+      insertKidDefaults(kidId, getView());
    }
-   
+
    public long getCurrentKidId()
    {
       return mCurrentKidId;
    }
-   
+
    public interface OnAddNewPhraseListener
    {
       public void onPhraseAdded(long kidId);
@@ -933,7 +901,7 @@ public abstract class AddItemFragment extends Fragment implements
       mPlayer = new MediaPlayer();
       mPlayer.setOnCompletionListener(this);
       Utils.updateTitlebar(mCurrentKidId, getView(), getActivity());
-      insertKidDefaults(mCurrentKidId, getView(), false);
+      insertKidDefaults(mCurrentKidId, getView());
    }
 
    @Override

@@ -71,9 +71,10 @@ public abstract class ItemListFragment extends ListFragment implements
                       // Prefs.java
    String mPhraseColumnName; // name of the main phrase column (i.e. word,
                              // question)
-   
+
    // abstract classes for getting appropriate data from the database
    public abstract Cursor deleteFromDatabase();
+
    public abstract Cursor getFromDatabase();
 
    @Override
@@ -265,16 +266,6 @@ public abstract class ItemListFragment extends ListFragment implements
       });
    }
 
-   @Override
-   public void onListItemClick(ListView l, View v, int position, long id)
-   {
-      // show word detail view
-      Intent intent = new Intent(this.getActivity(), AddItemActivity.class);
-      intent.putExtra(Prefs.CURRENT_KID_ID, mCurrentKidId);
-      intent.putExtra(Prefs.ITEM_ID, id);
-      startActivity(intent);
-   }
-   
    public void deleteSelectedItems()
    {
       DeleteSelectedDialogFragment dlg = new DeleteSelectedDialogFragment();
@@ -290,6 +281,16 @@ public abstract class ItemListFragment extends ListFragment implements
       scAdapter.notifyDataSetChanged();
    }
 
+   @Override
+   public void onListItemClick(ListView l, View v, int position, long id)
+   {
+      // show word detail view
+      Intent intent = new Intent(this.getActivity(), ViewItemActivity.class);
+      intent.putExtra(Prefs.CURRENT_KID_ID, mCurrentKidId);
+      intent.putExtra(ItemDetailFragment.ITEM_ID, id);
+      startActivity(intent);
+   }
+   
    public void changeLanguage()
    {
       Cursor newValues = getFromDatabase();

@@ -11,13 +11,13 @@ import android.view.View;
 
 public class ItemListActivity extends BaseActivity
 {
-   private static String DEBUG_TAG = "PhraseList Activity";
+   private static String DEBUG_TAG = "ItemListActivity";
 
    @Override
    protected void onCreate(Bundle savedInstanceState)
    {
       super.onCreate(savedInstanceState);
-      setContentView(R.layout.activity_dictionary);
+      setContentView(R.layout.activity_item_list);
       Log.i(DEBUG_TAG, "Entering dictionary...");
 
       final ActionBar actionBar = getActionBar();
@@ -26,14 +26,14 @@ public class ItemListActivity extends BaseActivity
       Tab wordListTab = actionBar.newTab().setText(R.string.word_or_phrase);
       wordListTab.setTag(Prefs.TYPE_WORD);
       actionBar.addTab(wordListTab
-            .setTabListener(new MyTabListener(wordListFragment, Prefs.TYPE_WORD)));
+            .setTabListener(new MyTabListener(wordListFragment)));
 
       ItemListFragment QAListFragment = new QAListFragment();
       Tab qaListTab = actionBar.newTab().setText(R.string.q_and_a);
       qaListTab.setTag(Prefs.TYPE_QA);
       actionBar.addTab(qaListTab
-            .setTabListener(new MyTabListener(QAListFragment, Prefs.TYPE_QA)));
-
+            .setTabListener(new MyTabListener(QAListFragment)));
+      
       if (mType == Prefs.TYPE_WORD) { actionBar.selectTab(wordListTab); }
       else { actionBar.selectTab(qaListTab); }
    }
@@ -66,7 +66,15 @@ public class ItemListActivity extends BaseActivity
       intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
       final ActionBar actionBar = getActionBar();
       mType = (Integer) actionBar.getSelectedTab().getTag(); 
+      intent.putExtra(Prefs.TYPE, mType);
       startActivity(intent);
+   }
+   
+   @Override
+   public void onSaveInstanceState(Bundle outState)
+   {
+      super.onSaveInstanceState(outState);      
+      outState.putInt(Prefs.TYPE, mType);
    }
 
 }

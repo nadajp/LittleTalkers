@@ -18,7 +18,7 @@ import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Utils;
 
-public class AddQAFragment extends AddItemFragment
+public class QADetailFragment extends ItemDetailFragment
 {
    private static final String DEBUG_TAG = "AddQAFragment";
   
@@ -30,7 +30,7 @@ public class AddQAFragment extends AddItemFragment
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
          Bundle savedInstanceState)
    {
-      mFragmentLayout = R.layout.fragment_add_qa;
+      mFragmentLayout = R.layout.fragment_qa_detail;
       mEditPhraseResId = R.id.editQuestion;
       
       return super.onCreateView(inflater, container, savedInstanceState); 

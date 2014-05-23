@@ -3,8 +3,8 @@
 
     <string name="app_name">Little Talkers</string>
     <string name="settings">Settings</string>
-       
-    <!--  Titles -->
+
+    <!-- Titles -->
     <string name="title_word_detail">Word Detail</string>
     <string name="title_activity_add_kid">Add a Little Talker</string>
     <string name="title_activity_dictionary">Dictionary</string>
@@ -12,8 +12,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_manage_kids_fragment">Manage Little Talkers</string>
     <string name="title_activity_data_backup">DataBackup</string>
-    
-    <!-- AddWord -->    
+
+    <!-- AddWord -->
     <string name="title_activity_add_word">AddWordActivity</string>
     <string name="title_activity_add_word_fragment">AddWordFragment</string>
     <string name="show_dictionary">Show Dictionary</string>
@@ -23,7 +23,7 @@
     <string name="to_whom">To Whom? (optional)</string>
     <string name="notes">Notes (optional)</string>
     <string name="save">Save</string>
-    <string name="save_changes">Save Changes</string>   
+    <string name="save_changes">Save Changes</string>
     <string name="mediarecorder_error_msg">Unknown error with audio recorder</string>
     <string name="max_duration">Maximum audio duration has been reached.</string>
     <string name="max_size">Maximum audio file size has been reached.</string>
@@ -39,8 +39,8 @@
     <string name="word_saved">Word Saved.</string>
     <string name="word_updated">Word Updated.</string>
     <string name="cancel">Cancel</string>
-    
-    <!--  AddKid -->
+
+    <!-- AddKid -->
     <string name="profile_picture">Profile Picture</string>
     <string name="name_required">Name (Required)</string>
     <string name="birthdate_required">Birth Date (Required)</string>
@@ -51,44 +51,39 @@
     <string name="kid_already_exists_error">This Little Talker already exists. Please choose a different name.</string>
     <string name="kid_saved">has been added.</string>
     <string name="kid_updated">has been updated.</string>
-
     <string name="add_kid">Add a Little Talker.</string>
     <string name="select_kid">Select a Little Talker.</string>
-    
     <string name="add_word">Add a New Word or Phrase.</string>
-
-    
     <string name="no_kids">There are no Little Talkers to display. Click on the button above to add a Little Talker.</string>
     <string name="all_languages">All Languages</string>
-
     <string name="edit_little_talker">Edit Little Talker</string>
     <string name="date_of_birth">Date of Birth: </string>
     <string name="number_of_phrases">Number of Words/Phrases: </string>
     <string name="share">Share</string>
     <string name="word_history">Word history:</string>
-    
+
     <!-- dictionary -->
     <string name="no_words">There are no words or phrases to display.</string>
     <string name="word_or_phrase">WORD/PHRASE</string>
     <string name="date">DATE</string>
     <string name="audio">AUDIO</string>
     <string name="delete_words_dialog">Are you sure you want to delete all selected phrases from this dictionary?</string>
-    <string name="button_add_new_word">+ Add New Word or Phrase</string>   
-    
-    <!--  Manage LittleTalkers -->
+    <string name="button_add_new_word">+ Add New Word or Phrase</string>
+
+    <!-- Manage LittleTalkers -->
     <string name="delete_kids_dialog">Are you sure you want to delete all selected Little Talkers and their word dictionaries?</string>
     <string name="little_talkers_selected"> Little Talkers Selected</string>
-    
+
     <!-- data export -->
     <string name="export_data">Export Data</string>
-    
+
     <!-- data export -->
     <string name="action_export">Export Data</string>
     <string name="choose_data">Choose data to export:</string>
     <string name="choose_export_format">Choose export format:</string>
     <string name="export_csv">Export to CSV</string>
     <string name="please_select_kids_to_export">Please select Little Talkers that you wish you export.</string>
-       
+
     <!-- q & a -->
     <string name="show_q_and_a">Show All Q and A</string>
     <string name="question">Question</string>
@@ -98,7 +93,7 @@
     <string name="questions_and_answers">Questions and Answers</string>
     <string name="question_required_error">Question is required</string>
     <string name="answer_required_error">Please enter Answer or uncheck "Little Talker Answered"</string>
-    <string name="QA_already_exists_error">This Question and Answer already exists for this Little Talker</string> 
+    <string name="QA_already_exists_error">This Question and Answer already exists for this Little Talker</string>
     <string name="question_saved">Question Saved.</string>
     <string name="question_updated">Question Updated.</string>
     <string name="q">Q: </string>
@@ -108,13 +103,11 @@
     <string name="add_new_qa">Add New Q and A</string>
     <string name="q_and_a">Q and A</string>
 
-    
     <!-- arrays -->
     <string-array name="choose_profile_pic_array">
         <item>Take photo</item>
         <item>Choose photo from Gallery</item>
     </string-array>
-    
     <string-array name="array_languages">
         <item>Arabic</item>
         <item>Bulgarian</item>
@@ -155,5 +148,8 @@
         <item>Vietnamese</item>
         <item>None</item>
     </string-array>
+
+    <string name="title_item_list">Items</string>
+    <string name="title_item_detail">Item Detail</string>
 
 </resources>

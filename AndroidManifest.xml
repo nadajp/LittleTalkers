@@ -32,6 +32,9 @@
         <activity android:name="com.nadajp.littletalkers.AddItemActivity" 
                  android:parentActivityName="com.nadajp.littletalkers.ItemListActivity" >
         </activity>
+        <activity android:name="com.nadajp.littletalkers.ViewItemActivity" 
+                 android:parentActivityName="com.nadajp.littletalkers.ItemListActivity" >
+        </activity>
         <activity
             android:name="com.nadajp.littletalkers.AddKidActivity"
             android:label="@string/title_activity_add_kid"

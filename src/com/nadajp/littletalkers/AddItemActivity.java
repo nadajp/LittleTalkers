@@ -5,7 +5,7 @@ import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.nadajp.littletalkers.AddItemFragment.OnAddNewPhraseListener;
+import com.nadajp.littletalkers.ItemDetailFragment.OnAddNewPhraseListener;
 import com.nadajp.littletalkers.utils.Prefs;
 
 public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListener
@@ -19,17 +19,17 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
 
       final ActionBar actionBar = getActionBar();
 
-      AddItemFragment addWordFragment = new AddWordFragment();
+      ItemDetailFragment addWordFragment = new WordDetailFragment();
       Tab addWordTab = actionBar.newTab().setText(R.string.word_or_phrase);
       addWordTab.setTag(Prefs.TYPE_WORD);
       actionBar.addTab(addWordTab
-            .setTabListener(new MyTabListener(addWordFragment, Prefs.TYPE_WORD)));
+            .setTabListener(new MyTabListener(addWordFragment)));
 
-      AddItemFragment addQAFragment = new AddQAFragment();
+      ItemDetailFragment addQAFragment = new QADetailFragment();
       Tab addQATab = actionBar.newTab().setText(R.string.q_and_a);
       addQATab.setTag(Prefs.TYPE_QA);
       actionBar.addTab(addQATab
-            .setTabListener(new MyTabListener(addQAFragment, Prefs.TYPE_QA)));  
+            .setTabListener(new MyTabListener(addQAFragment)));  
       
       if (mType == Prefs.TYPE_WORD) { actionBar.selectTab(addWordTab); }
       else { actionBar.selectTab(addQATab); }
@@ -38,10 +38,10 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
    @Override
    protected void setCurrentKidData(long kidId)
    {
-      AddItemFragment addItemFragment = (AddItemFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
+      ItemDetailFragment addItemFragment = (ItemDetailFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
       if (addItemFragment != null)
       {
-         addItemFragment.insertKidDefaults(kidId, addItemFragment.getView(), true);
+         addItemFragment.insertKidDefaults(kidId, addItemFragment.getView());
       }
    }
 

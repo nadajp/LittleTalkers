@@ -19,7 +19,7 @@ import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Utils;
 
-public class AddWordFragment extends AddItemFragment
+public class WordDetailFragment extends ItemDetailFragment
 {
    private static final String DEBUG_TAG = "AddWordFragment";
 
@@ -29,7 +29,7 @@ public class AddWordFragment extends AddItemFragment
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
          Bundle savedInstanceState)
    {
-      mFragmentLayout = R.layout.fragment_add_word;
+      mFragmentLayout = R.layout.fragment_word_detail;
       mEditPhraseResId = R.id.editWord;
       
       return super.onCreateView(inflater, container, savedInstanceState); 
@@ -225,9 +225,7 @@ public class AddWordFragment extends AddItemFragment
                   .getDisplayMetrics().density);
             int bottomMargin = (int) (10 * getActivity().getResources()
                   .getDisplayMetrics().density);
-            Log.i(DEBUG_TAG, "SIDE MARGIN: " + sideMargin);
             rlParams.setMargins(sideMargin, 0, sideMargin, bottomMargin);
-            Log.i(DEBUG_TAG, "ID : " + id);
             ll.setLayoutParams(rlParams);
 
             LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
