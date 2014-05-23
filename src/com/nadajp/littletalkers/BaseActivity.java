@@ -8,7 +8,6 @@ import java.nio.channels.FileChannel;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.app.ActionBar.OnNavigationListener;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.content.Intent;
@@ -83,6 +82,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
          if (null != mFragment) {
             ft.replace(R.id.fragment_container, mFragment);
             Prefs.saveType(getApplicationContext(), (Integer) tab.getTag());
+            Prefs.saveKidId(getApplicationContext(), mCurrentKidId);
          }
       }
 
@@ -98,12 +98,9 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
    @Override
    public boolean onCreateOptionsMenu(Menu menu)
    {
-      // Inflate the menu; this adds items to the action bar if it is present.
       getMenuInflater().inflate(R.menu.base, menu);
-      // Locate MenuItem with ShareActionProvider
       MenuItem mainMenuSpinner = menu.findItem( R.id.menu_main_spinner);
       setupMainMenuSpinner(mainMenuSpinner); 
-      //addSpinnerToActionBar();
       return super.onCreateOptionsMenu(menu);
    }
 
@@ -143,7 +140,20 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
           }
           spinner.setOnItemSelectedListener(this);
       }
-  }
+   }
+
+   public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+   {
+      Log.i(DEBUG_TAG, "Selected kid with ID " + id);
+      mCurrentKidId = id;
+      mPosition = pos;
+      setCurrentKidData(id); 
+   }
+
+   public void onNothingSelected(AdapterView<?> parent)
+   {
+      // Another interface callback
+   }
    
    @Override
    public boolean onOptionsItemSelected(MenuItem item)
@@ -154,9 +164,6 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       case R.id.action_add_kid:
          Intent intent = new Intent(this, AddKidActivity.class);
          startActivity(intent);
-         return true;
-      case R.id.action_add_word:
-         switchToAddNewItem(Prefs.TYPE_WORD);
          return true;
       case R.id.action_export:
          Intent backup_intent = new Intent(this, DataExportActivity.class);
@@ -171,87 +178,8 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       }
    }
 
-   OnNavigationListener mOnNavigationListener = new OnNavigationListener()
-   {
-      @Override
-      public boolean onNavigationItemSelected(int position, long itemId)
-      {
-         Log.i(DEBUG_TAG, "Selected item with ID " + itemId);
-         if (itemId == mCurrentKidId) { return true; }
-         mCurrentKidId = itemId;
-         mPosition = position;
-         setCurrentKidData(itemId);
-         /*
-          * TitlebarFragment titlebarFragment = (TitlebarFragment)
-          * getFragmentManager().findFragmentById(R.id.titlebar_fragment); if
-          * (titlebarFragment != null) titlebarFragment.updateData(itemId);
-          */
-         return true;
-      }
-   };
-
    protected void setCurrentKidData(long kidId)
    {
-   }
-
-   private void addSpinnerToActionBar()
-   {
-      Cursor cursor = DbSingleton.get().getKidsForSpinner();
-      if (cursor.getCount() == 0)
-      {
-         return;
-      }
-
-      Log.i(DEBUG_TAG, "Adding Spinner to ActionBar");
-
-      String[] adapterCols = new String[] { "name" };
-      int[] adapterRowViews = new int[] { android.R.id.text1 };
-
-      mCursorAdapter = new SimpleCursorAdapter(this, R.layout.kid_spinner_item,
-            cursor, adapterCols, adapterRowViews, 0);
-      mCursorAdapter
-            .setDropDownViewResource(R.layout.kid_spinner_dropdown_item);
-
-      ActionBar actionBar = this.getActionBar();
-      actionBar.setDisplayShowTitleEnabled(false);
-      actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-      actionBar.setListNavigationCallbacks(mCursorAdapter,
-            mOnNavigationListener);
-
-      // select the current kid
-      if (mPosition > 0)
-      {
-         actionBar.setSelectedNavigationItem(mPosition);
-      } else
-      {
-         for (int i = 0; i < mCursorAdapter.getCount(); i++)
-         {
-            if (mCursorAdapter.getItemId(i) == mCurrentKidId)
-            {
-               actionBar.setSelectedNavigationItem(i);
-               return;
-            }
-         }
-         actionBar.setSelectedNavigationItem(0);
-      }
-   }
-
-   private void switchToAddNewItem(int type)
-   {
-      Intent intent = new Intent(this, AddItemActivity.class);
-      intent.putExtra(Prefs.CURRENT_KID_ID, mCurrentKidId);
-      intent.putExtra(Prefs.TYPE, type);
-      intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-      startActivity(intent);
-   }
-   
-   private void showItemList(int type) 
-   {
-      Intent intent = new Intent(this, ItemListActivity.class);
-      intent.putExtra(Prefs.CURRENT_KID_ID, mCurrentKidId);
-      intent.putExtra(Prefs.TYPE, type);
-      intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-      startActivity(intent);  
    }
   
    public void clickTitlebar(View v)
@@ -259,7 +187,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       Intent intent = new Intent(this, AddKidActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, mCurrentKidId);
       startActivity(intent);
-  }
+   }
 
    @Override
    protected void onResume()
@@ -356,18 +284,5 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       mCurrentKidId = savedInstanceState.getLong(Prefs.CURRENT_KID_ID);
       mType = savedInstanceState.getInt(Prefs.TYPE);
       Log.i(DEBUG_TAG, "Restoring Type: " + mType);
-   }
-
-   public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
-   {
-      Log.i(DEBUG_TAG, "Selected kid with ID " + id);
-      mCurrentKidId = id;
-      mPosition = pos;
-      setCurrentKidData(id); 
-   }
-
-   public void onNothingSelected(AdapterView<?> parent)
-   {
-      // Another interface callback
    }
 }

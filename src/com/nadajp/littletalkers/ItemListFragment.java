@@ -84,26 +84,16 @@ public abstract class ItemListFragment extends ListFragment implements
       // Inflate the layout for this fragment
       View v = inflater.inflate(mFragmentLayout, null);
 
-      // Get latest kid id from shared preferences
-      long latestKidId = Prefs.getKidId(getActivity(), DbSingleton.get()
-            .getLastAddedKid());
-
       // If we are getting re-created, then get current kid from saved instance
       // state
       if (savedInstanceState != null)
       {
          mCurrentKidId = savedInstanceState.getLong(Prefs.CURRENT_KID_ID);
       }
-      // Otherwise, get it from intent, or if not available, then get latest
-      // from shared prefs
-      else if (this.getActivity().getIntent() != null)
-      {
-         mCurrentKidId = this.getActivity().getIntent()
-               .getLongExtra(Prefs.CURRENT_KID_ID, latestKidId);
-      } else
-      {
-         mCurrentKidId = -1;
-      }
+      // Otherwise, get it from shared prefs
+      else { mCurrentKidId = Prefs.getKidId(getActivity(), DbSingleton.get()
+            .getLastAddedKid()); }
+      
       mHeaderView = inflater.inflate(mHeaderLayout, null);
 
       mLanguageFilter = (Spinner) mHeaderView
