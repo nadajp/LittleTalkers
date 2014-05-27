@@ -93,6 +93,7 @@ public abstract class ItemListFragment extends ListFragment implements
       // Otherwise, get it from shared prefs
       else { mCurrentKidId = Prefs.getKidId(getActivity(), DbSingleton.get()
             .getLastAddedKid()); }
+      Log.i(DEBUG_TAG, "Getting kid with ID: " + mCurrentKidId);
       
       mHeaderView = inflater.inflate(mHeaderLayout, null);
 

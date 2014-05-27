@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.nadajp.littletalkers.ItemDetailFragment.OnAddNewPhraseListener;
 import com.nadajp.littletalkers.utils.Prefs;
@@ -11,6 +12,8 @@ import com.nadajp.littletalkers.utils.Prefs;
 public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListener
 {   
    
+   private static final String DEBUG_TAG = "AddItemActivity";
+
    @Override
    protected void onCreate(Bundle savedInstanceState)
    {
@@ -52,6 +55,8 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
 
    public void onClickedShowDictionary(long kidId)
    {
+      Prefs.saveKidId(getApplicationContext(), kidId);
+      Log.i(DEBUG_TAG, "Saved ID: " + kidId);
       Intent intent = new Intent(this, ItemListActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
       intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

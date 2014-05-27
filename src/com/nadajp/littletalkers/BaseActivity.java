@@ -41,10 +41,8 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       super.onCreate(savedInstanceState);
       // get kid id from intent, if not available then from shared prefs, if not
       // then from database
-      long latestKidId = Prefs.getKidId(this, DbSingleton.get()
+      mCurrentKidId = Prefs.getKidId(this, DbSingleton.get()
             .getLastAddedKid());
-      mCurrentKidId = getIntent().getLongExtra(Prefs.CURRENT_KID_ID,
-            latestKidId);
            
       if (savedInstanceState != null)
       {
@@ -81,6 +79,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       public void onTabSelected(Tab tab, FragmentTransaction ft) {
          if (null != mFragment) {
             Prefs.saveKidId(getApplicationContext(), mCurrentKidId);
+            Log.i(DEBUG_TAG, "Saved ID: " + mCurrentKidId);
             ft.replace(R.id.fragment_container, mFragment);
             Prefs.saveType(getApplicationContext(), (Integer) tab.getTag());
          }
@@ -125,7 +124,12 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
                 .setDropDownViewResource(R.layout.kid_spinner_dropdown_item);
           
           spinner.setAdapter(mCursorAdapter);
+          spinner.setOnItemSelectedListener(this);
+          
           // select the current kid
+          mCurrentKidId = Prefs.getKidId(this, DbSingleton.get()
+                .getLastAddedKid());
+          Log.i(DEBUG_TAG, "Selecting kid with id: " + mCurrentKidId);
           if (mPosition > 0) { spinner.setSelection(mPosition); } else
           {
              for (int i = 0; i < mCursorAdapter.getCount(); i++)
@@ -133,12 +137,12 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
                 if (mCursorAdapter.getItemId(i) == mCurrentKidId)
                 {
                    spinner.setSelection(i);
-                   break;
+                   Log.i(DEBUG_TAG, "i: " + i);
+                   return;
                 }
              }
              spinner.setSelection(0);
           }
-          spinner.setOnItemSelectedListener(this);
       }
    }
 
