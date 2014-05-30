@@ -76,6 +76,7 @@
 
     <!-- data export -->
     <string name="export_data">Export Data</string>
+    <string name="export_info">Data will be exported to a CSV (comma separated values) file for viewing in your favourite spreadsheet program. Fields will be separated by semicolons.</string>
 
     <!-- data export -->
     <string name="action_export">Export Data</string>

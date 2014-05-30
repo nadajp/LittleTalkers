@@ -198,6 +198,24 @@ public class DbSingleton
 
       return mDb.rawQuery(query, null);
    }
+   
+   public Cursor getQAForExport(long kidId)
+   {
+      String query;
+
+      query = "SELECT _id, " 
+            + DbContract.Questions.COLUMN_NAME_QUESTION + ", "
+            + DbContract.Questions.COLUMN_NAME_ANSWER + ", "
+            + DbContract.Questions.COLUMN_NAME_ASKED + ", "
+            + DbContract.Questions.COLUMN_NAME_ANSWERED + ", "
+            + DbContract.Questions.COLUMN_NAME_DATE + ", "
+            + DbContract.Questions.COLUMN_NAME_LANGUAGE + ", "
+            + DbContract.Questions.COLUMN_NAME_TOWHOM + " FROM Questions WHERE "
+            + DbContract.Questions.COLUMN_NAME_KID + " = " + kidId + " ORDER BY "
+            + DbContract.Questions.COLUMN_NAME_DATE + " ASC";
+
+      return mDb.rawQuery(query, null);
+   }
 
    public String getTranslation(long wordId)
    {

@@ -22,21 +22,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/titlebar"
-            android:orientation="horizontal">
+            android:orientation="horizontal" >
 
-            <Button android:id="@+id/buttonSave"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_weight="50"
-                android:text="@string/save"/>
-
-            <Button android:id="@+id/buttonCancel"
+            <Button
+                android:id="@+id/buttonCancel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:layout_weight="50"
                 android:text="@string/show_dictionary" />
+
+            <Button
+                android:id="@+id/buttonSave"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_weight="50"
+                android:text="@string/save" />
         </LinearLayout>
 
         <ImageView
@@ -46,8 +48,8 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@id/layoutSaveCancel"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"          
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="10dp"
             android:contentDescription="@string/start_recording"
             android:src="@drawable/mic" />
 
@@ -73,37 +75,37 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/imgMic"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="10dp"
             android:entries="@+array/array_languages" />
 
         <ImageView
             android:id="@+id/imgPlay"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_below="@id/editWord"
-            android:layout_toRightOf="@id/spinnerLanguage"
             android:layout_alignBottom="@id/spinnerLanguage"
+            android:layout_below="@id/editWord"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_toRightOf="@id/spinnerLanguage"
             android:clickable="true"
             android:contentDescription="@string/play_audio"
             android:src="@drawable/ic_media_play"
-            android:visibility="invisible" />      
-        
+            android:visibility="invisible" />
+
         <ImageView
             android:id="@+id/imgDelete"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_alignBottom="@id/spinnerLanguage"
             android:layout_below="@id/editWord"
             android:layout_toRightOf="@id/imgPlay"
-            android:layout_alignBottom="@id/spinnerLanguage"
             android:clickable="true"
             android:contentDescription="@string/delete_audio"
             android:src="@android:drawable/ic_delete"
             android:visibility="invisible" />
-                
+
         <EditText
             android:id="@+id/editDate"
             android:layout_width="200dp"
@@ -113,7 +115,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:inputType="none" />
-        
+
         <EditText
             android:id="@+id/editLocation"
             android:layout_width="200dp"
@@ -122,8 +124,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_toRightOf="@id/editDate"
-            android:inputType="textCapSentences"
-            android:hint="@string/enter_location" />
+            android:hint="@string/enter_location"
+            android:inputType="textCapSentences" />
 
         <!--
          <ImageButton
@@ -145,8 +147,8 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:inputType="textCapSentences"
-            android:hint="@string/enter_translation" />
+            android:hint="@string/enter_translation"
+            android:inputType="textCapSentences" />
 
         <EditText
             android:id="@+id/editToWhom"
@@ -157,8 +159,8 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:inputType="textCapSentences"
-            android:hint="@string/to_whom" />
+            android:hint="@string/to_whom"
+            android:inputType="textCapSentences" />
 
         <EditText
             android:id="@+id/editNotes"
@@ -170,7 +172,7 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:hint="@string/notes"
-            android:inputType="textCapSentences|textMultiLine"/>
+            android:inputType="textCapSentences|textMultiLine" />
 
         <Button
             android:id="@+id/buttonSaveWord"

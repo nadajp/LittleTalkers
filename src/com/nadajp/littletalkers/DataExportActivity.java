@@ -19,7 +19,9 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
+import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbContract.Kids;
+import com.nadajp.littletalkers.database.DbContract.Questions;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.database.DbContract.Words;
 import com.nadajp.littletalkers.utils.Utils;
@@ -86,7 +88,9 @@ public class DataExportActivity extends Activity
          return;
       }
            
-      String dataString = "";
+      String phraseString = "";
+      String qaString = "";
+
       for (long id : checked)
       {
          Log.i(DEBUG_TAG, "Checked: " + DbSingleton.get().getKidName(id));
@@ -96,27 +100,63 @@ public class DataExportActivity extends Activity
             do
             {
                long rawdate = cursor.getLong(cursor.getColumnIndex(Words.COLUMN_NAME_DATE));
-               dataString =  dataString + DbSingleton.get().getKidName(id) + ","
-                     + Utils.getDateForDisplay(rawdate, this).replace(", ", "/") + ","
-                     + cursor.getString(cursor.getColumnIndex(Words.COLUMN_NAME_WORD)) + ","
-                     + cursor.getString(cursor.getColumnIndex(Words.COLUMN_NAME_TRANSLATION)) + ","
+               phraseString =  phraseString + DbSingleton.get().getKidName(id) + ";"
+                     + Utils.getDateForDisplay(rawdate, this).replace(", ", "/") + ";"
+                     + cursor.getString(cursor.getColumnIndex(Words.COLUMN_NAME_WORD)) + ";"
+                     + cursor.getString(cursor.getColumnIndex(Words.COLUMN_NAME_TRANSLATION)) + ";"
                      + cursor.getString(cursor.getColumnIndex(Words.COLUMN_NAME_LANGUAGE)) + "\n";
             } while (cursor.moveToNext());
+            phraseString += "\n";
          }
+
+         cursor.close();
+         cursor = DbSingleton.get().getQAForExport(id);
+         if (cursor.moveToFirst())
+         {
+            do
+            {
+               long rawdate = cursor.getLong(cursor.getColumnIndex(Questions.COLUMN_NAME_DATE));
+               qaString =  qaString + DbSingleton.get().getKidName(id) + ";"
+                     + Utils.getDateForDisplay(rawdate, this).replace(", ", "/") + ";"
+                     + cursor.getString(cursor.getColumnIndex(Questions.COLUMN_NAME_QUESTION));
+               if (cursor.getInt(cursor.getColumnIndex(Questions.COLUMN_NAME_ASKED)) == 1)
+               {
+                  qaString += "*";
+               }
+               qaString = qaString + ";" 
+               + cursor.getString(cursor.getColumnIndex(Questions.COLUMN_NAME_ANSWER));
+               if (cursor.getInt(cursor.getColumnIndex(Questions.COLUMN_NAME_ANSWERED)) == 1)
+               {
+                  qaString += "*";
+               }
+               qaString = qaString + ";" 
+                     + cursor.getString(cursor.getColumnIndex(Questions.COLUMN_NAME_TOWHOM)) + ";"
+                     + cursor.getString(cursor.getColumnIndex(Questions.COLUMN_NAME_LANGUAGE)) + "\n";
+               
+            } while (cursor.moveToNext());
+         }
+         
          cursor.close(); 
-         dataString += "\n";
+         qaString += "\n";
       }
       
       // email csv file
       File file = createCSVfile();
       
-      String header = Kids.COLUMN_NAME_NAME + ","
-                      + Words.COLUMN_NAME_DATE + "," 
-                      + Words.COLUMN_NAME_WORD + ","
-                      + Words.COLUMN_NAME_TRANSLATION + ","
+      String header1 = Kids.COLUMN_NAME_NAME + ";"
+                      + Words.COLUMN_NAME_DATE + ";" 
+                      + Words.COLUMN_NAME_WORD + ";"
+                      + Words.COLUMN_NAME_TRANSLATION + ";"
                       + Words.COLUMN_NAME_LANGUAGE;
+      
+      String header2 = Kids.COLUMN_NAME_NAME + ";"
+            + Questions.COLUMN_NAME_DATE + ";" 
+            + Questions.COLUMN_NAME_QUESTION + ";"
+            + Questions.COLUMN_NAME_ANSWER + ";"
+            + Questions.COLUMN_NAME_TOWHOM + ";"
+            + Questions.COLUMN_NAME_LANGUAGE;
 
-      String combinedString = header + "\n" + dataString;
+      String combinedString = header1 + "\n" + phraseString + header2 + "\n" + qaString;
       
       FileOutputStream out   =   null;
       try {
