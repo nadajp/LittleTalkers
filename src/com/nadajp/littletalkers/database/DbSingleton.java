@@ -525,20 +525,6 @@ public class DbSingleton
          String language, long date, String location, String audioFile,
          String translation, String towhom, String notes)
    {
-      // check if word already exists for this kid so we don't save the same
-      // word twice
-      String query = "SELECT word FROM Words WHERE "
-            + DbContract.Words.COLUMN_NAME_KID + " = " + kidId
-            + " AND word = '" + word + "' AND _id != " + wordId;
-
-      Cursor cursor = mDb.rawQuery(query, null);
-      if (cursor.getCount() > 0)
-      {
-         cursor.close();
-         return false;
-      }
-      cursor.close();
-
       ContentValues values = new ContentValues();
       values.put(DbContract.Words.COLUMN_NAME_KID, kidId);
       values.put(DbContract.Words.COLUMN_NAME_WORD, word);
@@ -560,19 +546,6 @@ public class DbSingleton
          String language, long date, String location, String audioFile,
          String notes)
    {
-      // check if qa already exists for this kid
-      String query = "SELECT question FROM Questions WHERE "
-            + DbContract.Questions.COLUMN_NAME_KID + " = " + kidId
-            + " AND question = '" + question + "'" + " AND answer = '" + answer
-            + "' AND _id != " + questionID;
-      Cursor cursor = mDb.rawQuery(query, null);
-      if (cursor.getCount() > 0)
-      {
-         cursor.close();
-         return false;
-      }
-      cursor.close();
-
       ContentValues values = new ContentValues();
       values.put(DbContract.Questions.COLUMN_NAME_KID, kidId);
       values.put(DbContract.Questions.COLUMN_NAME_QUESTION, question);

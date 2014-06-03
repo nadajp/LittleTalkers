@@ -52,8 +52,8 @@ public class ViewItemActivity extends Activity implements OnAddNewPhraseListener
       Intent intent = new Intent(this, ItemListActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
       intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-      final ActionBar actionBar = getActionBar();
-      mType = (Integer) actionBar.getSelectedTab().getTag(); 
+      //final ActionBar actionBar = getActionBar();
+      mType = Prefs.getType(this, Prefs.TYPE_WORD); 
       startActivity(intent);
    }
 }

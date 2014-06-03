@@ -400,6 +400,7 @@ public abstract class ItemDetailFragment extends Fragment implements
          break;
       case R.id.buttonSave:
          saveItem();
+         mListener.onClickedShowDictionary(mCurrentKidId);
          break;
       case R.id.buttonCancel:
          if (mButtonCancel.getText().toString().contains("Show"))
@@ -763,7 +764,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       }
    }
 
-   private void renameFile()
+   private String getFilename()
    {
       String[] a = mEditPhrase.getText().toString().split(" ");
       StringBuffer str = new StringBuffer(a[0].trim());
@@ -775,15 +776,16 @@ public abstract class ItemDetailFragment extends Fragment implements
             break;
          }
       }
-      String baseFilename = mKidName + "-" + str + mDate.getTimeInMillis()
-            + ".3gp";
-
-      File newfile = new File(mDirectory, baseFilename);
-
-      if (newfile.exists())
-      {
-         newfile.delete();
-      }
+      return mKidName + "-" + str + mDate.getTimeInMillis()
+            + ".3gp"; 
+   }
+   
+   private void renameFile()
+   {
+      File newfile = new File(mDirectory, getFilename());
+      
+      if (mOutFile.getAbsolutePath().equals(newfile.getAbsolutePath())) { return; }
+      if (newfile.exists()) { newfile.delete(); }
 
       Log.i(DEBUG_TAG, "Oldfile: " + mOutFile.getAbsolutePath());
       Log.i(DEBUG_TAG, "Newfile: " + newfile.getAbsolutePath());
@@ -803,17 +805,7 @@ public abstract class ItemDetailFragment extends Fragment implements
 
    private void saveFile()
    {
-      String[] a = mEditPhrase.getText().toString().split(" ");
-      StringBuffer str = new StringBuffer(a[0].trim());
-      for (int i = 1; i < a.length; i++)
-      {
-         str.append(a[i].trim());
-         if (i == 5) { break; }
-      }
-      String baseFilename = mKidName + "-" + str + mDate.getTimeInMillis()
-            + ".3gp";
-
-      mOutFile = new File(mDirectory, baseFilename);
+      mOutFile = new File(mDirectory, getFilename());
 
       if (mOutFile.exists()) { mOutFile.delete(); }
 
