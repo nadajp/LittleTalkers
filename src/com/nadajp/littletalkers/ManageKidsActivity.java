@@ -1,5 +1,6 @@
 package com.nadajp.littletalkers;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,6 +15,7 @@ public class ManageKidsActivity extends BaseActivity
       setContentView(R.layout.activity_manage_kids);
       this.getActionBar().setTitle(R.string.title_activity_manage_kids);
       getActionBar().setDisplayHomeAsUpEnabled(true);
+      this.getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
    }
 
    @Override

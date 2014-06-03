@@ -91,13 +91,13 @@ public class WordDetailFragment extends ItemDetailFragment
       return shareBody;
    }
    
-   public void savePhrase()
+   public boolean savePhrase()
    {
       if (mEditPhrase.length() == 0)
       {
          mEditPhrase.requestFocus();
          mEditPhrase.setError(getString(R.string.word_required_error));
-         return;
+         return false;
       }
 
       // convert date to miliseconds for SQLite
@@ -118,13 +118,14 @@ public class WordDetailFragment extends ItemDetailFragment
          {
             mEditPhrase.requestFocus();
             mEditPhrase.setError(getString(R.string.word_already_exists_error));
-            return;
+            return false;
          }
 
-         // QA was saved successfull
+         // QA was saved successful
          Toast toast = Toast.makeText(this.getActivity(), R.string.word_saved,
                Toast.LENGTH_LONG);
          toast.show();
+         return true;
       }
 
       else
@@ -136,7 +137,7 @@ public class WordDetailFragment extends ItemDetailFragment
          {
             mEditPhrase.requestFocus();
             mEditPhrase.setError(getString(R.string.word_already_exists_error));
-            return;
+            return false;
          }
          // Word was updated successfully, show dictionary
          Toast toast = Toast.makeText(this.getActivity(),
@@ -144,6 +145,7 @@ public class WordDetailFragment extends ItemDetailFragment
          toast.show();
          // invalidate menu to add sharing capabilities
          this.getActivity().invalidateOptionsMenu();
+         return true;
       }
    }
    

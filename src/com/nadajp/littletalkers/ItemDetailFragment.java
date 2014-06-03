@@ -105,7 +105,7 @@ public abstract class ItemDetailFragment extends Fragment implements
 
    public abstract void setShareData(String data);
 
-   public abstract void savePhrase();
+   public abstract boolean savePhrase();
 
    public abstract void clearExtraViews();
 
@@ -400,7 +400,6 @@ public abstract class ItemDetailFragment extends Fragment implements
          break;
       case R.id.buttonSave:
          saveItem();
-         mListener.onClickedShowDictionary(mCurrentKidId);
          break;
       case R.id.buttonCancel:
          if (mButtonCancel.getText().toString().contains("Show"))
@@ -701,7 +700,10 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          mCurrentAudioFile = mOutFile.getAbsolutePath();
       }
-      savePhrase();
+      if (savePhrase())
+      {
+         mListener.onClickedShowDictionary(mCurrentKidId);
+      }
    }
 
    private void saveAudioFile()

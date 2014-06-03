@@ -71,20 +71,20 @@ public class QADetailFragment extends ItemDetailFragment
       
    }
    
-   public void savePhrase()
+   public boolean savePhrase()
    {
       if (mEditPhrase.length() == 0)
       {
          mEditPhrase.requestFocus();
          mEditPhrase.setError(getString(R.string.question_required_error));
-         return;
+         return false;
       }
 
       if (mCheckAnswered.isChecked() && mEditAnswer.length() == 0)
       {
          mEditAnswer.requestFocus();
          mEditAnswer.setError(getString(R.string.answer_required_error));
-         return;  
+         return false;  
       }
       // convert date to miliseconds for SQLite
       long msDate = mDate.getTimeInMillis();
@@ -105,13 +105,14 @@ public class QADetailFragment extends ItemDetailFragment
          {
             mEditPhrase.requestFocus();
             mEditPhrase.setError(getString(R.string.QA_already_exists_error));
-            return;
+            return false;
          }
 
          // QA was saved successfull
          Toast toast = Toast.makeText(this.getActivity(), R.string.question_saved,
                Toast.LENGTH_LONG);
          toast.show();
+         return true;
       }
 
       else
@@ -123,7 +124,7 @@ public class QADetailFragment extends ItemDetailFragment
          { 
             mEditPhrase.requestFocus();
             mEditPhrase.setError(getString(R.string.QA_already_exists_error));
-            return;
+            return false;
          }
          // Word was updated successfully, show dictionary
          Toast toast = Toast.makeText(this.getActivity(),
@@ -132,6 +133,7 @@ public class QADetailFragment extends ItemDetailFragment
          // invalidate menu to add sharing capabilities
          this.getActivity().invalidateOptionsMenu();
       }
+      return true;
    }
 
    public void clearExtraViews()

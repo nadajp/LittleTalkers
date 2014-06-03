@@ -86,11 +86,10 @@
             android:layout_alignBottom="@id/spinnerLanguage"
             android:layout_below="@id/editWord"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_toRightOf="@id/spinnerLanguage"
             android:clickable="true"
             android:contentDescription="@string/play_audio"
-            android:src="@drawable/ic_media_play"
+            android:src="@drawable/play"
             android:visibility="invisible" />
 
         <ImageView
@@ -102,7 +101,7 @@
             android:layout_toRightOf="@id/imgPlay"
             android:clickable="true"
             android:contentDescription="@string/delete_audio"
-            android:src="@android:drawable/ic_delete"
+            android:src="@drawable/delete"
             android:visibility="invisible" />
 
         <EditText

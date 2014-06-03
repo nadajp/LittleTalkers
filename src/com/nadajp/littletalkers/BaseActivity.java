@@ -275,10 +275,9 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       super.onSaveInstanceState(outState);
       outState.putInt(Prefs.POSITION, mPosition);
       outState.putLong(Prefs.CURRENT_KID_ID, mCurrentKidId);
-      final ActionBar actionBar = getActionBar();
-      mType = (Integer) actionBar.getSelectedTab().getTag();
+      mType = Prefs.getType(this, Prefs.TYPE_WORD);
       Log.i(DEBUG_TAG, "Type: " + mType);
-      outState.putInt(Prefs.TYPE, (Integer) actionBar.getSelectedTab().getTag());
+      outState.putInt(Prefs.TYPE, mType);
    }
 
    @Override
