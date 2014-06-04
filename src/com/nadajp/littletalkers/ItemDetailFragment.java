@@ -670,6 +670,8 @@ public abstract class ItemDetailFragment extends Fragment implements
 
    public void confirmDeleteAudio()
    {
+      mAudioRecorded = false;
+      mCurrentAudioFile = "";
       if (mOutFile != null && mOutFile.exists())
       {
          mOutFile.delete();
@@ -690,8 +692,6 @@ public abstract class ItemDetailFragment extends Fragment implements
          mImgPlay.setVisibility(View.GONE);
          mImgDelete.setVisibility(View.GONE);
       }
-      mAudioRecorded = false;
-      mCurrentAudioFile = "";
    }
 
    private void saveItem(boolean exit)

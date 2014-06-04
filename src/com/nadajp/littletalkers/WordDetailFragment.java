@@ -93,6 +93,8 @@ public class WordDetailFragment extends ItemDetailFragment
    
    public boolean savePhrase()
    {
+      Log.i(DEBUG_TAG, "in savePhrase...");
+
       if (mEditPhrase.length() == 0)
       {
          mEditPhrase.requestFocus();
@@ -121,7 +123,7 @@ public class WordDetailFragment extends ItemDetailFragment
             return false;
          }
 
-         // QA was saved successful
+         // word was saved successfully
          Toast toast = Toast.makeText(this.getActivity(), R.string.word_saved,
                Toast.LENGTH_LONG);
          toast.show();
@@ -131,6 +133,7 @@ public class WordDetailFragment extends ItemDetailFragment
       else
       // we are editing an existing entry
       {
+         Log.i(DEBUG_TAG, "updating word with audio file " + mCurrentAudioFile);
          if (DbSingleton.get().updateWord(mItemId, mCurrentKidId, phrase,
                mLanguage, msDate, location, mCurrentAudioFile, translation, towhom,
                notes) == false)

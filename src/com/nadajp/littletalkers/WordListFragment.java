@@ -6,7 +6,9 @@ import com.nadajp.littletalkers.utils.Prefs;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +19,8 @@ import android.widget.SimpleCursorAdapter;
 
 public class WordListFragment extends ItemListFragment
 {  
+   private static final String DEBUG_TAG = "WordListFragment";
+
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
          Bundle savedInstanceState)
@@ -30,7 +34,7 @@ public class WordListFragment extends ItemListFragment
       mEmptyListButtonText = getString(R.string.add_word); 
       
       mViewBinder = new ListRowViewBinder(mPlayer);
-
+ 
       if (Prefs.getSortColumnId(getActivity()) == Prefs.SORT_COLUMN_PHRASE)
       {
          mSortColumn = DbContract.Words.COLUMN_NAME_WORD;
@@ -43,9 +47,20 @@ public class WordListFragment extends ItemListFragment
    @Override
    public void onActivityCreated(Bundle savedInstanceState)
    {
+      insertData();
+      super.onActivityCreated(savedInstanceState);
+   }
+   
+   private void insertData()
+   {
       Cursor cursor = DbSingleton.get().getWords(mCurrentKidId, mSortColumn,
             mbSortAscending, mLanguage);
 
+      cursor.moveToFirst();
+      String audioFile = cursor.getString(cursor
+            .getColumnIndex(DbContract.Words.COLUMN_NAME_AUDIO_FILE));
+      Log.i(DEBUG_TAG, "audio file: " + audioFile);
+      
       String[] adapterCols = new String[] { DbContract.Words.COLUMN_NAME_WORD,
             DbContract.Words.COLUMN_NAME_DATE,
             DbContract.Words.COLUMN_NAME_AUDIO_FILE };
@@ -56,8 +71,8 @@ public class WordListFragment extends ItemListFragment
       {
          mscAdapter = new SimpleCursorAdapter(this.getActivity(),
                R.layout.dictionary_row, cursor, adapterCols, adapterRowViews, 0);
-      }
-      super.onActivityCreated(savedInstanceState);
+      }  
+      
    }
    
    @Override
@@ -79,4 +94,5 @@ public class WordListFragment extends ItemListFragment
       return DbSingleton.get().getWords(mCurrentKidId, mSortColumn,
             mbSortAscending, mLanguage);   
    } 
+
 }
