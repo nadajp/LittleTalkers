@@ -60,8 +60,7 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
       Intent intent = new Intent(this, ItemListActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
       intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-      final ActionBar actionBar = getActionBar();
-      mType = (Integer) actionBar.getSelectedTab().getTag(); 
+      mType = Prefs.getType(this, Prefs.TYPE_WORD);
       startActivity(intent);
    }
 }

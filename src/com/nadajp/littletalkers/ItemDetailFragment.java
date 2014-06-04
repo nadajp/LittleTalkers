@@ -399,7 +399,7 @@ public abstract class ItemDetailFragment extends Fragment implements
          deleteAudio();
          break;
       case R.id.buttonSave:
-         saveItem();
+         saveItem(true);
          break;
       case R.id.buttonCancel:
          if (mButtonCancel.getText().toString().contains("Show"))
@@ -572,7 +572,7 @@ public abstract class ItemDetailFragment extends Fragment implements
                   ReplaceAudioDialogFragment.class.toString());
          } else
          {
-            saveItem();
+            saveItem(false);
          }
       }
    }
@@ -651,7 +651,7 @@ public abstract class ItemDetailFragment extends Fragment implements
                      {
                         public void onClick(DialogInterface dialog, int id)
                         {
-                           ((ItemDetailFragment) getTargetFragment()).saveItem();
+                           ((ItemDetailFragment) getTargetFragment()).saveItem(false);
                         }
                      })
                .setNegativeButton(R.string.cancel,
@@ -674,11 +674,12 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          mOutFile.delete();
          mOutFile = null;
-         mImgPlay.setVisibility(View.INVISIBLE);
-         mImgDelete.setVisibility(View.INVISIBLE);
+         mImgPlay.setVisibility(View.GONE);
+         mImgDelete.setVisibility(View.GONE);
+        
          if (mEditPhrase.getText().length() > 0)
          {
-            saveItem();
+            saveItem(false);
          }
       }
 
@@ -686,21 +687,23 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          mTempFile.delete();
          mTempFile = null;
-         mImgPlay.setVisibility(View.INVISIBLE);
-         mImgDelete.setVisibility(View.INVISIBLE);
+         mImgPlay.setVisibility(View.GONE);
+         mImgDelete.setVisibility(View.GONE);
       }
       mAudioRecorded = false;
       mCurrentAudioFile = "";
    }
 
-   private void saveItem()
+   private void saveItem(boolean exit)
    {
       saveAudioFile();
       if (mOutFile != null && mOutFile.exists())
       {
          mCurrentAudioFile = mOutFile.getAbsolutePath();
       }
-      if (savePhrase())
+      Boolean test = savePhrase();
+      Log.i(DEBUG_TAG, "saved: " + test.toString());
+      if (test && exit)
       {
          mListener.onClickedShowDictionary(mCurrentKidId);
       }
