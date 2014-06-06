@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;

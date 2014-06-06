@@ -16,9 +16,13 @@
     <application
         android:name="com.nadajp.littletalkers.LittleTalkersApp"
         android:allowBackup="true"
+        android:backupAgent="TheBackupAgent"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/LittleTalkersTheme" >
+        <meta-data
+            android:name="com.google.android.backup.api_key"
+            android:value="AEdPqrEAAAAInKefPCNrF9QhNH0xCB2hoIixxH91h6-jel57mg" />
         <activity
             android:name="com.nadajp.littletalkers.MainActivity"
             android:label="@string/app_name"
@@ -29,11 +33,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.nadajp.littletalkers.AddItemActivity" 
-                 android:parentActivityName="com.nadajp.littletalkers.ItemListActivity" >
+        <activity
+            android:name="com.nadajp.littletalkers.AddItemActivity"
+            android:parentActivityName="com.nadajp.littletalkers.ItemListActivity" >
         </activity>
-        <activity android:name="com.nadajp.littletalkers.ViewItemActivity" 
-                 android:parentActivityName="com.nadajp.littletalkers.ItemListActivity" >
+        <activity
+            android:name="com.nadajp.littletalkers.ViewItemActivity"
+            android:parentActivityName="com.nadajp.littletalkers.ItemListActivity" >
         </activity>
         <activity
             android:name="com.nadajp.littletalkers.AddKidActivity"

@@ -64,8 +64,7 @@ public class ItemListActivity extends BaseActivity
    {
       Intent intent = new Intent(this, AddItemActivity.class);
       intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-      final ActionBar actionBar = getActionBar();
-      mType = (Integer) actionBar.getSelectedTab().getTag(); 
+      mType = Prefs.getType(this, Prefs.TYPE_WORD);
       intent.putExtra(Prefs.TYPE, mType);
       startActivity(intent);
    }
