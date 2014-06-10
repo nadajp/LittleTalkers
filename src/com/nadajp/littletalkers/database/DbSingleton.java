@@ -294,12 +294,12 @@ public class DbSingleton
    public String getDefaultLanguage(String kidName)
    {
       String query = "SELECT " + DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE
-            + " FROM Kids WHERE name = '" + kidName + "' ";
+            + " FROM Kids WHERE name = ?";
       // Log.i(DEBUG_TAG, query);
       Cursor cursor = null;
       try
       {
-         cursor = mDb.rawQuery(query, null);
+         cursor = mDb.rawQuery(query, new String[] { kidName });
          cursor.moveToFirst();
          return cursor.getString(0);
       } finally
@@ -358,8 +358,8 @@ public class DbSingleton
          String language, String pictureUri)
    {
       // check if name already exists
-      String query = "SELECT * FROM Kids WHERE name = '" + name + "'";
-      Cursor cursor = mDb.rawQuery(query, null);
+      String query = "SELECT * FROM Kids WHERE name = ?";
+      Cursor cursor = mDb.rawQuery(query, new String[] { name });
       if (cursor.getCount() > 0)
       {
          cursor.close();
@@ -383,12 +383,12 @@ public class DbSingleton
    {
       // check if another kid with this name already exists
       String query = "SELECT " + DbContract.Kids.COLUMN_NAME_NAME
-            + " FROM Kids WHERE " + DbContract.Kids.COLUMN_NAME_NAME + " = '"
-            + name + "' AND _id != " + id;
+            + " FROM Kids WHERE " + DbContract.Kids.COLUMN_NAME_NAME 
+            + " = ? AND _id != " + id;
 
       // if there is a different kid (different ID) with the same name, return
       // false
-      Cursor cursor = mDb.rawQuery(query, null);
+      Cursor cursor = mDb.rawQuery(query, new String[] { name });
       if (cursor.getCount() > 0)
       {
          cursor.close();
@@ -416,6 +416,8 @@ public class DbSingleton
       {
          mDb.delete("Kids", "_id = " + id, null);
          mDb.delete("Words", DbContract.Words.COLUMN_NAME_KID + " = " + id,
+               null);
+         mDb.delete("Questions", DbContract.Questions.COLUMN_NAME_KID + " = " + id,
                null);
       }
    }
@@ -462,8 +464,8 @@ public class DbSingleton
       // check if word already exists for this kid
       String query = "SELECT word FROM Words WHERE "
             + DbContract.Words.COLUMN_NAME_KID + " = " + kidId
-            + " AND word = '" + word + "'";
-      Cursor cursor = mDb.rawQuery(query, null);
+            + " AND word = ?";
+      Cursor cursor = mDb.rawQuery(query, new String[] { word });
       if (cursor.getCount() > 0)
       {
          cursor.close();
@@ -493,9 +495,9 @@ public class DbSingleton
       // check if qa already exists for this kid
       String query = "SELECT question FROM Questions WHERE "
             + DbContract.Questions.COLUMN_NAME_KID + " = " + kidId
-            + " AND question = '" + question + "'" + " AND answer = '" + answer
-            + "'";
-      Cursor cursor = mDb.rawQuery(query, null);
+            + " AND question = ? AND answer = ?";
+      
+      Cursor cursor = mDb.rawQuery(query, new String[] {question, answer});
       if (cursor.getCount() > 0)
       {
          cursor.close();

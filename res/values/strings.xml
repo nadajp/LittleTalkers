@@ -18,10 +18,13 @@
     <string name="title_activity_add_word_fragment">AddWordFragment</string>
     <string name="show_dictionary">Show Dictionary</string>
     <string name="enter_word">Enter New Word or Phrase</string>
-    <string name="enter_location">Enter Location</string>
-    <string name="enter_translation">Translation (optional)</string>
-    <string name="to_whom">To Whom? (optional)</string>
-    <string name="notes">Notes (optional)</string>
+    <string name="where">Where?</string>
+    <string name="when">When?</string>
+    <string name="translation">Translation?</string>
+    <string name="to_whom">To Whom?</string>
+    <string name="language">Language?</string>
+    <string name="optional">(optional)</string>
+    <string name="notes">Notes</string>
     <string name="save">Save</string>
     <string name="save_changes">Save Changes</string>
     <string name="mediarecorder_error_msg">Unknown error with audio recorder</string>
@@ -39,6 +42,7 @@
     <string name="word_saved">Word Saved.</string>
     <string name="word_updated">Word Updated.</string>
     <string name="cancel">Cancel</string>
+
 
     <!-- AddKid -->
     <string name="profile_picture">Profile Picture</string>
@@ -89,8 +93,8 @@
     <string name="show_q_and_a">Show All Q and A</string>
     <string name="question">Question</string>
     <string name="answer">Answer</string>
-    <string name="asked_question">asked the question</string>
-    <string name="answered_question">answered the question</string>
+    <string name="asked_question">asked</string>
+    <string name="answered_question">answered</string>
     <string name="questions_and_answers">Questions and Answers</string>
     <string name="question_required_error">Question is required</string>
     <string name="answer_required_error">Please enter Answer or uncheck "Little Talker Answered"</string>
@@ -103,6 +107,7 @@
     <string name="no_qa">There are no questions and answers to display.</string>
     <string name="add_new_qa">Add New Q and A</string>
     <string name="q_and_a">Q and A</string>
+    <string name="number_of_questions">Number of Questions/Answers: </string>
 
     <!-- arrays -->
     <string-array name="choose_profile_pic_array">

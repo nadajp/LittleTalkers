@@ -89,7 +89,7 @@
             android:layout_toRightOf="@id/spinnerLanguage"
             android:clickable="true"
             android:contentDescription="@string/play_audio"
-            android:src="@drawable/play"
+            android:src="@drawable/ic_media_play"
             android:visibility="invisible" />
 
         <ImageView
@@ -101,14 +101,23 @@
             android:layout_toRightOf="@id/imgPlay"
             android:clickable="true"
             android:contentDescription="@string/delete_audio"
-            android:src="@drawable/delete"
+            android:src="@android:drawable/ic_delete"
             android:visibility="invisible" />
 
+       <TextView android:id="@+id/textWhen"
+            android:layout_below="@id/spinnerLanguage"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"     
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/when"/>
+                
         <EditText
             android:id="@+id/editDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_toRightOf="@id/textWhen"
             android:layout_below="@id/spinnerLanguage"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -117,43 +126,70 @@
             android:focusable="false"
             android:inputType="none" />
 
+        <TextView android:id="@+id/textWhere"
+            android:layout_below="@id/editDate"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"     
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/where"/>
+        
         <EditText
             android:id="@+id/editLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_toRightOf="@id/textWhere"
             android:layout_below="@id/editDate"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:ems="10"
-            android:hint="@string/enter_location"
+            android:hint="@string/optional"
             android:inputType="textCapSentences" />
 
+      <TextView android:id="@+id/textTranslation"
+            android:layout_below="@id/editLocation"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"     
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/translation"/>
+                
         <EditText
             android:id="@+id/editTranslation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_toRightOf="@id/textTranslation"
             android:layout_below="@id/editLocation"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:ems="10"
-            android:hint="@string/enter_translation"
+            android:hint="@string/optional"
             android:inputType="textCapSentences" />
 
+        <TextView android:id="@+id/textToWhom"
+            android:layout_below="@id/editTranslation"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"     
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/to_whom"/>
+        
         <EditText
             android:id="@+id/editToWhom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_below="@id/editTranslation"
+            android:layout_toRightOf="@id/textToWhom"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:ems="10"
-            android:hint="@string/to_whom"
+            android:hint="@string/optional"
             android:inputType="textCapSentences" />
 
         <EditText

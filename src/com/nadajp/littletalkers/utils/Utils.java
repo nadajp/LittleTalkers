@@ -95,18 +95,20 @@ public class Utils
 
    public static void updateTitlebar(long kidId, View v, Context context)
    {
-      TextView mTvBirthdate = (TextView) v.findViewById(R.id.tvBirthdate);
-      TextView mTvWords = (TextView) v.findViewById(R.id.tvNumOfWords);
-      ImageView mImageView = (ImageView) v.findViewById(R.id.ivProfilePic);
+      TextView tvBirthdate = (TextView) v.findViewById(R.id.tvBirthdate);
+      TextView tvWords = (TextView) v.findViewById(R.id.tvNumOfWords);
+      TextView tvQuestions = (TextView) v.findViewById(R.id.tvNumOfQuestions);
+      ImageView imageView = (ImageView) v.findViewById(R.id.ivProfilePic);
 
       // Log.i(DEBUG_TAG, "kidId = " + mCurrentKidId);
       Cursor cursor = DbSingleton.get().getKidDetails(kidId);
       cursor.moveToFirst();
-      mTvBirthdate.setText(cursor.getString(
+      tvBirthdate.setText(cursor.getString(
             cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_BIRTHDATE))
             .toString());
-      mTvWords.setText(Integer.toString(DbSingleton.get().getNumberOfWords(
+      tvWords.setText(Integer.toString(DbSingleton.get().getNumberOfWords(
             kidId)));
+      tvQuestions.setText(Integer.toString(DbSingleton.get().getNumberOfQAs(kidId)));
       String pictureUri = cursor.getString(cursor
             .getColumnIndex(DbContract.Kids.COLUMN_NAME_PICTURE_URI));
       cursor.close();
@@ -119,7 +121,7 @@ public class Utils
       {
          profilePicture = BitmapFactory.decodeFile(pictureUri);
       }
-      mImageView.setImageBitmap(profilePicture);
+      imageView.setImageBitmap(profilePicture);
    }
    
    public static File renameAudioFile(String phrase, String kidName, File audioFile, File directory, Calendar date)

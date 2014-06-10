@@ -165,6 +165,7 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:inputType="textCapSentences"
             android:ems="10"
             android:hint="@string/to_whom" />     
         
@@ -201,8 +202,9 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_below="@id/editDate"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:inputType="textCapSentences"
             android:ems="10"
-            android:hint="@string/enter_location" />
+            android:hint="@string/optional" />
 
         <EditText
             android:id="@+id/editNotes"
@@ -215,7 +217,7 @@
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:ems="10"
             android:hint="@string/notes"
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine|textCapSentences" />
 
         <Button
             android:id="@+id/buttonSaveQuestion"

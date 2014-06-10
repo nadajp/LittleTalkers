@@ -1,17 +1,17 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Application theme. -->
+    <color name="background_color">#f6eafb</color>
     <style name="LittleTalkersTheme" parent="android:Theme.Holo.Light">
-
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
        
         <item name="android:actionBarStyle">@style/MyActionBar</item>
         <item name="android:spinnerStyle">@style/MySpinners</item>
         <item name="android:textColor">#666666</item>
         <item name="android:textColorHint">#cccccc</item>
-        <item name="android:editTextStyle">@style/MyEditText</item>
-        
-        <!-- <item name="android:windowBackground">@color/custom_theme_color</item> -->
+        <item name="android:editTextStyle">@style/MyEditText</item>        
+        <!--  <item name="android:windowBackground">@color/background_color</item> -->
+        <!-- <item name="android:windowBackground">@drawable/background_image</item>  -->
         
     </style>
 
@@ -46,7 +46,7 @@
     </style>
 
     <style name="LittleTalkersTheme.titlebar">
-        <item name="android:background">#33B5E5</item>
+        <item name="android:background">#8ad5f0</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">#333333</item>
     </style>
