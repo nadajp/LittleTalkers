@@ -29,7 +29,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="20dp"
             android:ems="10"
-            android:hint="@string/name_required"
+            android:hint="@string/name"
             android:inputType="textPersonName|textCapWords|textNoSuggestions">
         </EditText>
 
@@ -42,7 +42,7 @@
             android:layout_marginTop="20dp"
             android:ems="10"
             android:focusable="false"
-            android:hint="@string/birthdate_required"
+            android:hint="@string/birthdate"
             android:inputType="none" />
 
         <EditText

@@ -81,36 +81,39 @@
 
         <ImageView
             android:id="@+id/imgPlay"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignBottom="@id/spinnerLanguage"
             android:layout_below="@id/editWord"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_toRightOf="@id/spinnerLanguage"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:clickable="true"
             android:contentDescription="@string/play_audio"
-            android:src="@drawable/ic_media_play"
+            android:src="@drawable/play_button"
             android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imgDelete"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignBottom="@id/spinnerLanguage"
             android:layout_below="@id/editWord"
             android:layout_toRightOf="@id/imgPlay"
             android:clickable="true"
             android:contentDescription="@string/delete_audio"
-            android:src="@android:drawable/ic_delete"
+            android:src="@drawable/delete_button"
             android:visibility="invisible" />
 
        <TextView android:id="@+id/textWhen"
             android:layout_below="@id/spinnerLanguage"
+            style="@style/MyLabelText"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="20dp"
             android:layout_alignParentLeft="true"
             android:layout_width="wrap_content"     
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:text="@string/when"/>
                 
         <EditText
@@ -119,20 +122,21 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/textWhen"
             android:layout_below="@id/spinnerLanguage"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_alignBottom="@id/textWhen"
+            android:layout_marginLeft="40dp"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:ems="10"
             android:focusable="false"
             android:inputType="none" />
 
         <TextView android:id="@+id/textWhere"
+            style="@style/MyLabelText"
             android:layout_below="@id/editDate"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="20dp"
             android:layout_alignParentLeft="true"
             android:layout_width="wrap_content"     
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:text="@string/where"/>
         
         <EditText
@@ -140,21 +144,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/textWhere"
+            android:layout_alignLeft="@id/editDate"
             android:layout_below="@id/editDate"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_alignBottom="@id/textWhere"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:ems="10"
             android:hint="@string/optional"
             android:inputType="textCapSentences" />
 
       <TextView android:id="@+id/textTranslation"
+            style="@style/MyLabelText"
             android:layout_below="@id/editLocation"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="20dp"
             android:layout_alignParentLeft="true"
             android:layout_width="wrap_content"     
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:text="@string/translation"/>
                 
         <EditText
@@ -163,20 +168,21 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/textTranslation"
             android:layout_below="@id/editLocation"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_alignLeft="@id/editDate"
+            android:layout_alignBottom="@id/textTranslation"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:ems="10"
             android:hint="@string/optional"
             android:inputType="textCapSentences" />
 
         <TextView android:id="@+id/textToWhom"
+            style="@style/MyLabelText"
             android:layout_below="@id/editTranslation"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="20dp"
             android:layout_alignParentLeft="true"
             android:layout_width="wrap_content"     
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:text="@string/to_whom"/>
         
         <EditText
@@ -185,33 +191,42 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/editTranslation"
             android:layout_toRightOf="@id/textToWhom"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_alignLeft="@id/editDate"
+            android:layout_alignBottom="@id/textToWhom"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:ems="10"
             android:hint="@string/optional"
             android:inputType="textCapSentences" />
 
+        <TextView android:id="@+id/textNotes"
+            style="@style/MyLabelText"
+            android:layout_below="@id/editToWhom"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"     
+            android:layout_height="wrap_content"
+            android:text="@string/notes"/>
+        
         <EditText
             android:id="@+id/editNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_below="@id/editToWhom"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_toRightOf="@id/textNotes"
+            android:layout_alignLeft="@id/editDate"
+            android:layout_alignBottom="@id/textNotes"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:ems="10"
-            android:hint="@string/notes"
             android:inputType="textCapSentences|textMultiLine" />
 
         <TextView
             android:id="@+id/txtWordHistory"
+            style="@style/MyLabelText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/editNotes"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="20dp"
             android:layout_marginTop="10dp"
             android:text="@string/word_history"
             android:textSize="20sp"

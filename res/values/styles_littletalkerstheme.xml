@@ -5,6 +5,9 @@
 
   <style name="ButtonLittleTalkersTheme" parent="android:Widget.Holo.Light.Button">
 	  <item name="android:background">@drawable/littletalkerstheme_btn_default_holo_light</item>
+	  <item name="android:textSize">15sp</item>
+	  <item name="android:textAllCaps">true</item>
+	  <item name="android:textColor">#666666</item>
   </style>
 
   <style name="ImageButtonLittleTalkersTheme" parent="android:Widget.Holo.Light.ImageButton">

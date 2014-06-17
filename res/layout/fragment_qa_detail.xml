@@ -7,6 +7,7 @@
         android:id="@+id/relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:scrollbars="horizontal"
@@ -40,75 +41,111 @@
                 android:text="@string/save" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/layoutQuestion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/layoutSaveCancel"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/textQ"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_weight="5"
-                android:text="@string/q" />
-
-            <EditText
-                android:id="@+id/editQuestion"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="90"
-                android:gravity="center_vertical|bottom"
-                android:hint="@string/question"
-                android:inputType="textCapSentences"
-                android:maxLines="1"
-                android:overScrollMode="ifContentScrolls"
-                android:scrollbarStyle="insideInset"
-                android:scrollbars="horizontal" >
-            </EditText>
-
-            <TextView
-                android:id="@+id/questionMark"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_weight="5"
-                android:text="@string/questionMark" />
-        </LinearLayout>
-
         <TextView
-            android:id="@+id/textA"
+            android:id="@+id/textQ"
+            style="@style/MyLabelText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@id/layoutQuestion"
+            android:layout_below="@id/layoutSaveCancel"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:text="@string/a" />
+            android:layout_marginTop="10dp"
+            android:text="@string/q"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <EditText
+            android:id="@+id/editQuestion"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/textQ"
+            android:layout_toRightOf="@id/textQ"
+            android:gravity="bottom"
+            android:hint="@string/question"
+            android:inputType="textCapSentences"
+            android:maxLines="1"
+            android:overScrollMode="ifContentScrolls"
+            android:paddingBottom="0dp"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="horizontal" >
+        </EditText>
+
+        <TextView
+            android:id="@+id/questionMark"
+            style="@style/MyLabelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/textQ"
+            android:layout_toRightOf="@id/editQuestion"
+            android:text="@string/questionMark"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <CheckBox
+            android:id="@+id/checkAsked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/textQ"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:checked="true"
+            android:paddingBottom="0dp" />
+
+        <TextView
+            android:id="@+id/textA"
+            style="@style/MyLabelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/textQ"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="10dp"
+            android:text="@string/a"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
             android:id="@+id/editAnswer"
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/layoutQuestion"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_alignBaseline="@id/textA"
+            android:layout_below="@id/textQ"
             android:layout_toRightOf="@id/textA"
-            android:gravity="center_vertical|bottom"
+            android:gravity="bottom"
             android:hint="@string/answer"
             android:inputType="textCapSentences"
             android:maxLines="1"
             android:overScrollMode="ifContentScrolls"
+            android:paddingBottom="0dp"
             android:scrollbarStyle="insideInset"
             android:scrollbars="horizontal" >
         </EditText>
+
+        <CheckBox
+            android:id="@+id/checkAnswered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/editAnswer"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/textQ"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:checked="false"
+            android:paddingBottom="0dp" />
+
+        <TextView
+            android:id="@+id/textCheckInstructions"
+            style="@style/MyLabelText"
+            android:textColor="#99CC00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/checkAnswered"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin" />
 
         <ImageView
             android:id="@+id/imgMic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/editAnswer"
+            android:layout_below="@+id/textCheckInstructions"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:clickable="true"
             android:contentDescription="@string/start_recording"
@@ -116,53 +153,37 @@
 
         <ImageView
             android:id="@+id/imgDelete"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/editAnswer"
+            android:layout_below="@id/textCheckInstructions"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:clickable="true"
             android:contentDescription="@string/delete_audio"
-            android:src="@android:drawable/ic_delete"
+            android:src="@drawable/delete_button"
             android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imgPlay"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_below="@id/editAnswer"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/textCheckInstructions"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_toLeftOf="@id/imgDelete"
             android:clickable="true"
             android:contentDescription="@string/play_audio"
-            android:src="@drawable/ic_media_play"
+            android:src="@drawable/play_button"
             android:visibility="invisible" />
 
-        <CheckBox
-            android:id="@+id/checkAsked"
+        <TextView
+            android:id="@+id/textToWhom"
+            style="@style/MyLabelText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/imgMic"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:checked="true" />
-
-        <CheckBox
-            android:id="@+id/checkAnswered"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/checkAsked"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:checked="false" />
-
-        <TextView
-            android:id="@+id/textToWhom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/checkAnswered"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginTop="20dp"
@@ -173,7 +194,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/textToWhom"
-            android:layout_below="@id/checkAnswered"
+            android:layout_below="@id/imgMic"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_toRightOf="@id/textToWhom"
@@ -183,6 +204,7 @@
 
         <TextView
             android:id="@+id/textLanguage"
+            style="@style/MyLabelText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -204,6 +226,7 @@
 
         <TextView
             android:id="@+id/textWhen"
+            style="@style/MyLabelText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -227,6 +250,7 @@
 
         <TextView
             android:id="@+id/textWhere"
+            style="@style/MyLabelText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -246,15 +270,27 @@
             android:ems="10"
             android:hint="@string/optional" />
 
+        <TextView
+            android:id="@+id/textNotes"
+            style="@style/MyLabelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/editLocation"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="20dp"
+            android:text="@string/notes" />
+
         <EditText
             android:id="@+id/editNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignLeft="@id/editToWhom"
             android:layout_below="@id/editLocation"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_toRightOf="@id/textNotes"
             android:ems="10"
             android:hint="@string/notes"
             android:inputType="textMultiLine|textCapSentences" />

@@ -13,6 +13,7 @@
 
     <TextView
         android:id="@+id/dictionary_word"
+        style="@style/MyListRowText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
@@ -41,7 +42,7 @@
         android:layout_gravity="center"
         android:paddingLeft="10dp"
         android:clickable="true"
-        android:src="@drawable/ic_media_play"
+        android:src="@drawable/play_button"
         android:visibility="invisible" />
 
 </LinearLayout>

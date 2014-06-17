@@ -46,8 +46,9 @@
 
     <!-- AddKid -->
     <string name="profile_picture">Profile Picture</string>
-    <string name="name_required">Name (Required)</string>
-    <string name="birthdate_required">Birth Date (Required)</string>
+    <string name="name">Name</string>
+    <string name="birthdate">Birth Date</string>
+    <string name="required">(required)</string>
     <string name="default_location">Default Location</string>
     <string name="default_language">Default language:</string>
     <string name="name_required_error">Name is Required.</string>
@@ -72,7 +73,7 @@
     <string name="date">DATE</string>
     <string name="audio">AUDIO</string>
     <string name="delete_words_dialog">Are you sure you want to delete all selected phrases from this dictionary?</string>
-    <string name="button_add_new_word">+ Add New Word or Phrase</string>
+    <string name="button_add_new_word">Add New Word or Phrase</string>
 
     <!-- Manage LittleTalkers -->
     <string name="delete_kids_dialog">Are you sure you want to delete all selected Little Talkers and their word dictionaries?</string>
@@ -108,6 +109,8 @@
     <string name="add_new_qa">Add New Q and A</string>
     <string name="q_and_a">Q and A</string>
     <string name="number_of_questions">Number of Questions/Answers: </string>
+    <string name="check_instructions1">Check the box if</string>
+    <string name="check_instructions2"> said it.</string>
 
     <!-- arrays -->
     <string-array name="choose_profile_pic_array">

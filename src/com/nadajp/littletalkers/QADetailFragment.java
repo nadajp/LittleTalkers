@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nadajp.littletalkers.database.DbContract;
@@ -25,6 +26,7 @@ public class QADetailFragment extends ItemDetailFragment
    // user interface elements
    private EditText mEditAnswer;
    private CheckBox mCheckAsked, mCheckAnswered;
+   private TextView mTextCheckInstructions;
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,12 +43,15 @@ public class QADetailFragment extends ItemDetailFragment
       mEditAnswer = (EditText) v.findViewById(R.id.editAnswer);
       mCheckAsked = (CheckBox) v.findViewById(R.id.checkAsked);
       mCheckAnswered = (CheckBox) v.findViewById(R.id.checkAnswered);
+      mTextCheckInstructions = (TextView) v.findViewById(R.id.textCheckInstructions);
    }
 
    public void updateExtraKidDetails()
    {
-      mCheckAsked.setText(mKidName + " " + getString(R.string.asked_question));
-      mCheckAnswered.setText(mKidName + " " + getString(R.string.answered_question)); 
+      //mCheckAsked.setText(mKidName + " " + getString(R.string.asked_question));
+      //mCheckAnswered.setText(mKidName + " " + getString(R.string.answered_question)); 
+      mTextCheckInstructions.setText(getString(R.string.check_instructions1) + " " + mKidName +
+            getString(R.string.check_instructions2));
    }
    
    @Override
