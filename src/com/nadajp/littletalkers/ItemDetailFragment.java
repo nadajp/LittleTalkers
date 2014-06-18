@@ -15,6 +15,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.media.MediaPlayer.OnPreparedListener;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.OnErrorListener;
 import android.media.MediaRecorder.OnInfoListener;
@@ -39,6 +40,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.ShareActionProvider;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -74,6 +76,7 @@ public abstract class ItemDetailFragment extends Fragment implements
    protected long mItemId; // current item id, 0 if nothing has been saved yet
    private MediaRecorder mRecorder; // audio recorder
    private MediaPlayer mPlayer; // audio player
+   private MediaController mMediaController; // audio playback control widget
    private boolean mRecording = false; // are we currently recording audio?
    final static Animation mAnimation = new AlphaAnimation(1, 0); // Change alpha
                                                                  // from fully
@@ -194,6 +197,8 @@ public abstract class ItemDetailFragment extends Fragment implements
       String subdirectory = getString(R.string.app_name);
       mDirectory = Utils.getPublicDirectory(subdirectory, getActivity());
 
+      mMediaController = new MediaController(this.getActivity());
+      
       // if audio has already been recorded, show play/delete buttons
       if (savedInstanceState != null)
       {
