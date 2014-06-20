@@ -210,4 +210,5 @@ public class QADetailFragment extends ItemDetailFragment
       String shareBody = "";
       return shareBody;
    }
+
 }

@@ -24,6 +24,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 
+import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
 
@@ -115,14 +116,14 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
 
           Log.i(DEBUG_TAG, "Adding Spinner to ActionBar");
 
-          String[] adapterCols = new String[] { "name" };
-          int[] adapterRowViews = new int[] { android.R.id.text1 };
+          String[] adapterCols = new String[] { DbContract.Kids.COLUMN_NAME_PICTURE_URI, "name" };
+          int[] adapterRowViews = new int[] { R.id.photo, android.R.id.text1 };
 
           mCursorAdapter = new SimpleCursorAdapter(this, R.layout.kid_spinner_item,
                 cursor, adapterCols, adapterRowViews, 0);
           mCursorAdapter
                 .setDropDownViewResource(R.layout.kid_spinner_dropdown_item);
-          
+          mCursorAdapter.setViewBinder(new NavigationSpinnerViewBinder());
           spinner.setAdapter(mCursorAdapter);
           spinner.setOnItemSelectedListener(this);
           
@@ -146,6 +147,13 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       }
    }
 
+   public void clickProfile(View v)
+   {
+      Intent intent = new Intent(this, KidProfileActivity.class);
+      intent.putExtra(Prefs.CURRENT_KID_ID, mCurrentKidId);
+      startActivity(intent);
+   }
+   
    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
    {
       Log.i(DEBUG_TAG, "Selected kid with ID " + id);

@@ -22,6 +22,7 @@ import android.media.MediaRecorder.OnInfoListener;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateUtils;
@@ -76,12 +77,12 @@ public abstract class ItemDetailFragment extends Fragment implements
    protected long mItemId; // current item id, 0 if nothing has been saved yet
    private MediaRecorder mRecorder; // audio recorder
    private MediaPlayer mPlayer; // audio player
-   private MediaController mMediaController; // audio playback control widget
    private boolean mRecording = false; // are we currently recording audio?
    final static Animation mAnimation = new AlphaAnimation(1, 0); // Change alpha
                                                                  // from fully
                                                                  // visible to
                                                                  // invisible
+   
    protected Calendar mDate; // calendar for current date
    protected String mLanguage; // current language
    protected ShareActionProvider mShareActionProvider; // used to share data
@@ -197,8 +198,6 @@ public abstract class ItemDetailFragment extends Fragment implements
       String subdirectory = getString(R.string.app_name);
       mDirectory = Utils.getPublicDirectory(subdirectory, getActivity());
 
-      mMediaController = new MediaController(this.getActivity());
-      
       // if audio has already been recorded, show play/delete buttons
       if (savedInstanceState != null)
       {
@@ -759,7 +758,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       mEditLocation.setText(defaults[1]);
 
       updateExtraKidDetails();
-      Utils.updateTitlebar(mCurrentKidId, v, this.getActivity());
+      //Utils.updateTitlebar(mCurrentKidId, v, this.getActivity());
    }
 
    protected void setAudio()
@@ -900,7 +899,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       mRecorder.setOnInfoListener(this);
       mPlayer = new MediaPlayer();
       mPlayer.setOnCompletionListener(this);
-      Utils.updateTitlebar(mCurrentKidId, getView(), getActivity());
+      //Utils.updateTitlebar(mCurrentKidId, getView(), getActivity());
       insertKidDefaults(mCurrentKidId, getView());
    }
 

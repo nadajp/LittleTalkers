@@ -43,7 +43,6 @@
     <string name="word_updated">Word Updated.</string>
     <string name="cancel">Cancel</string>
 
-
     <!-- AddKid -->
     <string name="profile_picture">Profile Picture</string>
     <string name="name">Name</string>
@@ -160,5 +159,7 @@
 
     <string name="title_item_list">Items</string>
     <string name="title_item_detail">Item Detail</string>
+    <string name="title_activity_kid_profile">KidProfileActivity</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

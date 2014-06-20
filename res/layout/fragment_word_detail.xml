@@ -11,16 +11,16 @@
         android:focusableInTouchMode="true"
         android:scrollbars="horizontal"
         android:windowSoftInputMode="stateAlwaysHidden" >
-
+<!-- 
         <include
             android:id="@+id/titlebar"
             layout="@layout/titlebar" />
-
+ -->
         <LinearLayout
             android:id="@+id/layoutSaveCancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/titlebar"
+            android:layout_alignParentTop="true"
             android:orientation="horizontal" >
 
             <Button
@@ -68,25 +68,13 @@
             android:scrollbarStyle="insideInset"
             android:scrollbars="horizontal" >
         </EditText>
-
-        <Spinner
-            android:id="@+id/spinnerLanguage"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/imgMic"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="10dp"
-            android:entries="@+array/array_languages" />
-
+       
         <ImageView
             android:id="@+id/imgPlay"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_alignBottom="@id/spinnerLanguage"
             android:layout_below="@id/editWord"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_toRightOf="@id/spinnerLanguage"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:clickable="true"
             android:contentDescription="@string/play_audio"
@@ -97,7 +85,6 @@
             android:id="@+id/imgDelete"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_alignBottom="@id/spinnerLanguage"
             android:layout_below="@id/editWord"
             android:layout_toRightOf="@id/imgPlay"
             android:clickable="true"
@@ -106,7 +93,7 @@
             android:visibility="invisible" />
 
        <TextView android:id="@+id/textWhen"
-            android:layout_below="@id/spinnerLanguage"
+            android:layout_below="@id/imgPlay"
             style="@style/MyLabelText"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -121,7 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/textWhen"
-            android:layout_below="@id/spinnerLanguage"
+            android:layout_below="@id/imgPlay"
             android:layout_alignBottom="@id/textWhen"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
@@ -151,9 +138,32 @@
             android:hint="@string/optional"
             android:inputType="textCapSentences" />
 
-      <TextView android:id="@+id/textTranslation"
+         <TextView android:id="@+id/textLanguage"
             style="@style/MyLabelText"
             android:layout_below="@id/editLocation"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"     
+            android:layout_height="wrap_content"
+            android:text="@string/language"/>       
+         
+         <Spinner
+            android:id="@+id/spinnerLanguage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/textLanguage"
+            android:layout_below="@id/editLocation"
+            android:layout_alignLeft="@id/editDate"
+            android:layout_alignBottom="@id/textLanguage"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:entries="@+array/array_languages" />
+         
+         
+      <TextView android:id="@+id/textTranslation"
+            style="@style/MyLabelText"
+            android:layout_below="@id/spinnerLanguage"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginTop="20dp"
@@ -167,7 +177,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/textTranslation"
-            android:layout_below="@id/editLocation"
+            android:layout_below="@id/spinnerLanguage"
             android:layout_alignLeft="@id/editDate"
             android:layout_alignBottom="@id/textTranslation"
             android:layout_marginRight="@dimen/activity_horizontal_margin"

@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -34,6 +35,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Calendar;
 
@@ -64,7 +66,8 @@ public class AddKidFragment extends Fragment implements OnClickListener,
    private static final int TAKE_PICTURE = 0;
    private static final int PICK_FROM_FILE = 1;
    private static final int CROP_PICTURE = 2;
-   private static final int IMAGE_SIZE = 180;
+   private static final int IMAGE_SIZE = 250;
+   private static final int THUMBNAIL_SIZE = 180;
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,7 +108,8 @@ public class AddKidFragment extends Fragment implements OnClickListener,
                   .getString(Prefs.PROFILE_PIC_PATH));
             try
             {
-               Bitmap photo = BitmapFactory.decodeFile(mPicturePath);
+               Bitmap photo = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(mPicturePath),
+                     THUMBNAIL_SIZE, THUMBNAIL_SIZE);
                mImgProfilePic.setImageBitmap(photo);
                photo = null;
             } catch (Exception e)
@@ -211,11 +215,9 @@ public class AddKidFragment extends Fragment implements OnClickListener,
 
       Log.i(DEBUG_TAG, mPicturePath);
 
-      Bitmap photoBitmap = BitmapFactory.decodeFile(mPicturePath);
-      Log.i(DEBUG_TAG, "Width: " + photoBitmap.getWidth());
-      Log.i(DEBUG_TAG, "Height: " + photoBitmap.getHeight());
-
-      mImgProfilePic.setImageBitmap(photoBitmap);
+      Bitmap photo = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(mPicturePath),
+            THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+      mImgProfilePic.setImageBitmap(photo);
    }
 
    private void saveKid()
@@ -364,7 +366,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
          return builder.create();
       }
    }
-
+   
    @Override
    public void onActivityResult(int requestCode, int resultCode, Intent data)
    {
@@ -400,12 +402,12 @@ public class AddKidFragment extends Fragment implements OnClickListener,
 
             try
             {
-               Bitmap photo = MediaStore.Images.Media.getBitmap(this
-                     .getActivity().getContentResolver(), mUriPicture);
-               photo = ThumbnailUtils.extractThumbnail(photo,
-                     IMAGE_SIZE, IMAGE_SIZE);
-               mImgProfilePic.setImageBitmap(photo);
-               saveProfileBitmapFile(photo);
+               Bitmap thumbnail = ThumbnailUtils.extractThumbnail(MediaStore.Images.Media.getBitmap(this
+                     .getActivity().getContentResolver(), mUriPicture),
+                     THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+               
+               mImgProfilePic.setImageBitmap(thumbnail);
+               saveProfileBitmapFile();
             } catch (Exception e)
             {
                e.printStackTrace();
@@ -443,14 +445,48 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       startActivityForResult(cropIntent, CROP_PICTURE);
    }
 
-   private void saveProfileBitmapFile(Bitmap photo)
+   public Bitmap decodeUri(Uri uri, final int requiredSize) 
+         throws FileNotFoundException 
    {
-      if (photo == null)
+      BitmapFactory.Options o = new BitmapFactory.Options();
+      o.inJustDecodeBounds = true;
+      BitmapFactory.decodeStream(this.getActivity().getContentResolver().openInputStream(uri), null, o);
+
+      int width_tmp = o.outWidth
+             , height_tmp = o.outHeight;
+      int scale = 1;
+
+      while(true) {
+         if(width_tmp / 2 < requiredSize || height_tmp / 2 < requiredSize)
+             break;
+         width_tmp /= 2;
+         height_tmp /= 2;
+         scale *= 2;
+      }
+
+     BitmapFactory.Options o2 = new BitmapFactory.Options();
+     o2.inSampleSize = scale;
+     return BitmapFactory.decodeStream(this.getActivity().getContentResolver().openInputStream(uri), null, o2);
+ }   
+   
+   private void saveProfileBitmapFile()
+   {
+      if (mUriPicture == null)
       {
          mPicturePath = "";
          return;
       }
-
+      Bitmap photo = null;
+      try
+      {
+         photo = decodeUri(mUriPicture, IMAGE_SIZE);
+      } catch (FileNotFoundException e1)
+      {
+         // TODO Auto-generated catch block
+         e1.printStackTrace();
+         return;
+      }
+      
       String filename;
       boolean temp = mEditName.getText().toString().isEmpty();
       if (temp)

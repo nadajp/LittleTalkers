@@ -17,11 +17,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView.MultiChoiceModeListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
+import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
 
@@ -29,6 +32,7 @@ public class ManageKidsFragment extends ListFragment
 {
    ListView listView;
    SimpleCursorAdapter mCursorAdapter;
+   KidsListCursorAdapter mAdapter;
    public long[] mItemsToDelete;
    private static final int DELETE_SELECTED_DIALOG_ID = 1;
    private static int mNumSelected = 0;
@@ -54,13 +58,18 @@ public class ManageKidsFragment extends ListFragment
       {
          return;
       }
-      String[] adapterCols = new String[] { "name" };
-      int[] adapterRowViews = new int[] { android.R.id.text1 };
+  
+      /*String[] adapterCols = new String[] { DbContract.Kids.COLUMN_NAME_PICTURE_URI, "name", "_id"};
+      int[] adapterRowViews = new int[] { R.id.profile, R.id.name, R.id.icon_edit};
 
       mCursorAdapter = new SimpleCursorAdapter(this.getActivity(),
-            android.R.layout.simple_list_item_activated_1, cursor, adapterCols,
+            R.layout.kid_list_row, cursor, adapterCols,
             adapterRowViews, 0);
-      this.setListAdapter(mCursorAdapter);
+      mCursorAdapter.setViewBinder(new NavigationSpinnerViewBinder());
+      this.setListAdapter(mCursorAdapter);*/
+      
+      mAdapter = new KidsListCursorAdapter(this.getActivity(), cursor, 0);
+      setListAdapter(mAdapter);
       
       // Implement contextual menu
       listView = getListView();
@@ -168,10 +177,12 @@ public class ManageKidsFragment extends ListFragment
    @Override
    public void onListItemClick(ListView l, View v, int position, long id)
    {
+      
       // show kid detail view
-      Intent intent = new Intent(this.getActivity(), AddKidActivity.class);
+      Intent intent = new Intent(this.getActivity(), KidProfileActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, id);
       startActivity(intent);
+      
    }
 
    public static class DeleteSelectedDialogFragment extends DialogFragment
@@ -215,6 +226,8 @@ public class ManageKidsFragment extends ListFragment
    public void onDestroy()
    {
       super.onDestroy();
-      mCursorAdapter.getCursor().close();
+      //mCursorAdapter.getCursor().close();
+      mAdapter.getCursor().close();
    }
+
 }

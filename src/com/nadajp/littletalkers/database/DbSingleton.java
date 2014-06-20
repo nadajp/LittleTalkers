@@ -114,7 +114,9 @@ public class DbSingleton
 
    public Cursor getKidsForSpinner()
    {
-      return mDb.rawQuery("SELECT _id, name FROM Kids", null);
+      String query = "SELECT _id, name, " 
+            + DbContract.Kids.COLUMN_NAME_PICTURE_URI + " FROM Kids";
+      return mDb.rawQuery(query, null);
    }
 
    public Cursor getWords(long kidId, String sortColumn, boolean bAscending,
