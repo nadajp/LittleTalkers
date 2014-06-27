@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -24,6 +25,30 @@ public class Utils
    private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
    private static final String DEBUG_TAG = "Utils";
 
+   public static final int COLOR_BLUE = 0;
+   public static final int COLOR_GREEN = 1;
+
+   public static void setColor(ActionBar actionBar, int color, Context context)
+   {
+      switch (color)
+      {
+      case COLOR_BLUE:
+         actionBar.setBackgroundDrawable(context.getResources().getDrawable(
+               R.drawable.ab_bottom_solid_littletalkersstyle));
+         actionBar.setStackedBackgroundDrawable(context.getResources()
+               .getDrawable(R.drawable.ab_stacked_solid_littletalkersstyle));
+         break;
+      case COLOR_GREEN:
+         actionBar.setBackgroundDrawable(context.getResources().getDrawable(
+               R.drawable.ab_bottom_solid_littletalkersgreenstyle));
+         actionBar.setStackedBackgroundDrawable(context.getResources()
+               .getDrawable(R.drawable.ab_stacked_solid_littletalkersgreenstyle));
+         break;      
+      }
+      
+
+   }
+
    public static String getDateForDisplay(String rawdate, Context context)
    {
       String[] dateArray = rawdate.split("-");
@@ -41,7 +66,10 @@ public class Utils
    public static String getDateForDisplay(long msDate, Context context)
    {
       String formatted = "";
-      if (msDate == 0) { return formatted; }
+      if (msDate == 0)
+      {
+         return formatted;
+      }
       return DateUtils.formatDateTime(context, msDate,
             DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR);
    }
@@ -50,11 +78,13 @@ public class Utils
    {
       String state = Environment.getExternalStorageState();
       File directory;
-      
+
       if (Environment.MEDIA_MOUNTED.equals(state))
       {
-         directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                                   subdirectory);
+         directory = new File(
+               Environment
+                     .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+               subdirectory);
       } else
       {
          directory = new File(context.getFilesDir(), subdirectory);
@@ -66,8 +96,7 @@ public class Utils
       }
       return directory;
    }
-   
-   
+
    /**
     * Generate a value suitable for use in {@link #setId(int)}. This value will
     * not collide with ID values generated at build time by aapt for R.id.
@@ -106,9 +135,10 @@ public class Utils
       tvBirthdate.setText(cursor.getString(
             cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_BIRTHDATE))
             .toString());
-      tvWords.setText(Integer.toString(DbSingleton.get().getNumberOfWords(
+      tvWords.setText(Integer.toString(DbSingleton.get()
+            .getNumberOfWords(kidId)));
+      tvQuestions.setText(Integer.toString(DbSingleton.get().getNumberOfQAs(
             kidId)));
-      tvQuestions.setText(Integer.toString(DbSingleton.get().getNumberOfQAs(kidId)));
       String pictureUri = cursor.getString(cursor
             .getColumnIndex(DbContract.Kids.COLUMN_NAME_PICTURE_URI));
       cursor.close();
@@ -123,8 +153,9 @@ public class Utils
       }
       imageView.setImageBitmap(profilePicture);
    }
-   
-   public static File renameAudioFile(String phrase, String kidName, File audioFile, File directory, Calendar date)
+
+   public static File renameAudioFile(String phrase, String kidName,
+         File audioFile, File directory, Calendar date)
    {
       String[] a = phrase.split(" ");
       StringBuffer str = new StringBuffer(a[0].trim());
@@ -141,7 +172,10 @@ public class Utils
 
       File newfile = new File(directory, baseFilename);
 
-      if (newfile.exists()) { newfile.delete(); }
+      if (newfile.exists())
+      {
+         newfile.delete();
+      }
 
       Log.i(DEBUG_TAG, "Oldfile: " + audioFile.getAbsolutePath());
       Log.i(DEBUG_TAG, "Newfile: " + newfile.getAbsolutePath());
@@ -158,7 +192,5 @@ public class Utils
       audioFile = newfile;
       return audioFile;
    }
-   
-   
 
 }

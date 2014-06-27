@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.nadajp.littletalkers.ItemDetailFragment.OnAddNewPhraseListener;
 import com.nadajp.littletalkers.utils.Prefs;
+import com.nadajp.littletalkers.utils.Utils;
 
 public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListener
 {   
@@ -34,14 +35,22 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
       actionBar.addTab(addQATab
             .setTabListener(new MyTabListener(addQAFragment)));  
       
-      if (mType == Prefs.TYPE_WORD) { actionBar.selectTab(addWordTab); }
-      else { actionBar.selectTab(addQATab); }
+      if (mType == Prefs.TYPE_WORD) 
+      { 
+         actionBar.selectTab(addWordTab); 
+         Utils.setColor(actionBar, Utils.COLOR_BLUE, this);
+      }
+      else { 
+         actionBar.selectTab(addQATab); 
+         Utils.setColor(actionBar, Utils.COLOR_GREEN, this);
+      }
    }
 
    @Override
    protected void setCurrentKidData(long kidId)
    {
       ItemDetailFragment addItemFragment = (ItemDetailFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
+      
       if (addItemFragment != null)
       {
          addItemFragment.insertKidDefaults(kidId, addItemFragment.getView());

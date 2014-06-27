@@ -17,7 +17,7 @@ public class DbSingleton
    private Context mContext;
    private SQLiteDatabase mDb;
 
-   public DbSingleton(Context appContext)
+   private DbSingleton(Context appContext)
    {
       // Create my one and only handle the database.
       DatabaseHelper dbHelper = new DatabaseHelper(appContext);

@@ -12,6 +12,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -97,6 +99,7 @@ public abstract class ItemDetailFragment extends Fragment implements
    private ImageView mImgDelete;
    private ImageView mImgMic;
    protected Spinner mLangSpinner;
+   protected TextView mTextHeading;
    protected Button mButtonSave, mButtonCancel, mButtonShare;
    private boolean mAudioRecorded;
 
@@ -148,20 +151,21 @@ public abstract class ItemDetailFragment extends Fragment implements
       mEditLocation = (EditText) v.findViewById(R.id.editLocation);
       mEditToWhom = (EditText) v.findViewById(R.id.editToWhom);
       mEditNotes = (EditText) v.findViewById(R.id.editNotes);
+      mTextHeading = (TextView) v.findViewById(R.id.textHeading);
 
-      mButtonCancel = (Button) v.findViewById(R.id.buttonCancel);
-      mButtonSave = (Button) v.findViewById(R.id.buttonSave);
+      //mButtonCancel = (Button) v.findViewById(R.id.buttonCancel);
+      //mButtonSave = (Button) v.findViewById(R.id.buttonSave);
 
       mImgMic = (ImageView) v.findViewById(R.id.imgMic);
-      mImgPlay = (ImageView) v.findViewById(R.id.imgPlay);
-      mImgDelete = (ImageView) v.findViewById(R.id.imgDelete);
+      //mImgPlay = (ImageView) v.findViewById(R.id.imgPlay);
+      //mImgDelete = (ImageView) v.findViewById(R.id.imgDelete);
 
       mEditDate.setOnClickListener(this);
       mImgMic.setOnClickListener(this);
-      mImgPlay.setOnClickListener(this);
-      mImgDelete.setOnClickListener(this);
-      mButtonCancel.setOnClickListener(this);
-      mButtonSave.setOnClickListener(this);
+      //mImgPlay.setOnClickListener(this);
+      //mImgDelete.setOnClickListener(this);
+      //mButtonCancel.setOnClickListener(this);
+      //mButtonSave.setOnClickListener(this);
 
       initializeExtras(v);
 
@@ -249,6 +253,21 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          updateItem(this.getView());
       }
+
+         String pictureUri = DbSingleton.get().getPicturePath(mCurrentKidId);
+         ImageView profile = (ImageView) this.getActivity().findViewById(R.id.action_profile);
+         
+         Bitmap profilePicture = null;
+         if (pictureUri == null)
+         {
+            profilePicture = BitmapFactory.decodeResource(this.getResources(),
+                  R.drawable.profilepicture);
+         } else
+         {
+            profilePicture = BitmapFactory.decodeFile(pictureUri);
+         }
+         //profile.setImageBitmap(profilePicture);
+      
    }
 
    public File getAudioFile()
@@ -396,13 +415,13 @@ public abstract class ItemDetailFragment extends Fragment implements
       case R.id.imgMic:
          clickedMic(v);
          break;
-      case R.id.imgPlay:
+      /*case R.id.imgPlay:
          clickedAudioPlay(v);
          break;
       case R.id.imgDelete:
          deleteAudio();
-         break;
-      case R.id.buttonSave:
+         break;*/
+      /*case R.id.buttonSave:
          saveItem(true);
          break;
       case R.id.buttonCancel:
@@ -415,7 +434,7 @@ public abstract class ItemDetailFragment extends Fragment implements
             dlg.setTargetFragment(this, SHARE_DIALOG_ID);
             dlg.show(getFragmentManager(), ShareDialog.class.toString());
          }
-         break;
+         break;*/
       default:
          return;
       }
@@ -880,10 +899,10 @@ public abstract class ItemDetailFragment extends Fragment implements
    public void onSaveInstanceState(Bundle outState)
    {
       super.onSaveInstanceState(outState);
-      if (mImgPlay.getVisibility() == View.VISIBLE)
+      /*if (mImgPlay.getVisibility() == View.VISIBLE)
       {
          outState.putBoolean(Prefs.AUDIO_RECORDED, true);
-      }
+      }*/
 
       outState.putLong(Prefs.CURRENT_KID_ID, mCurrentKidId);
       outState.putLong(Prefs.ITEM_ID, mItemId);

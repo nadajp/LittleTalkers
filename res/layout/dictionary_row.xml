@@ -9,11 +9,11 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
+    
     <!-- word -->
 
     <TextView
         android:id="@+id/dictionary_word"
-        style="@style/MyListRowText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
@@ -42,7 +42,7 @@
         android:layout_gravity="center"
         android:paddingLeft="10dp"
         android:clickable="true"
-        android:src="@drawable/play_button"
+        android:src="@drawable/ic_action_play"
         android:visibility="invisible" />
 
 </LinearLayout>

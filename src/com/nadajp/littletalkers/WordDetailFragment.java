@@ -1,5 +1,6 @@
 package com.nadajp.littletalkers;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -31,7 +32,8 @@ public class WordDetailFragment extends ItemDetailFragment
    {
       mFragmentLayout = R.layout.fragment_word_detail;
       mEditPhraseResId = R.id.editWord;
-      
+      ActionBar actionBar = this.getActivity().getActionBar();
+      Utils.setColor(actionBar, Utils.COLOR_BLUE, this.getActivity());      
       return super.onCreateView(inflater, container, savedInstanceState); 
    }
    
@@ -159,7 +161,7 @@ public class WordDetailFragment extends ItemDetailFragment
    
    public void updateExtraKidDetails()
    {
-      
+      mTextHeading.setText(mKidName + " " + getString(R.string.said_something));
    }
 
    public void insertItemDetails(View v)
@@ -197,6 +199,8 @@ public class WordDetailFragment extends ItemDetailFragment
 
       mCurrentAudioFile = cursor.getString(cursor
             .getColumnIndex(DbContract.Words.COLUMN_NAME_AUDIO_FILE));
+      
+      mTextHeading.setText(mKidName + getString(R.string.said_something) + "?");
       cursor.close();
 
       displayWordHistory(v);

@@ -10,8 +10,11 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,12 +24,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
+import com.nadajp.littletalkers.utils.Utils;
 
 public class BaseActivity extends Activity implements OnItemSelectedListener
 {
@@ -100,13 +105,14 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
    {
       getMenuInflater().inflate(R.menu.base, menu);
       MenuItem mainMenuSpinner = menu.findItem( R.id.menu_main_spinner);
-      setupMainMenuSpinner(mainMenuSpinner); 
+      MenuItem profilePic = menu.findItem(R.id.action_profile);
+      setupMainMenuSpinner(mainMenuSpinner, profilePic); 
       return super.onCreateOptionsMenu(menu);
    }
 
-   private void setupMainMenuSpinner(MenuItem item) 
+   private void setupMainMenuSpinner(MenuItem menuSpinner, MenuItem menuProfile) 
    {
-      View view = item.getActionView();
+      View view = menuSpinner.getActionView();
       if (view instanceof Spinner) 
       {
           Spinner spinner = (Spinner) view;
@@ -130,6 +136,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
           // select the current kid
           mCurrentKidId = Prefs.getKidId(this, DbSingleton.get()
                 .getLastAddedKid());
+
           Log.i(DEBUG_TAG, "Selecting kid with id: " + mCurrentKidId);
           if (mPosition > 0) { spinner.setSelection(mPosition); } else
           {

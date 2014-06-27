@@ -1,5 +1,6 @@
 package com.nadajp.littletalkers;
 
+import android.app.ActionBar;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +35,8 @@ public class QADetailFragment extends ItemDetailFragment
    {
       mFragmentLayout = R.layout.fragment_qa_detail;
       mEditPhraseResId = R.id.editQuestion;
+      ActionBar actionBar = this.getActivity().getActionBar();
+      Utils.setColor(actionBar, Utils.COLOR_GREEN, this.getActivity()); 
       
       return super.onCreateView(inflater, container, savedInstanceState); 
    }
@@ -48,8 +51,6 @@ public class QADetailFragment extends ItemDetailFragment
 
    public void updateExtraKidDetails()
    {
-      //mCheckAsked.setText(mKidName + " " + getString(R.string.asked_question));
-      //mCheckAnswered.setText(mKidName + " " + getString(R.string.answered_question)); 
       mTextCheckInstructions.setText(getString(R.string.check_instructions1) + " " + mKidName +
             getString(R.string.check_instructions2));
    }

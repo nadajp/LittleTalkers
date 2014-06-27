@@ -3,6 +3,7 @@
 
     <string name="app_name">Little Talkers</string>
     <string name="settings">Settings</string>
+    <string name="profile">Profile</string>
 
     <!-- Titles -->
     <string name="title_word_detail">Word Detail</string>
@@ -17,7 +18,8 @@
     <string name="title_activity_add_word">AddWordActivity</string>
     <string name="title_activity_add_word_fragment">AddWordFragment</string>
     <string name="show_dictionary">Show Dictionary</string>
-    <string name="enter_word">Enter New Word or Phrase</string>
+    <string name="said_something">said something ?</string>
+    <string name="enter_word">New word or phrase...</string>
     <string name="where">Where?</string>
     <string name="when">When?</string>
     <string name="translation">Translation?</string>
@@ -91,7 +93,7 @@
 
     <!-- q & a -->
     <string name="show_q_and_a">Show All Q and A</string>
-    <string name="question">Question</string>
+    <string name="question">Question \?</string>
     <string name="answer">Answer</string>
     <string name="asked_question">asked</string>
     <string name="answered_question">answered</string>
@@ -159,7 +161,7 @@
 
     <string name="title_item_list">Items</string>
     <string name="title_item_detail">Item Detail</string>
-    <string name="title_activity_kid_profile">KidProfileActivity</string>
+    <string name="title_activity_kid_profile">View Profile</string>
     <string name="action_settings">Settings</string>
 
 </resources>

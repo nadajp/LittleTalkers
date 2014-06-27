@@ -17,21 +17,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView.MultiChoiceModeListener;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
 
 public class ManageKidsFragment extends ListFragment
 {
    ListView listView;
-   SimpleCursorAdapter mCursorAdapter;
+   //SimpleCursorAdapter mCursorAdapter;
    KidsListCursorAdapter mAdapter;
    public long[] mItemsToDelete;
    private static final int DELETE_SELECTED_DIALOG_ID = 1;
@@ -169,8 +166,10 @@ public class ManageKidsFragment extends ListFragment
       }
       DbSingleton.get().deleteKids(mItemsToDelete);
       Cursor cursor = DbSingleton.get().getKidsForSpinner();
-      mCursorAdapter.swapCursor(cursor);
-      mCursorAdapter.notifyDataSetChanged();
+      //mCursorAdapter.swapCursor(cursor);
+      //mCursorAdapter.notifyDataSetChanged();
+      mAdapter.swapCursor(cursor);
+      mAdapter.notifyDataSetChanged();
       this.getActivity().invalidateOptionsMenu();
    }
 

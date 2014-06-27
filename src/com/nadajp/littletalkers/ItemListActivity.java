@@ -36,6 +36,7 @@ public class ItemListActivity extends BaseActivity
       
       if (mType == Prefs.TYPE_WORD) { actionBar.selectTab(wordListTab); }
       else { actionBar.selectTab(qaListTab); }
+      
    }
 
    @Override

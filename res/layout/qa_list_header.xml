@@ -3,15 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <include
-        android:id="@+id/titlebar"
-        layout="@layout/titlebar" />
-
     <Button
         android:id="@+id/button_add_qa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/titlebar"
+        android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
         android:layout_marginBottom="10dp"
         android:onClick="addNewWord"
@@ -47,7 +43,6 @@
 
         <TextView
             android:id="@+id/header_qa"
-            style="@style/list_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="45"
@@ -58,7 +53,6 @@
 
         <TextView
             android:id="@+id/header_date"
-            style="@style/list_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="35"
@@ -69,7 +63,6 @@
 
         <TextView
             android:id="@+id/header_audio"
-            style="@style/list_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="20"

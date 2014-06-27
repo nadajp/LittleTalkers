@@ -11,227 +11,178 @@
         android:focusableInTouchMode="true"
         android:scrollbars="horizontal"
         android:windowSoftInputMode="stateAlwaysHidden" >
-<!-- 
-        <include
-            android:id="@+id/titlebar"
-            layout="@layout/titlebar" />
- -->
-        <LinearLayout
-            android:id="@+id/layoutSaveCancel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:orientation="horizontal" >
 
-            <Button
-                android:id="@+id/buttonCancel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_weight="50"
-                android:text="@string/show_dictionary" />
-
-            <Button
-                android:id="@+id/buttonSave"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_weight="50"
-                android:text="@string/save" />
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/imgMic"
+        <TextView
+            android:id="@+id/textHeading"
+            style="@style/HeadingStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/layoutSaveCancel"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="10dp"
-            android:clickable="true"
-            android:contentDescription="@string/start_recording"
-            android:src="@drawable/mic" >
-        </ImageView>
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="20dp" />
 
-        <EditText
-            android:id="@+id/editWord"
+        <RelativeLayout
+            android:id="@+id/layoutAddNew"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/imgMic"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_toRightOf="@id/imgMic"
-            android:gravity="center_vertical|bottom"
-            android:hint="@string/enter_word"
-            android:inputType="textCapSentences"
-            android:maxLines="1"
-            android:overScrollMode="ifContentScrolls"
-            android:scrollbarStyle="insideInset"
-            android:scrollbars="horizontal" >
-        </EditText>
-       
-        <ImageView
-            android:id="@+id/imgPlay"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_below="@id/editWord"
+            android:layout_below="@id/textHeading"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:clickable="true"
-            android:contentDescription="@string/play_audio"
-            android:src="@drawable/play_button"
-            android:visibility="invisible" />
+            android:background="@drawable/addnewtext"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp" >
 
-        <ImageView
-            android:id="@+id/imgDelete"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_below="@id/editWord"
-            android:layout_toRightOf="@id/imgPlay"
-            android:clickable="true"
-            android:contentDescription="@string/delete_audio"
-            android:src="@drawable/delete_button"
-            android:visibility="invisible" />
+            <ImageView
+                android:id="@+id/imgMic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="5dp"
+                android:clickable="true"
+                android:contentDescription="@string/start_recording"
+                android:src="@drawable/ic_circle_blue_mic" >
+            </ImageView>
 
-       <TextView android:id="@+id/textWhen"
-            android:layout_below="@id/imgPlay"
-            style="@style/MyLabelText"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_width="wrap_content"     
-            android:layout_height="wrap_content"
-            android:text="@string/when"/>
-                
+            <EditText
+                android:id="@+id/editWord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/imgMic"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_toRightOf="@id/imgMic"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="@string/enter_word"
+                android:inputType="textCapSentences"
+                android:maxLines="1"
+                android:overScrollMode="ifContentScrolls"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="horizontal" >
+            </EditText>
+        </RelativeLayout>
+
         <EditText
             android:id="@+id/editDate"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/textWhen"
-            android:layout_below="@id/imgPlay"
-            android:layout_alignBottom="@id/textWhen"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:focusable="false"
-            android:inputType="none" />
-
-        <TextView android:id="@+id/textWhere"
-            style="@style/MyLabelText"
-            android:layout_below="@id/editDate"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_height="match_parent"
+            android:layout_below="@id/layoutAddNew"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_width="wrap_content"     
-            android:layout_height="wrap_content"
-            android:text="@string/where"/>
-        
+            android:background="@drawable/white_card_background"
+            android:drawableLeft="@drawable/ic_action_go_to_today"
+            android:drawablePadding="10dp"
+            android:focusable="false"
+            android:hint="@string/when"
+            android:inputType="none"
+            android:padding="15dp" />
+
         <EditText
             android:id="@+id/editLocation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/textWhere"
-            android:layout_alignLeft="@id/editDate"
+            android:layout_height="match_parent"
             android:layout_below="@id/editDate"
-            android:layout_alignBottom="@id/textWhere"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:hint="@string/optional"
-            android:inputType="textCapSentences" />
-
-         <TextView android:id="@+id/textLanguage"
-            style="@style/MyLabelText"
-            android:layout_below="@id/editLocation"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_width="wrap_content"     
-            android:layout_height="wrap_content"
-            android:text="@string/language"/>       
-         
-         <Spinner
-            android:id="@+id/spinnerLanguage"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/white_card_background"
+            android:drawableLeft="@drawable/ic_location"
+            android:drawablePadding="10dp"
+            android:hint="@string/optional"
+            android:inputType="textCapSentences"
+            android:padding="15dp" />
+
+        <RelativeLayout
+            android:id="@+id/language"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/textLanguage"
             android:layout_below="@id/editLocation"
-            android:layout_alignLeft="@id/editDate"
-            android:layout_alignBottom="@id/textLanguage"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:entries="@+array/array_languages" />
-         
-         
-      <TextView android:id="@+id/textTranslation"
-            style="@style/MyLabelText"
-            android:layout_below="@id/spinnerLanguage"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_width="wrap_content"     
-            android:layout_height="wrap_content"
-            android:text="@string/translation"/>
-                
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/language_spinner"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp" >
+
+            <ImageView
+                android:id="@+id/language_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="5dp"
+                android:clickable="true"
+                android:contentDescription="@string/language"
+                android:src="@drawable/ic_down_arrow" >
+            </ImageView>
+
+            <Spinner
+                android:id="@+id/spinnerLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_toRightOf="@id/language_icon"
+                android:background="@color/white"
+                android:entries="@+array/array_languages"/>          
+        </RelativeLayout>
+
         <EditText
             android:id="@+id/editTranslation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/textTranslation"
-            android:layout_below="@id/spinnerLanguage"
-            android:layout_alignLeft="@id/editDate"
-            android:layout_alignBottom="@id/textTranslation"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:hint="@string/optional"
-            android:inputType="textCapSentences" />
-
-        <TextView android:id="@+id/textToWhom"
-            style="@style/MyLabelText"
-            android:layout_below="@id/editTranslation"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_below="@id/language"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_width="wrap_content"     
-            android:layout_height="wrap_content"
-            android:text="@string/to_whom"/>
-        
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/white_card_background"
+            android:drawableLeft="@drawable/ic_translate"
+            android:drawablePadding="10dp"
+            android:hint="@string/translation"
+            android:inputType="textCapSentences"
+            android:padding="15dp" />
+
         <EditText
             android:id="@+id/editToWhom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/editTranslation"
-            android:layout_toRightOf="@id/textToWhom"
-            android:layout_alignLeft="@id/editDate"
-            android:layout_alignBottom="@id/textToWhom"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:hint="@string/optional"
-            android:inputType="textCapSentences" />
-
-        <TextView android:id="@+id/textNotes"
-            style="@style/MyLabelText"
-            android:layout_below="@id/editToWhom"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_width="wrap_content"     
-            android:layout_height="wrap_content"
-            android:text="@string/notes"/>
-        
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/white_card_background"
+            android:drawableLeft="@drawable/ic_social_person"
+            android:drawablePadding="10dp"
+            android:hint="@string/to_whom"
+            android:inputType="textCapSentences"
+            android:padding="15dp" />
+
         <EditText
             android:id="@+id/editNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/editToWhom"
-            android:layout_toRightOf="@id/textNotes"
-            android:layout_alignLeft="@id/editDate"
-            android:layout_alignBottom="@id/textNotes"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:inputType="textCapSentences|textMultiLine" />
+            android:background="@drawable/white_card_background"
+            android:drawableLeft="@drawable/ic_notes"
+            android:drawablePadding="10dp"
+            android:inputType="textCapSentences|textMultiLine"
+            android:hint="@string/notes"
+            android:padding="15dp" />
+
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editNotes"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:background="@drawable/ic_button_validate_blue" />
 
         <TextView
             android:id="@+id/txtWordHistory"
-            style="@style/MyLabelText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/editNotes"
