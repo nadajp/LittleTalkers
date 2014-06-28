@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/action_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ab_profile_border"
+        android:contentDescription="@string/profile"
+        android:clickable="true"
+        android:onClick="clickProfile"/>
+    
+    <Spinner
+        android:id="@+id/action_main_spinner"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        style="@style/KidSpinnerStyle"/>
+     
+</LinearLayout>

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:id="@+id/relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scrollbars="horizontal"
+        android:windowSoftInputMode="stateAlwaysHidden" >
+
+        <TextView
+            android:id="@+id/textHeading"
+            style="@style/HeadingStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="20dp"
+            android:text="@string/question"
+            android:textColor="@color/dark_green" />
+
+        <ImageView
+            android:id="@+id/imgMic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/textHeading"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:clickable="true"
+            android:contentDescription="@string/start_recording"
+            android:src="@drawable/ic_circle_green_mic" />
+
+        <RelativeLayout
+            android:id="@+id/question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textHeading"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_toRightOf="@id/imgMic"
+            android:background="@drawable/addnewtext" >
+
+            <EditText
+                android:id="@+id/editQuestion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="10dp"
+                android:background="@null"
+                android:hint="@string/question"
+                android:inputType="textCapSentences"
+                android:maxLines="1"
+                android:overScrollMode="ifContentScrolls"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="horizontal" >
+            </EditText>
+
+            <CheckBox
+                android:id="@+id/checkAsked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/editQuestion"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:checked="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/question"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_toRightOf="@id/imgMic"
+            android:background="@drawable/addnewtext" >
+
+            <EditText
+                android:id="@+id/editAnswer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="10dp"
+                android:background="@null"
+                android:hint="@string/answer"
+                android:inputType="textCapSentences"
+                android:maxLines="1"
+                android:overScrollMode="ifContentScrolls"
+                android:paddingBottom="0dp"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="horizontal" >
+            </EditText>
+
+            <CheckBox
+                android:id="@+id/checkAnswered"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/editAnswer"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:checked="false" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/textCheckInstructions"
+            style="@style/MyLabelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/answer"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:textColor="@color/green" />
+
+        <EditText
+            android:id="@+id/editDate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/textCheckInstructions"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/white_card_background"
+            android:drawableLeft="@drawable/ic_action_go_to_today"
+            android:drawablePadding="10dp"
+            android:focusable="false"
+            android:hint="@string/when"
+            android:inputType="none"
+            android:padding="15dp" />
+
+        <EditText
+            android:id="@+id/editLocation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/editDate"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/white_card_background"
+            android:drawableLeft="@drawable/ic_location"
+            android:drawablePadding="10dp"
+            android:hint="@string/optional"
+            android:inputType="textCapSentences"
+            android:padding="15dp" />
+
+        <RelativeLayout
+            android:id="@+id/language"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editLocation"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/language_spinner"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp" >
+
+            <ImageView
+                android:id="@+id/language_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="5dp"
+                android:clickable="true"
+                android:contentDescription="@string/language"
+                android:src="@drawable/ic_down_arrow" >
+            </ImageView>
+
+            <Spinner
+                android:id="@+id/spinnerLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_toRightOf="@id/language_icon"
+                android:background="@color/white"
+                android:entries="@+array/array_languages" />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/editToWhom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/language"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/white_card_background"
+            android:drawableLeft="@drawable/ic_social_person"
+            android:drawablePadding="10dp"
+            android:hint="@string/to_whom"
+            android:inputType="textCapSentences"
+            android:padding="15dp" />
+
+        <EditText
+            android:id="@+id/editNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editToWhom"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/white_card_background"
+            android:drawableLeft="@drawable/ic_notes"
+            android:drawablePadding="10dp"
+            android:hint="@string/notes"
+            android:inputType="textCapSentences|textMultiLine"
+            android:padding="15dp" />
+
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editNotes"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:background="@drawable/ic_button_validate_green" />
+    </RelativeLayout>
+
+</ScrollView>

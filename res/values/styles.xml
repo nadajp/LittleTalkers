@@ -18,14 +18,17 @@
       <item name="android:textStyle">italic</item> 
     </style>
 
-        
+          
+    <style name="KidSpinnerStyle" parent="android:style/Widget.Holo.Light.Spinner">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    
     <!-- ActionBar styles -->
     <style name="MyActionBar" parent="android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@color/blue</item>
         <item name="android:backgroundStacked">@color/blue</item>
         <item name="android:titleTextStyle">@style/LittleTalkers.ActionBar.TitleTextStyle</item>
-        <item name="android:textColor">@color/white</item>
-       
+        <item name="android:textColor">@color/white</item>      
     </style>
 
    <style name="LittleTalkers.ActionBar.TitleTextStyle" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
