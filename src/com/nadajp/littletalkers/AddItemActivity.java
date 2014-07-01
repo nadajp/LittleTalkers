@@ -5,6 +5,8 @@ import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.View;
 
 import com.nadajp.littletalkers.ItemDetailFragment.OnAddNewPhraseListener;
 import com.nadajp.littletalkers.utils.Prefs;
@@ -38,14 +40,15 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
       if (mType == Prefs.TYPE_WORD) 
       { 
          actionBar.selectTab(addWordTab); 
-         Utils.setColor(actionBar, Utils.COLOR_BLUE, this);
       }
-      else { 
+      else 
+      { 
          actionBar.selectTab(addQATab); 
-         Utils.setColor(actionBar, Utils.COLOR_GREEN, this);
       }
    }
 
+
+   
    @Override
    protected void setCurrentKidData(long kidId)
    {
@@ -62,6 +65,7 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
 
    }
 
+   
    public void onClickedShowDictionary(long kidId)
    {
       Prefs.saveKidId(getApplicationContext(), kidId);

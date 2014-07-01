@@ -18,7 +18,7 @@
     <string name="title_activity_add_word">AddWordActivity</string>
     <string name="title_activity_add_word_fragment">AddWordFragment</string>
     <string name="show_dictionary">Show Dictionary</string>
-    <string name="said_something">said something ?</string>
+    <string name="said_something">said something</string>
     <string name="enter_word">New word or phrase...</string>
     <string name="where">Where?</string>
     <string name="when">When?</string>
@@ -44,6 +44,7 @@
     <string name="word_saved">Word Saved.</string>
     <string name="word_updated">Word Updated.</string>
     <string name="cancel">Cancel</string>
+    <string name="said">said</string>
 
     <!-- AddKid -->
     <string name="profile_picture">Profile Picture</string>

@@ -102,8 +102,10 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       }
 
       @Override
-      public void onTabSelected(Tab tab, FragmentTransaction ft) {
-         if (null != mFragment) {
+      public void onTabSelected(Tab tab, FragmentTransaction ft) 
+      {
+         if (null != mFragment) 
+         {
             Prefs.saveKidId(getApplicationContext(), mCurrentKidId);
             Log.i(DEBUG_TAG, "Saved ID: " + mCurrentKidId);
             ft.replace(R.id.fragment_container, mFragment);
@@ -112,7 +114,8 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       }
 
       @Override
-      public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+      public void onTabUnselected(Tab tab, FragmentTransaction ft) 
+      {
          if (null != mFragment)
             ft.remove(mFragment);
       }

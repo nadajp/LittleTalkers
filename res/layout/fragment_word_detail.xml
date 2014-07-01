@@ -173,7 +173,7 @@
             android:padding="15dp" />
 
         <Button
-            android:id="@+id/buttonSave"
+            android:id="@+id/button_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/editNotes"
@@ -183,25 +183,15 @@
 
         <TextView
             android:id="@+id/txtWordHistory"
+            style="@style/HeadingStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/editNotes"
+            android:layout_below="@id/button_save"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="10dp"
             android:text="@string/word_history"
-            android:textSize="20sp"
             android:visibility="invisible" />
-
-        <!--
-    <LinearLayout android:id="@+id/layoutWordHistory"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_below="@id/txtWordHistory"
-         android:layout_alignParentLeft="true"
-         android:orientation="horizontal"> 
-    </LinearLayout>  
-        -->
 
     </RelativeLayout>
 

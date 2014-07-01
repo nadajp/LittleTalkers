@@ -1,6 +1,7 @@
 package com.nadajp.littletalkers;
 
 import com.nadajp.littletalkers.utils.Prefs;
+import com.nadajp.littletalkers.utils.Utils;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -34,8 +35,14 @@ public class ItemListActivity extends BaseActivity
       actionBar.addTab(qaListTab
             .setTabListener(new MyTabListener(QAListFragment)));
       
-      if (mType == Prefs.TYPE_WORD) { actionBar.selectTab(wordListTab); }
-      else { actionBar.selectTab(qaListTab); }
+      if (mType == Prefs.TYPE_WORD) 
+      { 
+         actionBar.selectTab(wordListTab);
+      }
+      else 
+      { 
+         actionBar.selectTab(qaListTab); 
+      }
       
    }
 

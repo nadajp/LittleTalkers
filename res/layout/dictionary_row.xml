@@ -1,48 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/activatedBackgroundIndicator"
-    android:orientation="horizontal" 
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin">
-
-    
+    android:padding="@dimen/activity_horizontal_margin"
+    style="@style/DictionaryStyle">
+        
     <!-- word -->
 
     <TextView
         android:id="@+id/dictionary_word"
-        android:layout_width="0dp"
+        style="@style/DictionaryWordStyle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_weight="45"
-        android:paddingLeft="10dp" 
-        android:minLines="2"/>
-
+        android:layout_alignParentLeft="true"/>
     <!-- date -->
 
     <TextView
         android:id="@+id/dictionary_word_date"
-        android:layout_width="0dp"
+        android:textColor="@color/darker_gray"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_weight="35"
-        android:paddingLeft="10dp"/>
+        android:layout_below="@id/dictionary_word"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_alignParentLeft="true"/>
 
     <!-- audio_button -->
 
     <ImageView
         android:id="@+id/dictionary_audio_button"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="20"
+        android:layout_centerVertical="true"
         android:contentDescription="@string/play_audio"
-        android:layout_gravity="center"
-        android:paddingLeft="10dp"
+        android:layout_alignParentRight="true"
         android:clickable="true"
         android:src="@drawable/ic_action_play"
         android:visibility="invisible" />
 
-</LinearLayout>
+</RelativeLayout>

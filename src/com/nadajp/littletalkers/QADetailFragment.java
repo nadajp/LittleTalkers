@@ -189,10 +189,10 @@ public class QADetailFragment extends ItemDetailFragment
             cursor.getColumnIndex(DbContract.Questions.COLUMN_NAME_NOTES))
             .toString());
 
-      ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
-            .getAdapter();
-      mLangSpinner.setSelection(adapter.getPosition(cursor.getString(cursor
-            .getColumnIndex(DbContract.Questions.COLUMN_NAME_LANGUAGE))));
+      //ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
+      //      .getAdapter();
+      //mLangSpinner.setSelection(adapter.getPosition(cursor.getString(cursor
+      //      .getColumnIndex(DbContract.Questions.COLUMN_NAME_LANGUAGE))));
 
       mCurrentAudioFile = cursor.getString(cursor
             .getColumnIndex(DbContract.Questions.COLUMN_NAME_AUDIO_FILE));

@@ -1,5 +1,6 @@
 package com.nadajp.littletalkers;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.database.Cursor;
@@ -161,7 +162,14 @@ public class WordDetailFragment extends ItemDetailFragment
    
    public void updateExtraKidDetails()
    {
-      mTextHeading.setText(mKidName + " " + getString(R.string.said_something));
+      if (this.mItemId > 0)
+      {
+         mTextHeading.setText(mKidName + getString(R.string.said) + ":");
+      }
+      else 
+      {
+         mTextHeading.setText(mKidName + getString(R.string.said_something) + " ?");
+      }
    }
 
    public void insertItemDetails(View v)
@@ -192,20 +200,29 @@ public class WordDetailFragment extends ItemDetailFragment
             cursor.getColumnIndex(DbContract.Words.COLUMN_NAME_NOTES))
             .toString());
 
-      ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
-            .getAdapter();
-      mLangSpinner.setSelection(adapter.getPosition(cursor.getString(cursor
-            .getColumnIndex(DbContract.Words.COLUMN_NAME_LANGUAGE))));
+     // ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
+     //       .getAdapter();
+      //mLangSpinner.setSelection(adapter.getPosition(cursor.getString(cursor
+      //      .getColumnIndex(DbContract.Words.COLUMN_NAME_LANGUAGE))));
 
       mCurrentAudioFile = cursor.getString(cursor
             .getColumnIndex(DbContract.Words.COLUMN_NAME_AUDIO_FILE));
       
-      mTextHeading.setText(mKidName + getString(R.string.said_something) + "?");
+      if (this.mItemId > 0)
+      {
+         mTextHeading.setText(mKidName + getString(R.string.said) + ":");
+      }
+      else 
+      {
+         mTextHeading.setText(mKidName + getString(R.string.said_something) + " ?");
+      }
       cursor.close();
 
       displayWordHistory(v);
    }
 
+   @SuppressLint("NewApi")
+   @SuppressWarnings("deprecation")
    private void displayWordHistory(View v)
    {
       Cursor cursor = DbSingleton.get().getWordHistory(mCurrentKidId, mItemId);
@@ -224,7 +241,7 @@ public class WordDetailFragment extends ItemDetailFragment
          do
          {
             LinearLayout ll = new LinearLayout(getActivity());
-            ll.setOrientation(LinearLayout.HORIZONTAL);
+            ll.setOrientation(LinearLayout.VERTICAL);
 
             RelativeLayout.LayoutParams rlParams = new RelativeLayout.LayoutParams(
                   LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -244,9 +261,9 @@ public class WordDetailFragment extends ItemDetailFragment
             TextView txtDate = new TextView(getActivity());
 
             txtWord.setLayoutParams(params);
+            txtWord.setTextColor(this.getResources().getColor(R.color.gray));
+            txtWord.setTextSize(20);
             txtDate.setLayoutParams(params);
-
-            txtDate.setPadding(0, 0, 20, 0);
 
             txtWord.setText(cursor.getString(cursor
                   .getColumnIndex(DbContract.Words.COLUMN_NAME_WORD)));
@@ -258,9 +275,18 @@ public class WordDetailFragment extends ItemDetailFragment
 
             txtDate.setTextSize(16);
             txtWord.setTextSize(16);
+            
+            if (android.os.Build.VERSION.SDK_INT > 15)
+            {
+               ll.setBackground(this.getResources().getDrawable(R.drawable.white_card_background));
+            }
+            else {
+               ll.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.white_card_background));
+            }
 
-            ll.addView(txtDate);
+            ll.setPadding(15, 15, 15, 15);
             ll.addView(txtWord);
+            ll.addView(txtDate);
             ll.setId(Utils.generateViewId());
             id = ll.getId();
 

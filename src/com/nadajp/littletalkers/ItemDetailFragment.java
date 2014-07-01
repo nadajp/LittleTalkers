@@ -30,6 +30,9 @@ import android.text.TextWatcher;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -98,9 +101,9 @@ public abstract class ItemDetailFragment extends Fragment implements
    private ImageView mImgPlay;
    private ImageView mImgDelete;
    private ImageView mImgMic;
-   protected Spinner mLangSpinner;
+   //protected Spinner mLangSpinner;
    protected TextView mTextHeading;
-   protected Button mButtonSave, mButtonCancel, mButtonShare;
+   protected Button mButtonSave;
    private boolean mAudioRecorded;
 
    // to be set by derived classes
@@ -130,12 +133,12 @@ public abstract class ItemDetailFragment extends Fragment implements
       View v = inflater.inflate(mFragmentLayout, container, false);
 
       // Create language spinner
-      mLangSpinner = (Spinner) v.findViewById(R.id.spinnerLanguage);
-      mLangSpinner.setOnItemSelectedListener(this);
+      //mLangSpinner = (Spinner) v.findViewById(R.id.spinnerLanguage);
+      //mLangSpinner.setOnItemSelectedListener(this);
       ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
             getActivity(), R.array.array_languages, R.layout.lt_spinner_item);
       adapter.setDropDownViewResource(R.layout.lt_spinner_dropdown_item);
-      mLangSpinner.setAdapter(adapter);
+      //mLangSpinner.setAdapter(adapter);
 
       mAnimation.setDuration(500); // duration - half a second
       mAnimation.setInterpolator(new LinearInterpolator()); // do not alter
@@ -154,7 +157,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       mTextHeading = (TextView) v.findViewById(R.id.textHeading);
 
       //mButtonCancel = (Button) v.findViewById(R.id.buttonCancel);
-      //mButtonSave = (Button) v.findViewById(R.id.buttonSave);
+      mButtonSave = (Button) v.findViewById(R.id.button_save);
 
       mImgMic = (ImageView) v.findViewById(R.id.imgMic);
       //mImgPlay = (ImageView) v.findViewById(R.id.imgPlay);
@@ -165,7 +168,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       //mImgPlay.setOnClickListener(this);
       //mImgDelete.setOnClickListener(this);
       //mButtonCancel.setOnClickListener(this);
-      //mButtonSave.setOnClickListener(this);
+      mButtonSave.setOnClickListener(this);
 
       initializeExtras(v);
 
@@ -207,8 +210,8 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          if (savedInstanceState.getBoolean(Prefs.AUDIO_RECORDED) == true)
          {
-            mImgPlay.setVisibility(View.VISIBLE);
-            mImgDelete.setVisibility(View.VISIBLE);
+            //mImgPlay.setVisibility(View.VISIBLE);
+            //mImgDelete.setVisibility(View.VISIBLE);
             mAudioRecorded = true;
          }
 
@@ -231,8 +234,8 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          updateItem(v);
          getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-         mButtonCancel.setText(R.string.share);
-         mButtonSave.setText(R.string.save_changes);
+         //mButtonCancel.setText(R.string.share);
+         //mButtonSave.setText(R.string.save_changes);
       } else
       {
          getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
@@ -242,6 +245,7 @@ public abstract class ItemDetailFragment extends Fragment implements
             mTempFile = new File(mDirectory, "temp.3gp");
          }
       }
+      this.setHasOptionsMenu(true);
       return v;
    }
 
@@ -253,23 +257,15 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          updateItem(this.getView());
       }
-
-         String pictureUri = DbSingleton.get().getPicturePath(mCurrentKidId);
-         ImageView profile = (ImageView) this.getActivity().findViewById(R.id.action_profile);
-         
-         Bitmap profilePicture = null;
-         if (pictureUri == null)
-         {
-            profilePicture = BitmapFactory.decodeResource(this.getResources(),
-                  R.drawable.profilepicture);
-         } else
-         {
-            profilePicture = BitmapFactory.decodeFile(pictureUri);
-         }
-         //profile.setImageBitmap(profilePicture);
-      
    }
 
+   @Override
+   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) 
+   {
+      inflater.inflate(R.menu.add_item, menu);
+   }
+
+    
    public File getAudioFile()
    {
       return mOutFile;
@@ -421,10 +417,10 @@ public abstract class ItemDetailFragment extends Fragment implements
       case R.id.imgDelete:
          deleteAudio();
          break;*/
-      /*case R.id.buttonSave:
+      case R.id.button_save:
          saveItem(true);
          break;
-      case R.id.buttonCancel:
+      /*case R.id.buttonCancel:
          if (mButtonCancel.getText().toString().contains("Show"))
          {
             mListener.onClickedShowDictionary(mCurrentKidId);
@@ -771,9 +767,9 @@ public abstract class ItemDetailFragment extends Fragment implements
       String[] defaults = DbSingleton.get().getDefaults(mCurrentKidId);
       mLanguage = defaults[0];
       Log.i(DEBUG_TAG, mLanguage);
-      ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
-            .getAdapter();
-      mLangSpinner.setSelection(adapter.getPosition(mLanguage));
+      //ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
+      //      .getAdapter();
+      //mLangSpinner.setSelection(adapter.getPosition(mLanguage));
       mEditLocation.setText(defaults[1]);
 
       updateExtraKidDetails();
@@ -786,8 +782,8 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          mOutFile = new File(mCurrentAudioFile);
          Log.i(DEBUG_TAG, "HERE");
-         mImgPlay.setVisibility(View.VISIBLE);
-         mImgDelete.setVisibility(View.VISIBLE);
+         //mImgPlay.setVisibility(View.VISIBLE);
+         //mImgDelete.setVisibility(View.VISIBLE);
          mAudioRecorded = true;
       }
    }
@@ -946,5 +942,19 @@ public abstract class ItemDetailFragment extends Fragment implements
       mOutFile = null;
       mDate = null;
       mTempFile = null;
+   }
+   
+   @Override
+   public boolean onOptionsItemSelected(MenuItem item) 
+   {
+      // handle item selection
+      switch (item.getItemId()) 
+      {
+         case R.id.action_dictionary:
+            mListener.onClickedShowDictionary(this.mCurrentKidId);
+            return true;
+         default:
+            return super.onOptionsItemSelected(item);
+      }
    }
 }

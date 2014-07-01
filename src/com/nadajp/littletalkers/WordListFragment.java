@@ -3,7 +3,9 @@ package com.nadajp.littletalkers;
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
+import com.nadajp.littletalkers.utils.Utils;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
@@ -26,9 +28,9 @@ public class WordListFragment extends ItemListFragment
          Bundle savedInstanceState)
    {
       mFragmentLayout = R.layout.fragment_dictionary;
-      mHeaderLayout = R.layout.dictionary_header;
+      //mHeaderLayout = R.layout.dictionary_header;
       mRowLayout = R.layout.dictionary_row;
-      mPhraseHeaderResId = R.id.header_word;
+      //mPhraseHeaderResId = R.id.header_word;
       mPhraseColumnName = DbContract.Words.COLUMN_NAME_WORD;
       mEmptyListText = getString(R.string.no_words);
       mEmptyListButtonText = getString(R.string.add_word); 
@@ -40,6 +42,8 @@ public class WordListFragment extends ItemListFragment
          mSortColumn = DbContract.Words.COLUMN_NAME_WORD;
       }
       else mSortColumn = DbContract.Words.COLUMN_NAME_DATE;
+      ActionBar actionBar = this.getActivity().getActionBar();
+      Utils.setColor(actionBar, Utils.COLOR_BLUE, this.getActivity()); 
       //setHasOptionsMenu(true);
       return super.onCreateView(inflater, container, savedInstanceState);      
    }

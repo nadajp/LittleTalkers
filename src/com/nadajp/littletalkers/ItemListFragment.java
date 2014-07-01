@@ -46,9 +46,9 @@ public abstract class ItemListFragment extends ListFragment implements
    protected String mEmptyListButtonText; // Text to display on Add New button
                                           // when list is empty
 
-   private TextView mTextHeaderPhrase; // heading for the phrase column
-   private TextView mTextHeaderDate; // heading for the date column
-   private Spinner mLanguageFilter; // spinner for filtering language to view
+   //private TextView mTextHeaderPhrase; // heading for the phrase column
+   //private TextView mTextHeaderDate; // heading for the date column
+   //private Spinner mLanguageFilter; // spinner for filtering language to view
 
    protected MediaPlayer mPlayer; // audio player
    ListView mListView; // the list
@@ -60,13 +60,13 @@ public abstract class ItemListFragment extends ListFragment implements
    private static final int DELETE_SELECTED_WORDS_DIALOG_ID = 1;
    private static final String DEBUG_TAG = "ItemListFragment";
    protected SimpleCursorAdapter mscAdapter;
-   private View mHeaderView;
+   //private View mHeaderView;
    protected ListRowViewBinder mViewBinder;
 
    int mFragmentLayout; // res id of the layout for this fragment
-   int mHeaderLayout; // res id of the layout for the header row
+   //int mHeaderLayout; // res id of the layout for the header row
    int mRowLayout; // res id of the layout for list row
-   int mPhraseHeaderResId; // res id of the header for the phrase column
+   //int mPhraseHeaderResId; // res id of the header for the phrase column
    int mSortColumnId; // id of the column by which to sort, as defined in
                       // Prefs.java
    String mPhraseColumnName; // name of the main phrase column (i.e. word,
@@ -95,10 +95,10 @@ public abstract class ItemListFragment extends ListFragment implements
             .getLastAddedKid()); }
       Log.i(DEBUG_TAG, "Getting kid with ID: " + mCurrentKidId);
       
-      mHeaderView = inflater.inflate(mHeaderLayout, null);
+      //mHeaderView = inflater.inflate(mHeaderLayout, null);
 
-      mLanguageFilter = (Spinner) mHeaderView
-            .findViewById(R.id.spinner_language_filter);
+      //mLanguageFilter = (Spinner) mHeaderView
+      //      .findViewById(R.id.spinner_language_filter);
       List<String> languages = DbSingleton.get().getLanguages(mCurrentKidId);
       languages.add(0, this.getString(R.string.all_languages));
 
@@ -106,15 +106,15 @@ public abstract class ItemListFragment extends ListFragment implements
             this.getActivity(), R.layout.lt_spinner_item, languages);
       dataAdapter.setDropDownViewResource(R.layout.lt_spinner_dropdown_item);
 
-      mLanguageFilter.setAdapter(dataAdapter);
+      //mLanguageFilter.setAdapter(dataAdapter);
       mLanguage = Prefs.getLanguage(getActivity());
-      mLanguageFilter.setSelection(dataAdapter.getPosition(mLanguage));
-      mLanguageFilter.setOnItemSelectedListener(this);
+      //mLanguageFilter.setSelection(dataAdapter.getPosition(mLanguage));
+      //mLanguageFilter.setOnItemSelectedListener(this);
 
       // Add arrows to word and date list headers for sorting
-      mTextHeaderPhrase = (TextView) mHeaderView
-            .findViewById(mPhraseHeaderResId);
-      mTextHeaderDate = (TextView) mHeaderView.findViewById(R.id.header_date);
+      //mTextHeaderPhrase = (TextView) mHeaderView
+      //      .findViewById(mPhraseHeaderResId);
+      //mTextHeaderDate = (TextView) mHeaderView.findViewById(R.id.header_date);
 
       // Now do the sorting by column
       mSortColumnId = Prefs.getSortColumnId(getActivity());
@@ -125,7 +125,7 @@ public abstract class ItemListFragment extends ListFragment implements
          mSortColumn = DbContract.Words.COLUMN_NAME_DATE;
       mbSortAscending = Prefs.getIsAscending(getActivity());
 
-      if (mSortColumnId == Prefs.SORT_COLUMN_PHRASE)
+     /* if (mSortColumnId == Prefs.SORT_COLUMN_PHRASE)
       {
          if (mbSortAscending)
          {
@@ -153,9 +153,9 @@ public abstract class ItemListFragment extends ListFragment implements
          }
          mTextHeaderPhrase.setCompoundDrawablesWithIntrinsicBounds(0, 0,
                android.R.drawable.arrow_up_float, 0);
-      }
+      }*/
       
-      Utils.updateTitlebar(mCurrentKidId, mHeaderView, getActivity());
+      //Utils.updateTitlebar(mCurrentKidId, mHeaderView, getActivity());
       return v;
    }
 
@@ -182,10 +182,10 @@ public abstract class ItemListFragment extends ListFragment implements
       tv.setText(mEmptyListText);
       
       mListView = getListView();
-      if (mHeaderView != null)
+      /*if (mHeaderView != null)
       {
          mListView.addHeaderView(mHeaderView);
-      }
+      }*/
       mscAdapter.setViewBinder(mViewBinder);
       mscAdapter.notifyDataSetChanged();
       setListAdapter(mscAdapter);
@@ -300,21 +300,21 @@ public abstract class ItemListFragment extends ListFragment implements
       List<String> languages = DbSingleton.get().getLanguages(mCurrentKidId);
       languages.add(0, this.getString(R.string.all_languages));
 
-      ArrayAdapter<String> dataAdapter = (ArrayAdapter<String>) mLanguageFilter
-            .getAdapter();
-      dataAdapter.clear();
-      dataAdapter.addAll(languages);
-      dataAdapter.notifyDataSetChanged();
-      mLanguageFilter.setSelection(0);
+      //ArrayAdapter<String> dataAdapter = (ArrayAdapter<String>) mLanguageFilter
+      //      .getAdapter();
+      //dataAdapter.clear();
+      //dataAdapter.addAll(languages);
+      //dataAdapter.notifyDataSetChanged();
+      //mLanguageFilter.setSelection(0);
 
-      Utils.updateTitlebar(mCurrentKidId, mHeaderView, getActivity());
+      //Utils.updateTitlebar(mCurrentKidId, mHeaderView, getActivity());
    }
 
    public void sortByPhrase(View v)
    {
       mSortColumnId = Prefs.SORT_COLUMN_PHRASE;
       mSortColumn = mPhraseColumnName;
-      if (mbSortAscending)
+      /*if (mbSortAscending)
       {
          mTextHeaderPhrase.setCompoundDrawablesWithIntrinsicBounds(0, 0,
                android.R.drawable.arrow_down_float, 0);
@@ -322,7 +322,7 @@ public abstract class ItemListFragment extends ListFragment implements
       {
          mTextHeaderPhrase.setCompoundDrawablesWithIntrinsicBounds(0, 0,
                android.R.drawable.arrow_up_float, 0);
-      }
+      }*/
       sortList();
    }
 
@@ -330,7 +330,7 @@ public abstract class ItemListFragment extends ListFragment implements
    {
       mSortColumnId = Prefs.SORT_COLUMN_DATE;
       mSortColumn = DbContract.Words.COLUMN_NAME_DATE;
-      if (mbSortAscending)
+      /*if (mbSortAscending)
       {
          mTextHeaderDate.setCompoundDrawablesWithIntrinsicBounds(0, 0,
                android.R.drawable.arrow_down_float, 0);
@@ -338,7 +338,7 @@ public abstract class ItemListFragment extends ListFragment implements
       {
          mTextHeaderDate.setCompoundDrawablesWithIntrinsicBounds(0, 0,
                android.R.drawable.arrow_up_float, 0);
-      }
+      }*/
       sortList();
    }
 
@@ -399,9 +399,9 @@ public abstract class ItemListFragment extends ListFragment implements
       }
       setListAdapter(null);
       mscAdapter = null;
-      mTextHeaderPhrase = null;
-      mTextHeaderDate = null;
-      mLanguageFilter = null;
+      //mTextHeaderPhrase = null;
+      //mTextHeaderDate = null;
+      //mLanguageFilter = null;
    }
 
    @Override

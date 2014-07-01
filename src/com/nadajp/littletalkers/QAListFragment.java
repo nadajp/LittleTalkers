@@ -3,7 +3,10 @@ package com.nadajp.littletalkers;
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
+import com.nadajp.littletalkers.utils.Utils;
 
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -12,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
@@ -22,9 +26,9 @@ public class QAListFragment extends ItemListFragment
          Bundle savedInstanceState)
    {
       mFragmentLayout = R.layout.fragment_dictionary;
-      mHeaderLayout = R.layout.qa_list_header;
+      //mHeaderLayout = R.layout.qa_list_header;
       mRowLayout = R.layout.qa_list_row;
-      mPhraseHeaderResId = R.id.header_qa;
+      //mPhraseHeaderResId = R.id.header_qa;
       mPhraseColumnName = DbContract.Questions.COLUMN_NAME_QUESTION;
       mEmptyListText = getString(R.string.no_qa);
       mEmptyListButtonText = getString(R.string.add_new_qa); 
@@ -37,12 +41,27 @@ public class QAListFragment extends ItemListFragment
       else mSortColumn = DbContract.Words.COLUMN_NAME_DATE;
       //setHasOptionsMenu(true);
       
+      // colors
+      ActionBar actionBar = this.getActivity().getActionBar();
+      Utils.setColor(actionBar, Utils.COLOR_GREEN, this.getActivity()); 
+
       return super.onCreateView(inflater, container, savedInstanceState);
    }
    
+   @SuppressLint("NewApi")
    @Override
    public void onActivityCreated(Bundle savedInstanceState)
    {
+
+      Button btnAddNew = (Button)this.getActivity().findViewById(R.id.button_add_new);
+      if (android.os.Build.VERSION.SDK_INT > 15)
+      {
+         btnAddNew.setBackground(this.getResources().getDrawable(R.drawable.ic_button_new_green));
+      }
+      else {
+         btnAddNew.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.ic_button_new_green));
+      }
+      
       Cursor cursor = DbSingleton.get().getQuestions(mCurrentKidId, mSortColumn,
             mbSortAscending, mLanguage);
 

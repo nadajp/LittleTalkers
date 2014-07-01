@@ -8,8 +8,22 @@
         android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_margin = "15dp"
+        android:background="@color/white"
+        android:divider="@color/background_gray"
+        android:dividerHeight="10dp"
         android:scrollbarAlwaysDrawVerticalTrack="false" />
+    
+    <Button
+            android:id="@+id/button_add_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom" 
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/ic_button_new_blue"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:onClick="addNewWord"/>
 
     <RelativeLayout
         android:id="@android:id/empty"
@@ -34,7 +48,7 @@
             android:layout_centerInParent="true"
             android:layout_marginTop="20dp"
             android:onClick="addNewWord"
-            android:text="@string/button_add_new_word" />
+            android:background="@drawable/ic_button_new_blue"/>
     </RelativeLayout>
 
 </RelativeLayout>
