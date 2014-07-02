@@ -42,8 +42,7 @@ public class ItemListActivity extends BaseActivity
       else 
       { 
          actionBar.selectTab(qaListTab); 
-      }
-      
+      }     
    }
 
    @Override

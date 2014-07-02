@@ -108,7 +108,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
          {
             Prefs.saveKidId(getApplicationContext(), mCurrentKidId);
             Log.i(DEBUG_TAG, "Saved ID: " + mCurrentKidId);
-            ft.replace(R.id.fragment_container, mFragment);
+            ft.replace(R.id.fragment_container, mFragment);          
             Prefs.saveType(getApplicationContext(), (Integer) tab.getTag());
          }
       }

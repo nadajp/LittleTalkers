@@ -64,28 +64,6 @@ public class QADetailFragment extends ItemDetailFragment
             getString(R.string.check_instructions2));
    }
    
-   @Override
-   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-   {
-      // Inflate the menu; this adds items to the action bar if it is present.
-      inflater.inflate(R.menu.add_question, menu);
-      super.onCreateOptionsMenu(menu, inflater);
-      if (mItemId > 0)
-         {
-         MenuItem switchType = menu.findItem(R.id.action_add_word);
-         if (switchType != null){
-            switchType.setVisible(false);
-         }
-      }
-   }
-
-   @Override
-   public void onSaveInstanceState(Bundle outState)
-   {
-      super.onSaveInstanceState(outState);
-      
-   }
-   
    public boolean savePhrase()
    {
       if (mEditPhrase.length() == 0)
@@ -160,7 +138,7 @@ public class QADetailFragment extends ItemDetailFragment
 
    public void insertItemDetails(View v)
    {
-      Log.i(DEBUG_TAG, "Inserting word details");
+      Log.i(DEBUG_TAG, "Inserting Q and A details");
       Cursor cursor = DbSingleton.get().getQuestionDetails(mItemId);
       
       cursor.moveToFirst();

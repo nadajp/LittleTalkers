@@ -12,19 +12,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
-import android.media.MediaPlayer.OnPreparedListener;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.OnErrorListener;
 import android.media.MediaRecorder.OnInfoListener;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateUtils;
@@ -64,8 +60,7 @@ import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
 public abstract class ItemDetailFragment extends Fragment implements
-      OnItemSelectedListener, OnClickListener, OnErrorListener, OnInfoListener,
-      OnCompletionListener
+      OnItemSelectedListener, OnClickListener, OnCompletionListener
 {
    private static final String DEBUG_TAG = "AddItemFragment";
    public static final String ITEM_ID = "Item_ID";
@@ -84,12 +79,11 @@ public abstract class ItemDetailFragment extends Fragment implements
    protected long mItemId; // current item id, 0 if nothing has been saved yet
    private MediaRecorder mRecorder; // audio recorder
    private MediaPlayer mPlayer; // audio player
-   private boolean mRecording = false; // are we currently recording audio?
    final static Animation mAnimation = new AlphaAnimation(1, 0); // Change alpha
                                                                  // from fully
                                                                  // visible to
                                                                  // invisible
-   
+
    protected Calendar mDate; // calendar for current date
    protected String mLanguage; // current language
    protected ShareActionProvider mShareActionProvider; // used to share data
@@ -104,7 +98,7 @@ public abstract class ItemDetailFragment extends Fragment implements
    private Button mPlay;
    private Button mDelete;
    private ImageView mImgMic;
-   //protected Spinner mLangSpinner;
+   // protected Spinner mLangSpinner;
    protected TextView mTextHeading;
    protected Button mButtonSave;
    private boolean mAudioRecorded;
@@ -127,7 +121,7 @@ public abstract class ItemDetailFragment extends Fragment implements
    public abstract void updateExtraKidDetails();
 
    public abstract String getShareBody();
-   
+
    public abstract void startAudioRecording();
 
    @Override
@@ -138,12 +132,12 @@ public abstract class ItemDetailFragment extends Fragment implements
       View v = inflater.inflate(mFragmentLayout, container, false);
 
       // Create language spinner
-      //mLangSpinner = (Spinner) v.findViewById(R.id.spinnerLanguage);
-      //mLangSpinner.setOnItemSelectedListener(this);
+      // mLangSpinner = (Spinner) v.findViewById(R.id.spinnerLanguage);
+      // mLangSpinner.setOnItemSelectedListener(this);
       ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
             getActivity(), R.array.array_languages, R.layout.lt_spinner_item);
       adapter.setDropDownViewResource(R.layout.lt_spinner_dropdown_item);
-      //mLangSpinner.setAdapter(adapter);
+      // mLangSpinner.setAdapter(adapter);
 
       mAnimation.setDuration(500); // duration - half a second
       mAnimation.setInterpolator(new LinearInterpolator()); // do not alter
@@ -160,10 +154,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       mEditToWhom = (EditText) v.findViewById(R.id.editToWhom);
       mEditNotes = (EditText) v.findViewById(R.id.editNotes);
       mTextHeading = (TextView) v.findViewById(R.id.textHeading);
-
-      //mButtonCancel = (Button) v.findViewById(R.id.buttonCancel);
       mButtonSave = (Button) v.findViewById(R.id.button_save);
-
       mRecordingLayout = (RelativeLayout) v.findViewById(R.id.layout_recording);
       mImgMic = (ImageView) v.findViewById(R.id.imgMic);
       mPlay = (Button) v.findViewById(R.id.button_play);
@@ -230,7 +221,6 @@ public abstract class ItemDetailFragment extends Fragment implements
          Log.i(DEBUG_TAG, "item ID = " + mItemId);
       }
 
-      // Utils.updateTitlebar(mCurrentKidId, v, this.getActivity());
       // insertKidDefaults(mCurrentKidId, v, false);
 
       // If editing/viewing an existing item, fill in all the fields
@@ -239,7 +229,6 @@ public abstract class ItemDetailFragment extends Fragment implements
          updateItem(v);
          getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
-         //mButtonCancel.setText(R.string.share);
       } else
       {
          getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
@@ -264,25 +253,40 @@ public abstract class ItemDetailFragment extends Fragment implements
    }
 
    @Override
-   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) 
+   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
    {
       inflater.inflate(R.menu.add_item, menu);
+
+      // if editing existing item, hide dictionary button and add share button
+      if (mItemId > 0)
+      {
+         MenuItem dict = menu.findItem(R.id.action_dictionary);
+         dict.setVisible(false);
+         MenuItem share = menu.findItem(R.id.action_share);
+         share.setVisible(true);
+      }
    }
 
-    
-   public File getAudioFile()
+   @Override
+   // Handle presses on the action bar items
+   public boolean onOptionsItemSelected(MenuItem item)
    {
-      return mOutFile;
-   }
+      switch (item.getItemId())
+      {
+      case R.id.action_share:
+         ShareDialog dlg = new ShareDialog();
+         dlg.setTargetFragment(this, SHARE_DIALOG_ID);
+         dlg.show(getFragmentManager(), ShareDialog.class.toString());
+         return true;
 
-   /*
-    * @Override public boolean onOptionsItemSelected(MenuItem item) { // Handle
-    * presses on the action bar items switch (item.getItemId()) { case
-    * R.id.action_share: ShareDialog dlg = new ShareDialog();
-    * dlg.setTargetFragment(this, SHARE_DIALOG_ID);
-    * dlg.show(getFragmentManager(), ShareDialog.class.toString()); return true;
-    * default: return super.onOptionsItemSelected(item); } }
-    */
+      case R.id.action_dictionary:
+         mListener.onClickedShowDictionary(this.mCurrentKidId);
+         return true;
+
+      default:
+         return super.onOptionsItemSelected(item);
+      }
+   }
 
    public static class ShareDialog extends DialogFragment
    {
@@ -429,59 +433,33 @@ public abstract class ItemDetailFragment extends Fragment implements
       }
    }
 
-   @Override
-   public void onInfo(MediaRecorder mr, int what, int extra)
+   public File getAudioFile()
    {
-      String msg = getString(R.string.mediarecorder_error_msg);
+      return mOutFile;
+   }
 
-      switch (what)
+   @Override
+   public void onActivityResult(int requestCode, int resultCode, Intent data)
+   {
+      // Check which request we're responding to
+      if (requestCode == RECORD_AUDIO_REQUEST)
       {
-      case MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED:
-         msg = getString(R.string.max_duration);
-         break;
-      case MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED:
-         msg = getString(R.string.max_size);
-         break;
+         // Make sure the request was successful
+         if (resultCode == Activity.RESULT_OK)
+         {
+            stopRecording();
+         }
       }
-      Toast.makeText(this.getActivity(), msg, Toast.LENGTH_LONG).show();
    }
 
-   @Override
-   public void onError(MediaRecorder mr, int what, int extra)
-   {
-      Toast.makeText(this.getActivity(), R.string.mediarecorder_error_msg,
-            Toast.LENGTH_LONG).show();
-   }
-
-   @Override
-   public void onActivityResult(int requestCode, int resultCode, Intent data) 
-   {
-       // Check which request we're responding to
-       if (requestCode == RECORD_AUDIO_REQUEST) 
-       {
-           // Make sure the request was successful
-           if (resultCode == Activity.RESULT_OK) 
-           {
-               stopRecording();
-           }
-       }
-   }
-   
-   //private void clickedMic(View v)
-   //{  
-      /*
-      if (!mRecording)
-      {
-         v.startAnimation(mAnimation);
-         startRecording();
-         mRecording = true;
-      } else
-      {
-         v.clearAnimation();
-         stopRecording();
-         mRecording = false;
-      }*/
-   //}
+   // private void clickedMic(View v)
+   // {
+   /*
+    * if (!mRecording) { v.startAnimation(mAnimation); startRecording();
+    * mRecording = true; } else { v.clearAnimation(); stopRecording();
+    * mRecording = false; }
+    */
+   // }
 
    private void clickedAudioPlay(View v)
    {
@@ -512,7 +490,10 @@ public abstract class ItemDetailFragment extends Fragment implements
          if (mTempFile != null)
          {
             mPlayer.setDataSource(mTempFile.getAbsolutePath());
-         } else { mPlayer.setDataSource(mOutFile.getAbsolutePath());}
+         } else
+         {
+            mPlayer.setDataSource(mOutFile.getAbsolutePath());
+         }
          mPlayer.prepare();
          mPlayer.start();
       } catch (IOException e)
@@ -555,42 +536,33 @@ public abstract class ItemDetailFragment extends Fragment implements
          mTempFile = null;
       }
 
-      startAudioRecording();      
+      startAudioRecording();
       mTempFile = new File(mDirectory, "temp.3gp");
       /*
-      mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-      mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-      mRecorder.setOutputFile(mTempFile.getAbsolutePath());
-      mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+       * mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+       * mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+       * mRecorder.setOutputFile(mTempFile.getAbsolutePath());
+       * mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+       * 
+       * try { mRecorder.prepare(); mRecorder.start(); } catch (IOException e) {
+       * Log.e(DEBUG_TAG, "Exception in preparing recorder: " + e.getMessage());
+       * Toast.makeText(this.getActivity(), e.getMessage(), Toast.LENGTH_LONG)
+       * .show(); }
+       */
 
-      try
-      {
-         mRecorder.prepare();
-         mRecorder.start();
-      } catch (IOException e)
-      {
-         Log.e(DEBUG_TAG, "Exception in preparing recorder: " + e.getMessage());
-         Toast.makeText(this.getActivity(), e.getMessage(), Toast.LENGTH_LONG)
-               .show();
-      }*/
-      
    }
 
    private void stopRecording()
    {
-      /*try
-      {
-         mRecorder.stop();
-      } catch (Exception e)
-      {
-         Log.w(getClass().getSimpleName(), "Exception in stopping recorder", e);
-         // can fail if start() failed for some reason
-      }
-      mRecorder.reset();
-      mImgPlay.setVisibility(View.VISIBLE);
-      mImgDelete.setVisibility(View.VISIBLE);*/
+      /*
+       * try { mRecorder.stop(); } catch (Exception e) {
+       * Log.w(getClass().getSimpleName(), "Exception in stopping recorder", e);
+       * // can fail if start() failed for some reason } mRecorder.reset();
+       * mImgPlay.setVisibility(View.VISIBLE);
+       * mImgDelete.setVisibility(View.VISIBLE);
+       */
       mRecordingLayout.setVisibility(View.VISIBLE);
-      
+
       // if a phrase has already been entered, save under real filename
       if (!(mEditPhrase.getText().toString().isEmpty()))
       {
@@ -608,7 +580,8 @@ public abstract class ItemDetailFragment extends Fragment implements
          }
       }
       // otherwise, it has been saved in temp file
-      TextView audioFile = (TextView) this.getView().findViewById(R.id.text_recording);
+      TextView audioFile = (TextView) this.getView().findViewById(
+            R.id.text_recording);
       audioFile.setText("temp.3gp");
    }
 
@@ -686,7 +659,8 @@ public abstract class ItemDetailFragment extends Fragment implements
                      {
                         public void onClick(DialogInterface dialog, int id)
                         {
-                           ((ItemDetailFragment) getTargetFragment()).saveItem(false);
+                           ((ItemDetailFragment) getTargetFragment())
+                                 .saveItem(false);
                         }
                      })
                .setNegativeButton(R.string.cancel,
@@ -712,8 +686,8 @@ public abstract class ItemDetailFragment extends Fragment implements
          mOutFile.delete();
          mOutFile = null;
          mRecordingLayout.setVisibility(View.GONE);
-         //mImgDelete.setVisibility(View.GONE);
-        
+         // mImgDelete.setVisibility(View.GONE);
+
          if (mEditPhrase.getText().length() > 0)
          {
             saveItem(false);
@@ -725,7 +699,7 @@ public abstract class ItemDetailFragment extends Fragment implements
          mTempFile.delete();
          mTempFile = null;
          mRecordingLayout.setVisibility(View.GONE);
-         //mImgDelete.setVisibility(View.GONE);
+         // mImgDelete.setVisibility(View.GONE);
       }
    }
 
@@ -753,10 +727,14 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          renameFile();
       }
-      String[] a = mCurrentAudioFile.split("/");
-      String filename = a[a.length-1];
-      TextView audioFile = (TextView) this.getView().findViewById(R.id.text_recording);
-      audioFile.setText(filename);
+      if (mCurrentAudioFile != null)
+      {
+         String[] a = mCurrentAudioFile.split("/");
+         String filename = a[a.length - 1];
+         TextView audioFile = (TextView) this.getView().findViewById(
+            R.id.text_recording);
+         audioFile.setText(filename);
+      }
    }
 
    private void clearForm()
@@ -767,7 +745,6 @@ public abstract class ItemDetailFragment extends Fragment implements
       mEditToWhom.setText("");
       mEditNotes.setText("");
       mRecordingLayout.setVisibility(View.GONE);
-      //mImgDelete.setVisibility(View.INVISIBLE);
       mAudioRecorded = false;
       mEditPhrase.setError(null);
       clearExtraViews();
@@ -787,9 +764,9 @@ public abstract class ItemDetailFragment extends Fragment implements
       String[] defaults = DbSingleton.get().getDefaults(mCurrentKidId);
       mLanguage = defaults[0];
       Log.i(DEBUG_TAG, mLanguage);
-      //ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
-      //      .getAdapter();
-      //mLangSpinner.setSelection(adapter.getPosition(mLanguage));
+      // ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
+      // .getAdapter();
+      // mLangSpinner.setSelection(adapter.getPosition(mLanguage));
       mEditLocation.setText(defaults[1]);
 
       updateExtraKidDetails();
@@ -803,9 +780,9 @@ public abstract class ItemDetailFragment extends Fragment implements
          Log.i(DEBUG_TAG, "HERE");
          mRecordingLayout.setVisibility(View.VISIBLE);
          mAudioRecorded = true;
-     
+
          String[] a = mCurrentAudioFile.split("/");
-         String filename = a[a.length-1];
+         String filename = a[a.length - 1];
          TextView audioFile = (TextView) v.findViewById(R.id.text_recording);
          audioFile.setText(filename);
       }
@@ -823,17 +800,22 @@ public abstract class ItemDetailFragment extends Fragment implements
             break;
          }
       }
-      return mKidName + "-" + str + mDate.getTimeInMillis()
-            + ".3gp"; 
+      return mKidName + "-" + str + mDate.getTimeInMillis() + ".3gp";
    }
-   
+
    private void renameFile()
    {
       String filename = getFilename();
       File newfile = new File(mDirectory, filename);
-      
-      if (mOutFile.getAbsolutePath().equals(newfile.getAbsolutePath())) { return; }
-      if (newfile.exists()) { newfile.delete(); }
+
+      if (mOutFile.getAbsolutePath().equals(newfile.getAbsolutePath()))
+      {
+         return;
+      }
+      if (newfile.exists())
+      {
+         newfile.delete();
+      }
 
       Log.i(DEBUG_TAG, "Oldfile: " + mOutFile.getAbsolutePath());
       Log.i(DEBUG_TAG, "Newfile: " + newfile.getAbsolutePath());
@@ -849,17 +831,26 @@ public abstract class ItemDetailFragment extends Fragment implements
       mOutFile.delete();
       mOutFile = newfile;
       mTempFile = null;
-      mCurrentAudioFile = mOutFile.getAbsolutePath();     
+
+
    }
 
    private void saveFile()
    {
       mOutFile = new File(mDirectory, getFilename());
 
-      if (mOutFile.exists()) { mOutFile.delete(); }
+      if (mOutFile.exists())
+      {
+         mOutFile.delete();
+      }
 
-      if (mTempFile.renameTo(mOutFile)) { Log.i(DEBUG_TAG, "Rename succesful"); } 
-      else { Log.i(DEBUG_TAG, "Rename failed"); }
+      if (mTempFile.renameTo(mOutFile))
+      {
+         Log.i(DEBUG_TAG, "Rename succesful");
+      } else
+      {
+         Log.i(DEBUG_TAG, "Rename failed");
+      }
 
       mTempFile.delete();
       mTempFile = null;
@@ -874,7 +865,7 @@ public abstract class ItemDetailFragment extends Fragment implements
                   Log.i("ExternalStorage", "-> uri=" + uri);
                }
             });
-      mCurrentAudioFile = mOutFile.getAbsolutePath();      
+      mCurrentAudioFile = mOutFile.getAbsolutePath();
    }
 
    public void setCurrentKidId(long kidId)
@@ -920,10 +911,10 @@ public abstract class ItemDetailFragment extends Fragment implements
    public void onSaveInstanceState(Bundle outState)
    {
       super.onSaveInstanceState(outState);
-      /*if (mImgPlay.getVisibility() == View.VISIBLE)
-      {
-         outState.putBoolean(Prefs.AUDIO_RECORDED, true);
-      }*/
+      /*
+       * if (mImgPlay.getVisibility() == View.VISIBLE) {
+       * outState.putBoolean(Prefs.AUDIO_RECORDED, true); }
+       */
 
       outState.putLong(Prefs.CURRENT_KID_ID, mCurrentKidId);
       outState.putLong(Prefs.ITEM_ID, mItemId);
@@ -934,23 +925,15 @@ public abstract class ItemDetailFragment extends Fragment implements
    public void onResume()
    {
       super.onResume();
-      mRecorder = new MediaRecorder();
-      mRecorder.setOnErrorListener(this);
-      mRecorder.setOnInfoListener(this);
       mPlayer = new MediaPlayer();
       mPlayer.setOnCompletionListener(this);
-      //Utils.updateTitlebar(mCurrentKidId, getView(), getActivity());
+      // Utils.updateTitlebar(mCurrentKidId, getView(), getActivity());
       insertKidDefaults(mCurrentKidId, getView());
    }
 
    @Override
    public void onPause()
    {
-      if (mRecorder != null)
-      {
-         mRecorder.release();
-         mRecorder = null;
-      }
       if (mPlayer != null)
       {
          mPlayer.release();
@@ -967,19 +950,5 @@ public abstract class ItemDetailFragment extends Fragment implements
       mOutFile = null;
       mDate = null;
       mTempFile = null;
-   }
-   
-   @Override
-   public boolean onOptionsItemSelected(MenuItem item) 
-   {
-      // handle item selection
-      switch (item.getItemId()) 
-      {
-         case R.id.action_dictionary:
-            mListener.onClickedShowDictionary(this.mCurrentKidId);
-            return true;
-         default:
-            return super.onOptionsItemSelected(item);
-      }
    }
 }

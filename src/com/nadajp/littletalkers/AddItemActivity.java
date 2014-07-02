@@ -5,17 +5,16 @@ import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.View;
 
 import com.nadajp.littletalkers.ItemDetailFragment.OnAddNewPhraseListener;
 import com.nadajp.littletalkers.utils.Prefs;
-import com.nadajp.littletalkers.utils.Utils;
 
 public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListener
 {   
    
    private static final String DEBUG_TAG = "AddItemActivity";
+   private int mType;
+   private ItemDetailFragment mFragment;
 
    @Override
    protected void onCreate(Bundle savedInstanceState)
@@ -24,7 +23,7 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
       setContentView(R.layout.activity_add_word);
 
       final ActionBar actionBar = getActionBar();
-
+        
       ItemDetailFragment addWordFragment = new WordDetailFragment();
       Tab addWordTab = actionBar.newTab().setText(R.string.word_or_phrase);
       addWordTab.setTag(Prefs.TYPE_WORD);
@@ -37,6 +36,7 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
       actionBar.addTab(addQATab
             .setTabListener(new MyTabListener(addQAFragment)));  
       
+      mType = this.getIntent().getIntExtra(Prefs.TYPE, mType);
       if (mType == Prefs.TYPE_WORD) 
       { 
          actionBar.selectTab(addWordTab); 
@@ -46,7 +46,6 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
          actionBar.selectTab(addQATab); 
       }
    }
-
 
    
    @Override
