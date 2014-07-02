@@ -32,6 +32,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/addnewtext"
             android:paddingBottom="5dp"
             android:paddingTop="5dp" >
@@ -67,14 +68,62 @@
             </EditText>
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/layout_recording"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layoutAddNew"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/white_card_background"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:visibility="gone">
+            
+          <TextView android:id="@+id/text_recording"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/ic_action_mic"
+            android:drawablePadding="10dp"
+            android:padding="15dp" 
+            android:maxLength="25"/>
+        
+           <Button
+                android:id="@+id/button_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="-5dp"
+                android:paddingLeft="-5dp"
+                android:background="@null"
+                android:drawableEnd="@drawable/ic_action_delete"
+                android:layout_centerVertical="true">
+            </Button>
+            
+           <Button
+                android:id="@+id/button_play"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/text_recording"
+                android:background="@null"
+                android:drawableRight="@drawable/ic_action_play"
+                android:layout_marginRight="55dp"
+                android:layout_centerVertical="true">
+            </Button>
+            
+        </RelativeLayout>
+            
+                
         <EditText
             android:id="@+id/editDate"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/layoutAddNew"
+            android:layout_below="@id/layout_recording"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="20dp"
             android:background="@drawable/white_card_background"
             android:drawableLeft="@drawable/ic_action_go_to_today"
             android:drawablePadding="10dp"
@@ -82,7 +131,7 @@
             android:hint="@string/when"
             android:inputType="none"
             android:padding="15dp" />
-
+        
         <EditText
             android:id="@+id/editLocation"
             android:layout_width="match_parent"

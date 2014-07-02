@@ -1,6 +1,7 @@
 package com.nadajp.littletalkers;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
+import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
 public class QADetailFragment extends ItemDetailFragment
@@ -49,6 +51,13 @@ public class QADetailFragment extends ItemDetailFragment
       mTextCheckInstructions = (TextView) v.findViewById(R.id.textCheckInstructions);
    }
 
+   public void startAudioRecording()
+   {
+      Intent intent = new Intent(this.getActivity(), AudioRecordActivity.class);
+      intent.putExtra(Prefs.TYPE, Prefs.TYPE_QA);
+      startActivityForResult(intent, RECORD_AUDIO_REQUEST);
+   }
+   
    public void updateExtraKidDetails()
    {
       mTextCheckInstructions.setText(getString(R.string.check_instructions1) + " " + mKidName +

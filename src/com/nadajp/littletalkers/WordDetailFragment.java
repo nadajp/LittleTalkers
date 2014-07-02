@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -19,6 +18,7 @@ import android.widget.Toast;
 
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
+import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
 public class WordDetailFragment extends ItemDetailFragment
@@ -43,6 +43,13 @@ public class WordDetailFragment extends ItemDetailFragment
       mEditTranslation = (EditText) v.findViewById(R.id.editTranslation);
    }
 
+   public void startAudioRecording()
+   {
+      Intent intent = new Intent(this.getActivity(), AudioRecordActivity.class);
+      intent.putExtra(Prefs.TYPE, Prefs.TYPE_WORD);
+      startActivityForResult(intent, RECORD_AUDIO_REQUEST);
+   }
+      
    public void setShareData(String data)
    {
       Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -207,6 +214,7 @@ public class WordDetailFragment extends ItemDetailFragment
 
       mCurrentAudioFile = cursor.getString(cursor
             .getColumnIndex(DbContract.Words.COLUMN_NAME_AUDIO_FILE));
+    
       
       if (this.mItemId > 0)
       {

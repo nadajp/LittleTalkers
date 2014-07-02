@@ -40,14 +40,23 @@
 
         <RelativeLayout
             android:id="@+id/question"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:layout_below="@id/textHeading"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_toRightOf="@id/imgMic"
             android:background="@drawable/addnewtext" >
+
+            <CheckBox
+                android:id="@+id/checkAsked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_centerVertical="true"
+                android:checked="true" />
 
             <EditText
                 android:id="@+id/editQuestion"
@@ -56,6 +65,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@id/checkAsked"
                 android:background="@null"
                 android:hint="@string/question"
                 android:inputType="textCapSentences"
@@ -64,31 +74,32 @@
                 android:scrollbarStyle="insideInset"
                 android:scrollbars="horizontal" >
             </EditText>
-
-            <CheckBox
-                android:id="@+id/checkAsked"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/editQuestion"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:checked="true" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/answer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_below="@id/question"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_toRightOf="@id/imgMic"
             android:background="@drawable/addnewtext" >
-
+            
+            <CheckBox
+                android:id="@+id/checkAnswered"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_centerVertical="true"
+                android:checked="false" />
+            
             <EditText
                 android:id="@+id/editAnswer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/checkAnswered"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="10dp"
                 android:background="@null"
@@ -101,14 +112,6 @@
                 android:scrollbars="horizontal" >
             </EditText>
 
-            <CheckBox
-                android:id="@+id/checkAnswered"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/editAnswer"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:checked="false" />
         </RelativeLayout>
 
         <TextView

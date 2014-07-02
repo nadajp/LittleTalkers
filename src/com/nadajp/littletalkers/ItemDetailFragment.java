@@ -47,6 +47,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.RelativeLayout;
 import android.widget.ShareActionProvider;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -71,6 +72,7 @@ public abstract class ItemDetailFragment extends Fragment implements
    private static final int DELETE_AUDIO_DIALOG_ID = 1;
    private static final int REPLACE_AUDIO_DIALOG_ID = 2;
    private static final int SHARE_DIALOG_ID = 3;
+   protected static final int RECORD_AUDIO_REQUEST = 4;
    private OnAddNewPhraseListener mListener; // listener to notify activity that
                                              // new
    private File mDirectory = null; // directory to store audio file
@@ -98,8 +100,9 @@ public abstract class ItemDetailFragment extends Fragment implements
    // common user interface elements
    protected EditText mEditPhrase, mEditDate, mEditLocation, mEditToWhom,
          mEditNotes;
-   private ImageView mImgPlay;
-   private ImageView mImgDelete;
+   private RelativeLayout mRecordingLayout;
+   private Button mPlay;
+   private Button mDelete;
    private ImageView mImgMic;
    //protected Spinner mLangSpinner;
    protected TextView mTextHeading;
@@ -124,6 +127,8 @@ public abstract class ItemDetailFragment extends Fragment implements
    public abstract void updateExtraKidDetails();
 
    public abstract String getShareBody();
+   
+   public abstract void startAudioRecording();
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -159,15 +164,15 @@ public abstract class ItemDetailFragment extends Fragment implements
       //mButtonCancel = (Button) v.findViewById(R.id.buttonCancel);
       mButtonSave = (Button) v.findViewById(R.id.button_save);
 
+      mRecordingLayout = (RelativeLayout) v.findViewById(R.id.layout_recording);
       mImgMic = (ImageView) v.findViewById(R.id.imgMic);
-      //mImgPlay = (ImageView) v.findViewById(R.id.imgPlay);
-      //mImgDelete = (ImageView) v.findViewById(R.id.imgDelete);
+      mPlay = (Button) v.findViewById(R.id.button_play);
+      mDelete = (Button) v.findViewById(R.id.button_delete);
 
       mEditDate.setOnClickListener(this);
       mImgMic.setOnClickListener(this);
-      //mImgPlay.setOnClickListener(this);
-      //mImgDelete.setOnClickListener(this);
-      //mButtonCancel.setOnClickListener(this);
+      mPlay.setOnClickListener(this);
+      mDelete.setOnClickListener(this);
       mButtonSave.setOnClickListener(this);
 
       initializeExtras(v);
@@ -210,8 +215,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          if (savedInstanceState.getBoolean(Prefs.AUDIO_RECORDED) == true)
          {
-            //mImgPlay.setVisibility(View.VISIBLE);
-            //mImgDelete.setVisibility(View.VISIBLE);
+            mRecordingLayout.setVisibility(View.VISIBLE);
             mAudioRecorded = true;
          }
 
@@ -234,8 +238,8 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          updateItem(v);
          getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+
          //mButtonCancel.setText(R.string.share);
-         //mButtonSave.setText(R.string.save_changes);
       } else
       {
          getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
@@ -409,28 +413,17 @@ public abstract class ItemDetailFragment extends Fragment implements
          showCalendar(v);
          break;
       case R.id.imgMic:
-         clickedMic(v);
+         startRecording();
          break;
-      /*case R.id.imgPlay:
+      case R.id.button_play:
          clickedAudioPlay(v);
          break;
-      case R.id.imgDelete:
+      case R.id.button_delete:
          deleteAudio();
-         break;*/
+         break;
       case R.id.button_save:
          saveItem(true);
          break;
-      /*case R.id.buttonCancel:
-         if (mButtonCancel.getText().toString().contains("Show"))
-         {
-            mListener.onClickedShowDictionary(mCurrentKidId);
-         } else
-         {
-            ShareDialog dlg = new ShareDialog();
-            dlg.setTargetFragment(this, SHARE_DIALOG_ID);
-            dlg.show(getFragmentManager(), ShareDialog.class.toString());
-         }
-         break;*/
       default:
          return;
       }
@@ -460,8 +453,23 @@ public abstract class ItemDetailFragment extends Fragment implements
             Toast.LENGTH_LONG).show();
    }
 
-   private void clickedMic(View v)
+   @Override
+   public void onActivityResult(int requestCode, int resultCode, Intent data) 
    {
+       // Check which request we're responding to
+       if (requestCode == RECORD_AUDIO_REQUEST) 
+       {
+           // Make sure the request was successful
+           if (resultCode == Activity.RESULT_OK) 
+           {
+               stopRecording();
+           }
+       }
+   }
+   
+   //private void clickedMic(View v)
+   //{  
+      /*
       if (!mRecording)
       {
          v.startAnimation(mAnimation);
@@ -472,8 +480,8 @@ public abstract class ItemDetailFragment extends Fragment implements
          v.clearAnimation();
          stopRecording();
          mRecording = false;
-      }
-   }
+      }*/
+   //}
 
    private void clickedAudioPlay(View v)
    {
@@ -493,8 +501,8 @@ public abstract class ItemDetailFragment extends Fragment implements
 
    private void startPlaying()
    {
-      mImgPlay.setPressed(true);
-      mImgPlay.startAnimation(mAnimation);
+      mPlay.setPressed(true);
+      mPlay.startAnimation(mAnimation);
       if (mTempFile != null)
       {
          Log.i(DEBUG_TAG, "Playing file: " + mTempFile.getAbsolutePath());
@@ -521,8 +529,8 @@ public abstract class ItemDetailFragment extends Fragment implements
       }
       mPlayer.stop();
       mPlayer.reset();
-      mImgPlay.clearAnimation();
-      mImgPlay.setPressed(false);
+      mPlay.clearAnimation();
+      mPlay.setPressed(false);
       Log.i(DEBUG_TAG, "Stopped.");
    }
 
@@ -547,8 +555,9 @@ public abstract class ItemDetailFragment extends Fragment implements
          mTempFile = null;
       }
 
+      startAudioRecording();      
       mTempFile = new File(mDirectory, "temp.3gp");
-
+      /*
       mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
       mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
       mRecorder.setOutputFile(mTempFile.getAbsolutePath());
@@ -563,12 +572,13 @@ public abstract class ItemDetailFragment extends Fragment implements
          Log.e(DEBUG_TAG, "Exception in preparing recorder: " + e.getMessage());
          Toast.makeText(this.getActivity(), e.getMessage(), Toast.LENGTH_LONG)
                .show();
-      }
+      }*/
+      
    }
 
    private void stopRecording()
    {
-      try
+      /*try
       {
          mRecorder.stop();
       } catch (Exception e)
@@ -578,7 +588,10 @@ public abstract class ItemDetailFragment extends Fragment implements
       }
       mRecorder.reset();
       mImgPlay.setVisibility(View.VISIBLE);
-      mImgDelete.setVisibility(View.VISIBLE);
+      mImgDelete.setVisibility(View.VISIBLE);*/
+      mRecordingLayout.setVisibility(View.VISIBLE);
+      
+      // if a phrase has already been entered, save under real filename
       if (!(mEditPhrase.getText().toString().isEmpty()))
       {
          if (mOutFile != null) // if editing, pop up dialog
@@ -594,6 +607,9 @@ public abstract class ItemDetailFragment extends Fragment implements
             saveItem(false);
          }
       }
+      // otherwise, it has been saved in temp file
+      TextView audioFile = (TextView) this.getView().findViewById(R.id.text_recording);
+      audioFile.setText("temp.3gp");
    }
 
    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
@@ -695,8 +711,8 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          mOutFile.delete();
          mOutFile = null;
-         mImgPlay.setVisibility(View.GONE);
-         mImgDelete.setVisibility(View.GONE);
+         mRecordingLayout.setVisibility(View.GONE);
+         //mImgDelete.setVisibility(View.GONE);
         
          if (mEditPhrase.getText().length() > 0)
          {
@@ -708,8 +724,8 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          mTempFile.delete();
          mTempFile = null;
-         mImgPlay.setVisibility(View.GONE);
-         mImgDelete.setVisibility(View.GONE);
+         mRecordingLayout.setVisibility(View.GONE);
+         //mImgDelete.setVisibility(View.GONE);
       }
    }
 
@@ -737,6 +753,10 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          renameFile();
       }
+      String[] a = mCurrentAudioFile.split("/");
+      String filename = a[a.length-1];
+      TextView audioFile = (TextView) this.getView().findViewById(R.id.text_recording);
+      audioFile.setText(filename);
    }
 
    private void clearForm()
@@ -746,8 +766,8 @@ public abstract class ItemDetailFragment extends Fragment implements
       updateDate();
       mEditToWhom.setText("");
       mEditNotes.setText("");
-      mImgPlay.setVisibility(View.INVISIBLE);
-      mImgDelete.setVisibility(View.INVISIBLE);
+      mRecordingLayout.setVisibility(View.GONE);
+      //mImgDelete.setVisibility(View.INVISIBLE);
       mAudioRecorded = false;
       mEditPhrase.setError(null);
       clearExtraViews();
@@ -756,7 +776,7 @@ public abstract class ItemDetailFragment extends Fragment implements
    public void updateItem(View v)
    {
       insertItemDetails(v);
-      setAudio();
+      setAudio(v);
    }
 
    public void insertKidDefaults(long kidId, View v)
@@ -773,18 +793,21 @@ public abstract class ItemDetailFragment extends Fragment implements
       mEditLocation.setText(defaults[1]);
 
       updateExtraKidDetails();
-      //Utils.updateTitlebar(mCurrentKidId, v, this.getActivity());
    }
 
-   protected void setAudio()
+   protected void setAudio(View v)
    {
       if (mCurrentAudioFile != null && !mCurrentAudioFile.isEmpty())
       {
          mOutFile = new File(mCurrentAudioFile);
          Log.i(DEBUG_TAG, "HERE");
-         //mImgPlay.setVisibility(View.VISIBLE);
-         //mImgDelete.setVisibility(View.VISIBLE);
+         mRecordingLayout.setVisibility(View.VISIBLE);
          mAudioRecorded = true;
+     
+         String[] a = mCurrentAudioFile.split("/");
+         String filename = a[a.length-1];
+         TextView audioFile = (TextView) v.findViewById(R.id.text_recording);
+         audioFile.setText(filename);
       }
    }
 
@@ -806,7 +829,8 @@ public abstract class ItemDetailFragment extends Fragment implements
    
    private void renameFile()
    {
-      File newfile = new File(mDirectory, getFilename());
+      String filename = getFilename();
+      File newfile = new File(mDirectory, filename);
       
       if (mOutFile.getAbsolutePath().equals(newfile.getAbsolutePath())) { return; }
       if (newfile.exists()) { newfile.delete(); }
@@ -825,6 +849,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       mOutFile.delete();
       mOutFile = newfile;
       mTempFile = null;
+      mCurrentAudioFile = mOutFile.getAbsolutePath();     
    }
 
    private void saveFile()
@@ -849,7 +874,7 @@ public abstract class ItemDetailFragment extends Fragment implements
                   Log.i("ExternalStorage", "-> uri=" + uri);
                }
             });
-      mCurrentAudioFile = mOutFile.getAbsolutePath();
+      mCurrentAudioFile = mOutFile.getAbsolutePath();      
    }
 
    public void setCurrentKidId(long kidId)

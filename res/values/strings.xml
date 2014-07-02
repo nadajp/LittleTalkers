@@ -45,6 +45,7 @@
     <string name="word_updated">Word Updated.</string>
     <string name="cancel">Cancel</string>
     <string name="said">said</string>
+    <string name="stop_recording">Tap the screen to stop recording</string>
 
     <!-- AddKid -->
     <string name="profile_picture">Profile Picture</string>
@@ -164,5 +165,6 @@
     <string name="title_item_detail">Item Detail</string>
     <string name="title_activity_kid_profile">View Profile</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_audio_record">AudioRecordActivity</string>
 
 </resources>
