@@ -278,11 +278,6 @@ public abstract class ItemDetailFragment extends Fragment implements
          dlg.setTargetFragment(this, SHARE_DIALOG_ID);
          dlg.show(getFragmentManager(), ShareDialog.class.toString());
          return true;
-
-      case R.id.action_dictionary:
-         mListener.onClickedShowDictionary(this.mCurrentKidId);
-         return true;
-
       default:
          return super.onOptionsItemSelected(item);
       }
@@ -732,7 +727,7 @@ public abstract class ItemDetailFragment extends Fragment implements
          String[] a = mCurrentAudioFile.split("/");
          String filename = a[a.length - 1];
          TextView audioFile = (TextView) this.getView().findViewById(
-            R.id.text_recording);
+               R.id.text_recording);
          audioFile.setText(filename);
       }
    }
@@ -831,8 +826,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       mOutFile.delete();
       mOutFile = newfile;
       mTempFile = null;
-
-
+      mCurrentAudioFile = mOutFile.getAbsolutePath();
    }
 
    private void saveFile()
@@ -911,11 +905,11 @@ public abstract class ItemDetailFragment extends Fragment implements
    public void onSaveInstanceState(Bundle outState)
    {
       super.onSaveInstanceState(outState);
-      /*
-       * if (mImgPlay.getVisibility() == View.VISIBLE) {
-       * outState.putBoolean(Prefs.AUDIO_RECORDED, true); }
-       */
-
+      
+      if (mRecordingLayout.getVisibility() == View.VISIBLE) 
+      {
+         outState.putBoolean(Prefs.AUDIO_RECORDED, true); 
+      }
       outState.putLong(Prefs.CURRENT_KID_ID, mCurrentKidId);
       outState.putLong(Prefs.ITEM_ID, mItemId);
       Log.i(DEBUG_TAG, "Saving Instance State: " + mCurrentKidId);
@@ -927,7 +921,6 @@ public abstract class ItemDetailFragment extends Fragment implements
       super.onResume();
       mPlayer = new MediaPlayer();
       mPlayer.setOnCompletionListener(this);
-      // Utils.updateTitlebar(mCurrentKidId, getView(), getActivity());
       insertKidDefaults(mCurrentKidId, getView());
    }
 

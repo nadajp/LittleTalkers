@@ -239,6 +239,10 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
          Intent manage_intent = new Intent(this, ManageKidsActivity.class);
          startActivity(manage_intent);
          return true;
+      case R.id.action_dictionary:
+         Intent dict_intent = new Intent(this, ItemListActivity.class);
+         startActivity(dict_intent);
+         return true;
       default:
          return super.onOptionsItemSelected(item);
       }
