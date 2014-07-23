@@ -1,5 +1,7 @@
 package com.nadajp.littletalkers;
 
+import com.nadajp.littletalkers.utils.Utils;
+
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,15 +15,17 @@ public class ManageKidsActivity extends BaseActivity
    {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_manage_kids);
-      this.getActionBar().setTitle(R.string.title_activity_manage_kids);
-      getActionBar().setDisplayHomeAsUpEnabled(true);
-      this.getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+      ActionBar actionBar = this.getActionBar();
+      actionBar.setTitle(R.string.title_activity_manage_kids);
+      actionBar.setDisplayHomeAsUpEnabled(true);
+      actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+      actionBar.setDisplayShowCustomEnabled(false);
+      Utils.setColor(actionBar, Utils.COLOR_ORANGE, this);
    }
 
    @Override
    public boolean onCreateOptionsMenu(Menu menu)
    {
-      // super.onCreateOptionsMenu(menu);
       // Inflate the menu; this adds items to the action bar if it is present.
       getMenuInflater().inflate(R.menu.manage_kids, menu);
       return true;

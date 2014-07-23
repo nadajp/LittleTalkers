@@ -15,9 +15,6 @@ import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
-import android.media.MediaRecorder;
-import android.media.MediaRecorder.OnErrorListener;
-import android.media.MediaRecorder.OnInfoListener;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,12 +39,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.ShareActionProvider;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,7 +57,7 @@ import com.nadajp.littletalkers.utils.Utils;
 public abstract class ItemDetailFragment extends Fragment implements
       OnItemSelectedListener, OnClickListener, OnCompletionListener
 {
-   private static final String DEBUG_TAG = "AddItemFragment";
+   private static final String DEBUG_TAG = "ItemDetailFragment";
    public static final String ITEM_ID = "Item_ID";
    private static final int DELETE_AUDIO_DIALOG_ID = 1;
    private static final int REPLACE_AUDIO_DIALOG_ID = 2;
@@ -77,13 +72,11 @@ public abstract class ItemDetailFragment extends Fragment implements
                                        // none
    protected long mCurrentKidId; // current kid id, must be valid
    protected long mItemId; // current item id, 0 if nothing has been saved yet
-   private MediaRecorder mRecorder; // audio recorder
    private MediaPlayer mPlayer; // audio player
    final static Animation mAnimation = new AlphaAnimation(1, 0); // Change alpha
                                                                  // from fully
                                                                  // visible to
                                                                  // invisible
-
    protected Calendar mDate; // calendar for current date
    protected String mLanguage; // current language
    protected ShareActionProvider mShareActionProvider; // used to share data
@@ -98,7 +91,7 @@ public abstract class ItemDetailFragment extends Fragment implements
    private Button mPlay;
    private Button mDelete;
    private ImageView mImgMic;
-   // protected Spinner mLangSpinner;
+   protected Spinner mLangSpinner;
    protected TextView mTextHeading;
    protected Button mButtonSave;
    private boolean mAudioRecorded;
@@ -124,20 +117,39 @@ public abstract class ItemDetailFragment extends Fragment implements
 
    public abstract void startAudioRecording();
 
+   public static ItemDetailFragment newInstance(int sectionNumber)
+   {
+      ItemDetailFragment fragment;
+      switch (sectionNumber)
+      {
+        case 1:
+          fragment = new QADetailFragment();
+          break;
+        default:
+          fragment = new WordDetailFragment();
+          break;
+      }
+      Bundle args = new Bundle();
+      args.putInt(Prefs.TAB_ID, sectionNumber);
+      fragment.setArguments(args);
+      return fragment;
+   }
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
          Bundle savedInstanceState)
    {
+      Log.i(DEBUG_TAG, "Creating ITEM Detail Fragment");
+
       // Inflate the layout for this fragment
       View v = inflater.inflate(mFragmentLayout, container, false);
 
       // Create language spinner
-      // mLangSpinner = (Spinner) v.findViewById(R.id.spinnerLanguage);
-      // mLangSpinner.setOnItemSelectedListener(this);
+      mLangSpinner = (Spinner) v.findViewById(R.id.spinner_language);
+      mLangSpinner.setOnItemSelectedListener(this);
       ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
             getActivity(), R.array.array_languages, R.layout.lt_spinner_item);
       adapter.setDropDownViewResource(R.layout.lt_spinner_dropdown_item);
-      // mLangSpinner.setAdapter(adapter);
+      mLangSpinner.setAdapter(adapter);
 
       mAnimation.setDuration(500); // duration - half a second
       mAnimation.setInterpolator(new LinearInterpolator()); // do not alter
@@ -208,6 +220,7 @@ public abstract class ItemDetailFragment extends Fragment implements
          {
             mRecordingLayout.setVisibility(View.VISIBLE);
             mAudioRecorded = true;
+            Log.i(DEBUG_TAG, "YES, AUDIO RECORDED...");
          }
 
          mItemId = savedInstanceState.getLong(Prefs.ITEM_ID);
@@ -221,18 +234,20 @@ public abstract class ItemDetailFragment extends Fragment implements
          Log.i(DEBUG_TAG, "item ID = " + mItemId);
       }
 
-      // insertKidDefaults(mCurrentKidId, v, false);
-
       // If editing/viewing an existing item, fill in all the fields
-      if (mItemId > 0)
+      if (mItemId > 0 && savedInstanceState == null)
       {
          updateItem(v);
          getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
       } else
       {
+         if (savedInstanceState == null)
+         {
+            Log.i(DEBUG_TAG, "NO saved instance state, calling insert defaults...");
+            insertKidDefaults(mCurrentKidId, v);
+         }
          getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
-
          if (mAudioRecorded)
          {
             mTempFile = new File(mDirectory, "temp.3gp");
@@ -246,10 +261,10 @@ public abstract class ItemDetailFragment extends Fragment implements
    public void onActivityCreated(Bundle savedInstanceState)
    {
       super.onActivityCreated(savedInstanceState);
-      if (mItemId > 0)
+     /* if (mItemId > 0)
       {
          updateItem(this.getView());
-      }
+      }*/
    }
 
    @Override
@@ -694,7 +709,6 @@ public abstract class ItemDetailFragment extends Fragment implements
          mTempFile.delete();
          mTempFile = null;
          mRecordingLayout.setVisibility(View.GONE);
-         // mImgDelete.setVisibility(View.GONE);
       }
    }
 
@@ -750,21 +764,25 @@ public abstract class ItemDetailFragment extends Fragment implements
       insertItemDetails(v);
       setAudio(v);
    }
+   
+   private void updateKidName()
+   {
+      mKidName = DbSingleton.get().getKidName(mCurrentKidId);
+      Log.i(DEBUG_TAG, "Updating kid name: " + mKidName);
+      updateExtraKidDetails();
+   }
 
    public void insertKidDefaults(long kidId, View v)
-   {
+   {     
       mCurrentKidId = kidId;
-      mKidName = DbSingleton.get().getKidName(mCurrentKidId);
-      // Log.i(DEBUG_TAG, "kid id in addWord = " + mCurrentKidId);
-      String[] defaults = DbSingleton.get().getDefaults(mCurrentKidId);
+      String[] defaults = DbSingleton.get().getDefaults(kidId);
       mLanguage = defaults[0];
-      Log.i(DEBUG_TAG, mLanguage);
-      // ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
-      // .getAdapter();
-      // mLangSpinner.setSelection(adapter.getPosition(mLanguage));
+      Log.i(DEBUG_TAG, "Inserting kid defaults, language: " + mLanguage);
+      Log.i(DEBUG_TAG, "Location: " + defaults[1]);
+      ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner.getAdapter();
+      mLangSpinner.setSelection(adapter.getPosition(mLanguage));
       mEditLocation.setText(defaults[1]);
-
-      updateExtraKidDetails();
+      updateKidName();
    }
 
    protected void setAudio(View v)
@@ -909,6 +927,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       if (mRecordingLayout.getVisibility() == View.VISIBLE) 
       {
          outState.putBoolean(Prefs.AUDIO_RECORDED, true); 
+         Log.i(DEBUG_TAG, "AUDIO RECORDED.");
       }
       outState.putLong(Prefs.CURRENT_KID_ID, mCurrentKidId);
       outState.putLong(Prefs.ITEM_ID, mItemId);
@@ -921,7 +940,14 @@ public abstract class ItemDetailFragment extends Fragment implements
       super.onResume();
       mPlayer = new MediaPlayer();
       mPlayer.setOnCompletionListener(this);
-      insertKidDefaults(mCurrentKidId, getView());
+      if (this.mItemId > 0)
+      {
+         this.updateKidName();  
+      }
+      else 
+      {
+         this.insertKidDefaults(mCurrentKidId, this.getView());
+      }
    }
 
    @Override

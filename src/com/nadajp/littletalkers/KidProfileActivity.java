@@ -71,7 +71,6 @@ public class KidProfileActivity extends Activity
                container, false);
          
          long kidId = this.getActivity().getIntent().getLongExtra(Prefs.CURRENT_KID_ID, 1);
-         Utils.updateTitlebar(kidId, rootView, getActivity());
          return rootView;
       }
    }

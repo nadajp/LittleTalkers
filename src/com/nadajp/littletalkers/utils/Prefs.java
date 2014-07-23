@@ -26,6 +26,8 @@ public class Prefs
    public static final String PHRASE_COLUMN_NAME = "phrase_column_name";
    public static final String LIST_TYPE = "list_type";
    public static final String TYPE = "type";
+   public static final String TAB_ID = "tab_id";
+
    
    public static final int EDIT_KID = 0;
 

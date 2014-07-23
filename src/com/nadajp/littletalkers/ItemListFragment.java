@@ -77,6 +77,24 @@ public abstract class ItemListFragment extends ListFragment implements
 
    public abstract Cursor getFromDatabase();
 
+   public static ItemListFragment newInstance(int sectionNumber)
+   {
+      ItemListFragment fragment;
+      switch (sectionNumber)
+      {
+        case 1:
+          fragment = new QAListFragment();
+          break;
+        default:
+          fragment = new WordListFragment();
+          break;
+      }
+      Bundle args = new Bundle();
+      args.putInt(Prefs.TAB_ID, sectionNumber);
+      fragment.setArguments(args);
+      return fragment;
+   }
+   
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
          Bundle savedInstanceState)

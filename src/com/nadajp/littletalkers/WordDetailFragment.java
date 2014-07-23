@@ -1,7 +1,6 @@
 package com.nadajp.littletalkers;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -10,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -24,20 +24,18 @@ import com.nadajp.littletalkers.utils.Utils;
 public class WordDetailFragment extends ItemDetailFragment
 {
    private static final String DEBUG_TAG = "AddWordFragment";
-
    private EditText mEditTranslation;
-   
+
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
          Bundle savedInstanceState)
    {
+      Log.i(DEBUG_TAG, "Creating Word Detail Fragment");
       mFragmentLayout = R.layout.fragment_word_detail;
       mEditPhraseResId = R.id.editWord;
-      ActionBar actionBar = this.getActivity().getActionBar();
-      Utils.setColor(actionBar, Utils.COLOR_BLUE, this.getActivity());      
-      return super.onCreateView(inflater, container, savedInstanceState); 
+      return super.onCreateView(inflater, container, savedInstanceState);
    }
-   
+
    public void initializeExtras(View v)
    {
       mEditTranslation = (EditText) v.findViewById(R.id.editTranslation);
@@ -49,7 +47,7 @@ public class WordDetailFragment extends ItemDetailFragment
       intent.putExtra(Prefs.TYPE, Prefs.TYPE_WORD);
       startActivityForResult(intent, RECORD_AUDIO_REQUEST);
    }
-      
+
    public void setShareData(String data)
    {
       Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -100,7 +98,7 @@ public class WordDetailFragment extends ItemDetailFragment
       }
       return shareBody;
    }
-   
+
    public boolean savePhrase()
    {
       Log.i(DEBUG_TAG, "in savePhrase...");
@@ -125,8 +123,8 @@ public class WordDetailFragment extends ItemDetailFragment
       // if adding new word, save it here
       if (mItemId == 0)
       {
-         if (DbSingleton.get().saveWord(mCurrentKidId, phrase, mLanguage, msDate,
-               location, mCurrentAudioFile, translation, towhom, notes) == false)
+         if (DbSingleton.get().saveWord(mCurrentKidId, phrase, mLanguage,
+               msDate, location, mCurrentAudioFile, translation, towhom, notes) == false)
          {
             mEditPhrase.requestFocus();
             mEditPhrase.setError(getString(R.string.word_already_exists_error));
@@ -144,9 +142,10 @@ public class WordDetailFragment extends ItemDetailFragment
       // we are editing an existing entry
       {
          Log.i(DEBUG_TAG, "updating word with audio file " + mCurrentAudioFile);
+         Log.i(DEBUG_TAG, "updating word with language: " + mLanguage);
          if (DbSingleton.get().updateWord(mItemId, mCurrentKidId, phrase,
-               mLanguage, msDate, location, mCurrentAudioFile, translation, towhom,
-               notes) == false)
+               mLanguage, msDate, location, mCurrentAudioFile, translation,
+               towhom, notes) == false)
          {
             mEditPhrase.requestFocus();
             mEditPhrase.setError(getString(R.string.word_already_exists_error));
@@ -161,21 +160,21 @@ public class WordDetailFragment extends ItemDetailFragment
          return true;
       }
    }
-   
+
    public void clearExtraViews()
    {
-      mEditTranslation.setText(""); 
-   } 
-   
+      mEditTranslation.setText("");
+   }
+
    public void updateExtraKidDetails()
    {
       if (this.mItemId > 0)
       {
-         mTextHeading.setText(mKidName + getString(R.string.said) + ":");
-      }
-      else 
+         mTextHeading.setText(mKidName + " " + getString(R.string.said) + ":");
+      } else
       {
-         mTextHeading.setText(mKidName + getString(R.string.said_something) + " ?");
+         mTextHeading.setText(mKidName + " " + getString(R.string.said_something)
+               + " ?");
       }
    }
 
@@ -192,8 +191,6 @@ public class WordDetailFragment extends ItemDetailFragment
             .getColumnIndex(DbContract.Words.COLUMN_NAME_DATE));
       mEditDate.setText(Utils.getDateForDisplay(rawdate, this.getActivity()));
       mDate.setTimeInMillis(rawdate);
-
-      // mEditDate.setText(cursor.getString(cursor.getColumnIndex(DbContract.Words.COLUMN_NAME_DATE)).toString());
       mEditLocation.setText(cursor.getString(
             cursor.getColumnIndex(DbContract.Words.COLUMN_NAME_LOCATION))
             .toString());
@@ -206,23 +203,25 @@ public class WordDetailFragment extends ItemDetailFragment
       mEditNotes.setText(cursor.getString(
             cursor.getColumnIndex(DbContract.Words.COLUMN_NAME_NOTES))
             .toString());
-
-     // ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
-     //       .getAdapter();
-      //mLangSpinner.setSelection(adapter.getPosition(cursor.getString(cursor
-      //      .getColumnIndex(DbContract.Words.COLUMN_NAME_LANGUAGE))));
-
+     
+      Log.i(DEBUG_TAG, "Language from DB: " + cursor.getString(cursor
+            .getColumnIndex(DbContract.Words.COLUMN_NAME_LANGUAGE)));
+         
+      ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
+            .getAdapter();
+      mLangSpinner.setSelection(adapter.getPosition(cursor.getString(cursor
+            .getColumnIndex(DbContract.Words.COLUMN_NAME_LANGUAGE))));
+ 
       mCurrentAudioFile = cursor.getString(cursor
             .getColumnIndex(DbContract.Words.COLUMN_NAME_AUDIO_FILE));
-    
-      
+
       if (this.mItemId > 0)
       {
          mTextHeading.setText(mKidName + getString(R.string.said) + ":");
-      }
-      else 
+      } else
       {
-         mTextHeading.setText(mKidName + getString(R.string.said_something) + " ?");
+         mTextHeading.setText(mKidName + getString(R.string.said_something)
+               + " ?");
       }
       cursor.close();
 
@@ -235,7 +234,8 @@ public class WordDetailFragment extends ItemDetailFragment
    {
       Cursor cursor = DbSingleton.get().getWordHistory(mCurrentKidId, mItemId);
 
-      if (cursor.getCount() < 2) return;
+      if (cursor.getCount() < 2)
+         return;
 
       TextView title = (TextView) v.findViewById(R.id.txtWordHistory);
       title.setVisibility(View.VISIBLE);
@@ -283,13 +283,15 @@ public class WordDetailFragment extends ItemDetailFragment
 
             txtDate.setTextSize(16);
             txtWord.setTextSize(16);
-            
+
             if (android.os.Build.VERSION.SDK_INT > 15)
             {
-               ll.setBackground(this.getResources().getDrawable(R.drawable.white_card_background));
-            }
-            else {
-               ll.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.white_card_background));
+               ll.setBackground(this.getResources().getDrawable(
+                     R.drawable.white_card_background));
+            } else
+            {
+               ll.setBackgroundDrawable(this.getResources().getDrawable(
+                     R.drawable.white_card_background));
             }
 
             ll.setPadding(15, 15, 15, 15);

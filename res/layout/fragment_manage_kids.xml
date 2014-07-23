@@ -11,8 +11,11 @@
         android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
         android:choiceMode="multipleChoice"
+        android:layout_margin = "15dp"
+        android:background="@color/white"
+        android:divider="@color/background_gray"
+        android:dividerHeight="10dp"
         android:scrollbarAlwaysDrawVerticalTrack="false" />
 
     <TextView

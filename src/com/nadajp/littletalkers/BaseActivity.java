@@ -4,13 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
-
 import android.app.ActionBar;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.app.ActionBar.Tab;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -24,10 +19,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
@@ -35,7 +28,6 @@ import android.widget.Spinner;
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
-import com.nadajp.littletalkers.utils.Utils;
 
 public class BaseActivity extends Activity implements OnItemSelectedListener
 {
@@ -46,7 +38,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
    protected int mType;
    private ImageView mImgProfile;
    private Spinner mSpinner;
-
+   
    @Override
    protected void onCreate(Bundle savedInstanceState)
    {
@@ -59,21 +51,15 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       if (savedInstanceState != null)
       {
          mPosition = savedInstanceState.getInt(Prefs.POSITION);
-         mType = savedInstanceState.getInt(Prefs.TYPE);  
       } else 
       { 
          mPosition = -1; 
-         mType = Prefs.getType(this, Prefs.TYPE_WORD);
       }
 
-      Log.i(DEBUG_TAG, "Type: " + mType);
-      // Log.i(DEBUG_TAG, "Position: " + mPosition);
-      final ActionBar actionBar = getActionBar();
-      
+      final ActionBar actionBar = getActionBar();     
       LayoutInflater mInflater = LayoutInflater.from(this);
-
       View customView = mInflater.inflate(R.layout.actionbar, null);
-
+      
       mImgProfile = (ImageView) customView
               .findViewById(R.id.action_profile);
       
@@ -82,43 +68,8 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       actionBar.setCustomView(customView);
       actionBar.setDisplayShowCustomEnabled(true);     
       actionBar.setDisplayShowTitleEnabled(false); 
-      actionBar.setDisplayUseLogoEnabled(false);
-      actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
       setupMainMenuSpinner();
-   }
-
-   public class MyTabListener implements ActionBar.TabListener 
-   {
-      private final Fragment mFragment;
-
-      public MyTabListener(Fragment fragment) {
-         mFragment = fragment;
-      }
-
-      @Override
-      public void onTabReselected(Tab tab, FragmentTransaction ft) 
-      {
-      
-      }
-
-      @Override
-      public void onTabSelected(Tab tab, FragmentTransaction ft) 
-      {
-         if (null != mFragment) 
-         {
-            Prefs.saveKidId(getApplicationContext(), mCurrentKidId);
-            Log.i(DEBUG_TAG, "Saved ID: " + mCurrentKidId);
-            ft.replace(R.id.fragment_container, mFragment);          
-            Prefs.saveType(getApplicationContext(), (Integer) tab.getTag());
-         }
-      }
-
-      @Override
-      public void onTabUnselected(Tab tab, FragmentTransaction ft) 
-      {
-         if (null != mFragment)
-            ft.remove(mFragment);
-      }
+ 
    }
    
    public void setItemType(int type) {}
@@ -127,9 +78,6 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
    public boolean onCreateOptionsMenu(Menu menu)
    {
       getMenuInflater().inflate(R.menu.base, menu);
-      //MenuItem mainMenuSpinner = menu.findItem( R.id.menu_main_spinner);
-      //MenuItem profilePic = menu.findItem(R.id.action_profile);
-      //setupMainMenuSpinner(mainMenuSpinner); 
       return super.onCreateOptionsMenu(menu);
    }
    
@@ -163,7 +111,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
           String[] adapterCols = new String[] { "name" };
           int[] adapterRowViews = new int[] { android.R.id.text1 };
 
-          mCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item,
+          mCursorAdapter = new SimpleCursorAdapter(this, R.layout.kid_spinner_item,
                 cursor, adapterCols, adapterRowViews, 0);
           mCursorAdapter
                 .setDropDownViewResource(R.layout.kid_spinner_dropdown_item);
@@ -206,13 +154,15 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
    
    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
    {
-      Log.i(DEBUG_TAG, "Selected kid with ID " + id);
-      mCurrentKidId = id;     
-      String pictureUri = DbSingleton.get().getPicturePath(id);
-      
-      changeProfilePic(pictureUri);
-      
+      if (mCurrentKidId == id)
+      {
+         return;
+      }
+      Log.i(DEBUG_TAG, "Selected kid with ID " + id + ", setting current kid...");
+      mCurrentKidId = id;
       mPosition = pos;
+      String pictureUri = DbSingleton.get().getPicturePath(id);      
+      changeProfilePic(pictureUri);      
       setCurrentKidData(id); 
    }
 

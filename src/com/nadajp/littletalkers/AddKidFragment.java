@@ -76,18 +76,18 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       // Inflate the layout for this fragment
       View v = inflater.inflate(R.layout.fragment_add_kid, container, false);
 
-      mEditName = (EditText) v.findViewById(R.id.editName);
-      mEdiBirthDate = (EditText) v.findViewById(R.id.editBirthDate);
-      mEditLocation = (EditText) v.findViewById(R.id.editDefaultLocation);
-      mImgProfilePic = (ImageView) v.findViewById(R.id.profilePicture);
-      mButtonSave = (Button) v.findViewById(R.id.buttonSaveKid);
+      mEditName = (EditText) v.findViewById(R.id.edit_name);
+      mEdiBirthDate = (EditText) v.findViewById(R.id.edit_birthdate);
+      mEditLocation = (EditText) v.findViewById(R.id.edit_default_location);
+      mImgProfilePic = (ImageView) v.findViewById(R.id.image_profile);
+      mButtonSave = (Button) v.findViewById(R.id.button_save);
 
       mEdiBirthDate.setOnClickListener(this);
       mImgProfilePic.setOnClickListener(this);
       mButtonSave.setOnClickListener(this);
 
       // Create a spinner for language selection
-      mSpinnerLanguage = (Spinner) v.findViewById(R.id.spinnerDefaultLanguage);
+      mSpinnerLanguage = (Spinner) v.findViewById(R.id.spinner_language);
       mSpinnerLanguage.setOnItemSelectedListener(this);
       ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
             getActivity(), R.array.array_languages,
@@ -132,13 +132,13 @@ public class AddKidFragment extends Fragment implements OnClickListener,
    {
       switch (v.getId())
       {
-      case R.id.editBirthDate:
+      case R.id.edit_birthdate:
         showCalendar(v);
         break;
-      case R.id.profilePicture:
+      case R.id.image_profile:
         showProfileDialog();
         break;
-      case R.id.buttonSaveKid:
+      case R.id.button_save:
         saveKid();
         break;
       }

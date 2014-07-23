@@ -72,6 +72,10 @@
             android:name="com.nadajp.littletalkers.AudioRecordActivity"
             android:label="@string/title_activity_audio_record" >
         </activity>
+        <activity
+            android:name="com.nadajp.littletalkers.TabTest"
+            android:label="@string/title_activity_tab_test" >
+        </activity>
     </application>
 
 </manifest>

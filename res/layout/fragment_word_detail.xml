@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/relative_layout"
@@ -158,25 +158,34 @@
             android:paddingBottom="15dp"
             android:paddingTop="15dp" >
 
-            <ImageView
+ <ImageView
                 android:id="@+id/language_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="5dp"
-                android:clickable="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:contentDescription="@string/language"
-                android:src="@drawable/ic_down_arrow" >
+                android:src="@drawable/ic_language" >
             </ImageView>
 
             <Spinner
-                android:id="@+id/spinnerLanguage"
+                android:id="@+id/spinner_language"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_toRightOf="@id/language_icon"
                 android:background="@color/white"
-                android:entries="@+array/array_languages"/>          
+                android:entries="@+array/array_languages" />
+
+            <ImageView
+                android:id="@+id/arrow_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:contentDescription="@string/language"
+                android:src="@drawable/ic_down_arrow" >
+            </ImageView>
         </RelativeLayout>
 
         <EditText
@@ -228,6 +237,7 @@
             android:layout_below="@id/editNotes"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:background="@drawable/ic_button_validate_blue" />
 
         <TextView

@@ -27,6 +27,8 @@ public class Utils
 
    public static final int COLOR_BLUE = 0;
    public static final int COLOR_GREEN = 1;
+   public static final int COLOR_RED = 2;
+   public static final int COLOR_ORANGE = 3;
 
    public static void setColor(ActionBar actionBar, int color, Context context)
    {
@@ -43,7 +45,19 @@ public class Utils
                R.drawable.ab_bottom_solid_littletalkersgreenstyle));
          actionBar.setStackedBackgroundDrawable(context.getResources()
                .getDrawable(R.drawable.ab_stacked_solid_littletalkersgreenstyle));
-         break;      
+         break; 
+      case COLOR_RED:
+         actionBar.setBackgroundDrawable(context.getResources().getDrawable(
+               R.drawable.ab_bottom_solid_littletalkersredstyle));
+         actionBar.setStackedBackgroundDrawable(context.getResources()
+               .getDrawable(R.drawable.ab_stacked_solid_littletalkersredstyle));
+         break;   
+      case COLOR_ORANGE:
+         actionBar.setBackgroundDrawable(context.getResources().getDrawable(
+               R.drawable.ab_bottom_solid_littletalkersorangestyle));
+         actionBar.setStackedBackgroundDrawable(context.getResources()
+               .getDrawable(R.drawable.ab_stacked_solid_littletalkersorangestyle));
+         break; 
       }
       
 

@@ -1,7 +1,9 @@
 package com.nadajp.littletalkers;
 
 import com.nadajp.littletalkers.utils.Prefs;
+import com.nadajp.littletalkers.utils.Utils;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +20,9 @@ public class AddKidActivity extends Activity implements
    {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_add_kid);
-      getActionBar().setDisplayHomeAsUpEnabled(true);
+      ActionBar actionBar = this.getActionBar(); 
+      actionBar.setDisplayHomeAsUpEnabled(true);
+      Utils.setColor(actionBar, Utils.COLOR_ORANGE, this);
    }
 
    @Override

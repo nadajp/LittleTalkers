@@ -3,6 +3,8 @@
     <!-- Colors used for backgrounds, buttons, etc -->
     <color name="blue">#5eb5d9</color>
     <color name="green">#bbd95e</color>
+    <color name="red">#da645f</color>
+    <color name="orange">#fba746</color>
 
     <!-- Colors used for texts mostly -->
     <color name="dark_blue">#3aa3cf</color>

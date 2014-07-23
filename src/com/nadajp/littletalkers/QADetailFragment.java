@@ -1,14 +1,10 @@
 package com.nadajp.littletalkers;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -35,11 +31,9 @@ public class QADetailFragment extends ItemDetailFragment
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
          Bundle savedInstanceState)
    {
+      Log.i(DEBUG_TAG, "Creating QA Detail Fragment");
       mFragmentLayout = R.layout.fragment_qa_detail;
       mEditPhraseResId = R.id.editQuestion;
-      ActionBar actionBar = this.getActivity().getActionBar();
-      Utils.setColor(actionBar, Utils.COLOR_GREEN, this.getActivity()); 
-      
       return super.onCreateView(inflater, container, savedInstanceState); 
    }
    
@@ -176,10 +170,10 @@ public class QADetailFragment extends ItemDetailFragment
             cursor.getColumnIndex(DbContract.Questions.COLUMN_NAME_NOTES))
             .toString());
 
-      //ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
-      //      .getAdapter();
-      //mLangSpinner.setSelection(adapter.getPosition(cursor.getString(cursor
-      //      .getColumnIndex(DbContract.Questions.COLUMN_NAME_LANGUAGE))));
+      ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
+            .getAdapter();
+      mLangSpinner.setSelection(adapter.getPosition(cursor.getString(cursor
+            .getColumnIndex(DbContract.Questions.COLUMN_NAME_LANGUAGE))));
 
       mCurrentAudioFile = cursor.getString(cursor
             .getColumnIndex(DbContract.Questions.COLUMN_NAME_AUDIO_FILE));

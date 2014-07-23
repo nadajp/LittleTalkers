@@ -12,14 +12,12 @@
         android:id="@+id/ivProfilePic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="5dp"
+        android:layout_centerHorizontal="true"
         android:contentDescription="@string/profile_picture"
-        android:paddingRight="10dp" />
+        android:background="@drawable/ab_profile_border"/>
 
     <TextView
         android:id="@+id/headingBirthdate"
-        style="@style/MyLabelText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ivProfilePic"
@@ -41,7 +39,6 @@
 
     <TextView
         android:id="@+id/headingNumOfWords"
-        style="@style/MyLabelText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/headingBirthdate"
@@ -55,11 +52,9 @@
         android:layout_below="@id/headingBirthdate"
         android:layout_toRightOf="@id/headingNumOfWords"
         android:layout_marginLeft="2dp" />
-    
-    
+      
     <TextView
         android:id="@+id/headingNumOfQuestions"
-        style="@style/MyLabelText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/headingNumOfWords"

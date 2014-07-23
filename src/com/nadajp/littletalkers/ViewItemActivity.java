@@ -17,7 +17,7 @@ public class ViewItemActivity extends Activity implements OnAddNewPhraseListener
    protected void onCreate(Bundle savedInstanceState)
    {
       super.onCreate(savedInstanceState);
-      setContentView(R.layout.activity_add_word);
+      setContentView(R.layout.activity_add_item);
 
       final ActionBar actionBar = getActionBar();
       actionBar.setDisplayHomeAsUpEnabled(true);
@@ -26,7 +26,8 @@ public class ViewItemActivity extends Activity implements OnAddNewPhraseListener
       if (savedInstanceState != null)
       {
          mType = savedInstanceState.getInt(Prefs.TYPE);  
-      } else 
+      } 
+      else 
       { 
          mType = Prefs.getType(this, Prefs.TYPE_WORD);
          // Create the detail fragment and add it to the activity
@@ -43,8 +44,8 @@ public class ViewItemActivity extends Activity implements OnAddNewPhraseListener
             mFragment = new QADetailFragment(); 
          }
          mFragment.setArguments(arguments);
-         getFragmentManager().beginTransaction()
-                  .add(R.id.fragment_container, mFragment).commit();
+        /* getFragmentManager().beginTransaction()
+                  .add(R.id.fragment_container, mFragment).commit();*/
          
       }                  
    }

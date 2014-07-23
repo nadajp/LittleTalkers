@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin" >
+    android:background="?android:attr/activatedBackgroundIndicator"
+    android:padding="@dimen/activity_horizontal_margin"
+    style="@style/DictionaryStyle">
    
     <ImageView
         android:id="@+id/profile"
@@ -18,9 +19,16 @@
         android:layout_height="wrap_content"
         android:paddingLeft="20dp" 
         android:layout_toRightOf="@id/profile"
-        android:layout_centerVertical="true"
-        android:textAllCaps="true"
-        android:textSize="16sp"/>
+        android:textColor="@color/orange"
+        android:textSize="18sp"/>
+    
+        <TextView
+        android:id="@+id/text_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp" 
+        android:layout_toRightOf="@id/profile"
+        android:layout_below="@id/name"/>
     
     <ImageView
         android:id="@+id/icon_edit"
