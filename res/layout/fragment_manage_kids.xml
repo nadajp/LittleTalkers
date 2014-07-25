@@ -22,7 +22,7 @@
         android:id="@android:id/empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/header_date"
+        android:layout_alignParentTop="true"
         android:layout_marginTop="30dp"
         android:text="@string/no_kids" />
 

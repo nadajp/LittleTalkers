@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 public class KidsListCursorAdapter extends CursorAdapter
 {
+   protected static final String DEBUG_TAG = "KidsListCursorAdapter";
    private LayoutInflater mInflater;
    private Context mContext;
    
@@ -36,10 +38,13 @@ public class KidsListCursorAdapter extends CursorAdapter
 
    @Override
    public void bindView(View view, Context context, final Cursor cursor)
-   {
+   {      
+      String kidname = cursor.getString(cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_NAME));
+      long id = cursor.getLong(cursor.getColumnIndex(DbContract.Kids._ID));
+
       TextView name = (TextView) view.findViewById(R.id.name);
       name.setText(cursor.getString(cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_NAME)));
-      
+
       String pictureUri = cursor.getString(cursor
             .getColumnIndex(DbContract.Kids.COLUMN_NAME_PICTURE_URI));
       Bitmap profilePicture = null;
@@ -57,6 +62,7 @@ public class KidsListCursorAdapter extends CursorAdapter
       ImageView edit = (ImageView) view.findViewById(R.id.icon_edit);
       Drawable myIcon = context.getResources().getDrawable( R.drawable.edit_query);
       edit.setImageDrawable(myIcon);
+      edit.setTag(id);
       
       edit.setOnClickListener(new View.OnClickListener()
       {        
@@ -64,7 +70,8 @@ public class KidsListCursorAdapter extends CursorAdapter
          public void onClick(View v)
          {
             Intent intent = new Intent(mContext, AddKidActivity.class);
-            intent.putExtra(Prefs.CURRENT_KID_ID, cursor.getLong(mRowIDColumn));
+            long id = (Long) v.getTag();
+            intent.putExtra(Prefs.CURRENT_KID_ID, id);
             mContext.startActivity(intent); 
          }
       });

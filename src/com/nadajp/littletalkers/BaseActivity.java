@@ -68,8 +68,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       actionBar.setCustomView(customView);
       actionBar.setDisplayShowCustomEnabled(true);     
       actionBar.setDisplayShowTitleEnabled(false); 
-      setupMainMenuSpinner();
- 
+      setupMainMenuSpinner(); 
    }
    
    public void setItemType(int type) {}
@@ -98,51 +97,45 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
 
    private void setupMainMenuSpinner() 
    {
-      //View view = menuSpinner.getActionView();
-      //if (view instanceof Spinner) 
-      //{
-          //Spinner spinner = (Spinner) view;
-          
-          Cursor cursor = DbSingleton.get().getKidsForSpinner();
-          if (cursor.getCount() == 0) { return; }
-
-          Log.i(DEBUG_TAG, "Adding Spinner to ActionBar");
-
-          String[] adapterCols = new String[] { "name" };
-          int[] adapterRowViews = new int[] { android.R.id.text1 };
-
-          mCursorAdapter = new SimpleCursorAdapter(this, R.layout.kid_spinner_item,
-                cursor, adapterCols, adapterRowViews, 0);
-          mCursorAdapter
-                .setDropDownViewResource(R.layout.kid_spinner_dropdown_item);
-          //mCursorAdapter.setViewBinder(new NavigationSpinnerViewBinder());
-          mSpinner.setAdapter(mCursorAdapter);
-          mSpinner.setOnItemSelectedListener(this);
-          
-          // select the current kid
-          mCurrentKidId = Prefs.getKidId(this, DbSingleton.get()
-                .getLastAddedKid());
-          
-          String pictureUri = cursor.getString(cursor
-                .getColumnIndex(DbContract.Kids.COLUMN_NAME_PICTURE_URI));
-          
-          changeProfilePic(pictureUri);
-         
-          Log.i(DEBUG_TAG, "Selecting kid with id: " + mCurrentKidId);
-          if (mPosition > 0) { mSpinner.setSelection(mPosition); } else
-          {
-             for (int i = 0; i < mCursorAdapter.getCount(); i++)
-             {
-                if (mCursorAdapter.getItemId(i) == mCurrentKidId)
-                {
-                   mSpinner.setSelection(i);
-                   Log.i(DEBUG_TAG, "i: " + i);
-                   return;
-                }
-             }
-             mSpinner.setSelection(0);
-          }
-      //}
+      Cursor cursor = DbSingleton.get().getKidsForSpinner();
+      if (cursor.getCount() == 0) { return; }
+      
+      Log.i(DEBUG_TAG, "Adding Spinner to ActionBar");
+      
+      String[] adapterCols = new String[] { "name" };
+      int[] adapterRowViews = new int[] { android.R.id.text1 };
+      
+      mCursorAdapter = new SimpleCursorAdapter(this, R.layout.kid_spinner_item,
+             cursor, adapterCols, adapterRowViews, 0);
+      mCursorAdapter
+             .setDropDownViewResource(R.layout.kid_spinner_dropdown_item);
+      mSpinner.setAdapter(mCursorAdapter);
+      mSpinner.setOnItemSelectedListener(this);
+       
+      // select the current kid
+      mCurrentKidId = Prefs.getKidId(this, DbSingleton.get()
+             .getLastAddedKid());
+       
+      String pictureUri = DbSingleton.get().getPicturePath(mCurrentKidId);
+            //cursor.getString(cursor
+            // .getColumnIndex(DbContract.Kids.COLUMN_NAME_PICTURE_URI));
+       
+      changeProfilePic(pictureUri);
+      
+      Log.i(DEBUG_TAG, "Selecting kid with id: " + mCurrentKidId);
+      if (mPosition > 0) { mSpinner.setSelection(mPosition); } else
+      {
+         for (int i = 0; i < mCursorAdapter.getCount(); i++)
+         {
+            if (mCursorAdapter.getItemId(i) == mCurrentKidId)
+            {
+               mSpinner.setSelection(i);
+               Log.i(DEBUG_TAG, "i: " + i);
+               return;
+            }
+         }
+         mSpinner.setSelection(0);
+      }
    }
 
    public void clickProfile(View v)

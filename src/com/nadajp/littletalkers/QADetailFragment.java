@@ -54,7 +54,7 @@ public class QADetailFragment extends ItemDetailFragment
    
    public void updateExtraKidDetails()
    {
-      mTextCheckInstructions.setText(getString(R.string.check_instructions1) + " " + mKidName +
+      mTextCheckInstructions.setText(getString(R.string.check_instructions1) + " " + mKidName + " " +
             getString(R.string.check_instructions2));
    }
    

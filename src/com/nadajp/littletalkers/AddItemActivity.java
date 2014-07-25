@@ -63,6 +63,7 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
                .setText(mSectionsPagerAdapter.getPageTitle(i))
                .setTabListener(this));
       }
+      mType = this.getIntent().getIntExtra(Prefs.TYPE, Prefs.TYPE_WORD);
       Log.i(DEBUG_TAG, "TYPE IS: " + mType);
       
       if (savedInstanceState != null){
@@ -96,6 +97,7 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
       }
       mType = position;
       Prefs.saveType(this, position);
+      Log.i(DEBUG_TAG, "Saving type: " + mType);
    }
 
    @Override
@@ -109,18 +111,18 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
          FragmentTransaction fragmentTransaction)
    {
    }
-
-   
+  
    @Override
    protected void setCurrentKidData(long kidId)
    {
       Log.i(DEBUG_TAG, "Setting current kid data.");
       
-      ItemDetailFragment fragment = (ItemDetailFragment) mSectionsPagerAdapter.getRegisteredFragment(mViewPager.getCurrentItem());
-      if (fragment != null)
+      // update all tabs, even those that are not currently visible
+      for (int i = 0; i < mSectionsPagerAdapter.registeredFragments.size(); i++)
       {
-         fragment.insertKidDefaults(kidId, fragment.getView());
-      }     
+         ItemDetailFragment f = (ItemDetailFragment) mSectionsPagerAdapter.registeredFragments.get(i);
+         if (f != null) { f.insertKidDefaults(kidId, f.getView()); }
+      }   
    }
 
    public void onPhraseAdded(long kidId)

@@ -7,7 +7,6 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -98,7 +97,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
 
       mCurrentKidId = getActivity().getIntent().getLongExtra(
             Prefs.CURRENT_KID_ID, -1);
-      // Log.i(DEBUG_TAG, "kid id = " + mCurrentKidId);
+      Log.i(DEBUG_TAG, "kid id = " + mCurrentKidId);
 
       if (savedInstanceState != null)
       {

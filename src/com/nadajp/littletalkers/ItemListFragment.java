@@ -5,7 +5,6 @@ import java.util.List;
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
-import com.nadajp.littletalkers.utils.Utils;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -29,7 +28,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -46,10 +44,6 @@ public abstract class ItemListFragment extends ListFragment implements
    protected String mEmptyListButtonText; // Text to display on Add New button
                                           // when list is empty
 
-   //private TextView mTextHeaderPhrase; // heading for the phrase column
-   //private TextView mTextHeaderDate; // heading for the date column
-   //private Spinner mLanguageFilter; // spinner for filtering language to view
-
    protected MediaPlayer mPlayer; // audio player
    ListView mListView; // the list
    private static int mNumSelected = 0; // number of selected list items
@@ -64,9 +58,7 @@ public abstract class ItemListFragment extends ListFragment implements
    protected ListRowViewBinder mViewBinder;
 
    int mFragmentLayout; // res id of the layout for this fragment
-   //int mHeaderLayout; // res id of the layout for the header row
    int mRowLayout; // res id of the layout for list row
-   //int mPhraseHeaderResId; // res id of the header for the phrase column
    int mSortColumnId; // id of the column by which to sort, as defined in
                       // Prefs.java
    String mPhraseColumnName; // name of the main phrase column (i.e. word,
@@ -116,7 +108,6 @@ public abstract class ItemListFragment extends ListFragment implements
       }
       Log.i(DEBUG_TAG, "Getting kid with ID: " + mCurrentKidId);
       
-      //mHeaderView = inflater.inflate(mHeaderLayout, null);
 
       //mLanguageFilter = (Spinner) mHeaderView
       //      .findViewById(R.id.spinner_language_filter);
@@ -199,17 +190,15 @@ public abstract class ItemListFragment extends ListFragment implements
    public void onActivityCreated(Bundle savedInstanceState)
    {
       super.onActivityCreated(savedInstanceState);
-      Button addNew = (Button) getView().findViewById(R.id.button_add_word);
-      addNew.setText(mEmptyListButtonText);
-               
+
       TextView tv = (TextView) getView().findViewById(R.id.no_words);
       tv.setText(mEmptyListText);
       
       mListView = getListView();
-      /*if (mHeaderView != null)
-      {
-         mListView.addHeaderView(mHeaderView);
-      }*/
+      if (mscAdapter == null || mscAdapter.isEmpty()) 
+      { 
+         return; 
+      }
       mscAdapter.setViewBinder(mViewBinder);
       mscAdapter.notifyDataSetChanged();
       setListAdapter(mscAdapter);

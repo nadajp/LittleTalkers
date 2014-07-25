@@ -226,7 +226,8 @@ public abstract class ItemDetailFragment extends Fragment implements
          mItemId = savedInstanceState.getLong(Prefs.ITEM_ID);
          mCurrentKidId = savedInstanceState.getLong(Prefs.CURRENT_KID_ID);
          Log.i(DEBUG_TAG, "Retreiving Instance State: " + mCurrentKidId);
-      } else
+      } 
+      else
       {
          mCurrentKidId = Prefs.getKidId(getActivity(), -1);
          Log.i(DEBUG_TAG, "kid id in addWord = " + mCurrentKidId);
@@ -240,7 +241,8 @@ public abstract class ItemDetailFragment extends Fragment implements
          updateItem(v);
          getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
-      } else
+      } 
+      else
       {
          if (savedInstanceState == null)
          {
@@ -255,16 +257,6 @@ public abstract class ItemDetailFragment extends Fragment implements
       }
       this.setHasOptionsMenu(true);
       return v;
-   }
-
-   @Override
-   public void onActivityCreated(Bundle savedInstanceState)
-   {
-      super.onActivityCreated(savedInstanceState);
-     /* if (mItemId > 0)
-      {
-         updateItem(this.getView());
-      }*/
    }
 
    @Override

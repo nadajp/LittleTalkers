@@ -72,7 +72,8 @@ public class AddKidActivity extends Activity implements
    
    public void onKidUpdated(long kidId)
    {
-      finish();
+      Intent intent = new Intent(this, ManageKidsActivity.class);
+      startActivity(intent);
    }
 
    private void switchToAddWord()

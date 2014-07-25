@@ -5,6 +5,7 @@ import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.database.Cursor;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
@@ -28,9 +30,7 @@ public class WordListFragment extends ItemListFragment
          Bundle savedInstanceState)
    {
       mFragmentLayout = R.layout.fragment_dictionary;
-      //mHeaderLayout = R.layout.dictionary_header;
       mRowLayout = R.layout.dictionary_row;
-      //mPhraseHeaderResId = R.id.header_word;
       mPhraseColumnName = DbContract.Words.COLUMN_NAME_WORD;
       mEmptyListText = getString(R.string.no_words);
       mEmptyListButtonText = getString(R.string.add_word); 
@@ -42,9 +42,7 @@ public class WordListFragment extends ItemListFragment
          mSortColumn = DbContract.Words.COLUMN_NAME_WORD;
       }
       else mSortColumn = DbContract.Words.COLUMN_NAME_DATE;
-      ActionBar actionBar = this.getActivity().getActionBar();
-      Utils.setColor(actionBar, Utils.COLOR_BLUE, this.getActivity()); 
-      //setHasOptionsMenu(true);
+
       return super.onCreateView(inflater, container, savedInstanceState);      
    }
    
@@ -60,6 +58,7 @@ public class WordListFragment extends ItemListFragment
       Cursor cursor = DbSingleton.get().getWords(mCurrentKidId, mSortColumn,
             mbSortAscending, mLanguage);
 
+      if (cursor == null || cursor.getCount() == 0) { return; }
       cursor.moveToFirst();
       String audioFile = cursor.getString(cursor
             .getColumnIndex(DbContract.Words.COLUMN_NAME_AUDIO_FILE));

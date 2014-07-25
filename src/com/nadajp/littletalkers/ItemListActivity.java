@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 public class ItemListActivity extends BaseActivity implements ActionBar.TabListener
 {
@@ -36,6 +37,7 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
       mViewPager = (ViewPager) findViewById(R.id.pager);
       mViewPager.setAdapter(mSectionsPagerAdapter);
 
+      mType = Prefs.getType(this, Prefs.TYPE_WORD);
       // When swiping between different sections, select the corresponding
       // tab. We can also use ActionBar.Tab#select() to do this if we have
       // a reference to the Tab.
@@ -77,17 +79,16 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
       // the ViewPager.
       int position = tab.getPosition();
       Log.i(DEBUG_TAG, "CURRENT POSITION: " + position);
-      mViewPager.setCurrentItem(position);
+      mViewPager.setCurrentItem(position);      
+      ActionBar actionBar = getActionBar();      
       
-      ActionBar actionBar = getActionBar();
-
       switch (position)
       {
         case 0:
-           Utils.setColor(actionBar, Utils.COLOR_BLUE, this);
+           Utils.setColor(actionBar, Utils.COLOR_BLUE, this);         
            break;
         case 1:
-           Utils.setColor(actionBar, Utils.COLOR_GREEN, this);           
+           Utils.setColor(actionBar, Utils.COLOR_GREEN, this);            
            break;
       }
       Prefs.saveType(this, position);
@@ -113,8 +114,12 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
    @Override
    protected void setCurrentKidData(long kidId)
    {
-      ItemListFragment listFragment = getCurrentFragment();
-      if (listFragment != null) { listFragment.updateData(kidId); }
+      // update all tabs, even those that are not currently visible
+      for (int i = 0; i < mSectionsPagerAdapter.registeredFragments.size(); i++)
+      {
+         ItemListFragment f = (ItemListFragment) mSectionsPagerAdapter.registeredFragments.get(i);
+         if (f != null) { f.updateData(kidId); }
+      }
    }
 
    public void sortByWord(View v)

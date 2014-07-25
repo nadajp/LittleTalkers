@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
@@ -51,10 +50,7 @@ public class ManageKidsFragment extends ListFragment
       // Populate the list with all the kids from the database
       Cursor cursor = DbSingleton.get().getKidsForSpinner();
 
-      if (cursor.getCount() == 0)
-      {
-         return;
-      }
+      if (cursor.getCount() == 0) { return; }
   
       /*String[] adapterCols = new String[] { DbContract.Kids.COLUMN_NAME_PICTURE_URI, "name", "_id"};
       int[] adapterRowViews = new int[] { R.id.profile, R.id.name, R.id.icon_edit};
@@ -175,8 +171,7 @@ public class ManageKidsFragment extends ListFragment
 
    @Override
    public void onListItemClick(ListView l, View v, int position, long id)
-   {
-      
+   {     
       // show kid detail view
       Intent intent = new Intent(this.getActivity(), KidProfileActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, id);
