@@ -2,14 +2,15 @@ package com.nadajp.littletalkers;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.nadajp.littletalkers.ItemDetailFragment.OnAddNewPhraseListener;
 import com.nadajp.littletalkers.utils.Prefs;
 
 public class ViewItemActivity extends Activity implements OnAddNewPhraseListener
 {   
+   private static final String DEBUG_TAG = "ViewItemActivity";
    private int mType;
    private ItemDetailFragment mFragment;
    
@@ -17,11 +18,12 @@ public class ViewItemActivity extends Activity implements OnAddNewPhraseListener
    protected void onCreate(Bundle savedInstanceState)
    {
       super.onCreate(savedInstanceState);
-      setContentView(R.layout.activity_add_item);
+      setContentView(R.layout.activity_view_item);
 
       final ActionBar actionBar = getActionBar();
       actionBar.setDisplayHomeAsUpEnabled(true);
       actionBar.setDisplayUseLogoEnabled(false);
+      actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
       
       if (savedInstanceState != null)
       {
@@ -44,24 +46,19 @@ public class ViewItemActivity extends Activity implements OnAddNewPhraseListener
             mFragment = new QADetailFragment(); 
          }
          mFragment.setArguments(arguments);
-        /* getFragmentManager().beginTransaction()
-                  .add(R.id.fragment_container, mFragment).commit();*/
+         getFragmentManager().beginTransaction()
+                  .add(R.id.fragment_container, mFragment).commit();
          
       }                  
    }
    
    public void onPhraseAdded(long kidId)
    {
-
    }
-
+   
    public void onClickedShowDictionary(long kidId)
    {
-      Intent intent = new Intent(this, ItemListActivity.class);
-      intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
-      intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-      //final ActionBar actionBar = getActionBar();
-      mType = Prefs.getType(this, Prefs.TYPE_WORD); 
-      startActivity(intent);
+
    }
+   
 }

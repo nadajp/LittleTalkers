@@ -220,6 +220,7 @@ public abstract class ItemDetailFragment extends Fragment implements
          {
             mRecordingLayout.setVisibility(View.VISIBLE);
             mAudioRecorded = true;
+            mCurrentAudioFile = savedInstanceState.getString(Prefs.AUDIO_FILE);
             Log.i(DEBUG_TAG, "YES, AUDIO RECORDED...");
          }
 
@@ -235,21 +236,21 @@ public abstract class ItemDetailFragment extends Fragment implements
          Log.i(DEBUG_TAG, "item ID = " + mItemId);
       }
 
-      // If editing/viewing an existing item, fill in all the fields
-      if (mItemId > 0 && savedInstanceState == null)
-      {
-         updateItem(v);
-         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-
-      } 
-      else
+      // If editing/viewing an existing item
+      if (mItemId > 0)
       {
          if (savedInstanceState == null)
          {
+            updateItem(v);
             Log.i(DEBUG_TAG, "NO saved instance state, calling insert defaults...");
-            insertKidDefaults(mCurrentKidId, v);
+            insertKidDefaults(mCurrentKidId, v);           
          }
-         getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
+
+         setAudio(v);
+         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+      } 
+      else
+      {
          if (mAudioRecorded)
          {
             mTempFile = new File(mDirectory, "temp.3gp");
@@ -754,7 +755,7 @@ public abstract class ItemDetailFragment extends Fragment implements
    public void updateItem(View v)
    {
       insertItemDetails(v);
-      setAudio(v);
+      
    }
    
    private void updateKidName()
@@ -779,10 +780,10 @@ public abstract class ItemDetailFragment extends Fragment implements
 
    protected void setAudio(View v)
    {
+      Log.i(DEBUG_TAG, "Audio File: " + mCurrentAudioFile);
       if (mCurrentAudioFile != null && !mCurrentAudioFile.isEmpty())
       {
          mOutFile = new File(mCurrentAudioFile);
-         Log.i(DEBUG_TAG, "HERE");
          mRecordingLayout.setVisibility(View.VISIBLE);
          mAudioRecorded = true;
 
@@ -919,6 +920,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       if (mRecordingLayout.getVisibility() == View.VISIBLE) 
       {
          outState.putBoolean(Prefs.AUDIO_RECORDED, true); 
+         outState.putString(Prefs.AUDIO_FILE, mCurrentAudioFile);
          Log.i(DEBUG_TAG, "AUDIO RECORDED.");
       }
       outState.putLong(Prefs.CURRENT_KID_ID, mCurrentKidId);

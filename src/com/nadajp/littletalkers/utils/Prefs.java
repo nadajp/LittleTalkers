@@ -18,6 +18,7 @@ public class Prefs
    public static final String ITEM_ID = "item_id";
    public static final String POSITION = "position";
    public static final String AUDIO_RECORDED = "audio_recorded";
+   public static final String AUDIO_FILE = "audio_file";
    public static final String ADD_TYPE = "add_type";
    public static final String FRAGMENT_LAYOUT = "fragment_layout";
    public static final String HEADER_LAYOUT = "header_layout";
