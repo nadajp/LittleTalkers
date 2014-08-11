@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.nadajp.littletalkers.ItemDetailFragment.OnAddNewPhraseListener;
 import com.nadajp.littletalkers.utils.Prefs;
+import com.nadajp.littletalkers.utils.Utils;
 
 public class ViewItemActivity extends Activity implements OnAddNewPhraseListener
 {   
@@ -40,16 +41,26 @@ public class ViewItemActivity extends Activity implements OnAddNewPhraseListener
          if (mType == Prefs.TYPE_WORD) 
          { 
             mFragment = new WordDetailFragment(); 
+            Utils.setColor(actionBar, Utils.COLOR_BLUE, this);
          }
          else 
          { 
             mFragment = new QADetailFragment(); 
+            Utils.setColor(actionBar, Utils.COLOR_GREEN, this);
          }
          mFragment.setArguments(arguments);
          getFragmentManager().beginTransaction()
-                  .add(R.id.fragment_container, mFragment).commit();
-         
-      }                  
+                  .add(R.id.fragment_container, mFragment).commit();        
+      }  
+      
+      if (mType == Prefs.TYPE_WORD) 
+      { 
+         Utils.setColor(actionBar, Utils.COLOR_BLUE, this);
+      }
+      else 
+      { 
+         Utils.setColor(actionBar, Utils.COLOR_GREEN, this);
+      }
    }
    
    public void onPhraseAdded(long kidId)
@@ -59,6 +70,13 @@ public class ViewItemActivity extends Activity implements OnAddNewPhraseListener
    public void onClickedShowDictionary(long kidId)
    {
 
+   }
+   
+   @Override
+   public void onSaveInstanceState(Bundle outState)
+   {
+      super.onSaveInstanceState(outState);
+      outState.putInt(Prefs.TYPE, mType);
    }
    
 }
