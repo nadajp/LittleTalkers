@@ -31,12 +31,12 @@ import com.nadajp.littletalkers.utils.Prefs;
 
 public class BaseActivity extends Activity implements OnItemSelectedListener
 {
-   private SimpleCursorAdapter mCursorAdapter = null;
+   protected SimpleCursorAdapter mCursorAdapter = null;
    private static final String DEBUG_TAG = "BaseActivity";
    private long mCurrentKidId;
    private int mPosition;
    protected int mType;
-   private ImageView mImgProfile;
+   private CircularImageView mImgProfile;
    private Spinner mSpinner;
    
    @Override
@@ -60,7 +60,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       LayoutInflater mInflater = LayoutInflater.from(this);
       View customView = mInflater.inflate(R.layout.actionbar, null);
       
-      mImgProfile = (ImageView) customView
+      mImgProfile = (CircularImageView) customView
               .findViewById(R.id.action_profile);
       
       mSpinner = (Spinner) customView.findViewById(R.id.action_main_spinner);
@@ -95,7 +95,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       mImgProfile.setImageBitmap(profilePicture); 
    }
 
-   private void setupMainMenuSpinner() 
+   protected void setupMainMenuSpinner() 
    {
       Cursor cursor = DbSingleton.get().getKidsForSpinner();
       if (cursor.getCount() == 0) { return; }
@@ -193,13 +193,6 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
 
    protected void setCurrentKidData(long kidId)
    {
-   }
-  
-   public void clickTitlebar(View v)
-   {
-      Intent intent = new Intent(this, AddKidActivity.class);
-      intent.putExtra(Prefs.CURRENT_KID_ID, mCurrentKidId);
-      startActivity(intent);
    }
 
    @Override

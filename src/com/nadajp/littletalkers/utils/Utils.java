@@ -136,38 +136,6 @@ public class Utils
       }
    }
 
-   public static void updateTitlebar(long kidId, View v, Context context)
-   {
-      TextView tvBirthdate = (TextView) v.findViewById(R.id.tvBirthdate);
-      TextView tvWords = (TextView) v.findViewById(R.id.tvNumOfWords);
-      TextView tvQuestions = (TextView) v.findViewById(R.id.tvNumOfQuestions);
-      ImageView imageView = (ImageView) v.findViewById(R.id.ivProfilePic);
-
-      // Log.i(DEBUG_TAG, "kidId = " + mCurrentKidId);
-      Cursor cursor = DbSingleton.get().getKidDetails(kidId);
-      cursor.moveToFirst();
-      tvBirthdate.setText(cursor.getString(
-            cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_BIRTHDATE))
-            .toString());
-      tvWords.setText(Integer.toString(DbSingleton.get()
-            .getNumberOfWords(kidId)));
-      tvQuestions.setText(Integer.toString(DbSingleton.get().getNumberOfQAs(
-            kidId)));
-      String pictureUri = cursor.getString(cursor
-            .getColumnIndex(DbContract.Kids.COLUMN_NAME_PICTURE_URI));
-      cursor.close();
-      Bitmap profilePicture = null;
-      if (pictureUri == null)
-      {
-         profilePicture = BitmapFactory.decodeResource(context.getResources(),
-               R.drawable.profilepicture);
-      } else
-      {
-         profilePicture = BitmapFactory.decodeFile(pictureUri);
-      }
-      imageView.setImageBitmap(profilePicture);
-   }
-
    public static File renameAudioFile(String phrase, String kidName,
          File audioFile, File directory, Calendar date)
    {

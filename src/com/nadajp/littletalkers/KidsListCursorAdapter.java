@@ -47,6 +47,7 @@ public class KidsListCursorAdapter extends CursorAdapter
 
       String pictureUri = cursor.getString(cursor
             .getColumnIndex(DbContract.Kids.COLUMN_NAME_PICTURE_URI));
+      
       Bitmap profilePicture = null;
       if (pictureUri == null)
       {

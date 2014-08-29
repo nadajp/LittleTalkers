@@ -28,6 +28,7 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
       // Set up the action bar.
       final ActionBar actionBar = getActionBar();
       actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+      actionBar.setLogo(android.R.color.transparent);
 
       // Create the adapter that will return a fragment for each of the three
       // primary sections of the activity.

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content" >
 
     <RelativeLayout
         android:id="@+id/relative_layout"
@@ -30,9 +30,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/textHeading"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="20dp"
             android:background="@drawable/addnewtext"
             android:paddingBottom="5dp"
             android:paddingTop="5dp" >
@@ -79,44 +79,43 @@
             android:background="@drawable/white_card_background"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
-            android:visibility="gone">
-            
-          <TextView android:id="@+id/text_recording"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:drawableLeft="@drawable/ic_action_mic"
-            android:drawablePadding="10dp"
-            android:padding="15dp" 
-            android:maxLength="25"/>
-        
-           <Button
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/text_recording"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableLeft="@drawable/ic_action_mic"
+                android:drawablePadding="10dp"
+                android:maxLength="25"
+                android:padding="15dp" />
+
+            <Button
                 android:id="@+id/button_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="-5dp"
-                android:paddingLeft="-5dp"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:background="@null"
                 android:drawableEnd="@drawable/ic_action_delete"
-                android:layout_centerVertical="true">
+                android:paddingLeft="-5dp" >
             </Button>
-            
-           <Button
+
+            <Button
                 android:id="@+id/button_play"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="55dp"
                 android:layout_toRightOf="@id/text_recording"
                 android:background="@null"
-                android:drawableRight="@drawable/ic_action_play"
-                android:layout_marginRight="55dp"
-                android:layout_centerVertical="true">
+                android:drawableRight="@drawable/ic_action_play" >
             </Button>
-            
         </RelativeLayout>
-            
-                
+
         <EditText
             android:id="@+id/editDate"
             android:layout_width="match_parent"
@@ -131,7 +130,7 @@
             android:hint="@string/when"
             android:inputType="none"
             android:padding="15dp" />
-        
+
         <EditText
             android:id="@+id/editLocation"
             android:layout_width="match_parent"
@@ -158,14 +157,14 @@
             android:paddingBottom="15dp"
             android:paddingTop="15dp" >
 
- <ImageView
+            <ImageView
                 android:id="@+id/language_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:contentDescription="@string/language"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:contentDescription="@string/language"
                 android:src="@drawable/ic_language" >
             </ImageView>
 
@@ -226,8 +225,8 @@
             android:background="@drawable/white_card_background"
             android:drawableLeft="@drawable/ic_notes"
             android:drawablePadding="10dp"
-            android:inputType="textCapSentences|textMultiLine"
             android:hint="@string/notes"
+            android:inputType="textCapSentences|textMultiLine"
             android:padding="15dp" />
 
         <Button
@@ -251,7 +250,6 @@
             android:layout_marginTop="10dp"
             android:text="@string/word_history"
             android:visibility="invisible" />
-
     </RelativeLayout>
 
 </ScrollView>

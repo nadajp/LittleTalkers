@@ -78,6 +78,11 @@
     <string name="delete_words_dialog">Are you sure you want to delete all selected phrases from this dictionary?</string>
     <string name="button_add_new_word">Add New Word or Phrase</string>
 
+    
+    <!-- profile -->
+    <string name="words_and_phrases">words and phrases</string>
+    <string name="questions_and_answers">questions and answers</string>
+    
     <!-- Manage LittleTalkers -->
     <string name="delete_kids_dialog">Are you sure you want to delete all selected Little Talkers and their word dictionaries?</string>
     <string name="little_talkers_selected"> Little Talkers Selected</string>
@@ -99,7 +104,6 @@
     <string name="answer">Answer</string>
     <string name="asked_question">asked</string>
     <string name="answered_question">answered</string>
-    <string name="questions_and_answers">Questions and Answers</string>
     <string name="question_required_error">Question is required</string>
     <string name="answer_required_error">Please enter Answer or uncheck "Little Talker Answered"</string>
     <string name="QA_already_exists_error">This Question and Answer already exists for this Little Talker</string>

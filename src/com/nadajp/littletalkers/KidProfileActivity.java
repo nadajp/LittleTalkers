@@ -1,18 +1,25 @@
 package com.nadajp.littletalkers;
 
+import com.nadajp.littletalkers.database.DbContract;
+import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class KidProfileActivity extends Activity
 {
@@ -26,8 +33,10 @@ public class KidProfileActivity extends Activity
       if (savedInstanceState == null)
       {
          getFragmentManager().beginTransaction()
-               .add(R.id.container, new PlaceholderFragment()).commit();
+               .add(R.id.container, new KidProfileFragment()).commit();
       }
+      ActionBar actionBar = this.getActionBar();
+      Utils.setColor(actionBar, Utils.COLOR_RED, this);
    }
 
    @Override
@@ -53,26 +62,5 @@ public class KidProfileActivity extends Activity
       return super.onOptionsItemSelected(item);
    }
 
-   /**
-    * A placeholder fragment containing a simple view.
-    */
-   public static class PlaceholderFragment extends Fragment
-   {
-
-      public PlaceholderFragment()
-      {
-      }
-
-      @Override
-      public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState)
-      {
-         View rootView = inflater.inflate(R.layout.fragment_kid_profile,
-               container, false);
-         
-         long kidId = this.getActivity().getIntent().getLongExtra(Prefs.CURRENT_KID_ID, 1);
-         return rootView;
-      }
-   }
 
 }

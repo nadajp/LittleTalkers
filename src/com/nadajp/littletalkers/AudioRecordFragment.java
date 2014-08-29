@@ -24,8 +24,8 @@ import java.io.IOException;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
-public class AudioRecordFragment extends Fragment implements
-      OnClickListener, OnErrorListener, OnInfoListener
+public class AudioRecordFragment extends Fragment implements OnClickListener,
+      OnErrorListener, OnInfoListener
 {
    private static final String DEBUG_TAG = "AudioRecordFragment";
 
@@ -38,25 +38,26 @@ public class AudioRecordFragment extends Fragment implements
                                                                  // invisible
    private ImageView mImgMic;
 
-
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
          Bundle savedInstanceState)
    {
       // Inflate the layout for this fragment
-      View v = inflater.inflate(R.layout.fragment_audio_record, container, false);
+      View v = inflater.inflate(R.layout.fragment_audio_record, container,
+            false);
 
       Bundle args = this.getArguments();
       mImgMic = (ImageView) v.findViewById(R.id.button_mic);
       int type = args.getInt(Prefs.TYPE);
       if (type == Prefs.TYPE_QA)
       {
-         v.setBackgroundColor(this.getResources().getColor(R.color.green));         
-         mImgMic.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_circle_white_green_mic));
+         v.setBackgroundColor(this.getResources().getColor(R.color.green));
+         mImgMic.setImageDrawable(this.getResources().getDrawable(
+               R.drawable.ic_circle_white_green_mic));
       }
 
       mImgMic.setOnClickListener(this);
-      
+
       mAnimation.setDuration(500); // duration - half a second
       mAnimation.setInterpolator(new LinearInterpolator()); // do not alter
                                                             // animation rate
@@ -72,7 +73,7 @@ public class AudioRecordFragment extends Fragment implements
       startRecording();
       return v;
    }
-   
+
    @Override
    public void onClick(View v)
    {
@@ -109,14 +110,13 @@ public class AudioRecordFragment extends Fragment implements
             Toast.LENGTH_LONG).show();
    }
 
-
    private void startRecording()
-   {  
+   {
       mImgMic.startAnimation(mAnimation);
       mRecorder = new MediaRecorder();
       mRecorder.setOnErrorListener(this);
       mRecorder.setOnInfoListener(this);
-      
+
       mTempFile = new File(mDirectory, "temp.3gp");
 
       mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -163,7 +163,7 @@ public class AudioRecordFragment extends Fragment implements
          mRecorder.release();
          mRecorder = null;
       }
-     
+
       super.onPause();
    }
 

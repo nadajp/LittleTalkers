@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class AddKidActivity extends Activity implements
+public class AddKidActivity extends BaseActivity implements
       AddKidFragment.OnKidAddedListener
 {
    private long mCurrentKidId;
@@ -22,6 +22,9 @@ public class AddKidActivity extends Activity implements
       setContentView(R.layout.activity_add_kid);
       ActionBar actionBar = this.getActionBar(); 
       actionBar.setDisplayHomeAsUpEnabled(true);
+      actionBar.setTitle(R.string.add_kid);
+      actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+      actionBar.setDisplayShowCustomEnabled(false);
       Utils.setColor(actionBar, Utils.COLOR_ORANGE, this);
    }
 
@@ -72,6 +75,9 @@ public class AddKidActivity extends Activity implements
    
    public void onKidUpdated(long kidId)
    {
+      this.mCursorAdapter.notifyDataSetChanged();
+      setupMainMenuSpinner();
+
       Intent intent = new Intent(this, ManageKidsActivity.class);
       startActivity(intent);
    }

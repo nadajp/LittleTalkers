@@ -30,6 +30,8 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
       // Set up the action bar.
       final ActionBar actionBar = getActionBar();
       actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+      actionBar.setDisplayHomeAsUpEnabled(false);
+      actionBar.setLogo(android.R.color.transparent);
 
       // Create the adapter that will return a fragment for each of the three
       // primary sections of the activity.
@@ -70,8 +72,7 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
          mType = savedInstanceState.getInt(Prefs.TYPE);
          Log.i(DEBUG_TAG, "NEW TYPE IS: " + mType);
       }
-      actionBar.setSelectedNavigationItem(mType); 
-     
+      actionBar.setSelectedNavigationItem(mType);     
    }
    
    @Override

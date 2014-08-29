@@ -308,9 +308,11 @@ public abstract class ItemListFragment extends ListFragment implements
    {
       mCurrentKidId = kidId;
       Cursor newValues = getFromDatabase();
-      mscAdapter.swapCursor(newValues);
-      mscAdapter.notifyDataSetChanged();
-
+      if (mscAdapter != null)
+      {
+         mscAdapter.swapCursor(newValues);
+         mscAdapter.notifyDataSetChanged();
+      }
       List<String> languages = DbSingleton.get().getLanguages(mCurrentKidId);
       languages.add(0, this.getString(R.string.all_languages));
 

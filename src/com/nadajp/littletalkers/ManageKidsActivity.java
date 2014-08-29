@@ -16,10 +16,11 @@ public class ManageKidsActivity extends BaseActivity
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_manage_kids);
       ActionBar actionBar = this.getActionBar();
-      actionBar.setTitle(R.string.title_activity_manage_kids);
-      actionBar.setDisplayHomeAsUpEnabled(true);
       actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-      actionBar.setDisplayShowCustomEnabled(false);
+      actionBar.setDisplayShowCustomEnabled(false);      
+      actionBar.setTitle(R.string.title_activity_manage_kids);
+      //actionBar.setDisplayHomeAsUpEnabled(true);
+      //actionBar.setDisplayShowHomeEnabled(true);
       Utils.setColor(actionBar, Utils.COLOR_ORANGE, this);
    }
 

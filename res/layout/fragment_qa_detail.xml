@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content" >
 
     <RelativeLayout
         android:id="@+id/relative_layout"
@@ -122,6 +122,7 @@
             android:layout_below="@id/answer"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="20dp"
             android:textColor="@color/green" />
 
         <RelativeLayout
@@ -176,10 +177,9 @@
             android:id="@+id/editDate"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/textCheckInstructions"
+            android:layout_below="@id/layout_recording"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="20dp"
             android:background="@drawable/white_card_background"
             android:drawableLeft="@drawable/ic_action_go_to_today"
             android:drawablePadding="10dp"
@@ -219,9 +219,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:contentDescription="@string/language"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:contentDescription="@string/language"
                 android:src="@drawable/ic_language" >
             </ImageView>
 
