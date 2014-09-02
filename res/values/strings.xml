@@ -11,8 +11,7 @@
     <string name="title_activity_dictionary">Dictionary</string>
     <string name="title_activity_manage_kids">Manage Little Talkers</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_manage_kids_fragment">Manage Little Talkers</string>
-    <string name="title_activity_data_backup">DataBackup</string>
+    <string name="title_activity_data_backup">Data Backup</string>
 
     <!-- AddWord -->
     <string name="title_activity_add_word">AddWordActivity</string>

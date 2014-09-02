@@ -65,8 +65,10 @@ public abstract class ItemListFragment extends ListFragment implements
 
    // abstract classes for getting appropriate data from the database
    public abstract Cursor deleteFromDatabase();
-
+   
    public abstract Cursor getFromDatabase();
+   
+   public abstract void insertData();
 
    public static ItemListFragment newInstance(int sectionNumber)
    {
@@ -107,7 +109,6 @@ public abstract class ItemListFragment extends ListFragment implements
       }
       Log.i(DEBUG_TAG, "Getting kid with ID: " + mCurrentKidId);
       
-
       //mLanguageFilter = (Spinner) mHeaderView
       //      .findViewById(R.id.spinner_language_filter);
       List<String> languages = DbSingleton.get().getLanguages(mCurrentKidId);
@@ -307,11 +308,19 @@ public abstract class ItemListFragment extends ListFragment implements
    public void updateData(long kidId)
    {
       mCurrentKidId = kidId;
-      Cursor newValues = getFromDatabase();
+      
       if (mscAdapter != null)
       {
+         Cursor newValues = getFromDatabase();
          mscAdapter.swapCursor(newValues);
+         mscAdapter.setViewBinder(mViewBinder);
          mscAdapter.notifyDataSetChanged();
+      }
+      
+      else
+      {
+         insertData();
+         mscAdapter.setViewBinder(mViewBinder);
       }
       List<String> languages = DbSingleton.get().getLanguages(mCurrentKidId);
       languages.add(0, this.getString(R.string.all_languages));

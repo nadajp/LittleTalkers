@@ -57,8 +57,7 @@
             android:parentActivityName="com.nadajp.littletalkers.MainActivity" >
         </activity>
         <activity
-            android:name="com.nadajp.littletalkers.ManageKidsFragment"
-            android:label="@string/title_activity_manage_kids_fragment" >
+            android:name="com.nadajp.littletalkers.ManageKidsFragment">
         </activity>
         <activity
             android:name="com.nadajp.littletalkers.DataExportActivity"
@@ -67,7 +66,8 @@
         </activity>
         <activity
             android:name="com.nadajp.littletalkers.KidProfileActivity"
-            android:label="@string/title_activity_kid_profile" >
+            android:label="@string/title_activity_kid_profile" 
+            android:parentActivityName="com.nadajp.littletalkers.MainActivity" >
         </activity>
         <activity
             android:name="com.nadajp.littletalkers.AudioRecordActivity"

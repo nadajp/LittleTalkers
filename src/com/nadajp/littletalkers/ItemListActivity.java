@@ -116,7 +116,9 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
    protected void setCurrentKidData(long kidId)
    {
       // update all tabs, even those that are not currently visible
-      for (int i = 0; i < mSectionsPagerAdapter.registeredFragments.size(); i++)
+      int k = mSectionsPagerAdapter.registeredFragments.size();
+      Log.i(DEBUG_TAG, "SIZE: " + k);
+      for (int i = 0; i < k; i++)
       {
          ItemListFragment f = (ItemListFragment) mSectionsPagerAdapter.registeredFragments.get(i);
          if (f != null) { f.updateData(kidId); }

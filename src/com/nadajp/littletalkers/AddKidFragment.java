@@ -29,7 +29,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -53,7 +52,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
    private EditText mEditName;
    private EditText mEdiBirthDate;
    private EditText mEditLocation;
-   private ImageView mImgProfilePic;
+   private CircularImageView mImgProfilePic;
    private Button mButtonSave;
    private Spinner mSpinnerLanguage;
    private Uri mUriPicture;
@@ -78,7 +77,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       mEditName = (EditText) v.findViewById(R.id.edit_name);
       mEdiBirthDate = (EditText) v.findViewById(R.id.edit_birthdate);
       mEditLocation = (EditText) v.findViewById(R.id.edit_default_location);
-      mImgProfilePic = (ImageView) v.findViewById(R.id.image_profile);
+      mImgProfilePic = (CircularImageView) v.findViewById(R.id.image_profile);
       mButtonSave = (Button) v.findViewById(R.id.button_save);
 
       mEdiBirthDate.setOnClickListener(this);
@@ -110,6 +109,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
                Bitmap photo = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(mPicturePath),
                      THUMBNAIL_SIZE, THUMBNAIL_SIZE);
                mImgProfilePic.setImageBitmap(photo);
+               
                photo = null;
             } catch (Exception e)
             {

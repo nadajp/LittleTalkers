@@ -45,7 +45,12 @@ public class QAListFragment extends ItemListFragment
    @Override
    public void onActivityCreated(Bundle savedInstanceState)
    {
-    
+      insertData();
+      super.onActivityCreated(savedInstanceState);
+   }
+   
+   public void insertData()
+   {
       Cursor cursor = DbSingleton.get().getQuestions(mCurrentKidId, mSortColumn,
             mbSortAscending, mLanguage);
 
@@ -61,17 +66,7 @@ public class QAListFragment extends ItemListFragment
          mscAdapter = new SimpleCursorAdapter(this.getActivity(),
                R.layout.qa_list_row, cursor, adapterCols, adapterRowViews, 0);
       }
-      
-      super.onActivityCreated(savedInstanceState);
-   }
-   
-   
-   @Override
-   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-   {
-      // Inflate the menu; this adds items to the action bar if it is present.
-      inflater.inflate(R.menu.qa_list, menu);
-      super.onCreateOptionsMenu(menu, inflater);
+       
    }
 
 

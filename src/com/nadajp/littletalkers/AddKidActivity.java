@@ -75,9 +75,6 @@ public class AddKidActivity extends BaseActivity implements
    
    public void onKidUpdated(long kidId)
    {
-      this.mCursorAdapter.notifyDataSetChanged();
-      setupMainMenuSpinner();
-
       Intent intent = new Intent(this, ManageKidsActivity.class);
       startActivity(intent);
    }
