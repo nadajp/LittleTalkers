@@ -45,7 +45,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       OnItemSelectedListener 
 {
    private static final String DEBUG_TAG = "AddKidFragment";
-   private long mCurrentKidId;
+   private long mKidId;
    private OnKidAddedListener mListener;
 
    Calendar mBirthDate = Calendar.getInstance();
@@ -94,9 +94,11 @@ public class AddKidFragment extends Fragment implements OnClickListener,
             .setDropDownViewResource(R.layout.lt_spinner_dropdown_item);
       mSpinnerLanguage.setAdapter(adapter);
 
-      mCurrentKidId = getActivity().getIntent().getLongExtra(
+      mSpinnerLanguage.setSelection(adapter.getPosition(getString(R.string.app_language)));
+      
+      mKidId = getActivity().getIntent().getLongExtra(
             Prefs.CURRENT_KID_ID, -1);
-      Log.i(DEBUG_TAG, "kid id = " + mCurrentKidId);
+      Log.i(DEBUG_TAG, "kid id = " + mKidId);
 
       if (savedInstanceState != null)
       {
@@ -118,9 +120,9 @@ public class AddKidFragment extends Fragment implements OnClickListener,
          }
       } 
       // If editing/viewing an existing kid, fill all the fields
-      if (mCurrentKidId > 0) 
+      if (mKidId > 0) 
       {
-         insertKidDetails(mCurrentKidId);
+         insertKidDetails(mKidId);
       }
 
       return v;
@@ -247,17 +249,17 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       }
 
       // Adding new kid
-      if (mCurrentKidId < 0)
+      if (mKidId < 0)
       {
-         mCurrentKidId = DbSingleton.get().saveKid(name, birthday, location,
+         mKidId = DbSingleton.get().saveKid(name, birthday, location,
                mLanguage, mPicturePath);
-         Log.i(DEBUG_TAG, "Saving kid: " + mCurrentKidId);
+         Log.i(DEBUG_TAG, "Saving kid: " + mKidId);
       }
 
       // Updating a current kid
       else
       {
-         if (!DbSingleton.get().updateKid(mCurrentKidId, name, birthday,
+         if (!DbSingleton.get().updateKid(mKidId, name, birthday,
                location, mLanguage, mPicturePath))
          {
             // TODO error message (duplicate kid name)
@@ -268,12 +270,12 @@ public class AddKidFragment extends Fragment implements OnClickListener,
             String msg = name + " " + getString(R.string.kid_updated);
             Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG);
             toast.show();
-            mListener.onKidUpdated(mCurrentKidId);
+            mListener.onKidUpdated(mKidId);
             return;
          }
       }
 
-      if (mCurrentKidId == -1)
+      if (mKidId == -1)
       {
          mEditName.setError(getString(R.string.kid_already_exists_error));
          return;
@@ -285,9 +287,9 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       toast.show();
       getActivity().invalidateOptionsMenu();
 
-      Prefs.saveKidId(getActivity(), mCurrentKidId);
-      Log.i(DEBUG_TAG, "Saving kid id to preferences: " + mCurrentKidId);
-      mListener.onKidAdded(mCurrentKidId);
+      Prefs.saveKidId(getActivity(), mKidId);
+      Log.i(DEBUG_TAG, "Saving kid id to preferences: " + mKidId);
+      mListener.onKidAdded(mKidId);
    }
 
    public void showProfileDialog()

@@ -118,6 +118,7 @@
     <string name="check_instructions1">Check the box if</string>
     <string name="check_instructions2"> said it.</string>
 
+    <string name="app_language">English</string>
     <!-- arrays -->
     <string-array name="choose_profile_pic_array">
         <item>Take photo</item>

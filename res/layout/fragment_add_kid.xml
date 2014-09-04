@@ -47,6 +47,7 @@
             android:background="@drawable/white_card_background"
             android:drawableLeft="@drawable/ic_birthdate"
             android:drawablePadding="10dp"
+            android:focusable="false"
             android:hint="@string/birthdate"
             android:inputType="none"
             android:padding="15dp" />

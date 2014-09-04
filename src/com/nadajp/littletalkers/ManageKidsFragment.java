@@ -22,7 +22,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.ListView;
 
-import com.nadajp.littletalkers.ItemDetailFragment.OnAddNewPhraseListener;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
 
@@ -171,6 +170,7 @@ public class ManageKidsFragment extends ListFragment
       // show kid detail view
       Intent intent = new Intent(this.getActivity(), KidProfileActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, id);
+      intent.putExtra("ManageKidsView", true);
       startActivity(intent);
       
    }

@@ -1,25 +1,13 @@
 package com.nadajp.littletalkers;
 
-import com.nadajp.littletalkers.database.DbContract;
-import com.nadajp.littletalkers.database.DbSingleton;
-import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
-import android.app.Activity;
 import android.app.ActionBar;
-import android.app.Fragment;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 public class KidProfileActivity extends BaseActivity
 {
@@ -43,5 +31,26 @@ public class KidProfileActivity extends BaseActivity
       actionBar.setTitle(R.string.title_activity_kid_profile);
    }
 
+   @Override
+   public boolean onOptionsItemSelected(MenuItem item) {
+       switch (item.getItemId()) {
+       // Respond to the action bar's Up/Home button
+       case android.R.id.home:
+           if (this.getIntent().hasExtra("ManageKidsView"))
+           {
+              Intent intent = new Intent(this, ManageKidsActivity.class);
+              startActivity(intent);
+           }
+           else
+           {
+              Intent intent = NavUtils.getParentActivityIntent(this);
+              // navigate up to the logical parent activity.
+              NavUtils.navigateUpTo(this, intent);
+           }
+           
+           return true;
+       }
+       return super.onOptionsItemSelected(item);
+   }
   
 }
