@@ -2,6 +2,7 @@ package com.nadajp.littletalkers;
 
 import java.io.File;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.ListView;
 
+import com.nadajp.littletalkers.ItemDetailFragment.OnAddNewPhraseListener;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
 
@@ -33,6 +35,7 @@ public class ManageKidsFragment extends ListFragment
    private static final int DELETE_SELECTED_DIALOG_ID = 1;
    private static int mNumSelected = 0;
    private static String DEBUG_TAG = "ManageKids";
+   private ModifyKidsListener mListener;
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -142,11 +145,6 @@ public class ManageKidsFragment extends ListFragment
 
    public void confirmDelete()
    {
-      if (this.getListAdapter().hasStableIds())
-      {
-         Log.i(DEBUG_TAG, "STABLE IDS");
-      }
-
       Log.i(DEBUG_TAG, "Items to delete: " + mItemsToDelete.length);
       for (long id : mItemsToDelete)
       {
@@ -162,11 +160,9 @@ public class ManageKidsFragment extends ListFragment
       }
       DbSingleton.get().deleteKids(mItemsToDelete);
       Cursor cursor = DbSingleton.get().getKidsForSpinner();
-      //mCursorAdapter.swapCursor(cursor);
-      //mCursorAdapter.notifyDataSetChanged();
       mAdapter.swapCursor(cursor);
       mAdapter.notifyDataSetChanged();
-      this.getActivity().invalidateOptionsMenu();
+      mListener.onKidsDeleted();
    }
 
    @Override
@@ -210,6 +206,34 @@ public class ManageKidsFragment extends ListFragment
       }
    }
 
+   public interface ModifyKidsListener
+   {
+      public void onKidsDeleted();
+
+      //public void onKidModified(int kidId);
+   }
+   
+   @Override
+   public void onAttach(Activity activity)
+   {
+      super.onAttach(activity);
+      if (activity instanceof ModifyKidsListener)
+      {
+         mListener = (ModifyKidsListener) activity;
+      } else
+      {
+         throw new ClassCastException(activity.toString()
+               + " must implemenet ManageKidsFragment.ModifyKidsListener");
+      }
+   }
+
+   @Override
+   public void onDetach()
+   {
+      super.onDetach();
+      mListener = null;
+   }
+   
    @Override
    public void onSaveInstanceState(Bundle outState)
    {

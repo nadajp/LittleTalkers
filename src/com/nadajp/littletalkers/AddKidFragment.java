@@ -251,6 +251,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       {
          mCurrentKidId = DbSingleton.get().saveKid(name, birthday, location,
                mLanguage, mPicturePath);
+         Log.i(DEBUG_TAG, "Saving kid: " + mCurrentKidId);
       }
 
       // Updating a current kid
@@ -282,12 +283,10 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       String msg = name + " " + getString(R.string.kid_saved);
       Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG);
       toast.show();
-      if (mCurrentKidId < 0)
-      {
-         getActivity().invalidateOptionsMenu();
-      }
+      getActivity().invalidateOptionsMenu();
 
       Prefs.saveKidId(getActivity(), mCurrentKidId);
+      Log.i(DEBUG_TAG, "Saving kid id to preferences: " + mCurrentKidId);
       mListener.onKidAdded(mCurrentKidId);
    }
 

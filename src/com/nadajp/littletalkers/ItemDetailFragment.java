@@ -231,7 +231,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       else
       {
          mCurrentKidId = Prefs.getKidId(getActivity(), -1);
-         Log.i(DEBUG_TAG, "kid id in addWord = " + mCurrentKidId);
+         Log.i(DEBUG_TAG, "kid id from Prefs = " + mCurrentKidId);
          mItemId = getActivity().getIntent().getLongExtra(ITEM_ID, 0);
          Log.i(DEBUG_TAG, "item ID = " + mItemId);
       }
@@ -901,7 +901,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       } else
       {
          throw new ClassCastException(activity.toString()
-               + " must implemenet AddWordFragment.OnAddWordListener");
+               + " must implemenet AddWordFragment.OnAddNewPhraseListener");
       }
    }
 
@@ -934,6 +934,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       super.onResume();
       mPlayer = new MediaPlayer();
       mPlayer.setOnCompletionListener(this);
+      mCurrentKidId = Prefs.getKidId(getActivity(), -1);
       if (this.mItemId > 0)
       {
          this.updateKidName();  

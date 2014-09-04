@@ -195,17 +195,12 @@ public abstract class ItemListFragment extends ListFragment implements
       tv.setText(mEmptyListText);
       
       mListView = getListView();
-      if (mscAdapter == null || mscAdapter.isEmpty()) 
-      { 
-         return; 
-      }
       mscAdapter.setViewBinder(mViewBinder);
       mscAdapter.notifyDataSetChanged();
       setListAdapter(mscAdapter);
 
       // Implement contextual menu
       mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-
       mListView.setMultiChoiceModeListener(new MultiChoiceModeListener()
       {
          @Override
@@ -308,20 +303,15 @@ public abstract class ItemListFragment extends ListFragment implements
    public void updateData(long kidId)
    {
       mCurrentKidId = kidId;
+      Cursor newValues = getFromDatabase();
+      Log.i(DEBUG_TAG, "Cursor size: " + newValues.getCount());
       
       if (mscAdapter != null)
       {
-         Cursor newValues = getFromDatabase();
          mscAdapter.swapCursor(newValues);
-         mscAdapter.setViewBinder(mViewBinder);
-         mscAdapter.notifyDataSetChanged();
+         mscAdapter.notifyDataSetChanged();             
       }
       
-      else
-      {
-         insertData();
-         mscAdapter.setViewBinder(mViewBinder);
-      }
       List<String> languages = DbSingleton.get().getLanguages(mCurrentKidId);
       languages.add(0, this.getString(R.string.all_languages));
 
@@ -332,7 +322,6 @@ public abstract class ItemListFragment extends ListFragment implements
       //dataAdapter.notifyDataSetChanged();
       //mLanguageFilter.setSelection(0);
 
-      //Utils.updateTitlebar(mCurrentKidId, mHeaderView, getActivity());
    }
 
    public void sortByPhrase(View v)

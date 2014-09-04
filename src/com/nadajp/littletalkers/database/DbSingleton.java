@@ -56,7 +56,16 @@ public class DbSingleton
          }
       }
    }
-
+   
+   public boolean isEmpty()
+   {
+      if (getNumberOfKids() == 0)
+      {
+         return true;
+      }
+      return false;
+   } 
+   
    public int getNumberOfWords(long kidId)
    {
       Cursor cursor = null;
@@ -349,13 +358,15 @@ public class DbSingleton
          cursor = mDb.rawQuery(query, null);
          cursor.moveToFirst();
          return cursor.getLong(0);
-      } finally
+      } 
+      finally
       {
          if (cursor != null)
             cursor.close();
       }
+     
    }
-
+   
    public long saveKid(String name, String birthday, String location,
          String language, String pictureUri)
    {

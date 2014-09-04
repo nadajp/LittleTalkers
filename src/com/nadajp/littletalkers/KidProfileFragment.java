@@ -40,7 +40,7 @@ public class KidProfileFragment extends Fragment
       if (pictureUri == null)
       {
          profilePicture = BitmapFactory.decodeResource(view.getResources(),
-               R.drawable.profilepicture);
+               R.drawable.profile);
       } else
       {
          profilePicture = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pictureUri),

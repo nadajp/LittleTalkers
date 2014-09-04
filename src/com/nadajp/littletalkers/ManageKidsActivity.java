@@ -1,5 +1,8 @@
 package com.nadajp.littletalkers;
 
+import com.nadajp.littletalkers.ManageKidsFragment.ModifyKidsListener;
+import com.nadajp.littletalkers.database.DbSingleton;
+import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
 import android.app.ActionBar;
@@ -8,7 +11,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class ManageKidsActivity extends BaseActivity
+public class ManageKidsActivity extends BaseActivity implements ModifyKidsListener
 {
    @Override
    protected void onCreate(Bundle savedInstanceState)
@@ -44,5 +47,23 @@ public class ManageKidsActivity extends BaseActivity
       default:
          return super.onOptionsItemSelected(item);
       }
+   }
+
+   @Override
+   public void onKidsDeleted()
+   {
+      if (DbSingleton.get().isEmpty())
+      {
+         Prefs.saveKidId(this, 0);
+         Intent intent = new Intent(this, AddKidActivity.class);
+         startActivity(intent);
+         return;
+      }
+      long id = DbSingleton.get().getLastAddedKid();
+      super.setCurrentKidId(id);
+      setupMainMenuSpinner();
+      invalidateOptionsMenu();
+      Bundle bundle = new Bundle();
+      super.onSaveInstanceState(bundle);
    }
 }

@@ -24,7 +24,7 @@ public class NavigationSpinnerViewBinder implements ViewBinder
          if (pictureUri == null)
          {
             profilePicture = BitmapFactory.decodeResource(view.getResources(),
-                  R.drawable.profilepicture);
+                  R.drawable.profile);
          } else
          {
             profilePicture = BitmapFactory.decodeFile(pictureUri);

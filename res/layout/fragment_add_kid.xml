@@ -17,12 +17,11 @@
             android:layout_height="180dp"
             android:layout_centerHorizontal="true"
             android:layout_margin="10dp"
+            android:clickable="true"
             app:border="true"
             app:border_color="@android:color/white"
-            app:border_width="2dp" 
-            android:clickable="true"
-            android:contentDescription="@string/profile_picture"
-            android:src="@drawable/profile" />
+            android:src="@drawable/add_profile"
+            app:border_width="2dp" />
 
         <EditText
             android:id="@+id/edit_name"

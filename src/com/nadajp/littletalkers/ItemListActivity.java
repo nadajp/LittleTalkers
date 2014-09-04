@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 public class ItemListActivity extends BaseActivity implements ActionBar.TabListener
 {
@@ -19,7 +18,7 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
    ViewPager mViewPager;
    
    @Override
-   protected void onCreate(Bundle savedInstanceState)
+   public void onCreate(Bundle savedInstanceState)
    {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_item_list);

@@ -7,12 +7,14 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class AddKidActivity extends BaseActivity implements
       AddKidFragment.OnKidAddedListener
 {
+   private static final String DEBUG_TAG = "AddKidActivity";
    private long mCurrentKidId;
 
    @Override
@@ -70,6 +72,8 @@ public class AddKidActivity extends BaseActivity implements
    {
       Intent intent = new Intent(this, AddItemActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
+      Log.i(DEBUG_TAG, "In AddKidActivity, kid from Prefs is: " + Prefs.getKidId(this, -1));
+      mCurrentKidId = Prefs.getKidId(this, -1);
       startActivity(intent);
    }
    

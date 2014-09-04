@@ -68,7 +68,8 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
       mType = this.getIntent().getIntExtra(Prefs.TYPE, Prefs.TYPE_WORD);
       Log.i(DEBUG_TAG, "TYPE IS: " + mType);
       
-      if (savedInstanceState != null){
+      if (savedInstanceState != null)
+      {
          mType = savedInstanceState.getInt(Prefs.TYPE);
          Log.i(DEBUG_TAG, "NEW TYPE IS: " + mType);
       }

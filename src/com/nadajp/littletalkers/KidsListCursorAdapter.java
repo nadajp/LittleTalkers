@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.media.ThumbnailUtils;
 import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 public class KidsListCursorAdapter extends CursorAdapter
 {
    protected static final String DEBUG_TAG = "KidsListCursorAdapter";
+   private static final int THUMBNAIL_SIZE = 100;
    private LayoutInflater mInflater;
    private Context mContext;
    
@@ -52,12 +54,13 @@ public class KidsListCursorAdapter extends CursorAdapter
       if (pictureUri == null)
       {
          profilePicture = BitmapFactory.decodeResource(view.getResources(),
-               R.drawable.profilepicture);
+               R.drawable.profile);
       } else
       {
-         profilePicture = BitmapFactory.decodeFile(pictureUri);
+          profilePicture = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pictureUri),
+               THUMBNAIL_SIZE, THUMBNAIL_SIZE);
       }
-      ImageView profile = (ImageView) view.findViewById(R.id.profile);
+      CircularImageView profile = (CircularImageView) view.findViewById(R.id.profile);
       profile.setImageBitmap(profilePicture);    
       
       ImageView edit = (ImageView) view.findViewById(R.id.icon_edit);

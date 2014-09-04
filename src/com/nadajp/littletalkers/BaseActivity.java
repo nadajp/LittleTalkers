@@ -45,8 +45,17 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       super.onCreate(savedInstanceState);
       // get kid id from intent, if not available then from shared prefs, if not
       // then from database
-      mCurrentKidId = Prefs.getKidId(this, DbSingleton.get()
+      if (this.getIntent().hasExtra(Prefs.CURRENT_KID_ID))
+      {
+         mCurrentKidId = getIntent().getLongExtra(Prefs.CURRENT_KID_ID, -1);
+         Prefs.saveKidId(this, mCurrentKidId);
+      }
+      else 
+      {
+         mCurrentKidId = Prefs.getKidId(this, DbSingleton.get()
             .getLastAddedKid());
+      }
+      Log.i(DEBUG_TAG, "In BaseActivity, kid id from Prefs is " + mCurrentKidId);
            
       if (savedInstanceState != null)
       {
@@ -80,13 +89,19 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       return super.onCreateOptionsMenu(menu);
    }
    
+   public void setCurrentKidId(long id)
+   {
+      mCurrentKidId = id;
+      Prefs.saveKidId(this, mCurrentKidId);
+   }
+   
    private void changeProfilePic(String pictureUri)
    {
       Bitmap profilePicture = null;
       if (pictureUri == null)
       {
          profilePicture = BitmapFactory.decodeResource(this.getResources(),
-               R.drawable.profilepicture);
+               R.drawable.profile);
       } else
       {
          profilePicture = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pictureUri),
@@ -114,15 +129,13 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
        
       // select the current kid
       mCurrentKidId = Prefs.getKidId(this, DbSingleton.get()
-             .getLastAddedKid());
-       
-      String pictureUri = DbSingleton.get().getPicturePath(mCurrentKidId);
-            //cursor.getString(cursor
-            // .getColumnIndex(DbContract.Kids.COLUMN_NAME_PICTURE_URI));
-       
-      changeProfilePic(pictureUri);
+            .getLastAddedKid());
+      Log.i(DEBUG_TAG, "Setting up spinner kid id from Prefs is : " + mCurrentKidId); 
       
-      Log.i(DEBUG_TAG, "Selecting kid with id: " + mCurrentKidId);
+      String pictureUri = DbSingleton.get().getPicturePath(mCurrentKidId);
+
+      changeProfilePic(pictureUri);
+          
       if (mPosition > 0) { mSpinner.setSelection(mPosition); } else
       {
          for (int i = 0; i < mCursorAdapter.getCount(); i++)
