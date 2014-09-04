@@ -43,9 +43,10 @@ public class KidProfileActivity extends BaseActivity
            }
            else
            {
-              Intent intent = NavUtils.getParentActivityIntent(this);
+              Intent intent = new Intent(this, MainActivity.class);//NavUtils.getParentActivityIntent(this);
               // navigate up to the logical parent activity.
-              NavUtils.navigateUpTo(this, intent);
+              //NavUtils.navigateUpTo(this, intent);
+              startActivity(intent);
            }
            
            return true;

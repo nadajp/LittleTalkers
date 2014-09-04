@@ -43,18 +43,20 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       super.onCreate(savedInstanceState);
       // get kid id from intent, if not available then from shared prefs, if not
       // then from database
-      if (this.getIntent().hasExtra(Prefs.CURRENT_KID_ID))
+      /*if (this.getIntent().hasExtra(Prefs.CURRENT_KID_ID))
       {
          mCurrentKidId = getIntent().getLongExtra(Prefs.CURRENT_KID_ID, -1);
+         Log.i(DEBUG_TAG, "Yup, getting id from intent! " + mCurrentKidId);
          Prefs.saveKidId(this, mCurrentKidId);
       }
-      else 
+      else */
       {
          mCurrentKidId = Prefs.getKidId(this, DbSingleton.get()
             .getLastAddedKid());
+         Log.i(DEBUG_TAG, "In BaseActivity, kid id from Prefs is " + mCurrentKidId);
+         
       }
-      Log.i(DEBUG_TAG, "In BaseActivity, kid id from Prefs is " + mCurrentKidId);
-           
+      
       if (savedInstanceState != null)
       {
          mPosition = savedInstanceState.getInt(Prefs.POSITION);
@@ -166,8 +168,9 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       mCurrentKidId = id;
       mPosition = pos;
       String pictureUri = DbSingleton.get().getPicturePath(id);      
-      changeProfilePic(pictureUri);      
-      setCurrentKidData(id); 
+      changeProfilePic(pictureUri); 
+      setCurrentKidId(id);
+      setCurrentKidData(id);
    }
 
    public void onNothingSelected(AdapterView<?> parent)
