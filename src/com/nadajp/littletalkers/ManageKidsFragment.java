@@ -171,8 +171,7 @@ public class ManageKidsFragment extends ListFragment
       Intent intent = new Intent(this.getActivity(), KidProfileActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, id);
       intent.putExtra("ManageKidsView", true);
-      startActivity(intent);
-      
+      startActivity(intent);     
    }
 
    public static class DeleteSelectedDialogFragment extends DialogFragment

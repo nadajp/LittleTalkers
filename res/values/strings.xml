@@ -76,7 +76,10 @@
     <string name="audio">AUDIO</string>
     <string name="delete_words_dialog">Are you sure you want to delete all selected phrases from this dictionary?</string>
     <string name="button_add_new_word">Add New Word or Phrase</string>
-
+    <string name="sort">Sort</string>
+    <string name="sort_alphabetically">Sort Alphabetically</string>
+    <string name="sort_by_date">Sort by Date</string>
+    <string name="language_filter">Language Filter</string>
     
     <!-- profile -->
     <string name="words_and_phrases">words and phrases</string>

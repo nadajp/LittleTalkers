@@ -58,6 +58,10 @@ public class WordListFragment extends ItemListFragment
       Cursor cursor = DbSingleton.get().getWords(mCurrentKidId, mSortColumn,
             mbSortAscending, mLanguage);
 
+      if (cursor == null || cursor.isLast())
+      {
+         Log.i(DEBUG_TAG, "No DATA!");
+      }
       String[] adapterCols = new String[] { DbContract.Words.COLUMN_NAME_WORD,
                DbContract.Words.COLUMN_NAME_DATE,
                DbContract.Words.COLUMN_NAME_AUDIO_FILE };

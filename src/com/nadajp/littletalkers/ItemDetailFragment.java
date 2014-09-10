@@ -68,6 +68,7 @@ public abstract class ItemDetailFragment extends Fragment implements
    private File mDirectory = null; // directory to store audio file
    private File mOutFile = null; // audio file
    private File mTempFile = null; // temporary audio file
+   private File mTempFile2 = null; // second temporary audio file, in case of another recording
    protected String mCurrentAudioFile; // name of audio file, empty string if
                                        // none
    protected long mCurrentKidId; // current kid id, must be valid
@@ -115,7 +116,7 @@ public abstract class ItemDetailFragment extends Fragment implements
 
    public abstract String getShareBody();
 
-   public abstract void startAudioRecording();
+   public abstract void startAudioRecording(boolean secondRecording);
 
    public static ItemDetailFragment newInstance(int sectionNumber)
    {
@@ -533,14 +534,21 @@ public abstract class ItemDetailFragment extends Fragment implements
 
    private void startRecording()
    {
+      boolean secondRecording = false;
+      
       if (mTempFile != null && mTempFile.exists())
       {
-         mTempFile.delete();
-         mTempFile = null;
+         //mTempFile.delete();
+         //mTempFile = null;
+         mTempFile2 = new File(mDirectory, "temp2.3gp");
+         secondRecording = true;
       }
-
-      startAudioRecording();
-      mTempFile = new File(mDirectory, "temp.3gp");
+      else
+      {
+         mTempFile = new File(mDirectory, "temp.3gp");
+      }
+      startAudioRecording(secondRecording);
+      
       /*
        * mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
        * mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -557,13 +565,7 @@ public abstract class ItemDetailFragment extends Fragment implements
 
    private void stopRecording()
    {
-      /*
-       * try { mRecorder.stop(); } catch (Exception e) {
-       * Log.w(getClass().getSimpleName(), "Exception in stopping recorder", e);
-       * // can fail if start() failed for some reason } mRecorder.reset();
-       * mImgPlay.setVisibility(View.VISIBLE);
-       * mImgDelete.setVisibility(View.VISIBLE);
-       */
+
       mRecordingLayout.setVisibility(View.VISIBLE);
 
       // if a phrase has already been entered, save under real filename
@@ -573,11 +575,12 @@ public abstract class ItemDetailFragment extends Fragment implements
          {
             Log.i(DEBUG_TAG, mOutFile.toString());
 
-            ReplaceAudioDialogFragment dlg = new ReplaceAudioDialogFragment();
+            ReplaceAudioDialogFragment dlg = new ReplaceAudioDialogFragment(true);
             dlg.setTargetFragment(this, REPLACE_AUDIO_DIALOG_ID);
             dlg.show(getFragmentManager(),
                   ReplaceAudioDialogFragment.class.toString());
-         } else
+         } 
+         else
          {
             saveItem(false);
          }
@@ -585,7 +588,85 @@ public abstract class ItemDetailFragment extends Fragment implements
       // otherwise, it has been saved in temp file
       TextView audioFile = (TextView) this.getView().findViewById(
             R.id.text_recording);
-      audioFile.setText("temp.3gp");
+      if (audioFile.getText().length() > 0)
+      {
+         ReplaceAudioDialogFragment dlg = new ReplaceAudioDialogFragment(false);
+         dlg.setTargetFragment(this, REPLACE_AUDIO_DIALOG_ID);
+         dlg.show(getFragmentManager(),
+               ReplaceAudioDialogFragment.class.toString());
+      }
+      else 
+      {
+         audioFile.setText("temp.3gp");
+         
+      }
+   }
+
+   public void replaceTempFile(boolean replace)
+   {
+      if (replace)
+      {
+         mTempFile = mTempFile2;
+         mTempFile2 = null;
+      }
+      else
+      {
+         mTempFile2 = null;
+      }
+   }
+   
+  
+   public static class ReplaceAudioDialogFragment extends DialogFragment
+   {
+      private boolean mPhraseEntered;  // has the phrase already been entered for this audio?
+      public ReplaceAudioDialogFragment(boolean phrase_entered)
+      {
+         mPhraseEntered = phrase_entered;
+      }
+      
+      @Override
+      public Dialog onCreateDialog(Bundle savedInstanceState)
+      {
+         // Use the Builder class for convenient dialog construction
+         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+         builder
+               .setMessage(R.string.replace_audio_dialog)
+               .setPositiveButton(R.string.replace_audio,
+                     new DialogInterface.OnClickListener()
+                     {
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                           if (mPhraseEntered)
+                           {
+                              ((ItemDetailFragment) getTargetFragment())
+                                 .saveItem(false);
+                           }
+                           else
+                           {
+                              ((ItemDetailFragment) getTargetFragment()).replaceTempFile(true);
+                           }
+
+                        }
+                     })
+               .setNegativeButton(R.string.cancel,
+                     new DialogInterface.OnClickListener()
+                     {
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                           if (mPhraseEntered)
+                           {
+                              ((ItemDetailFragment) getTargetFragment()).mTempFile = null;
+                           }
+                           else 
+                           {
+                              ((ItemDetailFragment) getTargetFragment()).replaceTempFile(false);
+                           }
+                        }
+                     });
+
+         // Create the AlertDialog object and return it
+         return builder.create();
+      }
    }
 
    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
@@ -647,39 +728,7 @@ public abstract class ItemDetailFragment extends Fragment implements
          return builder.create();
       }
    }
-
-   public static class ReplaceAudioDialogFragment extends DialogFragment
-   {
-      @Override
-      public Dialog onCreateDialog(Bundle savedInstanceState)
-      {
-         // Use the Builder class for convenient dialog construction
-         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-         builder
-               .setMessage(R.string.replace_audio_dialog)
-               .setPositiveButton(R.string.replace_audio,
-                     new DialogInterface.OnClickListener()
-                     {
-                        public void onClick(DialogInterface dialog, int id)
-                        {
-                           ((ItemDetailFragment) getTargetFragment())
-                                 .saveItem(false);
-                        }
-                     })
-               .setNegativeButton(R.string.cancel,
-                     new DialogInterface.OnClickListener()
-                     {
-                        public void onClick(DialogInterface dialog, int id)
-                        {
-                           ((ItemDetailFragment) getTargetFragment()).mTempFile = null;
-                        }
-                     });
-
-         // Create the AlertDialog object and return it
-         return builder.create();
-      }
-   }
-
+   
    public void confirmDeleteAudio()
    {
       mAudioRecorded = false;
@@ -725,7 +774,8 @@ public abstract class ItemDetailFragment extends Fragment implements
       if (mTempFile != null && mTempFile.exists())
       {
          saveFile();
-      } else if (mOutFile != null && mOutFile.exists())
+      } 
+      else if (mOutFile != null && mOutFile.exists())
       {
          renameFile();
       }

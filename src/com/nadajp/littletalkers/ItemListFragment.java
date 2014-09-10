@@ -31,8 +31,8 @@ import android.widget.TextView;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-public abstract class ItemListFragment extends ListFragment implements
-      OnItemSelectedListener
+public abstract class ItemListFragment extends ListFragment
+      
 {
    public long mCurrentKidId; // database id of current kid
    public String mSortColumn; // column to sort list by
@@ -109,8 +109,7 @@ public abstract class ItemListFragment extends ListFragment implements
       }
       Log.i(DEBUG_TAG, "Getting kid with ID: " + mCurrentKidId);
       
-      //mLanguageFilter = (Spinner) mHeaderView
-      //      .findViewById(R.id.spinner_language_filter);
+
       List<String> languages = DbSingleton.get().getLanguages(mCurrentKidId);
       languages.add(0, this.getString(R.string.all_languages));
 
@@ -119,14 +118,9 @@ public abstract class ItemListFragment extends ListFragment implements
       dataAdapter.setDropDownViewResource(R.layout.lt_spinner_dropdown_item);
 
       //mLanguageFilter.setAdapter(dataAdapter);
-      mLanguage = Prefs.getLanguage(getActivity());
+      mLanguage = getString(R.string.all_languages); //Prefs.getLanguage(getActivity());
       //mLanguageFilter.setSelection(dataAdapter.getPosition(mLanguage));
       //mLanguageFilter.setOnItemSelectedListener(this);
-
-      // Add arrows to word and date list headers for sorting
-      //mTextHeaderPhrase = (TextView) mHeaderView
-      //      .findViewById(mPhraseHeaderResId);
-      //mTextHeaderDate = (TextView) mHeaderView.findViewById(R.id.header_date);
 
       // Now do the sorting by column
       mSortColumnId = Prefs.getSortColumnId(getActivity());
@@ -140,50 +134,7 @@ public abstract class ItemListFragment extends ListFragment implements
       }
       mbSortAscending = Prefs.getIsAscending(getActivity());
 
-     /* if (mSortColumnId == Prefs.SORT_COLUMN_PHRASE)
-      {
-         if (mbSortAscending)
-         {
-            mTextHeaderPhrase.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-                  android.R.drawable.arrow_up_float, 0);
-         } else
-         {
-            mTextHeaderPhrase.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-                  android.R.drawable.arrow_down_float, 0);
-         }
-         mTextHeaderDate.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-               android.R.drawable.arrow_up_float, 0);
-      }
-
-      else if (mSortColumnId == Prefs.SORT_COLUMN_DATE)
-      {
-         if (mbSortAscending)
-         {
-            mTextHeaderDate.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-                  android.R.drawable.arrow_up_float, 0);
-         } else
-         {
-            mTextHeaderDate.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-                  android.R.drawable.arrow_down_float, 0);
-         }
-         mTextHeaderPhrase.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-               android.R.drawable.arrow_up_float, 0);
-      }*/
-      
-      //Utils.updateTitlebar(mCurrentKidId, mHeaderView, getActivity());
       return v;
-   }
-
-   // Select language from filter dropdown
-   public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
-   {
-      mLanguage = parent.getItemAtPosition(pos).toString();
-      this.changeLanguage();
-   }
-
-   public void onNothingSelected(AdapterView<?> parent)
-   {
-      // Another interface callback
    }
 
    @Override
@@ -292,8 +243,9 @@ public abstract class ItemListFragment extends ListFragment implements
       startActivity(intent);
    }
    
-   public void changeLanguage()
+   public void changeLanguage(String language)
    {
+      mLanguage = language;
       Cursor newValues = getFromDatabase();
       Log.i(DEBUG_TAG, "Items: " + newValues.getCount());
       mscAdapter.swapCursor(newValues);
@@ -314,45 +266,19 @@ public abstract class ItemListFragment extends ListFragment implements
       
       List<String> languages = DbSingleton.get().getLanguages(mCurrentKidId);
       languages.add(0, this.getString(R.string.all_languages));
-
-      //ArrayAdapter<String> dataAdapter = (ArrayAdapter<String>) mLanguageFilter
-      //      .getAdapter();
-      //dataAdapter.clear();
-      //dataAdapter.addAll(languages);
-      //dataAdapter.notifyDataSetChanged();
-      //mLanguageFilter.setSelection(0);
-
    }
 
-   public void sortByPhrase(View v)
+   public void sortByPhrase()
    {
       mSortColumnId = Prefs.SORT_COLUMN_PHRASE;
       mSortColumn = mPhraseColumnName;
-      /*if (mbSortAscending)
-      {
-         mTextHeaderPhrase.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-               android.R.drawable.arrow_down_float, 0);
-      } else
-      {
-         mTextHeaderPhrase.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-               android.R.drawable.arrow_up_float, 0);
-      }*/
       sortList();
    }
 
-   public void sortByDate(View v)
+   public void sortByDate()
    {
       mSortColumnId = Prefs.SORT_COLUMN_DATE;
-      mSortColumn = DbContract.Words.COLUMN_NAME_DATE;
-      /*if (mbSortAscending)
-      {
-         mTextHeaderDate.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-               android.R.drawable.arrow_down_float, 0);
-      } else
-      {
-         mTextHeaderDate.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-               android.R.drawable.arrow_up_float, 0);
-      }*/
+      mSortColumn = DbContract.Words.COLUMN_NAME_DATE;    
       sortList();
    }
 
@@ -413,9 +339,6 @@ public abstract class ItemListFragment extends ListFragment implements
       }
       setListAdapter(null);
       mscAdapter = null;
-      //mTextHeaderPhrase = null;
-      //mTextHeaderDate = null;
-      //mLanguageFilter = null;
    }
 
    @Override

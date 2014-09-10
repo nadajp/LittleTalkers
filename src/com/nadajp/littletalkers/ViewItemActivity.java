@@ -22,7 +22,7 @@ public class ViewItemActivity extends Activity implements OnAddNewPhraseListener
 
       final ActionBar actionBar = getActionBar();
       actionBar.setDisplayHomeAsUpEnabled(true);
-      actionBar.setDisplayUseLogoEnabled(false);
+      actionBar.setDisplayUseLogoEnabled(true);
       actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
       
       if (savedInstanceState != null)

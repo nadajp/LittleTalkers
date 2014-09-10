@@ -45,10 +45,11 @@ public class QADetailFragment extends ItemDetailFragment
       mTextCheckInstructions = (TextView) v.findViewById(R.id.textCheckInstructions);
    }
 
-   public void startAudioRecording()
+   public void startAudioRecording(boolean secondRecording)
    {
       Intent intent = new Intent(this.getActivity(), AudioRecordActivity.class);
       intent.putExtra(Prefs.TYPE, Prefs.TYPE_QA);
+      intent.putExtra(Prefs.SECOND_RECORDING, secondRecording);
       startActivityForResult(intent, RECORD_AUDIO_REQUEST);
    }
    

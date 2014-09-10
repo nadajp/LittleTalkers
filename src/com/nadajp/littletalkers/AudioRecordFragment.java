@@ -37,6 +37,7 @@ public class AudioRecordFragment extends Fragment implements OnClickListener,
                                                                  // visible to
                                                                  // invisible
    private ImageView mImgMic;
+   private boolean mSecondRecording;
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,8 +47,9 @@ public class AudioRecordFragment extends Fragment implements OnClickListener,
       View v = inflater.inflate(R.layout.fragment_audio_record, container,
             false);
 
-      Bundle args = this.getArguments();
       mImgMic = (ImageView) v.findViewById(R.id.button_mic);
+      Bundle args = this.getArguments();
+      mSecondRecording = args.getBoolean(Prefs.SECOND_RECORDING);
       int type = args.getInt(Prefs.TYPE);
       if (type == Prefs.TYPE_QA)
       {
@@ -117,8 +119,14 @@ public class AudioRecordFragment extends Fragment implements OnClickListener,
       mRecorder.setOnErrorListener(this);
       mRecorder.setOnInfoListener(this);
 
-      mTempFile = new File(mDirectory, "temp.3gp");
-
+      if (mSecondRecording)
+      {
+         mTempFile = new File(mDirectory, "temp2.3gp");
+      }
+      else
+      {
+         mTempFile = new File(mDirectory, "temp.3gp");
+      }
       mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
       mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
       mRecorder.setOutputFile(mTempFile.getAbsolutePath());

@@ -321,6 +321,26 @@ public class DbSingleton
          }
       }
    }
+   
+   public String getDefaultLanguage(long kidId)
+   {
+      String query = "SELECT " + DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE
+            + " FROM Kids WHERE _id = ?";
+      Cursor cursor = null;
+      String arg = Long.valueOf(kidId).toString();
+      try
+      {
+         cursor = mDb.rawQuery(query, new String[] { arg });
+         cursor.moveToFirst();
+         return cursor.getString(0);
+      } finally
+      {
+         if (cursor != null)
+         {
+            cursor.close();
+         }
+      }
+   }
 
    public String[] getDefaults(long kidId)
    {
