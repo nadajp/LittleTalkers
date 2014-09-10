@@ -15,7 +15,6 @@ public class AddKidActivity extends BaseActivity implements
       AddKidFragment.OnKidAddedListener
 {
    private static final String DEBUG_TAG = "AddKidActivity";
-   private long mCurrentKidId;
 
    @Override
    protected void onCreate(Bundle savedInstanceState)
@@ -35,7 +34,7 @@ public class AddKidActivity extends BaseActivity implements
    {
       // Inflate the menu; this adds items to the action bar if it is present.
       getMenuInflater().inflate(R.menu.add_kid, menu);
-      MenuItem item = menu.findItem(R.id.action_add_word);
+      /*MenuItem item = menu.findItem(R.id.action_add_word);
       mCurrentKidId = getIntent().getLongExtra(Prefs.CURRENT_KID_ID, -1);
       if (mCurrentKidId < 0)
       {
@@ -43,7 +42,7 @@ public class AddKidActivity extends BaseActivity implements
       } else
       {
          item.setVisible(true);
-      }
+      }*/
       return true;
    }
 
@@ -53,9 +52,9 @@ public class AddKidActivity extends BaseActivity implements
       // Handle presses on the action bar items
       switch (item.getItemId())
       {
-      case R.id.action_add_word:
+      /*case R.id.action_add_word:
          switchToAddWord();
-         return true;
+         return true;*/
       case R.id.action_manage_kids:
          Intent manage_intent = new Intent(this, ManageKidsActivity.class);
          startActivity(manage_intent);
@@ -72,8 +71,8 @@ public class AddKidActivity extends BaseActivity implements
    {
       Intent intent = new Intent(this, AddItemActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
-      Log.i(DEBUG_TAG, "In AddKidActivity, kid from Prefs is: " + Prefs.getKidId(this, -1));
-      mCurrentKidId = Prefs.getKidId(this, -1);
+      Log.i(DEBUG_TAG, "In onKidAdded, kid from Prefs is: " + Prefs.getKidId(this, -1));
+      this.setCurrentKidId(Prefs.getKidId(this, -1));
       startActivity(intent);
    }
    
@@ -85,8 +84,8 @@ public class AddKidActivity extends BaseActivity implements
 
    private void switchToAddWord()
    {
-      Intent intent = new Intent(this, AddItemActivity.class);
-      intent.putExtra(Prefs.CURRENT_KID_ID, mCurrentKidId);
-      startActivity(intent);
+      /*Intent intent = new Intent(this, AddItemActivity.class);
+      intent.putExtra(Prefs.CURRENT_KID_ID, mKidId);
+      startActivity(intent);*/
    }
 }

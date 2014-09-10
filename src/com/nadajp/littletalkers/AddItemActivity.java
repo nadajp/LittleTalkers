@@ -72,6 +72,7 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
       {
          mType = savedInstanceState.getInt(Prefs.TYPE);
          Log.i(DEBUG_TAG, "NEW TYPE IS: " + mType);
+         invalidateOptionsMenu();
       }
       actionBar.setSelectedNavigationItem(mType);     
    }
@@ -133,7 +134,7 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
    
    public void onClickedShowDictionary(long kidId)
    {
-      Prefs.saveKidId(getApplicationContext(), kidId);
+      Prefs.saveKidId(this, kidId);
       Log.i(DEBUG_TAG, "Saved ID: " + kidId);
       Intent intent = new Intent(this, ItemListActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, kidId);

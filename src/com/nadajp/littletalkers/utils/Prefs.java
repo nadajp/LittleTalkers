@@ -29,7 +29,7 @@ public class Prefs
    public static final String TYPE = "type";
    public static final String TAB_ID = "tab_id";
    public static final String SECOND_RECORDING = "second_recording";
-
+   public static final String KIDS_CHANGED = "kids_changed";
    
    public static final int EDIT_KID = 0;
 

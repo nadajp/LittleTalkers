@@ -64,6 +64,7 @@ public class ManageKidsActivity extends BaseActivity implements ModifyKidsListen
       setupMainMenuSpinner();
       invalidateOptionsMenu();
       Bundle bundle = new Bundle();
+      bundle.putBoolean(Prefs.KIDS_CHANGED, true);
       super.onSaveInstanceState(bundle);
    }
 }

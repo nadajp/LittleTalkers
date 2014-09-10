@@ -221,6 +221,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
    {
       super.onPause();
       Prefs.saveKidId(this, mCurrentKidId);
+      Log.i(DEBUG_TAG, "Saving Kid Id in onPause!!!" + mCurrentKidId);
    }
 
    @Override
