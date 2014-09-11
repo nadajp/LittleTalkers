@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class AddKidActivity extends BaseActivity implements
+public class AddKidActivity extends Activity implements
       AddKidFragment.OnKidAddedListener
 {
    private static final String DEBUG_TAG = "AddKidActivity";
@@ -25,7 +25,6 @@ public class AddKidActivity extends BaseActivity implements
       actionBar.setDisplayHomeAsUpEnabled(true);
       actionBar.setTitle(R.string.add_kid);
       actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-      actionBar.setDisplayShowCustomEnabled(false);
       Utils.setColor(actionBar, Utils.COLOR_ORANGE, this);
    }
 
@@ -72,7 +71,7 @@ public class AddKidActivity extends BaseActivity implements
       Intent intent = new Intent(this, AddItemActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
       Log.i(DEBUG_TAG, "In onKidAdded, kid from Prefs is: " + Prefs.getKidId(this, -1));
-      this.setCurrentKidId(Prefs.getKidId(this, -1));
+      //this.setCurrentKidId(Prefs.getKidId(this, -1));
       startActivity(intent);
    }
    

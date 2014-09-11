@@ -41,20 +41,10 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
    protected void onCreate(Bundle savedInstanceState)
    {
       super.onCreate(savedInstanceState);
-      // get kid id from intent, if not available then from shared prefs, if not
-      // then from database
-      /*if (this.getIntent().hasExtra(Prefs.CURRENT_KID_ID))
-      {
-         mCurrentKidId = getIntent().getLongExtra(Prefs.CURRENT_KID_ID, -1);
-         Log.i(DEBUG_TAG, "Yup, getting id from intent! " + mCurrentKidId);
-         Prefs.saveKidId(this, mCurrentKidId);
-      }
-      else */
       {
          mCurrentKidId = Prefs.getKidId(this, DbSingleton.get()
             .getLastAddedKid());
-         Log.i(DEBUG_TAG, "In BaseActivity, kid id from Prefs is " + mCurrentKidId);
-         
+         //Log.i(DEBUG_TAG, "In BaseActivity, kid id from Prefs is " + mCurrentKidId);        
       }
       
       if (savedInstanceState != null)
@@ -77,7 +67,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       actionBar.setCustomView(customView);
       actionBar.setDisplayShowCustomEnabled(true);     
       actionBar.setDisplayShowTitleEnabled(false); 
-      setupMainMenuSpinner(); 
+      //setupMainMenuSpinner(); 
    }
    
    public void setItemType(int type) {}
@@ -115,7 +105,8 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       Cursor cursor = DbSingleton.get().getKidsForSpinner();
       if (cursor.getCount() == 0) { return; }
       
-      Log.i(DEBUG_TAG, "Adding Spinner to ActionBar");
+      //Log.i(DEBUG_TAG, "Adding Spinner to ActionBar");
+      //Log.i(DEBUG_TAG, "Number of kids: " + cursor.getCount());
       
       String[] adapterCols = new String[] { "name" };
       int[] adapterRowViews = new int[] { android.R.id.text1 };
@@ -130,20 +121,26 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       // select the current kid
       mCurrentKidId = Prefs.getKidId(this, DbSingleton.get()
             .getLastAddedKid());
-      Log.i(DEBUG_TAG, "Setting up spinner kid id from Prefs is : " + mCurrentKidId); 
+      //Log.i(DEBUG_TAG, "Setting up spinner kid id from Prefs is : " + mCurrentKidId); 
       
       String pictureUri = DbSingleton.get().getPicturePath(mCurrentKidId);
-
       changeProfilePic(pictureUri);
           
-      if (mPosition > 0) { mSpinner.setSelection(mPosition); } else
+      if (mPosition > 0) 
+      { 
+         //Log.i(DEBUG_TAG, "Setting position: " + mPosition);
+         mSpinner.setSelection(mPosition); 
+      } 
+      else
       {
          for (int i = 0; i < mCursorAdapter.getCount(); i++)
          {
+            //Log.i(DEBUG_TAG, "About to get: " + i);
             if (mCursorAdapter.getItemId(i) == mCurrentKidId)
             {
+               //Log.i(DEBUG_TAG, "i: " + i);
                mSpinner.setSelection(i);
-               Log.i(DEBUG_TAG, "i: " + i);
+               
                return;
             }
          }
@@ -164,7 +161,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       {
          return;
       }
-      Log.i(DEBUG_TAG, "Selected kid with ID " + id + ", setting current kid...");
+      //Log.i(DEBUG_TAG, "Selected kid with ID " + id + ", setting current kid...");
       mCurrentKidId = id;
       mPosition = pos;
       String pictureUri = DbSingleton.get().getPicturePath(id);      
@@ -212,16 +209,9 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
    @Override
    protected void onResume()
    {
+      setupMainMenuSpinner();
       invalidateOptionsMenu();
       super.onResume();
-   }
-
-   @Override
-   protected void onPause()
-   {
-      super.onPause();
-      Prefs.saveKidId(this, mCurrentKidId);
-      Log.i(DEBUG_TAG, "Saving Kid Id in onPause!!!" + mCurrentKidId);
    }
 
    @Override
@@ -293,7 +283,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       outState.putInt(Prefs.POSITION, mPosition);
       outState.putLong(Prefs.CURRENT_KID_ID, mCurrentKidId);
       mType = Prefs.getType(this, Prefs.TYPE_WORD);
-      Log.i(DEBUG_TAG, "Type: " + mType);
+      //Log.i(DEBUG_TAG, "Type: " + mType);
       outState.putInt(Prefs.TYPE, mType);
    }
 
@@ -303,6 +293,6 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       mPosition = savedInstanceState.getInt(Prefs.POSITION);
       mCurrentKidId = savedInstanceState.getLong(Prefs.CURRENT_KID_ID);
       mType = savedInstanceState.getInt(Prefs.TYPE);
-      Log.i(DEBUG_TAG, "Restoring Type: " + mType);
+      //Log.i(DEBUG_TAG, "Restoring Type: " + mType);
    }
 }
