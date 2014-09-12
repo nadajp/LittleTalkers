@@ -62,5 +62,4 @@ public class KidProfileActivity extends Activity
        }
        return super.onOptionsItemSelected(item);
    }
-  
 }

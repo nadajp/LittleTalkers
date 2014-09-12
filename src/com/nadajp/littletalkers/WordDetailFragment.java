@@ -252,27 +252,27 @@ public class WordDetailFragment extends ItemDetailFragment
             LinearLayout ll = new LinearLayout(getActivity());
             ll.setOrientation(LinearLayout.VERTICAL);
 
-            RelativeLayout.LayoutParams rlParams = new RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                   LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
-            rlParams.addRule(RelativeLayout.BELOW, id);
+            params.addRule(RelativeLayout.BELOW, id);
             int sideMargin = (int) (20 * getActivity().getResources()
                   .getDisplayMetrics().density);
             int bottomMargin = (int) (10 * getActivity().getResources()
                   .getDisplayMetrics().density);
-            rlParams.setMargins(sideMargin, 0, sideMargin, bottomMargin);
-            ll.setLayoutParams(rlParams);
+            params.setMargins(sideMargin, 0, sideMargin, bottomMargin);
+            ll.setLayoutParams(params);
 
-            LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
+            LayoutParams txtParams = new LayoutParams(LayoutParams.WRAP_CONTENT,
                   LayoutParams.WRAP_CONTENT);
 
             TextView txtWord = new TextView(getActivity());
             TextView txtDate = new TextView(getActivity());
 
-            txtWord.setLayoutParams(params);
-            txtWord.setTextColor(this.getResources().getColor(R.color.gray));
-            txtWord.setTextSize(20);
-            txtDate.setLayoutParams(params);
+            txtWord.setLayoutParams(txtParams);
+            txtWord.setTextAppearance(getActivity(), R.style.DictionaryWordStyle);
+            txtDate.setLayoutParams(txtParams);
+            txtDate.setTextAppearance(getActivity(), R.style.DictionaryDateStyle);
 
             txtWord.setText(cursor.getString(cursor
                   .getColumnIndex(DbContract.Words.COLUMN_NAME_WORD)));
@@ -281,9 +281,6 @@ public class WordDetailFragment extends ItemDetailFragment
                   .getColumnIndex(DbContract.Words.COLUMN_NAME_DATE));
             txtDate
                   .setText(Utils.getDateForDisplay(rawdate, this.getActivity()));
-
-            txtDate.setTextSize(16);
-            txtWord.setTextSize(16);
 
             if (android.os.Build.VERSION.SDK_INT > 15)
             {
@@ -295,7 +292,7 @@ public class WordDetailFragment extends ItemDetailFragment
                      R.drawable.white_card_background));
             }
 
-            ll.setPadding(15, 15, 15, 15);
+            ll.setPadding(20, 20, 20, 20);
             ll.addView(txtWord);
             ll.addView(txtDate);
             ll.setId(Utils.generateViewId());
@@ -304,6 +301,7 @@ public class WordDetailFragment extends ItemDetailFragment
             rl.addView(ll);
 
          } while (cursor.moveToNext());
+         rl.setPadding(0, 0, 0, 30);
       }
       cursor.close();
    }

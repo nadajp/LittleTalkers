@@ -8,7 +8,6 @@
 
     <TextView
         android:id="@+id/textView1"
-        style="@style/MyLabelText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -25,40 +24,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/textView1"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_margin = "15dp"
+        android:background="@color/white"
+        android:divider="@color/background_gray"
+        android:dividerHeight="10dp"
         android:layout_alignLeft="@+id/textView1" >
     </ListView>
 
-    <!-- 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_below="@id/listChooseKids"
-        android:text="@string/choose_export_format"
-        android:textAppearance="?android:attr/textAppearanceMedium" /> -->
-
     <Button
         android:id="@+id/buttonExportCSV"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/listChooseKids"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:onClick="exportToCSV"
-        android:text="@string/export_csv" />
+        android:background="@drawable/ic_export"/>
 
     <TextView
-        android:layout_below = "@id/buttonExportCSV"
-        android:layout_marginTop="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom" 
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"

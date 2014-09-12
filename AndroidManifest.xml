@@ -61,7 +61,7 @@
         </activity>
         <activity
             android:name="com.nadajp.littletalkers.DataExportActivity"
-            android:label="@string/title_activity_data_backup"
+            android:label="@string/title_activity_data_export"
             android:parentActivityName="com.nadajp.littletalkers.MainActivity" >
         </activity>
         <activity

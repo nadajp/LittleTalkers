@@ -11,7 +11,7 @@
     <string name="title_activity_dictionary">Dictionary</string>
     <string name="title_activity_manage_kids">Manage Little Talkers</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_data_backup">Data Backup</string>
+    <string name="title_activity_data_export">Data Export</string>
 
     <!-- AddWord -->
     <string name="title_activity_add_word">AddWordActivity</string>
@@ -45,6 +45,9 @@
     <string name="cancel">Cancel</string>
     <string name="said">said</string>
     <string name="stop_recording">Tap the screen to stop recording</string>
+    <string name="more">More</string>
+    <string name="less">Less</string>
+    
 
     <!-- AddKid -->
     <string name="profile_picture">Profile Picture</string>

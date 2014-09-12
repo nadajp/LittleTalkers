@@ -22,7 +22,10 @@
     <color name="gray">#858585</color>
     
     <!-- Hint text color -->
-    <color name="lightest_gray">#cccccc</color>
+    <color name="hint_gray">#cccccc</color>
+    
+    <!-- Light gray background color -->
+    <color name="lightest_gray">#f6f3f3</color>
 
     <!-- Bold and regular text color -->
     <color name="darker_gray">#555555</color>

@@ -39,6 +39,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ShareActionProvider;
 import android.widget.Spinner;
@@ -95,6 +96,8 @@ public abstract class ItemDetailFragment extends Fragment implements
    protected Spinner mLangSpinner;
    protected TextView mTextHeading;
    protected Button mButtonSave;
+   private EditText mEditMore;
+   private EditText mEditLess;
    private boolean mAudioRecorded;
 
    // to be set by derived classes
@@ -172,12 +175,16 @@ public abstract class ItemDetailFragment extends Fragment implements
       mImgMic = (ImageView) v.findViewById(R.id.imgMic);
       mPlay = (Button) v.findViewById(R.id.button_play);
       mDelete = (Button) v.findViewById(R.id.button_delete);
+      mEditMore = (EditText) v.findViewById(R.id.edit_more);
+      mEditLess = (EditText) v.findViewById(R.id.edit_less);
 
       mEditDate.setOnClickListener(this);
       mImgMic.setOnClickListener(this);
       mPlay.setOnClickListener(this);
       mDelete.setOnClickListener(this);
       mButtonSave.setOnClickListener(this);
+      mEditMore.setOnClickListener(this);
+      mEditLess.setOnClickListener(this);
 
       initializeExtras(v);
 
@@ -222,12 +229,19 @@ public abstract class ItemDetailFragment extends Fragment implements
             mRecordingLayout.setVisibility(View.VISIBLE);
             mAudioRecorded = true;
             mCurrentAudioFile = savedInstanceState.getString(Prefs.AUDIO_FILE);
+            TextView audioFile = (TextView) v.findViewById(R.id.text_recording);
+            audioFile.setText(mCurrentAudioFile);
             Log.i(DEBUG_TAG, "YES, AUDIO RECORDED...");
          }
 
+         if (savedInstanceState.getBoolean(Prefs.SHOWING_MORE_FIELDS) == true)
+         {
+            showMoreFields(v, true);
+         }
          mItemId = savedInstanceState.getLong(Prefs.ITEM_ID);
          mCurrentKidId = savedInstanceState.getLong(Prefs.CURRENT_KID_ID);
          Log.i(DEBUG_TAG, "Retreiving Instance State: " + mCurrentKidId);
+
       } 
       else
       {
@@ -240,13 +254,12 @@ public abstract class ItemDetailFragment extends Fragment implements
       // If editing/viewing an existing item
       if (mItemId > 0)
       {
+         updateItem(v);
          if (savedInstanceState == null)
          {
-            updateItem(v);
             Log.i(DEBUG_TAG, "NO saved instance state, calling insert defaults...");
             insertKidDefaults(mCurrentKidId, v);           
          }
-
          setAudio(v);
          getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
       } 
@@ -404,9 +417,8 @@ public abstract class ItemDetailFragment extends Fragment implements
                   .findViewById(R.id.app_icon);
 
             textView.setText(names.get(position));
-            // change the icon for Windows and iPhone
+            // change the icon
             imageView.setImageDrawable(icons.get(position));
-
             return rowView;
          }
       }
@@ -432,11 +444,34 @@ public abstract class ItemDetailFragment extends Fragment implements
       case R.id.button_save:
          saveItem(true);
          break;
+      case R.id.edit_more:
+         showMoreFields(getView(), true);
+         break;
+      case R.id.edit_less:
+         showMoreFields(getView(), false);
+         break;
       default:
          return;
       }
    }
 
+   public void showMoreFields(View v, boolean more)
+   {
+      LinearLayout llMore = (LinearLayout) v.findViewById(R.id.layout_more);
+      if (more)
+      {
+         llMore.setVisibility(View.VISIBLE);
+         mEditMore.setVisibility(View.GONE);
+         mEditLess.setVisibility(View.VISIBLE);
+      }
+      else
+      {
+         llMore.setVisibility(View.GONE);
+         mEditMore.setVisibility(View.VISIBLE);
+         mEditLess.setVisibility(View.GONE);
+      }     
+   }
+   
    public File getAudioFile()
    {
       return mOutFile;
@@ -538,8 +573,6 @@ public abstract class ItemDetailFragment extends Fragment implements
       
       if (mTempFile != null && mTempFile.exists())
       {
-         //mTempFile.delete();
-         //mTempFile = null;
          mTempFile2 = new File(mDirectory, "temp2.3gp");
          secondRecording = true;
       }
@@ -560,12 +593,10 @@ public abstract class ItemDetailFragment extends Fragment implements
        * Toast.makeText(this.getActivity(), e.getMessage(), Toast.LENGTH_LONG)
        * .show(); }
        */
-
    }
 
    private void stopRecording()
    {
-
       mRecordingLayout.setVisibility(View.VISIBLE);
 
       // if a phrase has already been entered, save under real filename
@@ -588,7 +619,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       // otherwise, it has been saved in temp file
       TextView audioFile = (TextView) this.getView().findViewById(
             R.id.text_recording);
-      if (audioFile.getText().length() > 0)
+      if (mAudioRecorded)
       {
          ReplaceAudioDialogFragment dlg = new ReplaceAudioDialogFragment(false);
          dlg.setTargetFragment(this, REPLACE_AUDIO_DIALOG_ID);
@@ -597,24 +628,29 @@ public abstract class ItemDetailFragment extends Fragment implements
       }
       else 
       {
-         audioFile.setText("temp.3gp");
-         
+         audioFile.setText("temp.3gp");        
       }
+      mAudioRecorded = true;
+      mCurrentAudioFile = mTempFile.getName();
    }
 
    public void replaceTempFile(boolean replace)
-   {
+   {  
       if (replace)
       {
-         mTempFile = mTempFile2;
+         mTempFile.delete();
+         if (mTempFile2.renameTo(mTempFile))
+         {
+            Log.i(DEBUG_TAG, "Renamed temp files successfully.");
+         }
          mTempFile2 = null;
       }
       else
       {
+         mTempFile2.delete();
          mTempFile2 = null;
       }
    }
-   
   
    public static class ReplaceAudioDialogFragment extends DialogFragment
    {
@@ -738,14 +774,12 @@ public abstract class ItemDetailFragment extends Fragment implements
          mOutFile.delete();
          mOutFile = null;
          mRecordingLayout.setVisibility(View.GONE);
-         // mImgDelete.setVisibility(View.GONE);
 
          if (mEditPhrase.getText().length() > 0)
          {
             saveItem(false);
          }
       }
-
       if (mTempFile != null && mTempFile.exists())
       {
          mTempFile.delete();
@@ -804,8 +838,7 @@ public abstract class ItemDetailFragment extends Fragment implements
 
    public void updateItem(View v)
    {
-      insertItemDetails(v);
-      
+      insertItemDetails(v);      
    }
    
    private void updateKidName()
@@ -859,6 +892,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       return mKidName + "-" + str + mDate.getTimeInMillis() + ".3gp";
    }
 
+   
    private void renameFile()
    {
       String filename = getFilename();
@@ -972,6 +1006,10 @@ public abstract class ItemDetailFragment extends Fragment implements
          outState.putBoolean(Prefs.AUDIO_RECORDED, true); 
          outState.putString(Prefs.AUDIO_FILE, mCurrentAudioFile);
          Log.i(DEBUG_TAG, "AUDIO RECORDED.");
+      }
+      if (mEditLess.getVisibility() == View.VISIBLE)
+      {
+         outState.putBoolean(Prefs.SHOWING_MORE_FIELDS, true);
       }
       outState.putLong(Prefs.CURRENT_KID_ID, mCurrentKidId);
       outState.putLong(Prefs.ITEM_ID, mItemId);

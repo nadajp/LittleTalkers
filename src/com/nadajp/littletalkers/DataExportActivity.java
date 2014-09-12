@@ -19,7 +19,6 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbContract.Kids;
 import com.nadajp.littletalkers.database.DbContract.Questions;
 import com.nadajp.littletalkers.database.DbSingleton;
@@ -45,7 +44,7 @@ public class DataExportActivity extends Activity
       int[] adapterRowViews = new int[] { android.R.id.text1 };
 
       SimpleCursorAdapter sca = new SimpleCursorAdapter(this,
-            android.R.layout.simple_list_item_checked, cursor, adapterCols,
+            android.R.layout.simple_list_item_multiple_choice, cursor, adapterCols,
             adapterRowViews, 0);
      
       mListView = (ListView) findViewById(R.id.listChooseKids);

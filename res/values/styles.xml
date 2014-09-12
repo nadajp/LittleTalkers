@@ -8,7 +8,7 @@
         <item name="android:actionBarStyle">@style/MyActionBar</item>
         <item name="android:spinnerStyle">@style/MySpinners</item>
         <item name="android:textColor">@color/gray</item>
-        <item name="android:textColorHint">@color/lightest_gray</item>
+        <item name="android:textColorHint">@color/hint_gray</item>
         <item name="android:actionBarTabStyle">@style/TabLittleTalkersTheme</item>
         <item name="android:actionBarTabTextStyle">@style/TabTextLittleTalkersTheme</item>
     </style>
@@ -17,7 +17,6 @@
       <item name="android:textColor">@color/blue</item>   
       <item name="android:textStyle">italic</item> 
     </style>
-
           
     <style name="KidSpinnerStyle" parent="android:style/Widget.Holo.Light.Spinner">
         <item name="android:textColor">@color/white</item>
@@ -31,6 +30,11 @@
     <style name="DictionaryWordStyle">
         <item name="android:textColor">@color/gray</item>
         <item name="android:textSize">20sp</item>
+    </style>
+    
+    <style name="DictionaryDateStyle">
+        <item name="android:textColor">@color/darker_gray</item>
+        <item name="android:textStyle">bold</item>
     </style>
     
     <!-- ActionBar styles -->

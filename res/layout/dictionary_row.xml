@@ -19,8 +19,7 @@
 
     <TextView
         android:id="@+id/dictionary_word_date"
-        android:textColor="@color/darker_gray"
-        android:textStyle="bold"
+        style="@style/DictionaryDateStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/dictionary_word"
