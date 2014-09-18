@@ -303,7 +303,7 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"            
             android:background="@drawable/gray_card_background"
-            android:drawableLeft="@drawable/ic_plus"
+            android:drawableLeft="@drawable/ic_minus"
             android:drawablePadding="10dp"
             android:inputType="none"
             android:focusable="false"

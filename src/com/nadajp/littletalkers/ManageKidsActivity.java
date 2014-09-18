@@ -9,11 +9,14 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class ManageKidsActivity extends Activity implements ModifyKidsListener
 {
+   private static final String DEBUG_TAG = "ManageKidsActivity";
+
    @Override
    protected void onCreate(Bundle savedInstanceState)
    {
@@ -55,9 +58,10 @@ public class ManageKidsActivity extends Activity implements ModifyKidsListener
    @Override
    public void onKidsDeleted()
    {
-      if (DbSingleton.get().isEmpty())
+      //Log.i(DEBUG_TAG, "Number of Kids: " + DbSingleton.get().getNumberOfKids());
+      if (DbSingleton.get().getNumberOfKids() == 0)
       {
-         Prefs.saveKidId(this, 0);
+         Prefs.saveKidId(this, -1);
          Intent intent = new Intent(this, AddKidActivity.class);
          startActivity(intent);
          return;

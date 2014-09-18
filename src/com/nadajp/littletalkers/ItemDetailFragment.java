@@ -615,6 +615,7 @@ public abstract class ItemDetailFragment extends Fragment implements
          {
             saveItem(false);
          }
+         return;
       }
       // otherwise, it has been saved in temp file
       TextView audioFile = (TextView) this.getView().findViewById(

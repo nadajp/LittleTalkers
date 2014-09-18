@@ -1,5 +1,6 @@
 package com.nadajp.littletalkers;
 
+import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
@@ -22,7 +23,10 @@ public class AddKidActivity extends Activity implements
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_add_kid);
       ActionBar actionBar = this.getActionBar(); 
-      actionBar.setDisplayHomeAsUpEnabled(true);
+      if (DbSingleton.get().getNumberOfKids() > 0)
+      {
+         actionBar.setDisplayHomeAsUpEnabled(true);
+      }
       actionBar.setTitle(R.string.add_kid);
       actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
       Utils.setColor(actionBar, Utils.COLOR_ORANGE, this);

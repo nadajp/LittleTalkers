@@ -29,6 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -64,8 +65,8 @@ public class AddKidFragment extends Fragment implements OnClickListener,
    private static final int TAKE_PICTURE = 0;
    private static final int PICK_FROM_FILE = 1;
    private static final int CROP_PICTURE = 2;
-   private static final int IMAGE_SIZE = 250;
-   private static final int THUMBNAIL_SIZE = 180;
+   private static final int IMAGE_SIZE = 180;
+   //private static final int THUMBNAIL_SIZE = 180;
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -109,7 +110,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
             try
             {
                Bitmap photo = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(mPicturePath),
-                     THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+                     IMAGE_SIZE, IMAGE_SIZE);
                mImgProfilePic.setImageBitmap(photo);
                
                photo = null;
@@ -119,12 +120,18 @@ public class AddKidFragment extends Fragment implements OnClickListener,
             }
          }
       } 
+           
       // If editing/viewing an existing kid, fill all the fields
       if (mKidId > 0) 
       {
          insertKidDetails(mKidId);
       }
-
+      else 
+      {
+         Bitmap profilePicture = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(v.getResources(),
+                  R.drawable.add_profile), IMAGE_SIZE, IMAGE_SIZE);         
+         mImgProfilePic.setImageBitmap(profilePicture);
+      }     
       return v;
    }
 
@@ -209,16 +216,19 @@ public class AddKidFragment extends Fragment implements OnClickListener,
             .getColumnIndex(DbContract.Kids.COLUMN_NAME_PICTURE_URI));
       cursor.close();
 
+      Bitmap profilePicture = null;
+      
       if (mPicturePath == null)
       {
-         return;
+         profilePicture = BitmapFactory.decodeResource(getResources(),
+               R.drawable.add_profile);
+      } else
+      {
+         profilePicture = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(mPicturePath),
+               IMAGE_SIZE, IMAGE_SIZE);
       }
 
-      Log.i(DEBUG_TAG, mPicturePath);
-
-      Bitmap photo = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(mPicturePath),
-            THUMBNAIL_SIZE, THUMBNAIL_SIZE);
-      mImgProfilePic.setImageBitmap(photo);
+      mImgProfilePic.setImageBitmap(profilePicture);
    }
 
    private void saveKid()
@@ -404,7 +414,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
             {
                Bitmap thumbnail = ThumbnailUtils.extractThumbnail(MediaStore.Images.Media.getBitmap(this
                      .getActivity().getContentResolver(), mUriPicture),
-                     THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+                     IMAGE_SIZE, IMAGE_SIZE);
                
                mImgProfilePic.setImageBitmap(thumbnail);
                saveProfileBitmapFile();

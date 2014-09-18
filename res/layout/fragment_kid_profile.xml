@@ -16,7 +16,8 @@
         android:layout_margin="10dp"
         app:border="true"
         app:border_color="@android:color/white"
-        app:border_width="2dp" />
+        app:border_width="2dp" 
+        app:shadow="true"/>
 
     <TextView
         android:id="@+id/name"
