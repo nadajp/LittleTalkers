@@ -59,8 +59,6 @@ public class Utils
                .getDrawable(R.drawable.ab_stacked_solid_littletalkersorangestyle));
          break; 
       }
-      
-
    }
 
    public static String getDateForDisplay(String rawdate, Context context)
@@ -88,6 +86,43 @@ public class Utils
             DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR);
    }
 
+   /**
+    * Method to extract the user's age from the entered Date of Birth.
+    * 
+    * @param DoB String The user's date of birth.
+    * @return ageS String The user's age in years based on the supplied DoB.
+    */
+    public static String getAge(long birthdayInMillis)
+    {
+       Calendar dob = Calendar.getInstance();
+       Calendar today = Calendar.getInstance();
+
+       dob.setTimeInMillis(birthdayInMillis); 
+
+       Integer age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+       int current_month = today.get(Calendar.MONTH);
+       int birth_month = dob.get(Calendar.MONTH);
+       int months = 0;
+       
+       if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR))
+       {
+           age--; 
+           months = 12 - (birth_month - current_month);
+           if (birth_month == current_month)
+           {
+              months--;
+           }
+       }
+       else
+       {
+          months = current_month - birth_month;
+       }
+              
+       String ageString = age.toString() + " years, " + months + " months";
+
+       return ageString;  
+   }
+   
    public static File getPublicDirectory(String subdirectory, Context context)
    {
       String state = Environment.getExternalStorageState();

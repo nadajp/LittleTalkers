@@ -69,6 +69,7 @@
     <string name="edit_little_talker">Edit Little Talker</string>
     <string name="date_of_birth">Date of Birth: </string>
     <string name="number_of_phrases">Number of Words/Phrases: </string>
+    <string name="number_of_qas">Number of QAs: </string>
     <string name="share">Share</string>
     <string name="word_history">Word history:</string>
 
@@ -85,8 +86,8 @@
     <string name="language_filter">Language Filter</string>
     
     <!-- profile -->
-    <string name="words_and_phrases">words and phrases</string>
-    <string name="questions_and_answers">questions and answers</string>
+    <string name="words_and_phrases">Words/Phrases</string>
+    <string name="questions_and_answers">Q and As</string>
     
     <!-- Manage LittleTalkers -->
     <string name="delete_kids_dialog">Are you sure you want to delete all selected Little Talkers and their word dictionaries?</string>

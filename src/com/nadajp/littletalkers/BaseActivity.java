@@ -105,7 +105,6 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       Cursor cursor = DbSingleton.get().getKidsForSpinner();
       if (cursor.getCount() == 0) { return; }
       
-      //Log.i(DEBUG_TAG, "Adding Spinner to ActionBar");
       //Log.i(DEBUG_TAG, "Number of kids: " + cursor.getCount());
       
       String[] adapterCols = new String[] { "name" };
@@ -135,10 +134,8 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       {
          for (int i = 0; i < mCursorAdapter.getCount(); i++)
          {
-            //Log.i(DEBUG_TAG, "About to get: " + i);
             if (mCursorAdapter.getItemId(i) == mCurrentKidId)
             {
-               //Log.i(DEBUG_TAG, "i: " + i);
                mSpinner.setSelection(i);
                
                return;

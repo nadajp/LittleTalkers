@@ -1,7 +1,9 @@
 package com.nadajp.littletalkers;
 
 import com.nadajp.littletalkers.database.DbContract;
+import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
+import com.nadajp.littletalkers.utils.Utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -41,7 +43,6 @@ public class KidsListCursorAdapter extends CursorAdapter
    @Override
    public void bindView(View view, Context context, final Cursor cursor)
    {      
-      String kidname = cursor.getString(cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_NAME));
       long id = cursor.getLong(cursor.getColumnIndex(DbContract.Kids._ID));
 
       TextView name = (TextView) view.findViewById(R.id.name);
@@ -62,6 +63,15 @@ public class KidsListCursorAdapter extends CursorAdapter
       }
       CircularImageView profile = (CircularImageView) view.findViewById(R.id.profile);
       profile.setImageBitmap(profilePicture);    
+      
+      TextView age = (TextView) view.findViewById(R.id.age);
+      age.setText(Utils.getAge(cursor.getLong(cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_BIRTHDATE_MILLIS))));
+      
+      TextView numOfPhrases = (TextView) view.findViewById(R.id.num_of_phrases);
+      numOfPhrases.setText(Integer.valueOf(DbSingleton.get().getNumberOfWords(id)) + " ");
+       
+      TextView numOfQAs = (TextView) view.findViewById(R.id.num_of_qas);
+      numOfQAs.setText(Integer.valueOf(DbSingleton.get().getNumberOfQAs(id)) + " ");
       
       ImageView edit = (ImageView) view.findViewById(R.id.icon_edit);
       Drawable myIcon = context.getResources().getDrawable( R.drawable.edit_query);

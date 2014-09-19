@@ -50,7 +50,7 @@ public class ManageKidsFragment extends ListFragment
       super.onActivityCreated(savedInstanceState);
 
       // Populate the list with all the kids from the database
-      Cursor cursor = DbSingleton.get().getKidsForSpinner();
+      Cursor cursor = DbSingleton.get().getKidsForList();
 
       if (cursor.getCount() == 0) { return; }
   
@@ -158,7 +158,7 @@ public class ManageKidsFragment extends ListFragment
          }
       }
       DbSingleton.get().deleteKids(mItemsToDelete);
-      Cursor cursor = DbSingleton.get().getKidsForSpinner();
+      Cursor cursor = DbSingleton.get().getKidsForList();
       mAdapter.swapCursor(cursor);
       mAdapter.notifyDataSetChanged();
       mListener.onKidsDeleted();

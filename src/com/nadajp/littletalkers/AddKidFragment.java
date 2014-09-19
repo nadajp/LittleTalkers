@@ -50,6 +50,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
    private OnKidAddedListener mListener;
 
    Calendar mBirthDate = Calendar.getInstance();
+   private long mBirthDateMillis;
    private EditText mEditName;
    private EditText mEdiBirthDate;
    private EditText mEditLocation;
@@ -164,9 +165,10 @@ public class AddKidFragment extends Fragment implements OnClickListener,
 
    private void updateDate()
    {
+      mBirthDateMillis = mBirthDate.getTimeInMillis();
       mEdiBirthDate.setText(DateUtils.formatDateTime(this.getActivity(),
-            mBirthDate.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE
-                  | DateUtils.FORMAT_SHOW_YEAR));
+            mBirthDateMillis, DateUtils.FORMAT_SHOW_DATE
+                  | DateUtils.FORMAT_SHOW_YEAR));      
    }
 
    DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener()
@@ -262,7 +264,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       if (mKidId < 0)
       {
          mKidId = DbSingleton.get().saveKid(name, birthday, location,
-               mLanguage, mPicturePath);
+               mLanguage, mPicturePath, mBirthDateMillis);
          Log.i(DEBUG_TAG, "Saving kid: " + mKidId);
       }
 
@@ -270,7 +272,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       else
       {
          if (!DbSingleton.get().updateKid(mKidId, name, birthday,
-               location, mLanguage, mPicturePath))
+               location, mLanguage, mPicturePath, mBirthDateMillis))
          {
             // TODO error message (duplicate kid name)
             return;

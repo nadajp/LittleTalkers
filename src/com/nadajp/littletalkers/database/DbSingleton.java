@@ -127,6 +127,15 @@ public class DbSingleton
             + DbContract.Kids.COLUMN_NAME_PICTURE_URI + " FROM Kids";
       return mDb.rawQuery(query, null);
    }
+   
+   public Cursor getKidsForList()
+   {
+      String query = "SELECT _id, name, " 
+            + DbContract.Kids.COLUMN_NAME_PICTURE_URI + ", "
+            + DbContract.Kids.COLUMN_NAME_BIRTHDATE_MILLIS
+            + " FROM Kids";
+      return mDb.rawQuery(query, null);
+   }
 
    public Cursor getWords(long kidId, String sortColumn, boolean bAscending,
          String language)
@@ -376,8 +385,12 @@ public class DbSingleton
       try
       {
          cursor = mDb.rawQuery(query, null);
-         cursor.moveToFirst();
-         return cursor.getLong(0);
+         if (cursor != null && cursor.getCount() > 0)
+         {
+            cursor.moveToFirst();
+            return cursor.getLong(0);
+         }
+         return -1;         
       } 
       finally
       {
@@ -388,7 +401,7 @@ public class DbSingleton
    }
    
    public long saveKid(String name, String birthday, String location,
-         String language, String pictureUri)
+         String language, String pictureUri, long birthdayMillis)
    {
       // check if name already exists
       String query = "SELECT * FROM Kids WHERE name = ?";
@@ -406,13 +419,14 @@ public class DbSingleton
       values.put(DbContract.Kids.COLUMN_NAME_DEFAULT_LOCATION, location);
       values.put(DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE, language);
       values.put(DbContract.Kids.COLUMN_NAME_PICTURE_URI, pictureUri);
+      values.put(DbContract.Kids.COLUMN_NAME_BIRTHDATE_MILLIS, birthdayMillis);
 
       // Insert row and return row id
       return mDb.insert("Kids", null, values);
    }
 
    public boolean updateKid(long id, String name, String birthday,
-         String location, String language, String pictureUri)
+         String location, String language, String pictureUri, long birthdayMillis)
    {
       // check if another kid with this name already exists
       String query = "SELECT " + DbContract.Kids.COLUMN_NAME_NAME
@@ -437,6 +451,7 @@ public class DbSingleton
       values.put(DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE, language);
       values.put(DbContract.Kids.COLUMN_NAME_DEFAULT_LOCATION, location);
       values.put(DbContract.Kids.COLUMN_NAME_PICTURE_URI, pictureUri);
+      values.put(DbContract.Kids.COLUMN_NAME_BIRTHDATE_MILLIS, birthdayMillis);
 
       // update
       mDb.update("Kids", values, "_id=" + id, null);

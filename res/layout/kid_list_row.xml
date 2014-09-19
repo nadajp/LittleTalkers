@@ -23,17 +23,52 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/profile"
-        android:paddingLeft="20dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:textColor="@color/orange"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/text_age"
+        android:id="@+id/age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/name"
         android:layout_toRightOf="@id/profile"
-        android:paddingLeft="20dp" />
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:textStyle="bold|italic"/>
+    
+     <TextView
+        android:id="@+id/num_of_phrases"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/age"
+        android:layout_toRightOf="@id/profile"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+          
+     <TextView
+        android:id="@+id/words_phrases"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/age"
+        android:layout_toRightOf="@id/num_of_phrases"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:text="@string/words_and_phrases"/>
+   
+      <TextView
+        android:id="@+id/num_of_qas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/num_of_phrases"
+        android:layout_toRightOf="@id/profile"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+     
+    <TextView
+        android:id="@+id/q_and_as"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/words_phrases"
+        android:layout_toRightOf="@id/num_of_qas"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:text="@string/questions_and_answers" />
 
     <ImageView
         android:id="@+id/icon_edit"
