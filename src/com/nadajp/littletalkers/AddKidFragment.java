@@ -41,6 +41,7 @@ import java.util.Calendar;
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
+import com.nadajp.littletalkers.utils.Utils;
 
 public class AddKidFragment extends Fragment implements OnClickListener,
       OnItemSelectedListener 
@@ -200,11 +201,9 @@ public class AddKidFragment extends Fragment implements OnClickListener,
             .setText(cursor.getString(
                   cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_NAME))
                   .toString());
-      mEdiBirthDate.setText(cursor.getString(
-            cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_BIRTHDATE))
-            .toString());
       mBirthDateMillis = cursor.getLong(cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_BIRTHDATE_MILLIS));
-      this.mBirthDate.setTimeInMillis(mBirthDateMillis);
+      mBirthDate.setTimeInMillis(mBirthDateMillis);
+      mEdiBirthDate.setText(Utils.getDateForDisplay(mBirthDateMillis, this.getActivity()));
       mEditLocation
             .setText(cursor
                   .getString(
@@ -254,7 +253,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       }
 
       name = mEditName.getText().toString();
-      birthday = mEdiBirthDate.getText().toString();
+      //birthday = mEdiBirthDate.getText().toString();
       location = mEditLocation.getText().toString();
 
       if (this.mTempBitmapSaved)
@@ -265,7 +264,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       // Adding new kid
       if (mKidId < 0)
       {
-         mKidId = DbSingleton.get().saveKid(name, birthday, location,
+         mKidId = DbSingleton.get().saveKid(name, location,
                mLanguage, mPicturePath, mBirthDateMillis);
          Log.i(DEBUG_TAG, "Saving kid: " + mKidId);
       }
@@ -273,7 +272,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       // Updating a current kid
       else
       {
-         if (!DbSingleton.get().updateKid(mKidId, name, birthday,
+         if (!DbSingleton.get().updateKid(mKidId, name,
                location, mLanguage, mPicturePath, mBirthDateMillis))
          {
             // TODO error message (duplicate kid name)

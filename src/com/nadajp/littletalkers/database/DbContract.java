@@ -28,7 +28,6 @@ public final class DbContract
       public static final String TABLE_NAME = "kids";
       public static final String _ID = "_id";
       public static final String COLUMN_NAME_NAME = "name";
-      public static final String COLUMN_NAME_BIRTHDATE = "birthdate";
       public static final String COLUMN_NAME_BIRTHDATE_MILLIS = "birthdate_millis";
       public static final String COLUMN_NAME_DEFAULT_LOCATION = "default_location";
       public static final String COLUMN_NAME_DEFAULT_LANGUAGE = "default_language";

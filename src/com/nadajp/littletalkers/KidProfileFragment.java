@@ -3,6 +3,7 @@ package com.nadajp.littletalkers;
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
+import com.nadajp.littletalkers.utils.Utils;
 
 import android.app.Fragment;
 import android.database.Cursor;
@@ -51,7 +52,9 @@ public class KidProfileFragment extends Fragment
       
       ((TextView) view.findViewById(R.id.name)).setText(cursor.getString(cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_NAME)));
       TextView birthdate = (TextView) view.findViewById(R.id.tvBirthdate);
-      birthdate.setText(cursor.getString(cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_BIRTHDATE)));
+      
+      birthdate.setText(Utils.getAge(cursor.getLong(cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_BIRTHDATE_MILLIS))));
+      //birthdate.setText(cursor.getString(cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_BIRTHDATE)));
       
       TextView words = (TextView) view.findViewById(R.id.tvNumOfWords);
       TextView questions = (TextView) view.findViewById(R.id.tvNumOfQuestions);

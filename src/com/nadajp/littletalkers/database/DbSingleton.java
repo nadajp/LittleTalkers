@@ -56,7 +56,7 @@ public class DbSingleton
          }
       }
    }
-   
+
    public boolean isEmpty()
    {
       if (getNumberOfKids() == 0)
@@ -64,8 +64,8 @@ public class DbSingleton
          return true;
       }
       return false;
-   } 
-   
+   }
+
    public int getNumberOfWords(long kidId)
    {
       Cursor cursor = null;
@@ -123,17 +123,16 @@ public class DbSingleton
 
    public Cursor getKidsForSpinner()
    {
-      String query = "SELECT _id, name, " 
+      String query = "SELECT _id, name, "
             + DbContract.Kids.COLUMN_NAME_PICTURE_URI + " FROM Kids";
       return mDb.rawQuery(query, null);
    }
-   
+
    public Cursor getKidsForList()
    {
-      String query = "SELECT _id, name, " 
+      String query = "SELECT _id, name, "
             + DbContract.Kids.COLUMN_NAME_PICTURE_URI + ", "
-            + DbContract.Kids.COLUMN_NAME_BIRTHDATE_MILLIS
-            + " FROM Kids";
+            + DbContract.Kids.COLUMN_NAME_BIRTHDATE_MILLIS + " FROM Kids";
       return mDb.rawQuery(query, null);
    }
 
@@ -149,7 +148,8 @@ public class DbSingleton
                + DbContract.Words.COLUMN_NAME_AUDIO_FILE + " FROM Words WHERE "
                + DbContract.Words.COLUMN_NAME_KID + " = " + kidId
                + " ORDER BY " + sortColumn;
-      } else {
+      } else
+      {
          query = "SELECT _id, " + DbContract.Words.COLUMN_NAME_WORD + ", "
                + DbContract.Words.COLUMN_NAME_DATE + ", "
                + DbContract.Words.COLUMN_NAME_AUDIO_FILE + " FROM Words WHERE "
@@ -157,8 +157,13 @@ public class DbSingleton
                + DbContract.Words.COLUMN_NAME_LANGUAGE + " = '" + language
                + "' ORDER BY " + sortColumn;
       }
-      if (bAscending) { query += " ASC"; } 
-      else { query += " DESC"; }
+      if (bAscending)
+      {
+         query += " ASC";
+      } else
+      {
+         query += " DESC";
+      }
 
       return mDb.rawQuery(query, null);
    }
@@ -218,20 +223,20 @@ public class DbSingleton
 
       return mDb.rawQuery(query, null);
    }
-   
+
    public Cursor getQAForExport(long kidId)
    {
       String query;
 
-      query = "SELECT _id, " 
-            + DbContract.Questions.COLUMN_NAME_QUESTION + ", "
+      query = "SELECT _id, " + DbContract.Questions.COLUMN_NAME_QUESTION + ", "
             + DbContract.Questions.COLUMN_NAME_ANSWER + ", "
             + DbContract.Questions.COLUMN_NAME_ASKED + ", "
             + DbContract.Questions.COLUMN_NAME_ANSWERED + ", "
             + DbContract.Questions.COLUMN_NAME_DATE + ", "
             + DbContract.Questions.COLUMN_NAME_LANGUAGE + ", "
-            + DbContract.Questions.COLUMN_NAME_TOWHOM + " FROM Questions WHERE "
-            + DbContract.Questions.COLUMN_NAME_KID + " = " + kidId + " ORDER BY "
+            + DbContract.Questions.COLUMN_NAME_TOWHOM
+            + " FROM Questions WHERE " + DbContract.Questions.COLUMN_NAME_KID
+            + " = " + kidId + " ORDER BY "
             + DbContract.Questions.COLUMN_NAME_DATE + " ASC";
 
       return mDb.rawQuery(query, null);
@@ -248,8 +253,10 @@ public class DbSingleton
          cursor = mDb.rawQuery(query, null);
          cursor.moveToFirst();
          return cursor.getString(0);
-      } finally {
-         if (cursor != null) {
+      } finally
+      {
+         if (cursor != null)
+         {
             cursor.close();
          }
       }
@@ -330,7 +337,7 @@ public class DbSingleton
          }
       }
    }
-   
+
    public String getDefaultLanguage(long kidId)
    {
       String query = "SELECT " + DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE
@@ -390,18 +397,17 @@ public class DbSingleton
             cursor.moveToFirst();
             return cursor.getLong(0);
          }
-         return -1;         
-      } 
-      finally
+         return -1;
+      } finally
       {
          if (cursor != null)
             cursor.close();
       }
-     
+
    }
-   
-   public long saveKid(String name, String birthday, String location,
-         String language, String pictureUri, long birthdayMillis)
+
+   public long saveKid(String name, String location, String language,
+         String pictureUri, long birthdayMillis)
    {
       // check if name already exists
       String query = "SELECT * FROM Kids WHERE name = ?";
@@ -415,7 +421,6 @@ public class DbSingleton
 
       ContentValues values = new ContentValues();
       values.put(DbContract.Kids.COLUMN_NAME_NAME, name);
-      values.put(DbContract.Kids.COLUMN_NAME_BIRTHDATE, birthday);
       values.put(DbContract.Kids.COLUMN_NAME_DEFAULT_LOCATION, location);
       values.put(DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE, language);
       values.put(DbContract.Kids.COLUMN_NAME_PICTURE_URI, pictureUri);
@@ -425,12 +430,12 @@ public class DbSingleton
       return mDb.insert("Kids", null, values);
    }
 
-   public boolean updateKid(long id, String name, String birthday,
-         String location, String language, String pictureUri, long birthdayMillis)
+   public boolean updateKid(long id, String name, String location,
+         String language, String pictureUri, long birthdayMillis)
    {
       // check if another kid with this name already exists
       String query = "SELECT " + DbContract.Kids.COLUMN_NAME_NAME
-            + " FROM Kids WHERE " + DbContract.Kids.COLUMN_NAME_NAME 
+            + " FROM Kids WHERE " + DbContract.Kids.COLUMN_NAME_NAME
             + " = ? AND _id != " + id;
 
       // if there is a different kid (different ID) with the same name, return
@@ -447,7 +452,6 @@ public class DbSingleton
       // otherwise, update all values
       ContentValues values = new ContentValues();
       values.put(DbContract.Kids.COLUMN_NAME_NAME, name);
-      values.put(DbContract.Kids.COLUMN_NAME_BIRTHDATE, birthday);
       values.put(DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE, language);
       values.put(DbContract.Kids.COLUMN_NAME_DEFAULT_LOCATION, location);
       values.put(DbContract.Kids.COLUMN_NAME_PICTURE_URI, pictureUri);
@@ -465,8 +469,8 @@ public class DbSingleton
          mDb.delete("Kids", "_id = " + id, null);
          mDb.delete("Words", DbContract.Words.COLUMN_NAME_KID + " = " + id,
                null);
-         mDb.delete("Questions", DbContract.Questions.COLUMN_NAME_KID + " = " + id,
-               null);
+         mDb.delete("Questions", DbContract.Questions.COLUMN_NAME_KID + " = "
+               + id, null);
       }
    }
 
@@ -496,7 +500,7 @@ public class DbSingleton
          mDb.delete("Words", "_id = " + id, null);
       }
    }
-   
+
    public void deleteQuestions(long[] ids)
    {
       for (long id : ids)
@@ -544,8 +548,8 @@ public class DbSingleton
       String query = "SELECT question FROM Questions WHERE "
             + DbContract.Questions.COLUMN_NAME_KID + " = " + kidId
             + " AND question = ? AND answer = ?";
-      
-      Cursor cursor = mDb.rawQuery(query, new String[] {question, answer});
+
+      Cursor cursor = mDb.rawQuery(query, new String[] { question, answer });
       if (cursor.getCount() > 0)
       {
          cursor.close();

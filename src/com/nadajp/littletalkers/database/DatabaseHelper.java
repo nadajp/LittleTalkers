@@ -28,7 +28,6 @@ public class DatabaseHelper extends SQLiteOpenHelper
          + DbContract.Kids.TABLE_NAME + "(" 
          + DbContract.Kids._ID + " INTEGER PRIMARY KEY," 
          + DbContract.Kids.COLUMN_NAME_NAME + " TEXT UNIQUE," 
-         + DbContract.Kids.COLUMN_NAME_BIRTHDATE + " TEXT,"
          + DbContract.Kids.COLUMN_NAME_BIRTHDATE_MILLIS + " INTEGER,"
          + DbContract.Kids.COLUMN_NAME_DEFAULT_LOCATION + " TEXT,"
          + DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE + " TEXT,"

@@ -44,7 +44,7 @@
             android:drawableLeft="@drawable/ic_name"
             android:drawablePadding="10dp"
             android:hint="@string/name"
-            android:inputType="textCapSentences"
+            android:inputType="textCapWords"
             android:padding="15dp" />
 
         <EditText
@@ -73,7 +73,7 @@
             android:drawableLeft="@drawable/ic_location"
             android:drawablePadding="10dp"
             android:hint="@string/default_location"
-            android:inputType="textCapSentences"
+            android:inputType="textCapWords"
             android:padding="15dp" />
 
         <RelativeLayout
