@@ -65,6 +65,10 @@ public class KidsListCursorAdapter extends CursorAdapter
       profile.setImageBitmap(profilePicture);    
       
       TextView age = (TextView) view.findViewById(R.id.age);
+      /*long millis = cursor.getLong(cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_BIRTHDATE_MILLIS));
+      Log.i(DEBUG_TAG, "Millis: " + millis);
+      String ageS = Utils.getAge(millis);
+      Log.i(DEBUG_TAG, "Age: " + ageS);*/
       age.setText(Utils.getAge(cursor.getLong(cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_BIRTHDATE_MILLIS))));
       
       TextView numOfPhrases = (TextView) view.findViewById(R.id.num_of_phrases);

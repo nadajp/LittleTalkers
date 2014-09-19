@@ -27,6 +27,10 @@ public class AddKidActivity extends Activity implements
       {
          actionBar.setDisplayHomeAsUpEnabled(true);
       }
+      else
+      {
+         actionBar.setDisplayHomeAsUpEnabled(false);   
+      }
       actionBar.setTitle(R.string.add_kid);
       actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
       Utils.setColor(actionBar, Utils.COLOR_ORANGE, this);

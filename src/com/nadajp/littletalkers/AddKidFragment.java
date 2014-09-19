@@ -203,6 +203,8 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       mEdiBirthDate.setText(cursor.getString(
             cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_BIRTHDATE))
             .toString());
+      mBirthDateMillis = cursor.getLong(cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_BIRTHDATE_MILLIS));
+      this.mBirthDate.setTimeInMillis(mBirthDateMillis);
       mEditLocation
             .setText(cursor
                   .getString(
