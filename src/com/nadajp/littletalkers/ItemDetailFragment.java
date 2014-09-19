@@ -109,7 +109,7 @@ public abstract class ItemDetailFragment extends Fragment implements
 
    public abstract void setShareData(String data);
 
-   public abstract boolean savePhrase();
+   public abstract boolean savePhrase(boolean automatic);
 
    public abstract void clearExtraViews();
 
@@ -796,7 +796,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          mCurrentAudioFile = mOutFile.getAbsolutePath();
       }
-      Boolean test = savePhrase();
+      Boolean test = savePhrase(!exit);
       Log.i(DEBUG_TAG, "saved: " + test.toString());
       if (test && exit)
       {

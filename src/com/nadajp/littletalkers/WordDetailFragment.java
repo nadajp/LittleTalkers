@@ -100,7 +100,7 @@ public class WordDetailFragment extends ItemDetailFragment
       return shareBody;
    }
 
-   public boolean savePhrase()
+   public boolean savePhrase(boolean automatic)
    {
       Log.i(DEBUG_TAG, "in savePhrase...");
 
@@ -127,8 +127,11 @@ public class WordDetailFragment extends ItemDetailFragment
          if (DbSingleton.get().saveWord(mCurrentKidId, phrase, mLanguage,
                msDate, location, mCurrentAudioFile, translation, towhom, notes) == false)
          {
-            mEditPhrase.requestFocus();
-            mEditPhrase.setError(getString(R.string.word_already_exists_error));
+            if (!automatic)
+            {
+               mEditPhrase.requestFocus();
+               mEditPhrase.setError(getString(R.string.word_already_exists_error));
+            }
             return false;
          }
 
@@ -148,8 +151,11 @@ public class WordDetailFragment extends ItemDetailFragment
                mLanguage, msDate, location, mCurrentAudioFile, translation,
                towhom, notes) == false)
          {
-            mEditPhrase.requestFocus();
-            mEditPhrase.setError(getString(R.string.word_already_exists_error));
+            if (!automatic)
+            {
+               mEditPhrase.requestFocus();
+               mEditPhrase.setError(getString(R.string.word_already_exists_error));
+            }
             return false;
          }
          // Word was updated successfully, show dictionary

@@ -59,7 +59,7 @@ public class QADetailFragment extends ItemDetailFragment
             getString(R.string.check_instructions2));
    }
    
-   public boolean savePhrase()
+   public boolean savePhrase(boolean automatic)
    {
       if (mEditPhrase.length() == 0)
       {
@@ -91,8 +91,11 @@ public class QADetailFragment extends ItemDetailFragment
          if (DbSingleton.get().saveQuestion(mCurrentKidId, question, answer, asked, answered, towhom, mLanguage, msDate,
                location, mCurrentAudioFile, notes) == false)
          {
-            mEditPhrase.requestFocus();
-            mEditPhrase.setError(getString(R.string.QA_already_exists_error));
+            if (!automatic)
+            {
+               mEditPhrase.requestFocus();
+               mEditPhrase.setError(getString(R.string.QA_already_exists_error));
+            }
             return false;
          }
 
@@ -110,8 +113,11 @@ public class QADetailFragment extends ItemDetailFragment
                asked, answered, towhom, mLanguage, msDate, location, mCurrentAudioFile,
                notes) == false)
          { 
-            mEditPhrase.requestFocus();
-            mEditPhrase.setError(getString(R.string.QA_already_exists_error));
+            if (!automatic)
+            {
+               mEditPhrase.requestFocus();
+               mEditPhrase.setError(getString(R.string.QA_already_exists_error));
+            }
             return false;
          }
          // Word was updated successfully, show dictionary

@@ -79,13 +79,14 @@ public class DatabaseHelper extends SQLiteOpenHelper
       Log.w(DEBUG_TAG, "Upgrading database from version " + oldVersion + " to "
             + newVersion + ", which will destroy all old data");
 
-      // Kills the table and existing data
-      db.execSQL("DROP TABLE IF EXISTS " + DbContract.Kids.TABLE_NAME);
-      db.execSQL("DROP TABLE IF EXISTS " + DbContract.Words.TABLE_NAME);
-      db.execSQL("DROP TABLE IF EXISTS " + DbContract.Questions.TABLE_NAME);
-
-      // Recreates the database with a new version
-      onCreate(db);
+      switch(oldVersion) 
+      {
+        case 1:
+          //db.execSQL(DATABASE_CREATE_color);
+          // we want both updates, so no break statement here...
+        case 2:
+          //db.execSQL(DATABASE_CREATE_someothertable); 
+      }
    }
 
    @Override
