@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
@@ -26,12 +25,14 @@ public class KidsListCursorAdapter extends CursorAdapter
    private static final int THUMBNAIL_SIZE = 100;
    private LayoutInflater mInflater;
    private Context mContext;
+   public ManageKidsFragment mFragment;
    
-   public KidsListCursorAdapter(Context context, Cursor c, int flags)
+   public KidsListCursorAdapter(Context context, Cursor c, int flags, ManageKidsFragment fragment)
    {
       super(context, c, flags);
       mInflater = LayoutInflater.from(context);
       mContext = context;
+      mFragment = fragment;
    }
 
    @Override
@@ -65,10 +66,6 @@ public class KidsListCursorAdapter extends CursorAdapter
       profile.setImageBitmap(profilePicture);    
       
       TextView age = (TextView) view.findViewById(R.id.age);
-      /*long millis = cursor.getLong(cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_BIRTHDATE_MILLIS));
-      Log.i(DEBUG_TAG, "Millis: " + millis);
-      String ageS = Utils.getAge(millis);
-      Log.i(DEBUG_TAG, "Age: " + ageS);*/
       age.setText(Utils.getAge(cursor.getLong(cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_BIRTHDATE_MILLIS))));
       
       TextView numOfPhrases = (TextView) view.findViewById(R.id.num_of_phrases);
@@ -78,8 +75,6 @@ public class KidsListCursorAdapter extends CursorAdapter
       numOfQAs.setText(Integer.valueOf(DbSingleton.get().getNumberOfQAs(id)) + " ");
       
       ImageView edit = (ImageView) view.findViewById(R.id.icon_edit);
-      Drawable myIcon = context.getResources().getDrawable( R.drawable.edit_query);
-      edit.setImageDrawable(myIcon);
       edit.setTag(id);
       
       edit.setOnClickListener(new View.OnClickListener()
@@ -91,6 +86,18 @@ public class KidsListCursorAdapter extends CursorAdapter
             long id = (Long) v.getTag();
             intent.putExtra(Prefs.CURRENT_KID_ID, id);
             mContext.startActivity(intent); 
+         }
+      });
+      
+      ImageView delete = (ImageView) view.findViewById(R.id.icon_trash);
+      delete.setTag(id);
+      
+      delete.setOnClickListener(new View.OnClickListener()
+      {        
+         @Override
+         public void onClick(View v)
+         {
+            mFragment.deleteItem((Long) v.getTag());
          }
       });
       

@@ -1,5 +1,8 @@
 package com.nadajp.littletalkers;
 
+import java.io.File;
+
+import com.nadajp.littletalkers.ManageKidsFragment.DeleteSelectedDialogFragment;
 import com.nadajp.littletalkers.ManageKidsFragment.ModifyKidsListener;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
@@ -7,15 +10,22 @@ import com.nadajp.littletalkers.utils.Utils;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class ManageKidsActivity extends Activity implements ModifyKidsListener
 {
    private static final String DEBUG_TAG = "ManageKidsActivity";
+   private static final int DELETE_SELECTED_DIALOG_ID = 1;
 
    @Override
    protected void onCreate(Bundle savedInstanceState)
@@ -36,6 +46,7 @@ public class ManageKidsActivity extends Activity implements ModifyKidsListener
       return true;
    }
 
+   
    @Override
    public boolean onOptionsItemSelected(MenuItem item)
    {

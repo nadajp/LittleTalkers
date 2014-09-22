@@ -126,6 +126,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       // If editing/viewing an existing kid, fill all the fields
       if (mKidId > 0) 
       {
+         this.getActivity().getActionBar().setTitle(R.string.edit_little_talker);
          insertKidDetails(mKidId);
       }
       else 
@@ -133,6 +134,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
          Bitmap profilePicture = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(v.getResources(),
                   R.drawable.add_profile), IMAGE_SIZE, IMAGE_SIZE);         
          mImgProfilePic.setImageBitmap(profilePicture);
+         this.getActivity().getActionBar().setTitle(R.string.add_kid);
       }     
       return v;
    }

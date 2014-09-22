@@ -54,16 +54,7 @@ public class ManageKidsFragment extends ListFragment
 
       if (cursor.getCount() == 0) { return; }
   
-      /*String[] adapterCols = new String[] { DbContract.Kids.COLUMN_NAME_PICTURE_URI, "name", "_id"};
-      int[] adapterRowViews = new int[] { R.id.profile, R.id.name, R.id.icon_edit};
-
-      mCursorAdapter = new SimpleCursorAdapter(this.getActivity(),
-            R.layout.kid_list_row, cursor, adapterCols,
-            adapterRowViews, 0);
-      mCursorAdapter.setViewBinder(new NavigationSpinnerViewBinder());
-      this.setListAdapter(mCursorAdapter);*/
-      
-      mAdapter = new KidsListCursorAdapter(this.getActivity(), cursor, 0);
+      mAdapter = new KidsListCursorAdapter(getActivity(), cursor, 0, this);
       setListAdapter(mAdapter);
       
       // Implement contextual menu
@@ -135,15 +126,28 @@ public class ManageKidsFragment extends ListFragment
       });
    }
 
+   
    public void deleteSelectedItems()
    {
-      DeleteSelectedDialogFragment dlg = new DeleteSelectedDialogFragment();
+      DeleteSelectedDialogFragment dlg = new DeleteSelectedDialogFragment(-1);
+      dlg.setTargetFragment(this, DELETE_SELECTED_DIALOG_ID);
+      dlg.show(getFragmentManager(), "DeleteSelectedDialogFragment");
+   }
+   
+   public void deleteItem(long id)
+   {
+      DeleteSelectedDialogFragment dlg = new DeleteSelectedDialogFragment(id);
       dlg.setTargetFragment(this, DELETE_SELECTED_DIALOG_ID);
       dlg.show(getFragmentManager(), "DeleteSelectedDialogFragment");
    }
 
-   public void confirmDelete()
+   public void confirmDelete(long singleId)
    {
+      if (singleId > -1)
+      {
+         mItemsToDelete = new long[1];
+         mItemsToDelete[0] = singleId;
+      }
       Log.i(DEBUG_TAG, "Items to delete: " + mItemsToDelete.length);
       for (long id : mItemsToDelete)
       {
@@ -162,6 +166,7 @@ public class ManageKidsFragment extends ListFragment
       mAdapter.swapCursor(cursor);
       mAdapter.notifyDataSetChanged();
       mListener.onKidsDeleted();
+      mItemsToDelete = null;
    }
 
    @Override
@@ -176,6 +181,13 @@ public class ManageKidsFragment extends ListFragment
 
    public static class DeleteSelectedDialogFragment extends DialogFragment
    {
+      public long mId;
+      
+      DeleteSelectedDialogFragment(long id)
+      {
+         mId = id;
+      }
+      
       @Override
       public Dialog onCreateDialog(Bundle savedInstanceState)
       {
@@ -189,7 +201,7 @@ public class ManageKidsFragment extends ListFragment
                         public void onClick(DialogInterface dialog, int id)
                         {
                            ((ManageKidsFragment) getTargetFragment())
-                                 .confirmDelete();
+                                 .confirmDelete(mId);
                         }
                      })
                .setNegativeButton(R.string.cancel,

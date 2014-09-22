@@ -22,8 +22,8 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/profile"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_toRightOf="@id/profile"
         android:textColor="@color/orange"
         android:textSize="18sp" />
 
@@ -32,51 +32,61 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/name"
-        android:layout_toRightOf="@id/profile"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:textStyle="bold|italic"/>
-    
-     <TextView
+        android:layout_toRightOf="@id/profile"
+        android:textStyle="bold|italic" />
+
+    <TextView
         android:id="@+id/num_of_phrases"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/age"
-        android:layout_toRightOf="@id/profile"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
-          
-     <TextView
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_toRightOf="@id/profile" />
+
+    <TextView
         android:id="@+id/words_phrases"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/age"
-        android:layout_toRightOf="@id/num_of_phrases"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:text="@string/words_and_phrases"/>
-   
-      <TextView
+        android:layout_toRightOf="@id/num_of_phrases"
+        android:text="@string/words_and_phrases" />
+
+    <TextView
         android:id="@+id/num_of_qas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/num_of_phrases"
-        android:layout_toRightOf="@id/profile"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
-     
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_toRightOf="@id/profile" />
+
     <TextView
         android:id="@+id/q_and_as"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/words_phrases"
-        android:layout_toRightOf="@id/num_of_qas"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_toRightOf="@id/num_of_qas"
         android:text="@string/questions_and_answers" />
 
     <ImageView
         android:id="@+id/icon_edit"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
+        android:layout_alignParentTop="true"
         android:clickable="true"
-        android:src="@drawable/edit_query" />
+        android:src="@drawable/ic_edit" />
+
+    <ImageView
+        android:id="@+id/icon_trash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:clickable="true"
+        android:src="@drawable/ic_trash">
+    </ImageView>
 
 </RelativeLayout>

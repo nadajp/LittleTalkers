@@ -44,7 +44,6 @@
         </activity>
         <activity
             android:name="com.nadajp.littletalkers.AddKidActivity"
-            android:label="@string/title_activity_add_kid"
             android:parentActivityName="com.nadajp.littletalkers.ManageKidsActivity" >
         </activity>
         <activity android:name="com.nadajp.littletalkers.BaseActivity" >

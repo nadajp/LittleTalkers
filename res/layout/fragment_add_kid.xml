@@ -117,7 +117,7 @@
                 android:src="@drawable/ic_down_arrow" >
             </ImageView>
         </RelativeLayout>
-
+            
         <Button
             android:id="@+id/button_save"
             android:layout_width="wrap_content"

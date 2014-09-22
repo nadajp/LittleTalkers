@@ -23,6 +23,8 @@ public class AddKidActivity extends Activity implements
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_add_kid);
       ActionBar actionBar = this.getActionBar(); 
+      actionBar.setDisplayShowTitleEnabled(true);
+      
       if (DbSingleton.get().getNumberOfKids() > 0)
       {
          actionBar.setDisplayHomeAsUpEnabled(true);
@@ -31,7 +33,7 @@ public class AddKidActivity extends Activity implements
       {
          actionBar.setDisplayHomeAsUpEnabled(false);   
       }
-      actionBar.setTitle(R.string.add_kid);
+
       actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
       Utils.setColor(actionBar, Utils.COLOR_ORANGE, this);
    }
