@@ -13,36 +13,35 @@
         android:scrollbars="horizontal"
         android:windowSoftInputMode="stateAlwaysHidden" >
 
-        <TextView
-            android:id="@+id/textHeading"
-            style="@style/HeadingStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="20dp"
-            android:text="@string/question"
-            android:textColor="@color/dark_green" />
-
-        <ImageView
+         <ImageView
             android:id="@+id/imgMic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/textHeading"
+            android:layout_marginTop="100dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:clickable="true"
             android:contentDescription="@string/start_recording"
             android:src="@drawable/ic_circle_green_mic" />
+         
+        <TextView
+            android:id="@+id/headingQuestion"
+            style="@style/HeadingStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_toRightOf="@id/imgMic"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/dark_green" />
 
         <RelativeLayout
             android:id="@+id/question"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/textHeading"
+            android:layout_below="@id/headingQuestion"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
@@ -76,11 +75,23 @@
             </EditText>
         </RelativeLayout>
 
+         <TextView
+            android:id="@+id/headingAnswer"
+            style="@style/HeadingStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/question"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_toRightOf="@id/imgMic"
+            android:textColor="@color/dark_green" 
+            android:layout_marginBottom="2dp"/>
+                
         <RelativeLayout
             android:id="@+id/answer"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/question"
+            android:layout_below="@id/headingAnswer"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_toRightOf="@id/imgMic"
@@ -115,15 +126,12 @@
 
         <TextView
             android:id="@+id/textCheckInstructions"
-            style="@style/MyLabelText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/answer"
             android:layout_marginBottom="20dp"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:textColor="@color/green" />
+            android:layout_marginRight="@dimen/activity_horizontal_margin"/>
 
         <RelativeLayout
             android:id="@+id/layout_recording"
@@ -198,7 +206,7 @@
             android:background="@drawable/white_card_background"
             android:drawableLeft="@drawable/ic_location"
             android:drawablePadding="10dp"
-            android:hint="@string/optional"
+            android:hint="@string/where"
             android:inputType="textCapSentences"
             android:padding="15dp" />
 

@@ -45,6 +45,7 @@
             android:drawablePadding="10dp"
             android:hint="@string/name"
             android:inputType="textCapWords"
+            android:focusableInTouchMode="true"
             android:padding="15dp" />
 
         <EditText

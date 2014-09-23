@@ -106,10 +106,12 @@
 
     <!-- q & a -->
     <string name="show_q_and_a">Show All Q and A</string>
-    <string name="question">Question \?</string>
+    <string name="question">Question</string>
     <string name="answer">Answer</string>
-    <string name="asked_question">asked</string>
-    <string name="answered_question">answered</string>
+    <string name="asked_question">asked a question</string>
+    <string name="answered_question">answered a question</string>
+    <string name="asked">asked</string>
+    <string name="answered">answered</string>
     <string name="question_required_error">Question is required</string>
     <string name="answer_required_error">Please enter Answer or uncheck "Little Talker Answered"</string>
     <string name="QA_already_exists_error">This Question and Answer already exists for this Little Talker</string>

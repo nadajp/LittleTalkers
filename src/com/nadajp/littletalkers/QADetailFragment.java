@@ -26,6 +26,8 @@ public class QADetailFragment extends ItemDetailFragment
    private EditText mEditAnswer;
    private CheckBox mCheckAsked, mCheckAnswered;
    private TextView mTextCheckInstructions;
+   private TextView mTextHeadingQuestion;
+   private TextView mTextHeadingAnswer;
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +45,8 @@ public class QADetailFragment extends ItemDetailFragment
       mCheckAsked = (CheckBox) v.findViewById(R.id.checkAsked);
       mCheckAnswered = (CheckBox) v.findViewById(R.id.checkAnswered);
       mTextCheckInstructions = (TextView) v.findViewById(R.id.textCheckInstructions);
+      mTextHeadingQuestion = (TextView) v.findViewById(R.id.headingQuestion);
+      mTextHeadingAnswer= (TextView) v.findViewById(R.id.headingAnswer);
    }
 
    public void startAudioRecording(boolean secondRecording)
@@ -57,6 +61,12 @@ public class QADetailFragment extends ItemDetailFragment
    {
       mTextCheckInstructions.setText(getString(R.string.check_instructions1) + " " + mKidName + " " +
             getString(R.string.check_instructions2));
+      if (mItemId < 1)
+      {
+         mTextHeadingQuestion.setText(mKidName + " " + getString(R.string.asked_question)
+               + "?");
+         mTextHeadingAnswer.setText(mKidName + " " + getString(R.string.answered_question) + "?");
+      }
    }
    
    public boolean savePhrase(boolean automatic)
@@ -184,6 +194,23 @@ public class QADetailFragment extends ItemDetailFragment
 
       mCurrentAudioFile = cursor.getString(cursor
             .getColumnIndex(DbContract.Questions.COLUMN_NAME_AUDIO_FILE));
+
+      if (asked == 1)
+      {
+         mTextHeadingQuestion.setText(mKidName + " " + getString(R.string.asked) + ":");
+      }
+      else
+      {
+         mTextHeadingQuestion.setText(getString(R.string.question) + ":");
+      }
+      if (answered == 1)
+      {
+         mTextHeadingAnswer.setText(mKidName + " " + getString(R.string.answered) + ":");
+      }
+      else
+      {
+         mTextHeadingAnswer.setText(getString(R.string.answer) + ":");
+      }
       cursor.close(); 
    }
    

@@ -254,12 +254,12 @@ public abstract class ItemDetailFragment extends Fragment implements
       // If editing/viewing an existing item
       if (mItemId > 0)
       {
-         updateItem(v);
          if (savedInstanceState == null)
          {
             Log.i(DEBUG_TAG, "NO saved instance state, calling insert defaults...");
             insertKidDefaults(mCurrentKidId, v);           
          }
+         updateItem(v);
          setAudio(v);
          getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
       } 

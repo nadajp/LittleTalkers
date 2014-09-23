@@ -14,7 +14,6 @@
     </style>
     
     <style name="MyLabelText" parent="android:style/Widget.Holo.Light.TextView">
-      <item name="android:textColor">@color/blue</item>   
       <item name="android:textStyle">italic</item> 
     </style>
           
