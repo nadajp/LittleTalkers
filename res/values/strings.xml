@@ -4,6 +4,10 @@
     <string name="app_name">Little Talkers</string>
     <string name="settings">Settings</string>
     <string name="profile">Profile</string>
+    
+    <!-- Main -->
+    <string name="welcome">Welcome to Little Talkers!</string>
+    <string name="intro_message">To begin, please enter a Little Talker by clicking on any image.</string>
 
     <!-- Titles -->
     <string name="title_word_detail">Word Detail</string>

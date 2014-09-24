@@ -9,6 +9,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:windowSoftInputMode="stateAlwaysHidden"
         tools:context=".AddKidFragment" >
  
         <com.nadajp.littletalkers.CircularImageView
@@ -45,7 +48,6 @@
             android:drawablePadding="10dp"
             android:hint="@string/name"
             android:inputType="textCapWords"
-            android:focusableInTouchMode="true"
             android:padding="15dp" />
 
         <EditText

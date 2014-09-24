@@ -1024,6 +1024,11 @@ public abstract class ItemDetailFragment extends Fragment implements
       mPlayer = new MediaPlayer();
       mPlayer.setOnCompletionListener(this);
       mCurrentKidId = Prefs.getKidId(getActivity(), -1);
+      if (mCurrentKidId < 0)
+      {
+         this.getActivity().finish();
+         return;
+      }
       if (this.mItemId > 0)
       {
          this.updateKidName();  

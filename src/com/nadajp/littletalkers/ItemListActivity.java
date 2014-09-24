@@ -224,6 +224,7 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
       mType = Prefs.getType(this, Prefs.TYPE_WORD);
       intent.putExtra(Prefs.TYPE, mType);
       startActivity(intent);
+      finish();
    }
    
    @Override

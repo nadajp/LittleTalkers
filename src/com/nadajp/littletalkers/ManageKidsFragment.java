@@ -220,7 +220,7 @@ public class ManageKidsFragment extends ListFragment
    public interface ModifyKidsListener
    {
       public void onKidsDeleted();
-
+      
       //public void onKidModified(int kidId);
    }
    
@@ -255,8 +255,6 @@ public class ManageKidsFragment extends ListFragment
    public void onDestroy()
    {
       super.onDestroy();
-      //mCursorAdapter.getCursor().close();
       mAdapter.getCursor().close();
    }
-
 }

@@ -29,7 +29,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -68,7 +67,6 @@ public class AddKidFragment extends Fragment implements OnClickListener,
    private static final int PICK_FROM_FILE = 1;
    private static final int CROP_PICTURE = 2;
    private static final int IMAGE_SIZE = 180;
-   //private static final int THUMBNAIL_SIZE = 180;
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,7 +97,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
 
       mSpinnerLanguage.setSelection(adapter.getPosition(getString(R.string.app_language)));
       
-      mKidId = getActivity().getIntent().getLongExtra(
+      mKidId = getActivity().getIntent().getIntExtra(
             Prefs.CURRENT_KID_ID, -1);
       Log.i(DEBUG_TAG, "kid id = " + mKidId);
 

@@ -141,5 +141,6 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
       intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
       mType = Prefs.getType(this, Prefs.TYPE_WORD);
       startActivity(intent);
+      finish();
    }
 }
