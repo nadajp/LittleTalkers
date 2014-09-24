@@ -130,7 +130,11 @@
     <string name="number_of_questions">Number of Questions/Answers: </string>
     <string name="check_instructions1">Check the box if</string>
     <string name="check_instructions2"> said it.</string>
-
+    <string name="more_info">Click for more information</string>
+    <string name="ok">OK</string>
+    <string name="qa_info">Check the box next to a statement that came from your Little Talker. Check both if the Little Talker asked and answered the question.</string>
+    <string name="qa_info_title">Question and Answer Help</string>
+    
     <string name="app_language">English</string>
     <!-- arrays -->
     <string-array name="choose_profile_pic_array">

@@ -1,5 +1,10 @@
 package com.nadajp.littletalkers;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -10,9 +15,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nadajp.littletalkers.ItemDetailFragment.ReplaceAudioDialogFragment;
+import com.nadajp.littletalkers.ItemDetailFragment.ShareDialog;
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
@@ -21,6 +29,7 @@ import com.nadajp.littletalkers.utils.Utils;
 public class QADetailFragment extends ItemDetailFragment
 {
    private static final String DEBUG_TAG = "AddQAFragment";
+   private static final int INFO_DIALOG_ID = 3;
   
    // user interface elements
    private EditText mEditAnswer;
@@ -28,6 +37,7 @@ public class QADetailFragment extends ItemDetailFragment
    private TextView mTextCheckInstructions;
    private TextView mTextHeadingQuestion;
    private TextView mTextHeadingAnswer;
+   private ImageView mInfo;
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,11 +54,47 @@ public class QADetailFragment extends ItemDetailFragment
       mEditAnswer = (EditText) v.findViewById(R.id.editAnswer);
       mCheckAsked = (CheckBox) v.findViewById(R.id.checkAsked);
       mCheckAnswered = (CheckBox) v.findViewById(R.id.checkAnswered);
-      mTextCheckInstructions = (TextView) v.findViewById(R.id.textCheckInstructions);
+      //mTextCheckInstructions = (TextView) v.findViewById(R.id.textCheckInstructions);
       mTextHeadingQuestion = (TextView) v.findViewById(R.id.headingQuestion);
       mTextHeadingAnswer= (TextView) v.findViewById(R.id.headingAnswer);
+      mInfo = (ImageView) v.findViewById(R.id.info);
+      mInfo.setOnClickListener(this);
    }
 
+   @Override
+   public void onClick(View v)
+   {
+      switch (v.getId())
+      {
+      case R.id.info:
+         InfoDialogFragment dlg = new InfoDialogFragment();
+         dlg.setTargetFragment(this, INFO_DIALOG_ID);
+         dlg.show(getFragmentManager(), InfoDialogFragment.class.toString());
+         break;
+      default:
+         return;
+      }
+   }
+    
+   public class InfoDialogFragment extends DialogFragment 
+   {
+      @Override
+      public Dialog onCreateDialog(Bundle savedInstanceState) {
+          // Use the Builder class for convenient dialog construction
+          AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+          builder.setMessage(R.string.qa_info)
+                 .setTitle(R.string.qa_info_title)
+                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                     public void onClick(DialogInterface dialog, int id) {
+                         // dismiss
+                     }
+                 });
+          builder.setIcon(R.drawable.ic_action_info);
+          // Create the AlertDialog object and return it
+          return builder.create();
+      }
+  }
+   
    public void startAudioRecording(boolean secondRecording)
    {
       Intent intent = new Intent(this.getActivity(), AudioRecordActivity.class);
@@ -59,8 +105,8 @@ public class QADetailFragment extends ItemDetailFragment
    
    public void updateExtraKidDetails()
    {
-      mTextCheckInstructions.setText(getString(R.string.check_instructions1) + " " + mKidName + " " +
-            getString(R.string.check_instructions2));
+     // mTextCheckInstructions.setText(getString(R.string.check_instructions1) + " " + mKidName + " " +
+     //       getString(R.string.check_instructions2));
       if (mItemId < 1)
       {
          mTextHeadingQuestion.setText(mKidName + " " + getString(R.string.asked_question)
@@ -84,7 +130,7 @@ public class QADetailFragment extends ItemDetailFragment
          mEditAnswer.setError(getString(R.string.answer_required_error));
          return false;  
       }
-      // convert date to miliseconds for SQLite
+      // convert date to milliseconds for SQLite
       long msDate = mDate.getTimeInMillis();
 
       String question = mEditPhrase.getText().toString();
@@ -109,7 +155,7 @@ public class QADetailFragment extends ItemDetailFragment
             return false;
          }
 
-         // QA was saved successfull
+         // QA was saved successful
          Toast toast = Toast.makeText(this.getActivity(), R.string.question_saved,
                Toast.LENGTH_LONG);
          toast.show();
@@ -226,5 +272,4 @@ public class QADetailFragment extends ItemDetailFragment
       String shareBody = "";
       return shareBody;
    }
-
 }
