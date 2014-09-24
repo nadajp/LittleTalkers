@@ -64,19 +64,20 @@ public class QADetailFragment extends ItemDetailFragment
    @Override
    public void onClick(View v)
    {
+      super.onClick(v);
       switch (v.getId())
       {
       case R.id.info:
-         InfoDialogFragment dlg = new InfoDialogFragment();
-         dlg.setTargetFragment(this, INFO_DIALOG_ID);
-         dlg.show(getFragmentManager(), InfoDialogFragment.class.toString());
+         InfoDialogFragment mInfoDialog = new InfoDialogFragment();
+         mInfoDialog.setTargetFragment(this, INFO_DIALOG_ID);
+         mInfoDialog.show(getFragmentManager(), InfoDialogFragment.class.toString());
          break;
       default:
          return;
       }
    }
     
-   public class InfoDialogFragment extends DialogFragment 
+   public static class InfoDialogFragment extends DialogFragment 
    {
       @Override
       public Dialog onCreateDialog(Bundle savedInstanceState) {

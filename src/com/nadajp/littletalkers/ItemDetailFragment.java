@@ -268,6 +268,7 @@ public abstract class ItemDetailFragment extends Fragment implements
          if (mAudioRecorded)
          {
             mTempFile = new File(mDirectory, "temp.3gp");
+            mTempFile2 = new File(mDirectory, "temp2.3gp");
          }
       }
       this.setHasOptionsMenu(true);
@@ -660,10 +661,18 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          mPhraseEntered = phrase_entered;
       }
+      public ReplaceAudioDialogFragment()
+      {
+         super();
+      }
       
       @Override
       public Dialog onCreateDialog(Bundle savedInstanceState)
       {
+         if (savedInstanceState != null)
+         {
+            mPhraseEntered = savedInstanceState.getBoolean(Prefs.PHRASE_ENTERED);
+         }
          // Use the Builder class for convenient dialog construction
          AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
          builder
@@ -703,6 +712,12 @@ public abstract class ItemDetailFragment extends Fragment implements
 
          // Create the AlertDialog object and return it
          return builder.create();
+      }
+      @Override
+      public void onSaveInstanceState(Bundle outState)
+      {
+         outState.putBoolean(Prefs.PHRASE_ENTERED, mPhraseEntered);
+         super.onSaveInstanceState(outState);
       }
    }
 

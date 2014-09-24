@@ -31,6 +31,7 @@ public class Prefs
    public static final String SECOND_RECORDING = "second_recording";
    public static final String KIDS_CHANGED = "kids_changed";
    public static final String SHOWING_MORE_FIELDS = "more_fields";
+   public static final String PHRASE_ENTERED = "phrase_entered";
    
    public static final int EDIT_KID = 0;
 
