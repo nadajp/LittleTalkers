@@ -67,7 +67,6 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       actionBar.setCustomView(customView);
       actionBar.setDisplayShowCustomEnabled(true);     
       actionBar.setDisplayShowTitleEnabled(false); 
-      //setupMainMenuSpinner(); 
    }
    
    public void setItemType(int type) {}
