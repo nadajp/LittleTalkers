@@ -77,5 +77,4 @@
             android:label="@string/title_activity_tab_test" >
         </activity>
     </application>
-
 </manifest>
