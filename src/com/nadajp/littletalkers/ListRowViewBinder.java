@@ -7,6 +7,9 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 
@@ -17,10 +20,22 @@ public class ListRowViewBinder implements ViewBinder
 {
    private static final String DEBUG_TAG = "ListRowViewBinder";
    private MediaPlayer mPlayer;
+   final static Animation mAnimation = new AlphaAnimation(1, 0); // Change alpha
+   // from fully
+   // visible to
+   // invisible
 
    public ListRowViewBinder(MediaPlayer mediaPlayer)
    {
       mPlayer = mediaPlayer;
+      mAnimation.setDuration(500); // duration - half a second
+      mAnimation.setInterpolator(new LinearInterpolator()); // do not alter
+                                                            // animation rate
+      mAnimation.setRepeatCount(Animation.INFINITE); // Repeat animation
+                                                     // infinitely
+      mAnimation.setRepeatMode(Animation.REVERSE); // Reverse animation at the
+                                                   // end so the button will
+                                                   // fade back in
    }
 
    public void setMediaPlayer(MediaPlayer mediaPlayer)
@@ -69,7 +84,8 @@ public class ListRowViewBinder implements ViewBinder
    private class MyListener implements OnClickListener, OnCompletionListener
    {
       private String mAudioFile;
-
+      private View mPlayButton;
+      
       public MyListener(String audioFile)
       {
          this.mAudioFile = audioFile;
@@ -78,11 +94,14 @@ public class ListRowViewBinder implements ViewBinder
       @Override
       public void onClick(View v)
       {
+         mPlayButton = v;
          if (mPlayer.isPlaying())
          {
             Stop();
+            return;
          }
          v.setPressed(true);
+         v.startAnimation(mAnimation);
          try
          {
             mPlayer.setDataSource(mAudioFile);
@@ -105,6 +124,8 @@ public class ListRowViewBinder implements ViewBinder
       {
          mPlayer.stop();
          mPlayer.reset();
+         mPlayButton.setPressed(false);
+         mPlayButton.clearAnimation();
       }
    }
 }

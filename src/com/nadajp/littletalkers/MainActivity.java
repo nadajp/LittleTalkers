@@ -21,6 +21,7 @@ public class MainActivity extends Activity implements AddKidListener
 
       // Find out from shared preferences whether there are any kids yet
       long kidId = Prefs.getKidId(this, -1);
+      Log.i(DEBUG_TAG, "Kid Id in Main: " + kidId);
 
       /* If no kids have been added yet, go to AddKidActivity
       if (kidId == -1)
