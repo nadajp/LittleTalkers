@@ -19,7 +19,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/LittleTalkersTheme" 
-        android:logo="@drawable/logo">
+        android:logo="@drawable/ic_logo">
         <meta-data
             android:name="com.google.android.backup.api_key"
             android:value="AEdPqrEAAAAInKefPCNrF9QhNH0xCB2hoIixxH91h6-jel57mg" />

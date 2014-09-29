@@ -45,7 +45,7 @@
                 android:layout_marginLeft="5dp"
                 android:clickable="true"
                 android:contentDescription="@string/start_recording"
-                android:src="@drawable/ic_circle_blue_mic" >
+                android:src="@drawable/button_blue_mic" >
             </ImageView>
 
             <EditText
