@@ -35,7 +35,7 @@
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_toRightOf="@id/profile"
         android:textStyle="bold|italic" />
-
+ 
     <TextView
         android:id="@+id/num_of_phrases"
         android:layout_width="wrap_content"
@@ -77,7 +77,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:clickable="true"
-        android:src="@drawable/ic_edit" />
+        android:src="@drawable/button_edit" />
 
     <ImageView
         android:id="@+id/icon_trash"
@@ -86,7 +86,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:clickable="true"
-        android:src="@drawable/ic_trash">
+        android:src="@drawable/button_trash">
     </ImageView>
 
 </RelativeLayout>

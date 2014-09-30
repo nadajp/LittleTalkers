@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +28,9 @@ public class KidsListCursorAdapter extends CursorAdapter
    private LayoutInflater mInflater;
    private Context mContext;
    public ManageKidsFragment mFragment;
+
+   DecelerateInterpolator sDecelerator = new DecelerateInterpolator();
+   OvershootInterpolator  sOvershooter = new OvershootInterpolator( 10f );
    
    public KidsListCursorAdapter(Context context, Cursor c, int flags, ManageKidsFragment fragment)
    {
