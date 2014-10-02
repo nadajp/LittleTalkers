@@ -100,7 +100,7 @@ public class WordDetailFragment extends ItemDetailFragment
       return shareBody;
    }
 
-   public boolean savePhrase(boolean automatic)
+   public long savePhrase(boolean automatic)
    {
       Log.i(DEBUG_TAG, "in savePhrase...");
 
@@ -108,7 +108,7 @@ public class WordDetailFragment extends ItemDetailFragment
       {
          mEditPhrase.requestFocus();
          mEditPhrase.setError(getString(R.string.word_required_error));
-         return false;
+         return -1;
       }
 
       // convert date to miliseconds for SQLite
@@ -124,22 +124,24 @@ public class WordDetailFragment extends ItemDetailFragment
       // if adding new word, save it here
       if (mItemId == 0)
       {
-         if (DbSingleton.get().saveWord(mCurrentKidId, phrase, mLanguage,
-               msDate, location, mCurrentAudioFile, translation, towhom, notes) == false)
+         mItemId = DbSingleton.get().saveWord(mCurrentKidId, phrase, mLanguage,
+               msDate, location, mCurrentAudioFile, translation, towhom, notes);
+         if (mItemId == -1)
          {
             if (!automatic)
             {
                mEditPhrase.requestFocus();
-               mEditPhrase.setError(getString(R.string.word_already_exists_error));
+               mEditPhrase
+                     .setError(getString(R.string.word_already_exists_error));
             }
-            return false;
+            return -1;
          }
 
          // word was saved successfully
          Toast toast = Toast.makeText(this.getActivity(), R.string.word_saved,
                Toast.LENGTH_LONG);
          toast.show();
-         return true;
+         return mItemId;
       }
 
       else
@@ -154,9 +156,10 @@ public class WordDetailFragment extends ItemDetailFragment
             if (!automatic)
             {
                mEditPhrase.requestFocus();
-               mEditPhrase.setError(getString(R.string.word_already_exists_error));
+               mEditPhrase
+                     .setError(getString(R.string.word_already_exists_error));
             }
-            return false;
+            return -1;
          }
          // Word was updated successfully, show dictionary
          Toast toast = Toast.makeText(this.getActivity(),
@@ -164,8 +167,27 @@ public class WordDetailFragment extends ItemDetailFragment
          toast.show();
          // invalidate menu to add sharing capabilities
          this.getActivity().invalidateOptionsMenu();
-         return true;
+         return mItemId;
       }
+   }
+
+   public void saveToPrefs()
+   {
+      // convert date to miliseconds for SQLite
+      long msDate = mDate.getTimeInMillis();
+
+      String phrase = mEditPhrase.getText().toString();
+
+      String location = mEditLocation.getText().toString();
+      String translation = mEditTranslation.length() == 0 ? phrase
+            : mEditTranslation.getText().toString();
+      String towhom = mEditToWhom.getText().toString();
+      String notes = mEditNotes.getText().toString();
+
+      String audioFile = mCurrentAudioFile;
+
+      Prefs.savePhraseInfo(this.getActivity(), msDate, phrase, location,
+            translation, towhom, notes, audioFile);
    }
 
    public void clearExtraViews()
@@ -180,8 +202,8 @@ public class WordDetailFragment extends ItemDetailFragment
          mTextHeading.setText(mKidName + " " + getString(R.string.said) + ":");
       } else
       {
-         mTextHeading.setText(mKidName + " " + getString(R.string.said_something)
-               + " ?");
+         mTextHeading.setText(mKidName + " "
+               + getString(R.string.said_something) + " ?");
       }
    }
 
@@ -210,15 +232,17 @@ public class WordDetailFragment extends ItemDetailFragment
       mEditNotes.setText(cursor.getString(
             cursor.getColumnIndex(DbContract.Words.COLUMN_NAME_NOTES))
             .toString());
-     
-      Log.i(DEBUG_TAG, "Language from DB: " + cursor.getString(cursor
-            .getColumnIndex(DbContract.Words.COLUMN_NAME_LANGUAGE)));
-         
+
+      Log.i(DEBUG_TAG,
+            "Language from DB: "
+                  + cursor.getString(cursor
+                        .getColumnIndex(DbContract.Words.COLUMN_NAME_LANGUAGE)));
+
       ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
             .getAdapter();
       mLangSpinner.setSelection(adapter.getPosition(cursor.getString(cursor
             .getColumnIndex(DbContract.Words.COLUMN_NAME_LANGUAGE))));
- 
+
       mCurrentAudioFile = cursor.getString(cursor
             .getColumnIndex(DbContract.Words.COLUMN_NAME_AUDIO_FILE));
 
@@ -269,16 +293,18 @@ public class WordDetailFragment extends ItemDetailFragment
             params.setMargins(sideMargin, 0, sideMargin, bottomMargin);
             ll.setLayoutParams(params);
 
-            LayoutParams txtParams = new LayoutParams(LayoutParams.WRAP_CONTENT,
-                  LayoutParams.WRAP_CONTENT);
+            LayoutParams txtParams = new LayoutParams(
+                  LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
             TextView txtWord = new TextView(getActivity());
             TextView txtDate = new TextView(getActivity());
 
             txtWord.setLayoutParams(txtParams);
-            txtWord.setTextAppearance(getActivity(), R.style.DictionaryWordStyle);
+            txtWord.setTextAppearance(getActivity(),
+                  R.style.DictionaryWordStyle);
             txtDate.setLayoutParams(txtParams);
-            txtDate.setTextAppearance(getActivity(), R.style.DictionaryDateStyle);
+            txtDate.setTextAppearance(getActivity(),
+                  R.style.DictionaryDateStyle);
 
             txtWord.setText(cursor.getString(cursor
                   .getColumnIndex(DbContract.Words.COLUMN_NAME_WORD)));

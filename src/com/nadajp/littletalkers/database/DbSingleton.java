@@ -509,7 +509,7 @@ public class DbSingleton
       }
    }
 
-   public boolean saveWord(long kidId, String word, String language, long date,
+   public long saveWord(long kidId, String word, String language, long date,
          String location, String audioFile, String translation, String towhom,
          String notes)
    {
@@ -521,7 +521,7 @@ public class DbSingleton
       if (cursor.getCount() > 0)
       {
          cursor.close();
-         return false;
+         return -1;
       }
       cursor.close();
       ContentValues values = new ContentValues();
@@ -536,11 +536,10 @@ public class DbSingleton
       values.put(DbContract.Words.COLUMN_NAME_NOTES, notes);
 
       // Inserting Row
-      mDb.insert("Words", null, values);
-      return true;
+      return mDb.insert("Words", null, values);
    }
 
-   public boolean saveQuestion(long kidId, String question, String answer,
+   public long saveQuestion(long kidId, String question, String answer,
          int asked, int answered, String towhom, String language, long date,
          String location, String audioFile, String notes)
    {
@@ -553,7 +552,7 @@ public class DbSingleton
       if (cursor.getCount() > 0)
       {
          cursor.close();
-         return false;
+         return -1;
       }
       cursor.close();
       ContentValues values = new ContentValues();
@@ -570,9 +569,7 @@ public class DbSingleton
       values.put(DbContract.Questions.COLUMN_NAME_NOTES, notes);
 
       // Inserting Row
-      mDb.insert("Questions", null, values);
-      return true;
-
+     return mDb.insert("Questions", null, values);
    }
 
    public boolean updateWord(long wordId, long kidId, String word,

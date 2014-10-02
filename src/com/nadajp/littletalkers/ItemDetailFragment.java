@@ -67,11 +67,13 @@ public abstract class ItemDetailFragment extends Fragment implements
    private OnAddNewPhraseListener mListener; // listener to notify activity that
                                              // new
    private File mDirectory = null; // directory to store audio file
-   private File mOutFile = null; // audio file
-   private File mTempFile = null; // temporary audio file
-   private File mTempFile2 = null; // second temporary audio file, in case of another recording
-   protected String mCurrentAudioFile; // name of audio file, empty string if
-                                       // none
+   private File mOutFile = null; // audio file with permanent name
+   private File mTempFile = null; // temporary audio file (temp.3gp)
+   private File mTempFile2 = null; // second temporary audio file, in case of
+                                   // another recording (temp2.3gp)
+   protected String mCurrentAudioFile; // name of current audio file, empty
+                                       // string if
+                                       // none has been recorded
    protected long mCurrentKidId; // current kid id, must be valid
    protected long mItemId; // current item id, 0 if nothing has been saved yet
    private MediaPlayer mPlayer; // audio player
@@ -109,7 +111,7 @@ public abstract class ItemDetailFragment extends Fragment implements
 
    public abstract void setShareData(String data);
 
-   public abstract boolean savePhrase(boolean automatic);
+   public abstract long savePhrase(boolean automatic);
 
    public abstract void clearExtraViews();
 
@@ -119,6 +121,8 @@ public abstract class ItemDetailFragment extends Fragment implements
 
    public abstract String getShareBody();
 
+   public abstract void saveToPrefs();
+
    public abstract void startAudioRecording(boolean secondRecording);
 
    public static ItemDetailFragment newInstance(int sectionNumber)
@@ -126,18 +130,19 @@ public abstract class ItemDetailFragment extends Fragment implements
       ItemDetailFragment fragment;
       switch (sectionNumber)
       {
-        case 1:
-          fragment = new QADetailFragment();
-          break;
-        default:
-          fragment = new WordDetailFragment();
-          break;
+      case 1:
+         fragment = new QADetailFragment();
+         break;
+      default:
+         fragment = new WordDetailFragment();
+         break;
       }
       Bundle args = new Bundle();
       args.putInt(Prefs.TAB_ID, sectionNumber);
       fragment.setArguments(args);
       return fragment;
    }
+
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
          Bundle savedInstanceState)
@@ -196,14 +201,12 @@ public abstract class ItemDetailFragment extends Fragment implements
          public void onTextChanged(CharSequence s, int start, int before,
                int count)
          {
-            // TODO Auto-generated method stub
          }
 
          @Override
          public void beforeTextChanged(CharSequence s, int start, int count,
                int after)
          {
-            // TODO Auto-generated method stub
          }
 
          @Override
@@ -241,9 +244,7 @@ public abstract class ItemDetailFragment extends Fragment implements
          mItemId = savedInstanceState.getLong(Prefs.ITEM_ID);
          mCurrentKidId = savedInstanceState.getLong(Prefs.CURRENT_KID_ID);
          Log.i(DEBUG_TAG, "Retreiving Instance State: " + mCurrentKidId);
-
-      } 
-      else
+      } else
       {
          mCurrentKidId = Prefs.getKidId(getActivity(), -1);
          Log.i(DEBUG_TAG, "kid id from Prefs = " + mCurrentKidId);
@@ -256,14 +257,14 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          if (savedInstanceState == null)
          {
-            Log.i(DEBUG_TAG, "NO saved instance state, calling insert defaults...");
-            insertKidDefaults(mCurrentKidId, v);           
+            Log.i(DEBUG_TAG,
+                  "NO saved instance state, calling insert defaults...");
+            insertKidDefaults(mCurrentKidId, v);
          }
          updateItem(v);
          setAudio(v);
          getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-      } 
-      else
+      } else
       {
          if (mAudioRecorded)
          {
@@ -464,15 +465,14 @@ public abstract class ItemDetailFragment extends Fragment implements
          llMore.setVisibility(View.VISIBLE);
          mEditMore.setVisibility(View.GONE);
          mEditLess.setVisibility(View.VISIBLE);
-      }
-      else
+      } else
       {
          llMore.setVisibility(View.GONE);
          mEditMore.setVisibility(View.VISIBLE);
          mEditLess.setVisibility(View.GONE);
-      }     
+      }
    }
-   
+
    public File getAudioFile()
    {
       return mOutFile;
@@ -571,18 +571,17 @@ public abstract class ItemDetailFragment extends Fragment implements
    private void startRecording()
    {
       boolean secondRecording = false;
-      
+
       if (mTempFile != null && mTempFile.exists())
       {
          mTempFile2 = new File(mDirectory, "temp2.3gp");
          secondRecording = true;
-      }
-      else
+      } else
       {
          mTempFile = new File(mDirectory, "temp.3gp");
       }
       startAudioRecording(secondRecording);
-      
+
       /*
        * mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
        * mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -599,45 +598,44 @@ public abstract class ItemDetailFragment extends Fragment implements
    private void stopRecording()
    {
       mRecordingLayout.setVisibility(View.VISIBLE);
+      TextView audioFile = (TextView) this.getView().findViewById(
+            R.id.text_recording);
 
       // if a phrase has already been entered, save under real filename
       if (!(mEditPhrase.getText().toString().isEmpty()))
       {
-         if (mOutFile != null) // if editing, pop up dialog
+         if (mOutFile != null || mTempFile != null) // if editing, pop up dialog
          {
-            Log.i(DEBUG_TAG, mOutFile.toString());
-
-            ReplaceAudioDialogFragment dlg = new ReplaceAudioDialogFragment(true);
+            ReplaceAudioDialogFragment dlg = new ReplaceAudioDialogFragment(
+                  true);
             dlg.setTargetFragment(this, REPLACE_AUDIO_DIALOG_ID);
             dlg.show(getFragmentManager(),
                   ReplaceAudioDialogFragment.class.toString());
          } 
-         else
+         else 
          {
             saveItem(false);
          }
          return;
       }
       // otherwise, it has been saved in temp file
-      TextView audioFile = (TextView) this.getView().findViewById(
-            R.id.text_recording);
+
       if (mAudioRecorded)
       {
          ReplaceAudioDialogFragment dlg = new ReplaceAudioDialogFragment(false);
          dlg.setTargetFragment(this, REPLACE_AUDIO_DIALOG_ID);
          dlg.show(getFragmentManager(),
                ReplaceAudioDialogFragment.class.toString());
-      }
-      else 
+      } else
       {
-         audioFile.setText("temp.3gp");        
+         audioFile.setText("temp.3gp");
       }
       mAudioRecorded = true;
       mCurrentAudioFile = mTempFile.getName();
    }
 
    public void replaceTempFile(boolean replace)
-   {  
+   {
       if (replace)
       {
          mTempFile.delete();
@@ -646,32 +644,35 @@ public abstract class ItemDetailFragment extends Fragment implements
             Log.i(DEBUG_TAG, "Renamed temp files successfully.");
          }
          mTempFile2 = null;
-      }
-      else
+      } else
       {
          mTempFile2.delete();
          mTempFile2 = null;
       }
    }
-  
+
    public static class ReplaceAudioDialogFragment extends DialogFragment
    {
-      private boolean mPhraseEntered;  // has the phrase already been entered for this audio?
+      private boolean mPhraseEntered; // has the phrase already been entered for
+                                      // this audio?
+
       public ReplaceAudioDialogFragment(boolean phrase_entered)
       {
          mPhraseEntered = phrase_entered;
       }
+
       public ReplaceAudioDialogFragment()
       {
          super();
       }
-      
+
       @Override
       public Dialog onCreateDialog(Bundle savedInstanceState)
       {
          if (savedInstanceState != null)
          {
-            mPhraseEntered = savedInstanceState.getBoolean(Prefs.PHRASE_ENTERED);
+            mPhraseEntered = savedInstanceState
+                  .getBoolean(Prefs.PHRASE_ENTERED);
          }
          // Use the Builder class for convenient dialog construction
          AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -685,11 +686,11 @@ public abstract class ItemDetailFragment extends Fragment implements
                            if (mPhraseEntered)
                            {
                               ((ItemDetailFragment) getTargetFragment())
-                                 .saveItem(false);
-                           }
-                           else
+                                    .saveItem(false);
+                           } else
                            {
-                              ((ItemDetailFragment) getTargetFragment()).replaceTempFile(true);
+                              ((ItemDetailFragment) getTargetFragment())
+                                    .replaceTempFile(true);
                            }
 
                         }
@@ -702,10 +703,10 @@ public abstract class ItemDetailFragment extends Fragment implements
                            if (mPhraseEntered)
                            {
                               ((ItemDetailFragment) getTargetFragment()).mTempFile = null;
-                           }
-                           else 
+                           } else
                            {
-                              ((ItemDetailFragment) getTargetFragment()).replaceTempFile(false);
+                              ((ItemDetailFragment) getTargetFragment())
+                                    .replaceTempFile(false);
                            }
                         }
                      });
@@ -713,6 +714,7 @@ public abstract class ItemDetailFragment extends Fragment implements
          // Create the AlertDialog object and return it
          return builder.create();
       }
+
       @Override
       public void onSaveInstanceState(Bundle outState)
       {
@@ -780,7 +782,7 @@ public abstract class ItemDetailFragment extends Fragment implements
          return builder.create();
       }
    }
-   
+
    public void confirmDeleteAudio()
    {
       mAudioRecorded = false;
@@ -789,7 +791,6 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          mOutFile.delete();
          mOutFile = null;
-         mRecordingLayout.setVisibility(View.GONE);
 
          if (mEditPhrase.getText().length() > 0)
          {
@@ -800,8 +801,9 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          mTempFile.delete();
          mTempFile = null;
-         mRecordingLayout.setVisibility(View.GONE);
+
       }
+      mRecordingLayout.setVisibility(View.GONE);
    }
 
    private void saveItem(boolean exit)
@@ -811,9 +813,9 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          mCurrentAudioFile = mOutFile.getAbsolutePath();
       }
-      Boolean test = savePhrase(!exit);
-      Log.i(DEBUG_TAG, "saved: " + test.toString());
-      if (test && exit)
+      mItemId = savePhrase(!exit);
+      Log.i(DEBUG_TAG, "saved: " + mItemId);
+      if (mItemId > 0 && exit)
       {
          mListener.onClickedShowDictionary(mCurrentKidId);
       }
@@ -824,8 +826,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       if (mTempFile != null && mTempFile.exists())
       {
          saveFile();
-      } 
-      else if (mOutFile != null && mOutFile.exists())
+      } else if (mOutFile != null && mOutFile.exists())
       {
          renameFile();
       }
@@ -854,9 +855,9 @@ public abstract class ItemDetailFragment extends Fragment implements
 
    public void updateItem(View v)
    {
-      insertItemDetails(v);      
+      insertItemDetails(v);
    }
-   
+
    private void updateKidName()
    {
       mKidName = DbSingleton.get().getKidName(mCurrentKidId);
@@ -865,13 +866,14 @@ public abstract class ItemDetailFragment extends Fragment implements
    }
 
    public void insertKidDefaults(long kidId, View v)
-   {     
+   {
       mCurrentKidId = kidId;
       String[] defaults = DbSingleton.get().getDefaults(kidId);
       mLanguage = defaults[0];
       Log.i(DEBUG_TAG, "Inserting kid defaults, language: " + mLanguage);
       Log.i(DEBUG_TAG, "Location: " + defaults[1]);
-      ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner.getAdapter();
+      ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
+            .getAdapter();
       mLangSpinner.setSelection(adapter.getPosition(mLanguage));
       mEditLocation.setText(defaults[1]);
       updateKidName();
@@ -908,7 +910,6 @@ public abstract class ItemDetailFragment extends Fragment implements
       return mKidName + "-" + str + mDate.getTimeInMillis() + ".3gp";
    }
 
-   
    private void renameFile()
    {
       String filename = getFilename();
@@ -1016,14 +1017,13 @@ public abstract class ItemDetailFragment extends Fragment implements
    public void onSaveInstanceState(Bundle outState)
    {
       super.onSaveInstanceState(outState);
-      
-      if (mRecordingLayout.getVisibility() == View.VISIBLE) 
+
+      outState.putBoolean(Prefs.AUDIO_RECORDED, mAudioRecorded);
+      if (mRecordingLayout.getVisibility() == View.VISIBLE)
       {
-         outState.putBoolean(Prefs.AUDIO_RECORDED, true); 
          outState.putString(Prefs.AUDIO_FILE, mCurrentAudioFile);
          Log.i(DEBUG_TAG, "AUDIO RECORDED.");
-      }
-      if (mEditLess.getVisibility() == View.VISIBLE)
+      } else if (mEditLess.getVisibility() == View.VISIBLE)
       {
          outState.putBoolean(Prefs.SHOWING_MORE_FIELDS, true);
       }
@@ -1046,9 +1046,8 @@ public abstract class ItemDetailFragment extends Fragment implements
       }
       if (this.mItemId > 0)
       {
-         this.updateKidName();  
-      }
-      else 
+         this.updateKidName();
+      } else
       {
          this.insertKidDefaults(mCurrentKidId, this.getView());
       }

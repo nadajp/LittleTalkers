@@ -84,6 +84,5 @@ public class ViewItemActivity extends Activity implements OnAddNewPhraseListener
    {
       super.onSaveInstanceState(outState);
       outState.putInt(Prefs.TYPE, mType);
-   }
-   
+   }  
 }

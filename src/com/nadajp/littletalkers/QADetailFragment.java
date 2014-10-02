@@ -30,7 +30,7 @@ public class QADetailFragment extends ItemDetailFragment
 {
    private static final String DEBUG_TAG = "AddQAFragment";
    private static final int INFO_DIALOG_ID = 3;
-  
+
    // user interface elements
    private EditText mEditAnswer;
    private CheckBox mCheckAsked, mCheckAnswered;
@@ -46,17 +46,18 @@ public class QADetailFragment extends ItemDetailFragment
       Log.i(DEBUG_TAG, "Creating QA Detail Fragment");
       mFragmentLayout = R.layout.fragment_qa_detail;
       mEditPhraseResId = R.id.editQuestion;
-      return super.onCreateView(inflater, container, savedInstanceState); 
+      return super.onCreateView(inflater, container, savedInstanceState);
    }
-   
+
    public void initializeExtras(View v)
    {
       mEditAnswer = (EditText) v.findViewById(R.id.editAnswer);
       mCheckAsked = (CheckBox) v.findViewById(R.id.checkAsked);
       mCheckAnswered = (CheckBox) v.findViewById(R.id.checkAnswered);
-      //mTextCheckInstructions = (TextView) v.findViewById(R.id.textCheckInstructions);
+      // mTextCheckInstructions = (TextView)
+      // v.findViewById(R.id.textCheckInstructions);
       mTextHeadingQuestion = (TextView) v.findViewById(R.id.headingQuestion);
-      mTextHeadingAnswer= (TextView) v.findViewById(R.id.headingAnswer);
+      mTextHeadingAnswer = (TextView) v.findViewById(R.id.headingAnswer);
       mInfo = (ImageView) v.findViewById(R.id.info);
       mInfo.setOnClickListener(this);
    }
@@ -70,32 +71,38 @@ public class QADetailFragment extends ItemDetailFragment
       case R.id.info:
          InfoDialogFragment mInfoDialog = new InfoDialogFragment();
          mInfoDialog.setTargetFragment(this, INFO_DIALOG_ID);
-         mInfoDialog.show(getFragmentManager(), InfoDialogFragment.class.toString());
+         mInfoDialog.show(getFragmentManager(),
+               InfoDialogFragment.class.toString());
          break;
       default:
          return;
       }
    }
-    
-   public static class InfoDialogFragment extends DialogFragment 
+
+   public static class InfoDialogFragment extends DialogFragment
    {
       @Override
-      public Dialog onCreateDialog(Bundle savedInstanceState) {
-          // Use the Builder class for convenient dialog construction
-          AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-          builder.setMessage(R.string.qa_info)
-                 .setTitle(R.string.qa_info_title)
-                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                     public void onClick(DialogInterface dialog, int id) {
-                         // dismiss
-                     }
-                 });
-          builder.setIcon(R.drawable.ic_action_info);
-          // Create the AlertDialog object and return it
-          return builder.create();
+      public Dialog onCreateDialog(Bundle savedInstanceState)
+      {
+         // Use the Builder class for convenient dialog construction
+         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+         builder
+               .setMessage(R.string.qa_info)
+               .setTitle(R.string.qa_info_title)
+               .setPositiveButton(R.string.ok,
+                     new DialogInterface.OnClickListener()
+                     {
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                           // dismiss
+                        }
+                     });
+         builder.setIcon(R.drawable.ic_action_info);
+         // Create the AlertDialog object and return it
+         return builder.create();
       }
-  }
-   
+   }
+
    public void startAudioRecording(boolean secondRecording)
    {
       Intent intent = new Intent(this.getActivity(), AudioRecordActivity.class);
@@ -103,33 +110,35 @@ public class QADetailFragment extends ItemDetailFragment
       intent.putExtra(Prefs.SECOND_RECORDING, secondRecording);
       startActivityForResult(intent, RECORD_AUDIO_REQUEST);
    }
-   
+
    public void updateExtraKidDetails()
    {
-     // mTextCheckInstructions.setText(getString(R.string.check_instructions1) + " " + mKidName + " " +
-     //       getString(R.string.check_instructions2));
+      // mTextCheckInstructions.setText(getString(R.string.check_instructions1)
+      // + " " + mKidName + " " +
+      // getString(R.string.check_instructions2));
       if (mItemId < 1)
       {
-         mTextHeadingQuestion.setText(mKidName + " " + getString(R.string.asked_question)
-               + "?");
-         mTextHeadingAnswer.setText(mKidName + " " + getString(R.string.answered_question) + "?");
+         mTextHeadingQuestion.setText(mKidName + " "
+               + getString(R.string.asked_question) + "?");
+         mTextHeadingAnswer.setText(mKidName + " "
+               + getString(R.string.answered_question) + "?");
       }
    }
-   
-   public boolean savePhrase(boolean automatic)
+
+   public long savePhrase(boolean automatic)
    {
       if (mEditPhrase.length() == 0)
       {
          mEditPhrase.requestFocus();
          mEditPhrase.setError(getString(R.string.question_required_error));
-         return false;
+         return -1;
       }
 
       if (mCheckAnswered.isChecked() && mEditAnswer.length() == 0)
       {
          mEditAnswer.requestFocus();
          mEditAnswer.setError(getString(R.string.answer_required_error));
-         return false;  
+         return -1;
       }
       // convert date to milliseconds for SQLite
       long msDate = mDate.getTimeInMillis();
@@ -145,37 +154,42 @@ public class QADetailFragment extends ItemDetailFragment
       // if adding new question, save it here
       if (mItemId == 0)
       {
-         if (DbSingleton.get().saveQuestion(mCurrentKidId, question, answer, asked, answered, towhom, mLanguage, msDate,
-               location, mCurrentAudioFile, notes) == false)
+         
+         mItemId = DbSingleton.get().saveQuestion(mCurrentKidId, question, answer,
+               asked, answered, towhom, mLanguage, msDate, location,
+               mCurrentAudioFile, notes);
+         if (mItemId == -1)
          {
             if (!automatic)
             {
                mEditPhrase.requestFocus();
-               mEditPhrase.setError(getString(R.string.QA_already_exists_error));
+               mEditPhrase
+                     .setError(getString(R.string.QA_already_exists_error));
             }
-            return false;
+            return -1;
          }
 
          // QA was saved successful
-         Toast toast = Toast.makeText(this.getActivity(), R.string.question_saved,
-               Toast.LENGTH_LONG);
+         Toast toast = Toast.makeText(this.getActivity(),
+               R.string.question_saved, Toast.LENGTH_LONG);
          toast.show();
-         return true;
+         return mItemId;
       }
 
       else
       // we are editing an existing entry
       {
-         if (DbSingleton.get().updateQuestion(mItemId, mCurrentKidId, question, answer, 
-               asked, answered, towhom, mLanguage, msDate, location, mCurrentAudioFile,
-               notes) == false)
-         { 
+         if (DbSingleton.get().updateQuestion(mItemId, mCurrentKidId, question,
+               answer, asked, answered, towhom, mLanguage, msDate, location,
+               mCurrentAudioFile, notes) == false)
+         {
             if (!automatic)
             {
                mEditPhrase.requestFocus();
-               mEditPhrase.setError(getString(R.string.QA_already_exists_error));
+               mEditPhrase
+                     .setError(getString(R.string.QA_already_exists_error));
             }
-            return false;
+            return -1;
          }
          // Word was updated successfully, show dictionary
          Toast toast = Toast.makeText(this.getActivity(),
@@ -184,7 +198,25 @@ public class QADetailFragment extends ItemDetailFragment
          // invalidate menu to add sharing capabilities
          this.getActivity().invalidateOptionsMenu();
       }
-      return true;
+      return mItemId;
+   }
+
+   public void saveToPrefs()
+   {
+      // convert date to miliseconds for SQLite
+      long msDate = mDate.getTimeInMillis();
+
+      String question = mEditPhrase.getText().toString();
+      String answer = mEditAnswer.getText().toString();
+      String location = mEditLocation.getText().toString();
+      String towhom = mEditToWhom.getText().toString();
+      String notes = mEditNotes.getText().toString();
+      String audioFile = mCurrentAudioFile;
+      int asked = mCheckAsked.isChecked() ? 1 : 0;
+      int answered = mCheckAnswered.isChecked() ? 1 : 0;
+
+      Prefs.saveQAInfo(this.getActivity(), msDate, question, answer, location,
+            towhom, notes, audioFile, asked, answered);
    }
 
    public void clearExtraViews()
@@ -198,24 +230,28 @@ public class QADetailFragment extends ItemDetailFragment
    {
       Log.i(DEBUG_TAG, "Inserting Q and A details");
       Cursor cursor = DbSingleton.get().getQuestionDetails(mItemId);
-      
+
       cursor.moveToFirst();
       mEditPhrase.setText(cursor.getString(cursor
             .getColumnIndex(DbContract.Questions.COLUMN_NAME_QUESTION)));
       mEditAnswer.setText(cursor.getString(cursor
             .getColumnIndex(DbContract.Questions.COLUMN_NAME_ANSWER)));
-      
-      int asked = cursor.getInt(cursor.getColumnIndex(DbContract.Questions.COLUMN_NAME_ASKED));
-      if (asked == 0){
+
+      int asked = cursor.getInt(cursor
+            .getColumnIndex(DbContract.Questions.COLUMN_NAME_ASKED));
+      if (asked == 0)
+      {
          mCheckAsked.setChecked(false);
-      }
-      else mCheckAsked.setChecked(true);
-      
-      int answered = cursor.getInt(cursor.getColumnIndex(DbContract.Questions.COLUMN_NAME_ANSWERED));
-      if (answered == 0){
+      } else
+         mCheckAsked.setChecked(true);
+
+      int answered = cursor.getInt(cursor
+            .getColumnIndex(DbContract.Questions.COLUMN_NAME_ANSWERED));
+      if (answered == 0)
+      {
          mCheckAnswered.setChecked(false);
-      }
-      else mCheckAnswered.setChecked(true);
+      } else
+         mCheckAnswered.setChecked(true);
 
       // get date in miliseconds from db, convert to text, set current date
       long rawdate = cursor.getLong(cursor
@@ -244,30 +280,30 @@ public class QADetailFragment extends ItemDetailFragment
 
       if (asked == 1)
       {
-         mTextHeadingQuestion.setText(mKidName + " " + getString(R.string.asked) + ":");
-      }
-      else
+         mTextHeadingQuestion.setText(mKidName + " "
+               + getString(R.string.asked) + ":");
+      } else
       {
          mTextHeadingQuestion.setText(getString(R.string.question) + ":");
       }
       if (answered == 1)
       {
-         mTextHeadingAnswer.setText(mKidName + " " + getString(R.string.answered) + ":");
-      }
-      else
+         mTextHeadingAnswer.setText(mKidName + " "
+               + getString(R.string.answered) + ":");
+      } else
       {
          mTextHeadingAnswer.setText(getString(R.string.answer) + ":");
       }
-      cursor.close(); 
+      cursor.close();
    }
-   
+
    @Override
    public void setShareData(String data)
    {
       // TODO Auto-generated method stub
-      
+
    }
-   
+
    public String getShareBody()
    {
       String shareBody = "";

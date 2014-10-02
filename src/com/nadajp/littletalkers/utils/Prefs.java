@@ -32,12 +32,20 @@ public class Prefs
    public static final String KIDS_CHANGED = "kids_changed";
    public static final String SHOWING_MORE_FIELDS = "more_fields";
    public static final String PHRASE_ENTERED = "phrase_entered";
-   
+
+   public static final String PHRASE = "phrase";
+   public static final String ANSWER = "answer";
+   public static final String DATE = "date";
+   public static final String LOCATION = "location";
+   public static final String TRANSLATION = "translation";
+   public static final String TO_WHOM = "to_whom";
+   public static final String NOTES = "notes";
+
    public static final int EDIT_KID = 0;
 
    public static final int TYPE_WORD = 0;
    public static final int TYPE_QA = 1;
-   
+
    public static final int SORT_COLUMN_PHRASE = 0;
    public static final int SORT_COLUMN_DATE = 1;
 
@@ -48,13 +56,6 @@ public class Prefs
       return sharedPrefs.getLong(CURRENT_KID_ID, defaultId);
    }
 
-   public static int getType(Context context, int defaultType)
-   {
-      SharedPreferences sharedPrefs = context.getSharedPreferences(
-            SHARED_PREFS_FILENAME, Context.MODE_PRIVATE);
-      return sharedPrefs.getInt(TYPE, defaultType);
-   }
-   
    public static void saveKidId(Context context, long id)
    {
       SharedPreferences sharedPrefs = context.getSharedPreferences(
@@ -62,6 +63,13 @@ public class Prefs
       SharedPreferences.Editor editor = sharedPrefs.edit();
       editor.putLong(CURRENT_KID_ID, id);
       editor.commit();
+   }
+
+   public static int getType(Context context, int defaultType)
+   {
+      SharedPreferences sharedPrefs = context.getSharedPreferences(
+            SHARED_PREFS_FILENAME, Context.MODE_PRIVATE);
+      return sharedPrefs.getInt(TYPE, defaultType);
    }
 
    public static void saveType(Context context, int type)
@@ -72,7 +80,41 @@ public class Prefs
       editor.putInt(TYPE, type);
       editor.commit();
    }
-   
+
+   public static void savePhraseInfo(Context context, long date, String phrase,
+         String location, String translation, String toWhom, String notes,
+         String audioFile)
+   {
+      SharedPreferences sharedPrefs = context.getSharedPreferences(
+            SHARED_PREFS_FILENAME, Context.MODE_PRIVATE);
+      SharedPreferences.Editor editor = sharedPrefs.edit();
+      editor.putLong(DATE, date);
+      editor.putString(PHRASE, phrase);
+      editor.putString(LOCATION, location);
+      editor.putString(TRANSLATION, translation);
+      editor.putString(TO_WHOM, toWhom);
+      editor.putString(NOTES, notes);
+      editor.putString(AUDIO_FILE, audioFile);
+      editor.commit();
+   }
+
+   public static void saveQAInfo(Context context, long date, String phrase,
+         String answer, String location, String toWhom, String notes,
+         String audioFile, int asked, int asnwered)
+   {
+      SharedPreferences sharedPrefs = context.getSharedPreferences(
+            SHARED_PREFS_FILENAME, Context.MODE_PRIVATE);
+      SharedPreferences.Editor editor = sharedPrefs.edit();
+      editor.putLong(DATE, date);
+      editor.putString(PHRASE, phrase);
+      editor.putString(ANSWER, answer);
+      editor.putString(LOCATION, location);
+      editor.putString(TO_WHOM, toWhom);
+      editor.putString(NOTES, notes);
+      editor.putString(AUDIO_FILE, audioFile);
+      editor.commit();
+   }
+
    public static String getLanguage(Context context)
    {
       SharedPreferences sharedPrefs = context.getSharedPreferences(
@@ -88,7 +130,7 @@ public class Prefs
       return sharedPrefs.getString(SORT_COLUMN,
             DbContract.Words.COLUMN_NAME_WORD);
    }
-   
+
    public static int getSortColumnId(Context context)
    {
       SharedPreferences sharedPrefs = context.getSharedPreferences(

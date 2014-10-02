@@ -235,10 +235,10 @@ public abstract class ItemListFragment extends ListFragment
    public void onListItemClick(ListView l, View v, int position, long id)
    {
       // show word detail view
-      Intent intent = new Intent(this.getActivity(), ViewItemActivity.class);
+      Intent intent = new Intent(getActivity(), ViewItemActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, mCurrentKidId);
       intent.putExtra(ItemDetailFragment.ITEM_ID, id);
-      int type = Prefs.getType(this.getActivity(), Prefs.TYPE_WORD);
+      int type = Prefs.getType(getActivity(), Prefs.TYPE_WORD);
       intent.putExtra(Prefs.TYPE, type);
       startActivity(intent);
    }
