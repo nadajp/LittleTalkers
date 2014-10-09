@@ -43,7 +43,7 @@ import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
 public class AddKidFragment extends Fragment implements OnClickListener,
-      OnItemSelectedListener 
+      OnItemSelectedListener
 {
    private static final String DEBUG_TAG = "AddKidFragment";
    private long mKidId;
@@ -89,16 +89,14 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       mSpinnerLanguage = (Spinner) v.findViewById(R.id.spinner_language);
       mSpinnerLanguage.setOnItemSelectedListener(this);
       ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-            getActivity(), R.array.array_languages,
-            R.layout.lt_spinner_item);
-      adapter
-            .setDropDownViewResource(R.layout.lt_spinner_dropdown_item);
+            getActivity(), R.array.array_languages, R.layout.lt_spinner_item);
+      adapter.setDropDownViewResource(R.layout.lt_spinner_dropdown_item);
       mSpinnerLanguage.setAdapter(adapter);
 
-      mSpinnerLanguage.setSelection(adapter.getPosition(getString(R.string.app_language)));
-      
-      mKidId = getActivity().getIntent().getIntExtra(
-            Prefs.CURRENT_KID_ID, -1);
+      mSpinnerLanguage.setSelection(adapter
+            .getPosition(getString(R.string.app_language)));
+
+      mKidId = getActivity().getIntent().getLongExtra(Prefs.CURRENT_KID_ID, -1);
       Log.i(DEBUG_TAG, "kid id = " + mKidId);
 
       if (savedInstanceState != null)
@@ -109,31 +107,33 @@ public class AddKidFragment extends Fragment implements OnClickListener,
                   .getString(Prefs.PROFILE_PIC_PATH));
             try
             {
-               Bitmap photo = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(mPicturePath),
-                     IMAGE_SIZE, IMAGE_SIZE);
+               Bitmap photo = ThumbnailUtils.extractThumbnail(
+                     BitmapFactory.decodeFile(mPicturePath), IMAGE_SIZE,
+                     IMAGE_SIZE);
                mImgProfilePic.setImageBitmap(photo);
-               
+
                photo = null;
             } catch (Exception e)
             {
                e.printStackTrace();
             }
          }
-      } 
-           
-      // If editing/viewing an existing kid, fill all the fields
-      if (mKidId > 0) 
-      {
-         this.getActivity().getActionBar().setTitle(R.string.edit_little_talker);
-         insertKidDetails(mKidId);
       }
-      else 
+
+      // If editing/viewing an existing kid, fill all the fields
+      if (mKidId > 0)
       {
-         Bitmap profilePicture = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(v.getResources(),
-                  R.drawable.add_profile), IMAGE_SIZE, IMAGE_SIZE);         
+         this.getActivity().getActionBar()
+               .setTitle(R.string.edit_little_talker);
+         insertKidDetails(mKidId);
+      } else
+      {
+         Bitmap profilePicture = ThumbnailUtils.extractThumbnail(BitmapFactory
+               .decodeResource(v.getResources(), R.drawable.add_profile),
+               IMAGE_SIZE, IMAGE_SIZE);
          mImgProfilePic.setImageBitmap(profilePicture);
          this.getActivity().getActionBar().setTitle(R.string.add_kid);
-      }     
+      }
       return v;
    }
 
@@ -143,14 +143,14 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       switch (v.getId())
       {
       case R.id.edit_birthdate:
-        showCalendar(v);
-        break;
+         showCalendar(v);
+         break;
       case R.id.image_profile:
-        showProfileDialog();
-        break;
+         showProfileDialog();
+         break;
       case R.id.button_save:
-        saveKid();
-        break;
+         saveKid();
+         break;
       }
    }
 
@@ -169,7 +169,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       mBirthDateMillis = mBirthDate.getTimeInMillis();
       mEdiBirthDate.setText(DateUtils.formatDateTime(this.getActivity(),
             mBirthDateMillis, DateUtils.FORMAT_SHOW_DATE
-                  | DateUtils.FORMAT_SHOW_YEAR));      
+                  | DateUtils.FORMAT_SHOW_YEAR));
    }
 
    DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener()
@@ -201,9 +201,11 @@ public class AddKidFragment extends Fragment implements OnClickListener,
             .setText(cursor.getString(
                   cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_NAME))
                   .toString());
-      mBirthDateMillis = cursor.getLong(cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_BIRTHDATE_MILLIS));
+      mBirthDateMillis = cursor.getLong(cursor
+            .getColumnIndex(DbContract.Kids.COLUMN_NAME_BIRTHDATE_MILLIS));
       mBirthDate.setTimeInMillis(mBirthDateMillis);
-      mEdiBirthDate.setText(Utils.getDateForDisplay(mBirthDateMillis, this.getActivity()));
+      mEdiBirthDate.setText(Utils.getDateForDisplay(mBirthDateMillis,
+            this.getActivity()));
       mEditLocation
             .setText(cursor
                   .getString(
@@ -220,15 +222,15 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       cursor.close();
 
       Bitmap profilePicture = null;
-      
+
       if (mPicturePath == null)
       {
          profilePicture = BitmapFactory.decodeResource(getResources(),
                R.drawable.add_profile);
       } else
       {
-         profilePicture = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(mPicturePath),
-               IMAGE_SIZE, IMAGE_SIZE);
+         profilePicture = ThumbnailUtils.extractThumbnail(
+               BitmapFactory.decodeFile(mPicturePath), IMAGE_SIZE, IMAGE_SIZE);
       }
 
       mImgProfilePic.setImageBitmap(profilePicture);
@@ -253,7 +255,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       }
 
       name = mEditName.getText().toString();
-      //birthday = mEdiBirthDate.getText().toString();
+      // birthday = mEdiBirthDate.getText().toString();
       location = mEditLocation.getText().toString();
 
       if (this.mTempBitmapSaved)
@@ -264,16 +266,16 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       // Adding new kid
       if (mKidId < 0)
       {
-         mKidId = DbSingleton.get().saveKid(name, location,
-               mLanguage, mPicturePath, mBirthDateMillis);
+         mKidId = DbSingleton.get().saveKid(name, location, mLanguage,
+               mPicturePath, mBirthDateMillis);
          Log.i(DEBUG_TAG, "Saving kid: " + mKidId);
       }
 
       // Updating a current kid
       else
       {
-         if (!DbSingleton.get().updateKid(mKidId, name,
-               location, mLanguage, mPicturePath, mBirthDateMillis))
+         if (!DbSingleton.get().updateKid(mKidId, name, location, mLanguage,
+               mPicturePath, mBirthDateMillis))
          {
             // TODO error message (duplicate kid name)
             return;
@@ -379,7 +381,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
          return builder.create();
       }
    }
-   
+
    @Override
    public void onActivityResult(int requestCode, int resultCode, Intent data)
    {
@@ -393,10 +395,10 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       switch (requestCode)
       {
       case TAKE_PICTURE:
-         //mBitmapProfile = BitmapFactory.decodeFile(mUriPicture.getPath());
-         //Bitmap thumb = Bitmap.createScaledBitmap(mBitmapProfile, IMAGE_SIZE,
-         //      IMAGE_SIZE, false);
-         //mButtonProfilePic.setImageBitmap(thumb);
+         // mBitmapProfile = BitmapFactory.decodeFile(mUriPicture.getPath());
+         // Bitmap thumb = Bitmap.createScaledBitmap(mBitmapProfile, IMAGE_SIZE,
+         // IMAGE_SIZE, false);
+         // mButtonProfilePic.setImageBitmap(thumb);
          break;
 
       case PICK_FROM_FILE:
@@ -415,16 +417,17 @@ public class AddKidFragment extends Fragment implements OnClickListener,
 
             try
             {
-               Bitmap thumbnail = ThumbnailUtils.extractThumbnail(MediaStore.Images.Media.getBitmap(this
-                     .getActivity().getContentResolver(), mUriPicture),
-                     IMAGE_SIZE, IMAGE_SIZE);
-               
+               Bitmap thumbnail = ThumbnailUtils.extractThumbnail(
+                     MediaStore.Images.Media.getBitmap(this.getActivity()
+                           .getContentResolver(), mUriPicture), IMAGE_SIZE,
+                     IMAGE_SIZE);
+
                mImgProfilePic.setImageBitmap(thumbnail);
                saveProfileBitmapFile();
             } catch (Exception e)
             {
                e.printStackTrace();
-            }          
+            }
          }
          break;
 
@@ -458,30 +461,32 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       startActivityForResult(cropIntent, CROP_PICTURE);
    }
 
-   public Bitmap decodeUri(Uri uri, final int requiredSize) 
-         throws FileNotFoundException 
+   public Bitmap decodeUri(Uri uri, final int requiredSize)
+         throws FileNotFoundException
    {
       BitmapFactory.Options o = new BitmapFactory.Options();
       o.inJustDecodeBounds = true;
-      BitmapFactory.decodeStream(this.getActivity().getContentResolver().openInputStream(uri), null, o);
+      BitmapFactory.decodeStream(this.getActivity().getContentResolver()
+            .openInputStream(uri), null, o);
 
-      int width_tmp = o.outWidth
-             , height_tmp = o.outHeight;
+      int width_tmp = o.outWidth, height_tmp = o.outHeight;
       int scale = 1;
 
-      while(true) {
-         if(width_tmp / 2 < requiredSize || height_tmp / 2 < requiredSize)
-             break;
+      while (true)
+      {
+         if (width_tmp / 2 < requiredSize || height_tmp / 2 < requiredSize)
+            break;
          width_tmp /= 2;
          height_tmp /= 2;
          scale *= 2;
       }
 
-     BitmapFactory.Options o2 = new BitmapFactory.Options();
-     o2.inSampleSize = scale;
-     return BitmapFactory.decodeStream(this.getActivity().getContentResolver().openInputStream(uri), null, o2);
- }   
-   
+      BitmapFactory.Options o2 = new BitmapFactory.Options();
+      o2.inSampleSize = scale;
+      return BitmapFactory.decodeStream(this.getActivity().getContentResolver()
+            .openInputStream(uri), null, o2);
+   }
+
    private void saveProfileBitmapFile()
    {
       if (mUriPicture == null)
@@ -499,7 +504,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
          e1.printStackTrace();
          return;
       }
-      
+
       String filename;
       boolean temp = mEditName.getText().toString().isEmpty();
       if (temp)
@@ -588,6 +593,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
    public interface OnKidAddedListener
    {
       public void onKidAdded(long kidId);
+
       public void onKidUpdated(long kidId);
    }
 

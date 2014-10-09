@@ -75,6 +75,9 @@ public class DataExportActivity extends Activity
             Intent manage_intent = new Intent(this, ManageKidsActivity.class);
             startActivity(manage_intent);
             return true;
+         case android.R.id.home:
+            super.onBackPressed();
+            return true;
          default:
             return super.onOptionsItemSelected(item);
       }
