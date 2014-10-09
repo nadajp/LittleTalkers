@@ -37,19 +37,9 @@ public class KidProfileActivity extends Activity
        switch (item.getItemId()) 
        {
        // Respond to the action bar's Up/Home button
+       // in this case, return to referring activity
        case android.R.id.home:
-           if (this.getIntent().hasExtra("ManageKidsView"))
-           {
-              Intent intent = new Intent(this, ManageKidsActivity.class);
-              startActivity(intent);
-           }
-           else
-           {
-              Intent intent = NavUtils.getParentActivityIntent(this);
-              // navigate up to the logical parent activity.
-              NavUtils.navigateUpTo(this, intent);
-              //startActivity(intent);
-           }          
+           super.onBackPressed();
            return true;
        case R.id.action_export:
           Intent backup_intent = new Intent(this, DataExportActivity.class);

@@ -68,12 +68,13 @@ public abstract class ItemDetailFragment extends Fragment implements
                                              // new
    private File mDirectory = null; // directory to store audio file
    private File mOutFile = null; // audio file with permanent name
-   private File mTempFile = null; // temporary audio file (temp.3gp)
+   private File mTempFile = null; // temporary audio file (temp.3gp or tempQA.3gp)
    private File mTempFile2 = null; // second temporary audio file, in case of
                                    // another recording (temp2.3gp)
    protected String mCurrentAudioFile; // name of current audio file, empty
                                        // string if
                                        // none has been recorded
+   protected String mTempFileStem; // either temp or tempQA
    protected long mCurrentKidId; // current kid id, must be valid
    protected long mItemId; // current item id, 0 if nothing has been saved yet
    private MediaPlayer mPlayer; // audio player
@@ -268,8 +269,8 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          if (mAudioRecorded)
          {
-            mTempFile = new File(mDirectory, "temp.3gp");
-            mTempFile2 = new File(mDirectory, "temp2.3gp");
+            mTempFile = new File(mDirectory, mTempFileStem + ".3gp");
+            mTempFile2 = new File(mDirectory, mTempFileStem + "2.3gp");
          }
       }
       this.setHasOptionsMenu(true);
@@ -574,11 +575,11 @@ public abstract class ItemDetailFragment extends Fragment implements
 
       if (mTempFile != null && mTempFile.exists())
       {
-         mTempFile2 = new File(mDirectory, "temp2.3gp");
+         mTempFile2 = new File(mDirectory, mTempFileStem + "2.3gp");
          secondRecording = true;
       } else
       {
-         mTempFile = new File(mDirectory, "temp.3gp");
+         mTempFile = new File(mDirectory, mTempFileStem + ".3gp");
       }
       startAudioRecording(secondRecording);
 
@@ -618,8 +619,7 @@ public abstract class ItemDetailFragment extends Fragment implements
          }
          return;
       }
-      // otherwise, it has been saved in temp file
-
+      // otherwise, it has been saved in temp file, do not save item yet
       if (mAudioRecorded)
       {
          ReplaceAudioDialogFragment dlg = new ReplaceAudioDialogFragment(false);
@@ -628,7 +628,7 @@ public abstract class ItemDetailFragment extends Fragment implements
                ReplaceAudioDialogFragment.class.toString());
       } else
       {
-         audioFile.setText("temp.3gp");
+         audioFile.setText(mTempFileStem + ".3gp");
       }
       mAudioRecorded = true;
       mCurrentAudioFile = mTempFile.getName();
@@ -808,12 +808,11 @@ public abstract class ItemDetailFragment extends Fragment implements
 
    private void saveItem(boolean exit)
    {
-      saveAudioFile();
+      mItemId = savePhrase(!exit);
       if (mOutFile != null && mOutFile.exists())
       {
          mCurrentAudioFile = mOutFile.getAbsolutePath();
       }
-      mItemId = savePhrase(!exit);
       Log.i(DEBUG_TAG, "saved: " + mItemId);
       if (mItemId > 0 && exit)
       {
@@ -821,7 +820,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       }
    }
 
-   private void saveAudioFile()
+   protected void saveAudioFile()
    {
       if (mTempFile != null && mTempFile.exists())
       {

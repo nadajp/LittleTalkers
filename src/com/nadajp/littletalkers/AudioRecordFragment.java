@@ -38,6 +38,7 @@ public class AudioRecordFragment extends Fragment implements OnClickListener,
                                                                  // invisible
    private ImageView mImgMic;
    private boolean mSecondRecording;
+   private String mTempFileStem; // stem of the temporary filename (temp or tempQA)
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,6 +51,7 @@ public class AudioRecordFragment extends Fragment implements OnClickListener,
       mImgMic = (ImageView) v.findViewById(R.id.button_mic);
       Bundle args = this.getArguments();
       mSecondRecording = args.getBoolean(Prefs.SECOND_RECORDING);
+      mTempFileStem = args.getString(Prefs.TEMP_FILE_STEM);
       int type = args.getInt(Prefs.TYPE);
       if (type == Prefs.TYPE_QA)
       {
@@ -121,11 +123,11 @@ public class AudioRecordFragment extends Fragment implements OnClickListener,
 
       if (mSecondRecording)
       {
-         mTempFile = new File(mDirectory, "temp2.3gp");
+         mTempFile = new File(mDirectory, mTempFileStem + "2.3gp");
       }
       else
       {
-         mTempFile = new File(mDirectory, "temp.3gp");
+         mTempFile = new File(mDirectory, mTempFileStem + ".3gp");
       }
       mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
       mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);

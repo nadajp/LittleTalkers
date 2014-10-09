@@ -32,6 +32,7 @@ public class Prefs
    public static final String KIDS_CHANGED = "kids_changed";
    public static final String SHOWING_MORE_FIELDS = "more_fields";
    public static final String PHRASE_ENTERED = "phrase_entered";
+   public static final String TEMP_FILE_STEM = "temp_file_stem";
 
    public static final String PHRASE = "phrase";
    public static final String ANSWER = "answer";

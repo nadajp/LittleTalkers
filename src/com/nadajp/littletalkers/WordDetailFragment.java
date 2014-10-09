@@ -33,6 +33,7 @@ public class WordDetailFragment extends ItemDetailFragment
       Log.i(DEBUG_TAG, "Creating Word Detail Fragment");
       mFragmentLayout = R.layout.fragment_word_detail;
       mEditPhraseResId = R.id.editWord;
+      mTempFileStem = "temp";
       return super.onCreateView(inflater, container, savedInstanceState);
    }
 
@@ -45,6 +46,7 @@ public class WordDetailFragment extends ItemDetailFragment
    {
       Intent intent = new Intent(this.getActivity(), AudioRecordActivity.class);
       intent.putExtra(Prefs.TYPE, Prefs.TYPE_WORD);
+      intent.putExtra(Prefs.TEMP_FILE_STEM, mTempFileStem);
       intent.putExtra(Prefs.SECOND_RECORDING, secondRecording);
       startActivityForResult(intent, RECORD_AUDIO_REQUEST);
    }
@@ -99,17 +101,18 @@ public class WordDetailFragment extends ItemDetailFragment
       }
       return shareBody;
    }
+   
 
    public long savePhrase(boolean automatic)
    {
-      Log.i(DEBUG_TAG, "in savePhrase...");
-
       if (mEditPhrase.length() == 0)
       {
          mEditPhrase.requestFocus();
          mEditPhrase.setError(getString(R.string.word_required_error));
          return -1;
       }
+
+      super.saveAudioFile();
 
       // convert date to miliseconds for SQLite
       long msDate = mDate.getTimeInMillis();

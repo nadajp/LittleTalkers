@@ -46,6 +46,7 @@ public class QADetailFragment extends ItemDetailFragment
       Log.i(DEBUG_TAG, "Creating QA Detail Fragment");
       mFragmentLayout = R.layout.fragment_qa_detail;
       mEditPhraseResId = R.id.editQuestion;
+      mTempFileStem = "tempQA";
       return super.onCreateView(inflater, container, savedInstanceState);
    }
 
@@ -107,6 +108,7 @@ public class QADetailFragment extends ItemDetailFragment
    {
       Intent intent = new Intent(this.getActivity(), AudioRecordActivity.class);
       intent.putExtra(Prefs.TYPE, Prefs.TYPE_QA);
+      intent.putExtra(Prefs.TEMP_FILE_STEM, mTempFileStem);
       intent.putExtra(Prefs.SECOND_RECORDING, secondRecording);
       startActivityForResult(intent, RECORD_AUDIO_REQUEST);
    }
@@ -140,6 +142,9 @@ public class QADetailFragment extends ItemDetailFragment
          mEditAnswer.setError(getString(R.string.answer_required_error));
          return -1;
       }
+      
+      saveAudioFile();
+
       // convert date to milliseconds for SQLite
       long msDate = mDate.getTimeInMillis();
 

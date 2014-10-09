@@ -25,11 +25,13 @@ public class AudioRecordActivity extends Activity
       setContentView(R.layout.activity_audio_record);
 
       mType = this.getIntent().getExtras().getInt(Prefs.TYPE);
+      String tempFileStem = this.getIntent().getExtras().getString(Prefs.TEMP_FILE_STEM);
       boolean secondRecording = this.getIntent().getExtras().getBoolean(Prefs.SECOND_RECORDING);
       AudioRecordFragment fragment = new AudioRecordFragment();
       Bundle args = new Bundle();
       args.putInt(Prefs.TYPE, mType);
       args.putBoolean(Prefs.SECOND_RECORDING, secondRecording);
+      args.putString(Prefs.TEMP_FILE_STEM, tempFileStem);
       fragment.setArguments(args);
       if (savedInstanceState == null)
       {
