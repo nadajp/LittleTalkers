@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -85,30 +86,36 @@ public class DataExportActivity extends Activity
    public void exportToCSV(View v)
    {
       long[] checked = mListView.getCheckedItemIds();
-      if (checked.length == 0) {
+      int count = checked.length;
+      if (count == 0) 
+      {
          Toast.makeText(this, getString(R.string.please_select_kids_to_export), Toast.LENGTH_LONG).show();
          return;
       }
            
-      String phraseString = "";
-      String qaString = "";
-
+      String[] phraseStrings = new String[count];
+      String[] qaStrings = new String[count];
+      int i = 0;
+      
       for (long id : checked)
       {
-         Log.i(DEBUG_TAG, "Checked: " + DbSingleton.get().getKidName(id));
+         //Log.i(DEBUG_TAG, "Checked: " + DbSingleton.get().getKidName(id));
          Cursor cursor = DbSingleton.get().getWordsForExport(id);
+         phraseStrings[i] = "";
+         qaStrings[i] = "";
+         
          if (cursor.moveToFirst())
          {
             do
             {
                long rawdate = cursor.getLong(cursor.getColumnIndex(Words.COLUMN_NAME_DATE));
-               phraseString =  phraseString + DbSingleton.get().getKidName(id) + ";"
+               phraseStrings[i] =  phraseStrings[i] + DbSingleton.get().getKidName(id) + ";"
                      + Utils.getDateForDisplay(rawdate, this).replace(", ", "/") + ";"
                      + cursor.getString(cursor.getColumnIndex(Words.COLUMN_NAME_WORD)) + ";"
                      + cursor.getString(cursor.getColumnIndex(Words.COLUMN_NAME_TRANSLATION)) + ";"
                      + cursor.getString(cursor.getColumnIndex(Words.COLUMN_NAME_LANGUAGE)) + "\n";
             } while (cursor.moveToNext());
-            phraseString += "\n";
+            phraseStrings[i] += "\n";
          }
 
          cursor.close();
@@ -118,20 +125,20 @@ public class DataExportActivity extends Activity
             do
             {
                long rawdate = cursor.getLong(cursor.getColumnIndex(Questions.COLUMN_NAME_DATE));
-               qaString =  qaString + DbSingleton.get().getKidName(id) + ";"
+               qaStrings[i] =  qaStrings[i] + DbSingleton.get().getKidName(id) + ";"
                      + Utils.getDateForDisplay(rawdate, this).replace(", ", "/") + ";"
                      + cursor.getString(cursor.getColumnIndex(Questions.COLUMN_NAME_QUESTION));
                if (cursor.getInt(cursor.getColumnIndex(Questions.COLUMN_NAME_ASKED)) == 1)
                {
-                  qaString += "*";
+                  qaStrings[i] += "*";
                }
-               qaString = qaString + ";" 
+               qaStrings[i] = qaStrings[i] + ";" 
                + cursor.getString(cursor.getColumnIndex(Questions.COLUMN_NAME_ANSWER));
                if (cursor.getInt(cursor.getColumnIndex(Questions.COLUMN_NAME_ANSWERED)) == 1)
                {
-                  qaString += "*";
+                  qaStrings[i] += "*";
                }
-               qaString = qaString + ";" 
+               qaStrings[i] = qaStrings[i] + ";" 
                      + cursor.getString(cursor.getColumnIndex(Questions.COLUMN_NAME_TOWHOM)) + ";"
                      + cursor.getString(cursor.getColumnIndex(Questions.COLUMN_NAME_LANGUAGE)) + "\n";
                
@@ -139,26 +146,31 @@ public class DataExportActivity extends Activity
          }
          
          cursor.close(); 
-         qaString += "\n";
+         qaStrings[i] += "\n";
+         i++;
       }
       
       // email csv file
       File file = createCSVfile();
+      Locale locale = Locale.getDefault();
+      String header1 = Kids.COLUMN_NAME_NAME.toUpperCase(locale) + ";"
+                      + Words.COLUMN_NAME_DATE.toUpperCase(locale) + ";" 
+                      + Words.COLUMN_NAME_WORD.toUpperCase(locale) + ";"
+                      + Words.COLUMN_NAME_TRANSLATION.toUpperCase(locale) + ";"
+                      + Words.COLUMN_NAME_LANGUAGE.toUpperCase(locale);
       
-      String header1 = Kids.COLUMN_NAME_NAME + ";"
-                      + Words.COLUMN_NAME_DATE + ";" 
-                      + Words.COLUMN_NAME_WORD + ";"
-                      + Words.COLUMN_NAME_TRANSLATION + ";"
-                      + Words.COLUMN_NAME_LANGUAGE;
-      
-      String header2 = Kids.COLUMN_NAME_NAME + ";"
-            + Questions.COLUMN_NAME_DATE + ";" 
-            + Questions.COLUMN_NAME_QUESTION + ";"
-            + Questions.COLUMN_NAME_ANSWER + ";"
-            + Questions.COLUMN_NAME_TOWHOM + ";"
-            + Questions.COLUMN_NAME_LANGUAGE;
+      String header2 = Kids.COLUMN_NAME_NAME.toUpperCase(locale) + ";"
+            + Questions.COLUMN_NAME_DATE.toUpperCase(locale) + ";" 
+            + Questions.COLUMN_NAME_QUESTION.toUpperCase(locale) + ";"
+            + Questions.COLUMN_NAME_ANSWER.toUpperCase(locale) + ";"
+            + Questions.COLUMN_NAME_TOWHOM.toUpperCase(locale) + ";"
+            + Questions.COLUMN_NAME_LANGUAGE.toUpperCase(locale);
 
-      String combinedString = header1 + "\n" + phraseString + header2 + "\n" + qaString;
+      String combinedString = "";
+      for (i = 0; i < count; i++)
+      {
+         combinedString += header1 + "\n" + phraseStrings[i] + header2 + "\n" + qaStrings[i];
+      }
       
       FileOutputStream out   =   null;
       try {
