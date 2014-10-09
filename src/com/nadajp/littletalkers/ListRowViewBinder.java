@@ -24,6 +24,8 @@ public class ListRowViewBinder implements ViewBinder
    // from fully
    // visible to
    // invisible
+   private View mPlayButton; // the view that holds currently pressed (animated)
+                             // button
 
    public ListRowViewBinder(MediaPlayer mediaPlayer)
    {
@@ -36,6 +38,7 @@ public class ListRowViewBinder implements ViewBinder
       mAnimation.setRepeatMode(Animation.REVERSE); // Reverse animation at the
                                                    // end so the button will
                                                    // fade back in
+      mPlayButton = null;
    }
 
    public void setMediaPlayer(MediaPlayer mediaPlayer)
@@ -84,8 +87,7 @@ public class ListRowViewBinder implements ViewBinder
    private class MyListener implements OnClickListener, OnCompletionListener
    {
       private String mAudioFile;
-      private View mPlayButton;
-      
+
       public MyListener(String audioFile)
       {
          this.mAudioFile = audioFile;
@@ -94,12 +96,12 @@ public class ListRowViewBinder implements ViewBinder
       @Override
       public void onClick(View v)
       {
-         mPlayButton = v;
          if (mPlayer.isPlaying())
          {
             Stop();
-            return;
+            // return;
          }
+         mPlayButton = v;
          v.setPressed(true);
          v.startAnimation(mAnimation);
          try
