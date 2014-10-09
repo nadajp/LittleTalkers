@@ -104,7 +104,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       Cursor cursor = DbSingleton.get().getKidsForSpinner();
       if (cursor.getCount() == 0) { return; }
       
-      //Log.i(DEBUG_TAG, "Number of kids: " + cursor.getCount());
+      Log.i(DEBUG_TAG, "Number of kids: " + cursor.getCount());
       
       String[] adapterCols = new String[] { "name" };
       int[] adapterRowViews = new int[] { android.R.id.text1 };
@@ -119,14 +119,14 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       // select the current kid
       mCurrentKidId = Prefs.getKidId(this, DbSingleton.get()
             .getLastAddedKid());
-      //Log.i(DEBUG_TAG, "Setting up spinner kid id from Prefs is : " + mCurrentKidId); 
+      Log.i(DEBUG_TAG, "Setting up spinner kid id from Prefs is : " + mCurrentKidId); 
       
       String pictureUri = DbSingleton.get().getPicturePath(mCurrentKidId);
       changeProfilePic(pictureUri);
           
-      if (mPosition > 0) 
+      if (mPosition >= 0 && mPosition < cursor.getCount()) 
       { 
-         //Log.i(DEBUG_TAG, "Setting position: " + mPosition);
+         Log.i(DEBUG_TAG, "Setting position: " + mPosition);
          mSpinner.setSelection(mPosition); 
       } 
       else
