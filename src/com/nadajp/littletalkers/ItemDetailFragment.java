@@ -148,7 +148,7 @@ public abstract class ItemDetailFragment extends Fragment implements
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
          Bundle savedInstanceState)
    {
-      Log.i(DEBUG_TAG, "Creating ITEM Detail Fragment");
+      //Log.i(DEBUG_TAG, "Creating ITEM Detail Fragment");
 
       // Inflate the layout for this fragment
       View v = inflater.inflate(mFragmentLayout, container, false);
@@ -235,7 +235,6 @@ public abstract class ItemDetailFragment extends Fragment implements
             mCurrentAudioFile = savedInstanceState.getString(Prefs.AUDIO_FILE);
             TextView audioFile = (TextView) v.findViewById(R.id.text_recording);
             audioFile.setText(mCurrentAudioFile);
-            Log.i(DEBUG_TAG, "YES, AUDIO RECORDED...");
          }
 
          if (savedInstanceState.getBoolean(Prefs.SHOWING_MORE_FIELDS) == true)
@@ -244,13 +243,13 @@ public abstract class ItemDetailFragment extends Fragment implements
          }
          mItemId = savedInstanceState.getLong(Prefs.ITEM_ID);
          mCurrentKidId = savedInstanceState.getLong(Prefs.CURRENT_KID_ID);
-         Log.i(DEBUG_TAG, "Retreiving Instance State: " + mCurrentKidId);
+         //Log.i(DEBUG_TAG, "Retreiving Instance State: " + mCurrentKidId);
       } else
       {
          mCurrentKidId = Prefs.getKidId(getActivity(), -1);
-         Log.i(DEBUG_TAG, "kid id from Prefs = " + mCurrentKidId);
+         //Log.i(DEBUG_TAG, "kid id from Prefs = " + mCurrentKidId);
          mItemId = getActivity().getIntent().getLongExtra(ITEM_ID, 0);
-         Log.i(DEBUG_TAG, "item ID = " + mItemId);
+         //Log.i(DEBUG_TAG, "item ID = " + mItemId);
       }
 
       // If editing/viewing an existing item
@@ -258,8 +257,8 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          if (savedInstanceState == null)
          {
-            Log.i(DEBUG_TAG,
-                  "NO saved instance state, calling insert defaults...");
+            //Log.i(DEBUG_TAG,
+            //      "NO saved instance state, calling insert defaults...");
             insertKidDefaults(mCurrentKidId, v);
          }
          updateItem(v);
@@ -379,7 +378,7 @@ public abstract class ItemDetailFragment extends Fragment implements
          for (ResolveInfo app : activities)
          {
             String name = app.loadLabel(packageManager).toString();
-            Log.i(DEBUG_TAG, "*" + name + "*" + "\n");
+            //Log.i(DEBUG_TAG, "*" + name + "*" + "\n");
             if (!name.equals("Facebook"))
             {
                mComponents.add(new ComponentName(
@@ -524,7 +523,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       mPlay.startAnimation(mAnimation);
       if (mTempFile != null)
       {
-         Log.i(DEBUG_TAG, "Playing file: " + mTempFile.getAbsolutePath());
+         //Log.i(DEBUG_TAG, "Playing file: " + mTempFile.getAbsolutePath());
       }
       try
       {
@@ -539,7 +538,7 @@ public abstract class ItemDetailFragment extends Fragment implements
          mPlayer.start();
       } catch (IOException e)
       {
-         Log.e(DEBUG_TAG, "Audio player start failed: " + e.getMessage());
+         //Log.e(DEBUG_TAG, "Audio player start failed: " + e.getMessage());
       }
    }
 
@@ -547,13 +546,13 @@ public abstract class ItemDetailFragment extends Fragment implements
    {
       if (mPlayer == null)
       {
-         Log.i(DEBUG_TAG, "Media Player is null in Stop()");
+         //Log.i(DEBUG_TAG, "Media Player is null in Stop()");
       }
       mPlayer.stop();
       mPlayer.reset();
       mPlay.clearAnimation();
       mPlay.setPressed(false);
-      Log.i(DEBUG_TAG, "Stopped.");
+      //Log.i(DEBUG_TAG, "Stopped.");
    }
 
    private void deleteAudio()
@@ -641,7 +640,7 @@ public abstract class ItemDetailFragment extends Fragment implements
          mTempFile.delete();
          if (mTempFile2.renameTo(mTempFile))
          {
-            Log.i(DEBUG_TAG, "Renamed temp files successfully.");
+            //Log.i(DEBUG_TAG, "Renamed temp files successfully.");
          }
          mTempFile2 = null;
       } else
@@ -813,7 +812,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          mCurrentAudioFile = mOutFile.getAbsolutePath();
       }
-      Log.i(DEBUG_TAG, "saved: " + mItemId);
+      //Log.i(DEBUG_TAG, "saved: " + mItemId);
       if (mItemId > 0 && exit)
       {
          mListener.onClickedShowDictionary(mCurrentKidId);
@@ -860,7 +859,7 @@ public abstract class ItemDetailFragment extends Fragment implements
    private void updateKidName()
    {
       mKidName = DbSingleton.get().getKidName(mCurrentKidId);
-      Log.i(DEBUG_TAG, "Updating kid name: " + mKidName);
+      //Log.i(DEBUG_TAG, "Updating kid name: " + mKidName);
       updateExtraKidDetails();
    }
 
@@ -869,8 +868,8 @@ public abstract class ItemDetailFragment extends Fragment implements
       mCurrentKidId = kidId;
       String[] defaults = DbSingleton.get().getDefaults(kidId);
       mLanguage = defaults[0];
-      Log.i(DEBUG_TAG, "Inserting kid defaults, language: " + mLanguage);
-      Log.i(DEBUG_TAG, "Location: " + defaults[1]);
+      //Log.i(DEBUG_TAG, "Inserting kid defaults, language: " + mLanguage);
+      //Log.i(DEBUG_TAG, "Location: " + defaults[1]);
       ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
             .getAdapter();
       mLangSpinner.setSelection(adapter.getPosition(mLanguage));
@@ -880,7 +879,7 @@ public abstract class ItemDetailFragment extends Fragment implements
 
    protected void setAudio(View v)
    {
-      Log.i(DEBUG_TAG, "Audio File: " + mCurrentAudioFile);
+      //Log.i(DEBUG_TAG, "Audio File: " + mCurrentAudioFile);
       if (mCurrentAudioFile != null && !mCurrentAudioFile.isEmpty())
       {
          mOutFile = new File(mCurrentAudioFile);
@@ -923,16 +922,19 @@ public abstract class ItemDetailFragment extends Fragment implements
          newfile.delete();
       }
 
-      Log.i(DEBUG_TAG, "Oldfile: " + mOutFile.getAbsolutePath());
-      Log.i(DEBUG_TAG, "Newfile: " + newfile.getAbsolutePath());
-
+      //Log.i(DEBUG_TAG, "Oldfile: " + mOutFile.getAbsolutePath());
+      //Log.i(DEBUG_TAG, "Newfile: " + newfile.getAbsolutePath());
+      
+      mOutFile.renameTo(newfile);
+      
+      /*
       if (mOutFile.renameTo(newfile))
       {
          Log.i(DEBUG_TAG, "Rename succesful");
       } else
       {
          Log.i(DEBUG_TAG, "Rename failed");
-      }
+      }*/
 
       mOutFile.delete();
       mOutFile = newfile;
@@ -949,13 +951,16 @@ public abstract class ItemDetailFragment extends Fragment implements
          mOutFile.delete();
       }
 
+      mTempFile.renameTo(mOutFile);
+      
+      /*
       if (mTempFile.renameTo(mOutFile))
       {
          Log.i(DEBUG_TAG, "Rename succesful");
       } else
       {
          Log.i(DEBUG_TAG, "Rename failed");
-      }
+      }*/
 
       mTempFile.delete();
       mTempFile = null;
@@ -966,8 +971,8 @@ public abstract class ItemDetailFragment extends Fragment implements
             {
                public void onScanCompleted(String path, Uri uri)
                {
-                  Log.i("ExternalStorage", "Scanned " + path + ":");
-                  Log.i("ExternalStorage", "-> uri=" + uri);
+                  //Log.i("ExternalStorage", "Scanned " + path + ":");
+                  //Log.i("ExternalStorage", "-> uri=" + uri);
                }
             });
       mCurrentAudioFile = mOutFile.getAbsolutePath();
@@ -1021,14 +1026,14 @@ public abstract class ItemDetailFragment extends Fragment implements
       if (mRecordingLayout.getVisibility() == View.VISIBLE)
       {
          outState.putString(Prefs.AUDIO_FILE, mCurrentAudioFile);
-         Log.i(DEBUG_TAG, "AUDIO RECORDED.");
+         //Log.i(DEBUG_TAG, "AUDIO RECORDED.");
       } else if (mEditLess.getVisibility() == View.VISIBLE)
       {
          outState.putBoolean(Prefs.SHOWING_MORE_FIELDS, true);
       }
       outState.putLong(Prefs.CURRENT_KID_ID, mCurrentKidId);
       outState.putLong(Prefs.ITEM_ID, mItemId);
-      Log.i(DEBUG_TAG, "Saving Instance State: " + mCurrentKidId);
+      //Log.i(DEBUG_TAG, "Saving Instance State: " + mCurrentKidId);
    }
 
    @Override

@@ -3,22 +3,13 @@ package com.nadajp.littletalkers;
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
-import com.nadajp.littletalkers.utils.Utils;
 
-import android.annotation.SuppressLint;
-import android.app.ActionBar;
-import android.content.Intent;
 import android.database.Cursor;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 public class WordListFragment extends ItemListFragment
@@ -60,7 +51,7 @@ public class WordListFragment extends ItemListFragment
 
       if (cursor == null || cursor.isLast())
       {
-         Log.i(DEBUG_TAG, "No DATA!");
+         //Log.i(DEBUG_TAG, "No DATA!");
       }
       String[] adapterCols = new String[] { DbContract.Words.COLUMN_NAME_WORD,
                DbContract.Words.COLUMN_NAME_DATE,

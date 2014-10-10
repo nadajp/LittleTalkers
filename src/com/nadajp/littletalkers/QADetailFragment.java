@@ -3,12 +3,10 @@ package com.nadajp.littletalkers;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nadajp.littletalkers.ItemDetailFragment.ReplaceAudioDialogFragment;
-import com.nadajp.littletalkers.ItemDetailFragment.ShareDialog;
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
@@ -28,13 +24,11 @@ import com.nadajp.littletalkers.utils.Utils;
 
 public class QADetailFragment extends ItemDetailFragment
 {
-   private static final String DEBUG_TAG = "AddQAFragment";
    private static final int INFO_DIALOG_ID = 3;
 
    // user interface elements
    private EditText mEditAnswer;
    private CheckBox mCheckAsked, mCheckAnswered;
-   private TextView mTextCheckInstructions;
    private TextView mTextHeadingQuestion;
    private TextView mTextHeadingAnswer;
    private ImageView mInfo;
@@ -43,7 +37,6 @@ public class QADetailFragment extends ItemDetailFragment
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
          Bundle savedInstanceState)
    {
-      Log.i(DEBUG_TAG, "Creating QA Detail Fragment");
       mFragmentLayout = R.layout.fragment_qa_detail;
       mEditPhraseResId = R.id.editQuestion;
       mTempFileStem = "tempQA";
@@ -55,8 +48,6 @@ public class QADetailFragment extends ItemDetailFragment
       mEditAnswer = (EditText) v.findViewById(R.id.editAnswer);
       mCheckAsked = (CheckBox) v.findViewById(R.id.checkAsked);
       mCheckAnswered = (CheckBox) v.findViewById(R.id.checkAnswered);
-      // mTextCheckInstructions = (TextView)
-      // v.findViewById(R.id.textCheckInstructions);
       mTextHeadingQuestion = (TextView) v.findViewById(R.id.headingQuestion);
       mTextHeadingAnswer = (TextView) v.findViewById(R.id.headingAnswer);
       mInfo = (ImageView) v.findViewById(R.id.info);
@@ -115,9 +106,6 @@ public class QADetailFragment extends ItemDetailFragment
 
    public void updateExtraKidDetails()
    {
-      // mTextCheckInstructions.setText(getString(R.string.check_instructions1)
-      // + " " + mKidName + " " +
-      // getString(R.string.check_instructions2));
       if (mItemId < 1)
       {
          mTextHeadingQuestion.setText(mKidName + " "
@@ -233,7 +221,6 @@ public class QADetailFragment extends ItemDetailFragment
 
    public void insertItemDetails(View v)
    {
-      Log.i(DEBUG_TAG, "Inserting Q and A details");
       Cursor cursor = DbSingleton.get().getQuestionDetails(mItemId);
 
       cursor.moveToFirst();

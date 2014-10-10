@@ -87,12 +87,12 @@ public class QAListRowViewBinder implements ViewBinder
          {
             mPlayer.setDataSource(mAudioFile);
             mPlayer.setOnCompletionListener(this);
-            Log.i(DEBUG_TAG, "Started Playing " + mAudioFile);
+            //Log.i(DEBUG_TAG, "Started Playing " + mAudioFile);
             mPlayer.prepare();
             mPlayer.start();
          } catch (IOException e)
          {
-            Log.e(DEBUG_TAG, "Audio player start failed");
+            //Log.e(DEBUG_TAG, "Audio player start failed");
          }
       }
 

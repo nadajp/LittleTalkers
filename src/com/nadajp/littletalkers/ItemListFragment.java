@@ -23,13 +23,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.AbsListView.MultiChoiceModeListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 public abstract class ItemListFragment extends ListFragment
       
@@ -107,9 +105,8 @@ public abstract class ItemListFragment extends ListFragment
          mCurrentKidId = Prefs.getKidId(getActivity(), DbSingleton.get()
             .getLastAddedKid()); 
       }
-      Log.i(DEBUG_TAG, "Getting kid with ID: " + mCurrentKidId);
+      //Log.i(DEBUG_TAG, "Getting kid with ID: " + mCurrentKidId);
       
-
       List<String> languages = DbSingleton.get().getLanguages(mCurrentKidId);
       languages.add(0, this.getString(R.string.all_languages));
 
@@ -247,7 +244,7 @@ public abstract class ItemListFragment extends ListFragment
    {
       mLanguage = language;
       Cursor newValues = getFromDatabase();
-      Log.i(DEBUG_TAG, "Items: " + newValues.getCount());
+      //Log.i(DEBUG_TAG, "Items: " + newValues.getCount());
       mscAdapter.swapCursor(newValues);
       mscAdapter.notifyDataSetChanged();
    }
@@ -256,7 +253,7 @@ public abstract class ItemListFragment extends ListFragment
    {
       mCurrentKidId = kidId;
       Cursor newValues = getFromDatabase();
-      Log.i(DEBUG_TAG, "Cursor size: " + newValues.getCount());
+      //Log.i(DEBUG_TAG, "Cursor size: " + newValues.getCount());
       
       if (mscAdapter != null)
       {

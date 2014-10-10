@@ -71,7 +71,7 @@ public class ViewItemActivity extends Activity implements OnAddNewPhraseListener
    public void onClickedShowDictionary(long kidId)
    {
       Prefs.saveKidId(this, kidId);
-      Log.i(DEBUG_TAG, "Saved ID: " + kidId);
+      //Log.i(DEBUG_TAG, "Saved ID: " + kidId);
       Intent intent = new Intent(this, ItemListActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
       intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

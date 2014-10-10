@@ -80,8 +80,7 @@ public class AddKidActivity extends Activity implements
    {
       Intent intent = new Intent(this, AddItemActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
-      Log.i(DEBUG_TAG, "In onKidAdded, kid from Prefs is: " + Prefs.getKidId(this, -1));
-      //this.setCurrentKidId(Prefs.getKidId(this, -1));
+      // Log.i(DEBUG_TAG, "In onKidAdded, kid from Prefs is: " + Prefs.getKidId(this, -1));
       startActivity(intent);
       finish(); // unload this activity
    }

@@ -1,19 +1,13 @@
 package com.nadajp.littletalkers;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.nio.channels.FileChannel;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaScannerConnection;
 import android.media.ThumbnailUtils;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -104,7 +98,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       Cursor cursor = DbSingleton.get().getKidsForSpinner();
       if (cursor.getCount() == 0) { return; }
       
-      Log.i(DEBUG_TAG, "Number of kids: " + cursor.getCount());
+      //Log.i(DEBUG_TAG, "Number of kids: " + cursor.getCount());
       
       String[] adapterCols = new String[] { "name" };
       int[] adapterRowViews = new int[] { android.R.id.text1 };
@@ -119,14 +113,14 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       // select the current kid
       mCurrentKidId = Prefs.getKidId(this, DbSingleton.get()
             .getLastAddedKid());
-      Log.i(DEBUG_TAG, "Setting up spinner kid id from Prefs is : " + mCurrentKidId); 
+      //Log.i(DEBUG_TAG, "Setting up spinner kid id from Prefs is : " + mCurrentKidId); 
       
       String pictureUri = DbSingleton.get().getPicturePath(mCurrentKidId);
       changeProfilePic(pictureUri);
           
       if (mPosition >= 0 && mPosition < cursor.getCount()) 
       { 
-         Log.i(DEBUG_TAG, "Setting position: " + mPosition);
+         //Log.i(DEBUG_TAG, "Setting position: " + mPosition);
          mSpinner.setSelection(mPosition); 
       } 
       else
@@ -226,20 +220,21 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       //exportDB();
    }
 
+   /*
    public void exportDB()
    {
       try
       {
          File sd = Environment.getExternalStorageDirectory();
-         Log.i("DEBUG_TAG", "Trying to export DB");
+         //Log.i("DEBUG_TAG", "Trying to export DB");
 
          if (sd.canWrite())
          {
-            Log.i("DEBUG_TAG", "Can write db");
+            //Log.i("DEBUG_TAG", "Can write db");
 
             String currentDBPath = "/data/data/" + getPackageName()
                   + "/databases/littletalkers_db";
-            Log.i(DEBUG_TAG, "currentDBPath = " + currentDBPath);
+            //Log.i(DEBUG_TAG, "currentDBPath = " + currentDBPath);
             String backupDBPath = "LittleTalkers/LTbackup.db";
             File currentDB = new File(currentDBPath);
             File backupDB = new File(sd, backupDBPath);
@@ -271,7 +266,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       {
          Log.i(DEBUG_TAG, "Could not export DB");
       }
-   }
+   }*/
 
    @Override
    public void onSaveInstanceState(Bundle outState)

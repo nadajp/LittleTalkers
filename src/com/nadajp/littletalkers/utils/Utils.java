@@ -6,19 +6,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import android.app.ActionBar;
 import android.content.Context;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.text.format.DateUtils;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.nadajp.littletalkers.R;
-import com.nadajp.littletalkers.database.DbContract;
-import com.nadajp.littletalkers.database.DbSingleton;
 
 public class Utils
 {

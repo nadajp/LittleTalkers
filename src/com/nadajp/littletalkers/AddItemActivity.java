@@ -22,8 +22,6 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
    @Override
    protected void onCreate(Bundle savedInstanceState)
    {
-      Log.i(DEBUG_TAG, "Entering AddItem Activity...");
-
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_add_item);
 
@@ -66,12 +64,12 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
                .setTabListener(this));
       }
       mType = this.getIntent().getIntExtra(Prefs.TYPE, Prefs.TYPE_WORD);
-      Log.i(DEBUG_TAG, "TYPE IS: " + mType);
+      // Log.i(DEBUG_TAG, "TYPE IS: " + mType);
       
       if (savedInstanceState != null)
       {
          mType = savedInstanceState.getInt(Prefs.TYPE);
-         Log.i(DEBUG_TAG, "NEW TYPE IS: " + mType);
+         //Log.i(DEBUG_TAG, "NEW TYPE IS: " + mType);
          invalidateOptionsMenu();
       }
       actionBar.setSelectedNavigationItem(mType);     
@@ -84,7 +82,7 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
       // When the given tab is selected, switch to the corresponding page in
       // the ViewPager.
       int position = tab.getPosition();
-      Log.i(DEBUG_TAG, "CURRENT POSITION: " + position);
+      //Log.i(DEBUG_TAG, "CURRENT POSITION: " + position);
       mViewPager.setCurrentItem(position);
       
       ActionBar actionBar = getActionBar();
@@ -100,7 +98,7 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
       }
       mType = position;
       Prefs.saveType(this, position);
-      Log.i(DEBUG_TAG, "Saving type: " + mType);
+      //Log.i(DEBUG_TAG, "Saving type: " + mType);
    }
 
    @Override
@@ -117,9 +115,7 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
   
    @Override
    protected void setCurrentKidData(long kidId)
-   {
-      Log.i(DEBUG_TAG, "Setting current kid data.");
-      
+   {      
       // update all tabs, even those that are not currently visible
       for (int i = 0; i < mSectionsPagerAdapter.registeredFragments.size(); i++)
       {
@@ -135,7 +131,7 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
    public void onClickedShowDictionary(long kidId)
    {
       Prefs.saveKidId(this, kidId);
-      Log.i(DEBUG_TAG, "Saved ID: " + kidId);
+      //Log.i(DEBUG_TAG, "Saved ID: " + kidId);
       Intent intent = new Intent(this, ItemListActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
       intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

@@ -60,7 +60,7 @@ public class ManageKidsActivity extends Activity implements ModifyKidsListener
    @Override
    public void onKidsDeleted()
    {
-      Log.i(DEBUG_TAG, "Number of Kids: " + DbSingleton.get().getNumberOfKids());
+      //Log.i(DEBUG_TAG, "Number of Kids: " + DbSingleton.get().getNumberOfKids());
       if (DbSingleton.get().getNumberOfKids() == 0)
       {
          Prefs.saveKidId(this, -1);

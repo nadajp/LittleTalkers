@@ -3,20 +3,13 @@ package com.nadajp.littletalkers;
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
-import com.nadajp.littletalkers.utils.Utils;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 public class QAListFragment extends ItemListFragment
@@ -68,7 +61,6 @@ public class QAListFragment extends ItemListFragment
       }
        
    }
-
 
    public Cursor deleteFromDatabase()
    {

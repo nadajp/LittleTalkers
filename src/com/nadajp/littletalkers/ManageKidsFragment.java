@@ -30,7 +30,6 @@ import com.nadajp.littletalkers.utils.Prefs;
 public class ManageKidsFragment extends ListFragment
 {
    ListView listView;
-   //SimpleCursorAdapter mCursorAdapter;
    KidsListCursorAdapter mAdapter;
    public long[] mItemsToDelete;
    private static final int DELETE_SELECTED_DIALOG_ID = 1;
@@ -178,7 +177,6 @@ public class ManageKidsFragment extends ListFragment
       Intent intent = new Intent(this.getActivity(), KidProfileActivity.class);
       Log.i(DEBUG_TAG, "Kid id: " + id);
       intent.putExtra(Prefs.CURRENT_KID_ID, id);
-      //intent.putExtra("ManageKidsView", true);
       startActivity(intent);     
    }
 
@@ -223,8 +221,6 @@ public class ManageKidsFragment extends ListFragment
    public interface ModifyKidsListener
    {
       public void onKidsDeleted();
-      
-      //public void onKidModified(int kidId);
    }
    
    @Override

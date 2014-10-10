@@ -140,7 +140,7 @@ public class AudioRecordFragment extends Fragment implements OnClickListener,
          mRecorder.start();
       } catch (IOException e)
       {
-         Log.e(DEBUG_TAG, "Exception in preparing recorder: " + e.getMessage());
+         //Log.e(DEBUG_TAG, "Exception in preparing recorder: " + e.getMessage());
          Toast.makeText(this.getActivity(), e.getMessage(), Toast.LENGTH_LONG)
                .show();
       }
@@ -155,7 +155,7 @@ public class AudioRecordFragment extends Fragment implements OnClickListener,
          mRecorder.stop();
       } catch (Exception e)
       {
-         Log.w(getClass().getSimpleName(), "Exception in stopping recorder", e);
+         //Log.w(getClass().getSimpleName(), "Exception in stopping recorder", e);
          this.getActivity().setResult(Activity.RESULT_CANCELED, intent);
          this.getActivity().finish();
          // can fail if start() failed for some reason

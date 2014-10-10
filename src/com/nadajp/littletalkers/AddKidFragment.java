@@ -97,7 +97,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
             .getPosition(getString(R.string.app_language)));
 
       mKidId = getActivity().getIntent().getLongExtra(Prefs.CURRENT_KID_ID, -1);
-      Log.i(DEBUG_TAG, "kid id = " + mKidId);
+      //Log.i(DEBUG_TAG, "kid id = " + mKidId);
 
       if (savedInstanceState != null)
       {
@@ -268,7 +268,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       {
          mKidId = DbSingleton.get().saveKid(name, location, mLanguage,
                mPicturePath, mBirthDateMillis);
-         Log.i(DEBUG_TAG, "Saving kid: " + mKidId);
+         //Log.i(DEBUG_TAG, "Saving kid: " + mKidId);
       }
 
       // Updating a current kid
@@ -303,7 +303,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       getActivity().invalidateOptionsMenu();
 
       Prefs.saveKidId(getActivity(), mKidId);
-      Log.i(DEBUG_TAG, "Saving kid id to preferences: " + mKidId);
+      //Log.i(DEBUG_TAG, "Saving kid id to preferences: " + mKidId);
       mListener.onKidAdded(mKidId);
    }
 
@@ -354,7 +354,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
                               pictureUri = Uri.fromFile(new File(getActivity()
                                     .getFilesDir(), "lt_temp.jpg"));
                            }
-                           Log.i(DEBUG_TAG, pictureUri.toString());
+                           //Log.i(DEBUG_TAG, pictureUri.toString());
                            intent.putExtra(
                                  android.provider.MediaStore.EXTRA_OUTPUT,
                                  pictureUri);
@@ -363,7 +363,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
                                  TAKE_PICTURE);
                         } catch (ActivityNotFoundException e)
                         {
-                           Log.d(DEBUG_TAG, "cannot take picture", e);
+                           //Log.d(DEBUG_TAG, "cannot take picture", e);
                         }
                         break;
 
@@ -387,7 +387,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
    {
       if (data == null)
       {
-         Log.i(DEBUG_TAG, "RESULT: " + resultCode);
+         //Log.i(DEBUG_TAG, "RESULT: " + resultCode);
          return;
       }
 
@@ -528,7 +528,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       }
 
       mPicturePath = file.getAbsolutePath();
-      Log.i(DEBUG_TAG, mPicturePath);
+      //Log.i(DEBUG_TAG, mPicturePath);
 
       FileOutputStream out = null;
       try
@@ -576,16 +576,18 @@ public class AddKidFragment extends Fragment implements OnClickListener,
          newfile.delete();
       }
 
-      Log.i(DEBUG_TAG, "Oldfile: " + oldfile.getAbsolutePath());
-      Log.i(DEBUG_TAG, "Newfile: " + newfile.getAbsolutePath());
-
-      if (oldfile.renameTo(newfile))
+      //Log.i(DEBUG_TAG, "Oldfile: " + oldfile.getAbsolutePath());
+      //Log.i(DEBUG_TAG, "Newfile: " + newfile.getAbsolutePath());
+      
+      oldfile.renameTo(newfile);
+      
+      /*if (oldfile.renameTo(newfile))
       {
          Log.i(DEBUG_TAG, "Rename succesful");
       } else
       {
          Log.i(DEBUG_TAG, "Rename failed");
-      }
+      }*/
 
       oldfile.delete();
    }

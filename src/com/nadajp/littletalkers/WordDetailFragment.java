@@ -30,7 +30,6 @@ public class WordDetailFragment extends ItemDetailFragment
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
          Bundle savedInstanceState)
    {
-      Log.i(DEBUG_TAG, "Creating Word Detail Fragment");
       mFragmentLayout = R.layout.fragment_word_detail;
       mEditPhraseResId = R.id.editWord;
       mTempFileStem = "temp";
@@ -150,8 +149,8 @@ public class WordDetailFragment extends ItemDetailFragment
       else
       // we are editing an existing entry
       {
-         Log.i(DEBUG_TAG, "updating word with audio file " + mCurrentAudioFile);
-         Log.i(DEBUG_TAG, "updating word with language: " + mLanguage);
+         //Log.i(DEBUG_TAG, "updating word with audio file " + mCurrentAudioFile);
+         //Log.i(DEBUG_TAG, "updating word with language: " + mLanguage);
          if (DbSingleton.get().updateWord(mItemId, mCurrentKidId, phrase,
                mLanguage, msDate, location, mCurrentAudioFile, translation,
                towhom, notes) == false)
@@ -212,7 +211,7 @@ public class WordDetailFragment extends ItemDetailFragment
 
    public void insertItemDetails(View v)
    {
-      Log.i(DEBUG_TAG, "Inserting word details");
+      //Log.i(DEBUG_TAG, "Inserting word details");
       Cursor cursor = DbSingleton.get().getWordDetails(mItemId);
       cursor.moveToFirst();
       mEditPhrase.setText(cursor.getString(cursor
@@ -236,11 +235,11 @@ public class WordDetailFragment extends ItemDetailFragment
             cursor.getColumnIndex(DbContract.Words.COLUMN_NAME_NOTES))
             .toString());
 
-      Log.i(DEBUG_TAG,
+      /*Log.i(DEBUG_TAG,
             "Language from DB: "
                   + cursor.getString(cursor
                         .getColumnIndex(DbContract.Words.COLUMN_NAME_LANGUAGE)));
-
+      */
       ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
             .getAdapter();
       mLangSpinner.setSelection(adapter.getPosition(cursor.getString(cursor

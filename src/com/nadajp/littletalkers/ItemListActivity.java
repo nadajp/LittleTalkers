@@ -1,8 +1,5 @@
 package com.nadajp.littletalkers;
 
-import java.util.List;
-
-import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
@@ -15,25 +12,20 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 public class ItemListActivity extends BaseActivity implements ActionBar.TabListener
 {
    private static String DEBUG_TAG = "ItemListActivity";
    ItemListPagerAdapter mSectionsPagerAdapter;
    ViewPager mViewPager;
-   private long mKidId;
-   private Spinner mLanguageSpinner;
-   private boolean mbFilter;
+   //private Spinner mLanguageSpinner;
+   //private boolean mbFilter;
    
    @Override
    public void onCreate(Bundle savedInstanceState)
    {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_item_list);
-      Log.i(DEBUG_TAG, "Entering dictionary...");
 
       // Set up the action bar.
       final ActionBar actionBar = getActionBar();
@@ -74,18 +66,13 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
                .setText(mSectionsPagerAdapter.getPageTitle(i))
                .setTabListener(this));
       }
-      Log.i(DEBUG_TAG, "TYPE IS: " + mType);
+      //Log.i(DEBUG_TAG, "TYPE IS: " + mType);
       
       if (savedInstanceState != null){
          mType = savedInstanceState.getInt(Prefs.TYPE);
-         Log.i(DEBUG_TAG, "NEW TYPE IS: " + mType);
-         mKidId = savedInstanceState.getLong(Prefs.CURRENT_KID_ID);
+         //Log.i(DEBUG_TAG, "NEW TYPE IS: " + mType);
       }
-      else 
-      { 
-         mKidId = Prefs.getKidId(this, DbSingleton.get()
-            .getLastAddedKid()); 
-      }
+      
       actionBar.setSelectedNavigationItem(mType); 
    }
 
@@ -96,7 +83,7 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
       // When the given tab is selected, switch to the corresponding page in
       // the ViewPager.
       int position = tab.getPosition();
-      Log.i(DEBUG_TAG, "CURRENT POSITION: " + position);
+      //Log.i(DEBUG_TAG, "CURRENT POSITION: " + position);
       mViewPager.setCurrentItem(position);      
       ActionBar actionBar = getActionBar();      
       
