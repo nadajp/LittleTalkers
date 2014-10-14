@@ -66,7 +66,7 @@ public class DbSingleton
       return false;
    }
 
-   public int getNumberOfWords(long kidId)
+   public int getNumberOfWords(int kidId)
    {
       Cursor cursor = null;
       try
@@ -84,7 +84,7 @@ public class DbSingleton
       }
    }
 
-   public int getNumberOfQAs(long kidId)
+   public int getNumberOfQAs(int kidId)
    {
       Cursor cursor = null;
       try
@@ -102,7 +102,7 @@ public class DbSingleton
       }
    }
 
-   public String getKidName(long kidId)
+   public String getKidName(int kidId)
    {
       Cursor cursor = null;
       try
@@ -136,7 +136,7 @@ public class DbSingleton
       return mDb.rawQuery(query, null);
    }
 
-   public Cursor getWords(long kidId, String sortColumn, boolean bAscending,
+   public Cursor getWords(int kidId, String sortColumn, boolean bAscending,
          String language)
    {
       String query;
@@ -168,7 +168,7 @@ public class DbSingleton
       return mDb.rawQuery(query, null);
    }
 
-   public Cursor getQuestions(long kidId, String sortColumn,
+   public Cursor getQuestions(int kidId, String sortColumn,
          boolean bAscending, String language)
    {
       String query;
@@ -210,7 +210,7 @@ public class DbSingleton
       return mDb.rawQuery(query, null);
    }
 
-   public Cursor getWordsForExport(long kidId)
+   public Cursor getWordsForExport(int kidId)
    {
       String query;
 
@@ -262,7 +262,7 @@ public class DbSingleton
       }
    }
 
-   public Cursor getWordHistory(long kidId, long wordId)
+   public Cursor getWordHistory(int kidId, long wordId)
    {
       String query;
       String translation = getTranslation(wordId);
@@ -277,7 +277,7 @@ public class DbSingleton
       return mDb.rawQuery(query, null);
    }
 
-   public List<String> getLanguages(long kidId)
+   public List<String> getLanguages(int kidId)
    {
       String query = "SELECT DISTINCT " + DbContract.Words.COLUMN_NAME_LANGUAGE
             + " FROM Words WHERE " + DbContract.Words.COLUMN_NAME_KID + " = "
@@ -312,7 +312,7 @@ public class DbSingleton
       return mDb.rawQuery(query, null);
    }
 
-   public Cursor getKidDetails(long kidId)
+   public Cursor getKidDetails(int kidId)
    {
       String query = "SELECT * FROM Kids WHERE _id = " + kidId;
       return mDb.rawQuery(query, null);
@@ -338,7 +338,7 @@ public class DbSingleton
       }
    }
 
-   public String getDefaultLanguage(long kidId)
+   public String getDefaultLanguage(int kidId)
    {
       String query = "SELECT " + DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE
             + " FROM Kids WHERE _id = ?";
@@ -358,7 +358,7 @@ public class DbSingleton
       }
    }
 
-   public String[] getDefaults(long kidId)
+   public String[] getDefaults(int kidId)
    {
       String[] rtn = new String[2];
       String query = "SELECT " + DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE
@@ -384,7 +384,7 @@ public class DbSingleton
       return rtn;
    }
 
-   public long getLastAddedKid()
+   public int getLastAddedKid()
    {
       String query = "SELECT _id FROM Kids ORDER BY _id DESC LIMIT 1";
       // Log.i(DEBUG_TAG, query);
@@ -395,7 +395,7 @@ public class DbSingleton
          if (cursor != null && cursor.getCount() > 0)
          {
             cursor.moveToFirst();
-            return cursor.getLong(0);
+            return cursor.getInt(0);
          }
          return -1;
       } finally
@@ -406,7 +406,7 @@ public class DbSingleton
 
    }
 
-   public long saveKid(String name, String location, String language,
+   public int saveKid(String name, String location, String language,
          String pictureUri, long birthdayMillis)
    {
       // check if name already exists
@@ -427,10 +427,10 @@ public class DbSingleton
       values.put(DbContract.Kids.COLUMN_NAME_BIRTHDATE_MILLIS, birthdayMillis);
 
       // Insert row and return row id
-      return mDb.insert("Kids", null, values);
+      return (int) mDb.insert("Kids", null, values);
    }
 
-   public boolean updateKid(long id, String name, String location,
+   public boolean updateKid(int id, String name, String location,
          String language, String pictureUri, long birthdayMillis)
    {
       // check if another kid with this name already exists
@@ -474,7 +474,7 @@ public class DbSingleton
       }
    }
 
-   public String getPicturePath(long id)
+   public String getPicturePath(int id)
    {
       String query = "SELECT " + DbContract.Kids.COLUMN_NAME_PICTURE_URI
             + " FROM Kids WHERE _id = " + id;
@@ -509,7 +509,7 @@ public class DbSingleton
       }
    }
 
-   public long saveWord(long kidId, String word, String language, long date,
+   public long saveWord(int kidId, String word, String language, long date,
          String location, String audioFile, String translation, String towhom,
          String notes)
    {
@@ -539,7 +539,7 @@ public class DbSingleton
       return mDb.insert("Words", null, values);
    }
 
-   public long saveQuestion(long kidId, String question, String answer,
+   public long saveQuestion(int kidId, String question, String answer,
          int asked, int answered, String towhom, String language, long date,
          String location, String audioFile, String notes)
    {
@@ -572,7 +572,7 @@ public class DbSingleton
      return mDb.insert("Questions", null, values);
    }
 
-   public boolean updateWord(long wordId, long kidId, String word,
+   public boolean updateWord(long wordId, int kidId, String word,
          String language, long date, String location, String audioFile,
          String translation, String towhom, String notes)
    {
@@ -592,7 +592,7 @@ public class DbSingleton
       return true;
    }
 
-   public boolean updateQuestion(long questionID, long kidId, String question,
+   public boolean updateQuestion(long questionID, int kidId, String question,
          String answer, int asked, int answered, String towhom,
          String language, long date, String location, String audioFile,
          String notes)

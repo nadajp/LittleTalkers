@@ -50,19 +50,19 @@ public class Prefs
    public static final int SORT_COLUMN_PHRASE = 0;
    public static final int SORT_COLUMN_DATE = 1;
 
-   public static long getKidId(Context context, long defaultId)
+   public static int getKidId(Context context, int defaultId)
    {
       SharedPreferences sharedPrefs = context.getSharedPreferences(
             SHARED_PREFS_FILENAME, Context.MODE_PRIVATE);
-      return sharedPrefs.getLong(CURRENT_KID_ID, defaultId);
+      return sharedPrefs.getInt(CURRENT_KID_ID, defaultId);
    }
 
-   public static void saveKidId(Context context, long id)
+   public static void saveKidId(Context context, int id)
    {
       SharedPreferences sharedPrefs = context.getSharedPreferences(
             SHARED_PREFS_FILENAME, Context.MODE_PRIVATE);
       SharedPreferences.Editor editor = sharedPrefs.edit();
-      editor.putLong(CURRENT_KID_ID, id);
+      editor.putInt(CURRENT_KID_ID, id);
       editor.commit();
    }
 
@@ -146,14 +146,14 @@ public class Prefs
       return sharedPrefs.getBoolean(SORT_ASCENDING, true);
    }
 
-   public static void saveAll(Context context, long id, String language,
+   public static void saveAll(Context context, int id, String language,
          int column, boolean ascending)
    {
       SharedPreferences sharedPrefs = context.getSharedPreferences(
             SHARED_PREFS_FILENAME, Context.MODE_PRIVATE);
       SharedPreferences.Editor editor = sharedPrefs.edit();
 
-      editor.putLong(CURRENT_KID_ID, id);
+      editor.putInt(CURRENT_KID_ID, id);
       editor.putString(LANGUAGE_FILTER, language);
       editor.putInt(SORT_COLUMN_ID, column);
       editor.putBoolean(SORT_ASCENDING, ascending);

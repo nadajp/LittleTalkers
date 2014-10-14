@@ -100,7 +100,7 @@ public class DataExportActivity extends Activity
       for (long id : checked)
       {
          //Log.i(DEBUG_TAG, "Checked: " + DbSingleton.get().getKidName(id));
-         Cursor cursor = DbSingleton.get().getWordsForExport(id);
+         Cursor cursor = DbSingleton.get().getWordsForExport((int) id);
          phraseStrings[i] = "";
          qaStrings[i] = "";
          
@@ -109,7 +109,7 @@ public class DataExportActivity extends Activity
             do
             {
                long rawdate = cursor.getLong(cursor.getColumnIndex(Words.COLUMN_NAME_DATE));
-               phraseStrings[i] =  phraseStrings[i] + DbSingleton.get().getKidName(id) + ";"
+               phraseStrings[i] =  phraseStrings[i] + DbSingleton.get().getKidName((int) id) + ";"
                      + Utils.getDateForDisplay(rawdate, this).replace(", ", "/") + ";"
                      + cursor.getString(cursor.getColumnIndex(Words.COLUMN_NAME_WORD)) + ";"
                      + cursor.getString(cursor.getColumnIndex(Words.COLUMN_NAME_TRANSLATION)) + ";"
@@ -125,7 +125,7 @@ public class DataExportActivity extends Activity
             do
             {
                long rawdate = cursor.getLong(cursor.getColumnIndex(Questions.COLUMN_NAME_DATE));
-               qaStrings[i] =  qaStrings[i] + DbSingleton.get().getKidName(id) + ";"
+               qaStrings[i] =  qaStrings[i] + DbSingleton.get().getKidName((int) id) + ";"
                      + Utils.getDateForDisplay(rawdate, this).replace(", ", "/") + ";"
                      + cursor.getString(cursor.getColumnIndex(Questions.COLUMN_NAME_QUESTION));
                if (cursor.getInt(cursor.getColumnIndex(Questions.COLUMN_NAME_ASKED)) == 1)

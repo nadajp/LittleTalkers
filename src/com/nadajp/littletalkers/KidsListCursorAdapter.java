@@ -49,7 +49,7 @@ public class KidsListCursorAdapter extends CursorAdapter
    @Override
    public void bindView(View view, Context context, final Cursor cursor)
    {      
-      long id = cursor.getLong(cursor.getColumnIndex(DbContract.Kids._ID));
+      int id = cursor.getInt(cursor.getColumnIndex(DbContract.Kids._ID));
 
       TextView name = (TextView) view.findViewById(R.id.name);
       name.setText(cursor.getString(cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_NAME)));
@@ -88,7 +88,7 @@ public class KidsListCursorAdapter extends CursorAdapter
          public void onClick(View v)
          {
             Intent intent = new Intent(mContext, AddKidActivity.class);
-            long id = (Long) v.getTag();
+            int id = (Integer) v.getTag();
             intent.putExtra(Prefs.CURRENT_KID_ID, id);
             mContext.startActivity(intent); 
          }
@@ -102,7 +102,7 @@ public class KidsListCursorAdapter extends CursorAdapter
          @Override
          public void onClick(View v)
          {
-            mFragment.deleteItem((Long) v.getTag());
+            mFragment.deleteItem((Integer) v.getTag());
          }
       });
       

@@ -12,8 +12,7 @@ import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
 public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListener, ActionBar.TabListener
-{   
-   
+{      
    private static final String DEBUG_TAG = "AddItemActivity";
    
    ItemDetailPagerAdapter mSectionsPagerAdapter;
@@ -82,9 +81,8 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
       // When the given tab is selected, switch to the corresponding page in
       // the ViewPager.
       int position = tab.getPosition();
-      //Log.i(DEBUG_TAG, "CURRENT POSITION: " + position);
-      mViewPager.setCurrentItem(position);
-      
+      Log.i(DEBUG_TAG, "CURRENT POSITION: " + position);
+      mViewPager.setCurrentItem(position);     
       ActionBar actionBar = getActionBar();
 
       switch (position)
@@ -114,7 +112,7 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
    }
   
    @Override
-   protected void setCurrentKidData(long kidId)
+   protected void setCurrentKidData(int kidId)
    {      
       // update all tabs, even those that are not currently visible
       for (int i = 0; i < mSectionsPagerAdapter.registeredFragments.size(); i++)
@@ -124,11 +122,11 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
       }   
    }
 
-   public void onPhraseAdded(long kidId)
+   public void onPhraseAdded(int kidId)
    {
    }
    
-   public void onClickedShowDictionary(long kidId)
+   public void onClickedShowDictionary(int kidId)
    {
       Prefs.saveKidId(this, kidId);
       //Log.i(DEBUG_TAG, "Saved ID: " + kidId);
@@ -136,6 +134,7 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
       intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
       intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
       mType = Prefs.getType(this, Prefs.TYPE_WORD);
+      intent.putExtra(Prefs.TYPE, mType);
       startActivity(intent);
       finish();
    }

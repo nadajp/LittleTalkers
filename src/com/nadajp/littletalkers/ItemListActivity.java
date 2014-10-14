@@ -21,7 +21,7 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
    //private Spinner mLanguageSpinner;
    //private boolean mbFilter;
    
-   @Override
+   @Override 
    public void onCreate(Bundle savedInstanceState)
    {
       super.onCreate(savedInstanceState);
@@ -30,8 +30,8 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
       // Set up the action bar.
       final ActionBar actionBar = getActionBar();
       actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+      actionBar.setDisplayHomeAsUpEnabled(false);
       actionBar.setLogo(android.R.color.transparent);
-      actionBar.setIcon(android.R.color.transparent);
 
       // Create the adapter that will return a fragment for each of the three
       // primary sections of the activity.
@@ -41,7 +41,7 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
       mViewPager = (ViewPager) findViewById(R.id.pager);
       mViewPager.setAdapter(mSectionsPagerAdapter);
 
-      mType = Prefs.getType(this, Prefs.TYPE_WORD);
+      //mType = Prefs.getType(this, Prefs.TYPE_WORD);
       // When swiping between different sections, select the corresponding
       // tab. We can also use ActionBar.Tab#select() to do this if we have
       // a reference to the Tab.
@@ -66,13 +66,16 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
                .setText(mSectionsPagerAdapter.getPageTitle(i))
                .setTabListener(this));
       }
-      //Log.i(DEBUG_TAG, "TYPE IS: " + mType);
       
-      if (savedInstanceState != null){
+      mType = this.getIntent().getIntExtra(Prefs.TYPE, Prefs.TYPE_WORD);
+      Log.i(DEBUG_TAG, "TYPE IS: " + mType);
+      
+      if (savedInstanceState != null)
+      {
          mType = savedInstanceState.getInt(Prefs.TYPE);
-         //Log.i(DEBUG_TAG, "NEW TYPE IS: " + mType);
-      }
-      
+         Log.i(DEBUG_TAG, "NEW TYPE IS: " + mType);
+         invalidateOptionsMenu();
+      } 
       actionBar.setSelectedNavigationItem(mType); 
    }
 
@@ -83,7 +86,7 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
       // When the given tab is selected, switch to the corresponding page in
       // the ViewPager.
       int position = tab.getPosition();
-      //Log.i(DEBUG_TAG, "CURRENT POSITION: " + position);
+      Log.i(DEBUG_TAG, "CURRENT POSITION: " + position);
       mViewPager.setCurrentItem(position);      
       ActionBar actionBar = getActionBar();      
       
@@ -96,6 +99,7 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
            Utils.setColor(actionBar, Utils.COLOR_GREEN, this);            
            break;
       }
+      mType = position;
       Prefs.saveType(this, position);
    }
 
@@ -115,6 +119,7 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
    {
       return (ItemListFragment) mSectionsPagerAdapter.getRegisteredFragment(mViewPager.getCurrentItem());
    }
+   
    
    @Override
    public boolean onCreateOptionsMenu(Menu menu)
@@ -173,7 +178,7 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
    }*/
    
    @Override
-   protected void setCurrentKidData(long kidId)
+   protected void setCurrentKidData(int kidId)
    {
       /*List<String> languages = DbSingleton.get().getLanguages(kidId);
       languages.add(0, this.getString(R.string.all_languages));

@@ -46,7 +46,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       OnItemSelectedListener
 {
    private static final String DEBUG_TAG = "AddKidFragment";
-   private long mKidId;
+   private int mKidId;
    private OnKidAddedListener mListener;
 
    Calendar mBirthDate = Calendar.getInstance();
@@ -96,7 +96,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       mSpinnerLanguage.setSelection(adapter
             .getPosition(getString(R.string.app_language)));
 
-      mKidId = getActivity().getIntent().getLongExtra(Prefs.CURRENT_KID_ID, -1);
+      mKidId = getActivity().getIntent().getIntExtra(Prefs.CURRENT_KID_ID, -1);
       //Log.i(DEBUG_TAG, "kid id = " + mKidId);
 
       if (savedInstanceState != null)
@@ -191,11 +191,11 @@ public class AddKidFragment extends Fragment implements OnClickListener,
             mBirthDate.get(Calendar.DAY_OF_MONTH)).show();
    }
 
-   public void insertKidDetails(long mCurrentKidId)
+   public void insertKidDetails(int kidId)
    {
       getActivity().getActionBar().setTitle(R.string.edit_little_talker);
 
-      Cursor cursor = DbSingleton.get().getKidDetails(mCurrentKidId);
+      Cursor cursor = DbSingleton.get().getKidDetails(kidId);
       cursor.moveToFirst();
       mEditName
             .setText(cursor.getString(
@@ -594,9 +594,9 @@ public class AddKidFragment extends Fragment implements OnClickListener,
 
    public interface OnKidAddedListener
    {
-      public void onKidAdded(long kidId);
+      public void onKidAdded(int kidId);
 
-      public void onKidUpdated(long kidId);
+      public void onKidUpdated(int kidId);
    }
 
    @Override

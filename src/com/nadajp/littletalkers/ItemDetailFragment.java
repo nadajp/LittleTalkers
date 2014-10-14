@@ -75,7 +75,7 @@ public abstract class ItemDetailFragment extends Fragment implements
                                        // string if
                                        // none has been recorded
    protected String mTempFileStem; // either temp or tempQA
-   protected long mCurrentKidId; // current kid id, must be valid
+   protected int mCurrentKidId; // current kid id, must be valid
    protected long mItemId; // current item id, 0 if nothing has been saved yet
    private MediaPlayer mPlayer; // audio player
    final static Animation mAnimation = new AlphaAnimation(1, 0); // Change alpha
@@ -242,7 +242,7 @@ public abstract class ItemDetailFragment extends Fragment implements
             showMoreFields(v, true);
          }
          mItemId = savedInstanceState.getLong(Prefs.ITEM_ID);
-         mCurrentKidId = savedInstanceState.getLong(Prefs.CURRENT_KID_ID);
+         mCurrentKidId = savedInstanceState.getInt(Prefs.CURRENT_KID_ID);
          //Log.i(DEBUG_TAG, "Retreiving Instance State: " + mCurrentKidId);
       } else
       {
@@ -521,10 +521,7 @@ public abstract class ItemDetailFragment extends Fragment implements
    {
       mPlay.setPressed(true);
       mPlay.startAnimation(mAnimation);
-      if (mTempFile != null)
-      {
-         //Log.i(DEBUG_TAG, "Playing file: " + mTempFile.getAbsolutePath());
-      }
+
       try
       {
          if (mTempFile != null)
@@ -604,7 +601,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       // if a phrase has already been entered, save under real filename
       if (!(mEditPhrase.getText().toString().isEmpty()))
       {
-         if (mOutFile != null || mTempFile != null) // if editing, pop up dialog
+         if (mOutFile != null || mTempFile2 != null) // if editing, pop up dialog
          {
             ReplaceAudioDialogFragment dlg = new ReplaceAudioDialogFragment(
                   true);
@@ -863,7 +860,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       updateExtraKidDetails();
    }
 
-   public void insertKidDefaults(long kidId, View v)
+   public void insertKidDefaults(int kidId, View v)
    {
       mCurrentKidId = kidId;
       String[] defaults = DbSingleton.get().getDefaults(kidId);
@@ -978,7 +975,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       mCurrentAudioFile = mOutFile.getAbsolutePath();
    }
 
-   public void setCurrentKidId(long kidId)
+   public void setCurrentKidId(int kidId)
    {
       mCurrentKidId = kidId;
       insertKidDefaults(kidId, getView());
@@ -991,9 +988,9 @@ public abstract class ItemDetailFragment extends Fragment implements
 
    public interface OnAddNewPhraseListener
    {
-      public void onPhraseAdded(long kidId);
+      public void onPhraseAdded(int kidId);
 
-      public void onClickedShowDictionary(long kidId);
+      public void onClickedShowDictionary(int kidId);
    }
 
    @Override
@@ -1031,7 +1028,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       {
          outState.putBoolean(Prefs.SHOWING_MORE_FIELDS, true);
       }
-      outState.putLong(Prefs.CURRENT_KID_ID, mCurrentKidId);
+      outState.putInt(Prefs.CURRENT_KID_ID, mCurrentKidId);
       outState.putLong(Prefs.ITEM_ID, mItemId);
       //Log.i(DEBUG_TAG, "Saving Instance State: " + mCurrentKidId);
    }

@@ -2,6 +2,7 @@ package com.nadajp.littletalkers;
 
 import java.util.List;
 
+import com.nadajp.littletalkers.ItemDetailFragment.ShareDialog;
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
@@ -32,7 +33,7 @@ import android.widget.AbsListView.MultiChoiceModeListener;
 public abstract class ItemListFragment extends ListFragment
       
 {
-   public long mCurrentKidId; // database id of current kid
+   public int mCurrentKidId; // database id of current kid
    public String mSortColumn; // column to sort list by
    public String mLanguage; // current language
    public boolean mbSortAscending; // whether to sort list in ascending order
@@ -91,13 +92,13 @@ public abstract class ItemListFragment extends ListFragment
          Bundle savedInstanceState)
    {
       // Inflate the layout for this fragment
-      View v = inflater.inflate(mFragmentLayout, null);
+      View v = inflater.inflate(mFragmentLayout, container, false);
 
       // If we are getting re-created, then get current kid from saved instance
       // state
       if (savedInstanceState != null)
       {
-         mCurrentKidId = savedInstanceState.getLong(Prefs.CURRENT_KID_ID);
+         mCurrentKidId = savedInstanceState.getInt(Prefs.CURRENT_KID_ID);
       }
       // Otherwise, get it from shared prefs
       else 
@@ -131,6 +132,7 @@ public abstract class ItemListFragment extends ListFragment
       }
       mbSortAscending = Prefs.getIsAscending(getActivity());
 
+      this.setHasOptionsMenu(true);
       return v;
    }
 
@@ -249,7 +251,7 @@ public abstract class ItemListFragment extends ListFragment
       mscAdapter.notifyDataSetChanged();
    }
 
-   public void updateData(long kidId)
+   public void updateData(int kidId)
    {
       mCurrentKidId = kidId;
       Cursor newValues = getFromDatabase();
@@ -323,7 +325,7 @@ public abstract class ItemListFragment extends ListFragment
    public void onSaveInstanceState(Bundle outState)
    {
       super.onSaveInstanceState(outState);
-      outState.putLong(Prefs.CURRENT_KID_ID, mCurrentKidId);
+      outState.putInt(Prefs.CURRENT_KID_ID, mCurrentKidId);
    }
 
    @Override

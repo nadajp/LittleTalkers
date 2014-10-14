@@ -68,7 +68,7 @@ public class ManageKidsActivity extends Activity implements ModifyKidsListener
          startActivity(intent);
          finish();
       }
-      long id = DbSingleton.get().getLastAddedKid();
+      int id = DbSingleton.get().getLastAddedKid();
       Prefs.saveKidId(this, id);
    }
 }

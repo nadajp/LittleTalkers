@@ -19,7 +19,7 @@ import android.widget.TextView;
 public class KidProfileFragment extends Fragment
 {
    private static final String DEBUG_TAG = "KidProfileFragment";
-   private long mKidId;
+   private int mKidId;
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,7 +28,7 @@ public class KidProfileFragment extends Fragment
       View view = inflater.inflate(R.layout.fragment_kid_profile,
             container, false);
       
-      mKidId = this.getActivity().getIntent().getLongExtra(Prefs.CURRENT_KID_ID, -1); 
+      mKidId = this.getActivity().getIntent().getIntExtra(Prefs.CURRENT_KID_ID, -1); 
       
       Cursor cursor = DbSingleton.get().getKidDetails(mKidId);
       cursor.moveToFirst();

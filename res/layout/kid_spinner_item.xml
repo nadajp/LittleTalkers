@@ -8,6 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="?android:attr/listPreferredItemHeight"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="10dp"
         android:textSize="18sp"
         android:textColor="@color/white"/>
@@ -17,7 +18,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@android:id/text1"
+        android:layout_toEndOf="@android:id/text1"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_centerVertical="true"
         android:src="@drawable/ic_down_arrow_white"/>
 </RelativeLayout>

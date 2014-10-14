@@ -25,7 +25,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
 {
    protected SimpleCursorAdapter mCursorAdapter = null;
    private static final String DEBUG_TAG = "BaseActivity";
-   private long mCurrentKidId;
+   private int mCurrentKidId;
    private int mPosition;
    protected int mType;
    private CircularImageView mImgProfile;
@@ -72,7 +72,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       return super.onCreateOptionsMenu(menu);
    }
    
-   public void setCurrentKidId(long id)
+   public void setCurrentKidId(int id)
    {
       mCurrentKidId = id;
       Prefs.saveKidId(this, mCurrentKidId);
@@ -152,12 +152,12 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
          return;
       }
       //Log.i(DEBUG_TAG, "Selected kid with ID " + id + ", setting current kid...");
-      mCurrentKidId = id;
+      mCurrentKidId = (int) id;
       mPosition = pos;
-      String pictureUri = DbSingleton.get().getPicturePath(id);      
+      String pictureUri = DbSingleton.get().getPicturePath((int) id);      
       changeProfilePic(pictureUri); 
-      setCurrentKidId(id);
-      setCurrentKidData(id);
+      setCurrentKidId((int) id);
+      setCurrentKidData((int) id);
    }
 
    public void onNothingSelected(AdapterView<?> parent)
@@ -185,6 +185,9 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
          return true;
       case R.id.action_dictionary:
          Intent dict_intent = new Intent(this, ItemListActivity.class);
+         Log.i(DEBUG_TAG, "Saving type: " + mType);
+         Prefs.saveType(this, mType);
+         dict_intent.putExtra(Prefs.TYPE, mType);
          startActivity(dict_intent);
          finish();
          return true;
@@ -193,7 +196,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       }
    }
 
-   protected void setCurrentKidData(long kidId)
+   protected void setCurrentKidData(int kidId)
    {
    }
 
@@ -273,7 +276,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
    {
       super.onSaveInstanceState(outState);
       outState.putInt(Prefs.POSITION, mPosition);
-      outState.putLong(Prefs.CURRENT_KID_ID, mCurrentKidId);
+      outState.putInt(Prefs.CURRENT_KID_ID, mCurrentKidId);
       mType = Prefs.getType(this, Prefs.TYPE_WORD);
       //Log.i(DEBUG_TAG, "Type: " + mType);
       outState.putInt(Prefs.TYPE, mType);
@@ -283,7 +286,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
    public void onRestoreInstanceState(Bundle savedInstanceState)
    {
       mPosition = savedInstanceState.getInt(Prefs.POSITION);
-      mCurrentKidId = savedInstanceState.getLong(Prefs.CURRENT_KID_ID);
+      mCurrentKidId = savedInstanceState.getInt(Prefs.CURRENT_KID_ID);
       mType = savedInstanceState.getInt(Prefs.TYPE);
       //Log.i(DEBUG_TAG, "Restoring Type: " + mType);
    }

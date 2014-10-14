@@ -12,8 +12,14 @@
         <item name="android:textColorHint">@color/hint_gray</item>
         <item name="android:actionBarTabStyle">@style/TabLittleTalkersTheme</item>
         <item name="android:actionBarTabTextStyle">@style/TabTextLittleTalkersTheme</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverflowStyle</item>
     </style>
     
+
+   <style name="OverflowStyle" parent="@android:style/Widget.ActionButton.Overflow">
+      <item name="android:src">@drawable/ic_menu_overflow</item>
+   </style>
+
     <style name="MyLabelText" parent="android:style/Widget.Holo.Light.TextView">
       <item name="android:textStyle">italic</item> 
     </style>
@@ -39,7 +45,7 @@
     </style>
     
     <!-- ActionBar styles -->
-    <style name="MyActionBar" parent="android:style/Widget.Holo.Light.ActionBar">
+    <style name="MyActionBar" parent="android:style/Widget.Holo.ActionBar">
         <item name="android:background">@color/blue</item>
         <item name="android:backgroundStacked">@color/blue</item>
         <item name="android:titleTextStyle">@style/LittleTalkers.ActionBar.TitleTextStyle</item>
@@ -52,13 +58,13 @@
    </style>
    
    <style name="HeadingStyle">
-       <item name="android:textSize">22sp</item>
+       <item name="android:textSize">@dimen/heading_size_large</item>
        <item name="android:textColor">@color/blue</item>
        <item name="android:layout_marginBottom">20dp</item>
    </style>
    
     <style name="HeadingStyleQA">
-       <item name="android:textSize">20sp</item>
+       <item name="android:textSize">@dimen/heading_size_medium</item>
        <item name="android:textColor">@color/dark_green</item>
        <item name="android:layout_marginBottom">5dp</item>
    </style>

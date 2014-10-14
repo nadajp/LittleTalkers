@@ -19,8 +19,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.OvershootInterpolator;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.ListView;
 
@@ -152,7 +150,7 @@ public class ManageKidsFragment extends ListFragment
       Log.i(DEBUG_TAG, "Items to delete: " + mItemsToDelete.length);
       for (long id : mItemsToDelete)
       {
-         String filename = DbSingleton.get().getPicturePath(id);
+         String filename = DbSingleton.get().getPicturePath((int) id);
          if (filename != null)
          {
             File file = new File(filename);
@@ -176,7 +174,7 @@ public class ManageKidsFragment extends ListFragment
       // show kid detail view
       Intent intent = new Intent(this.getActivity(), KidProfileActivity.class);
       Log.i(DEBUG_TAG, "Kid id: " + id);
-      intent.putExtra(Prefs.CURRENT_KID_ID, id);
+      intent.putExtra(Prefs.CURRENT_KID_ID, (int) id);
       startActivity(intent);     
    }
 

@@ -76,7 +76,7 @@ public class AddKidActivity extends Activity implements
       }
    }
 
-   public void onKidAdded(long kidId)
+   public void onKidAdded(int kidId)
    {
       Intent intent = new Intent(this, AddItemActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
@@ -85,7 +85,7 @@ public class AddKidActivity extends Activity implements
       finish(); // unload this activity
    }
    
-   public void onKidUpdated(long kidId)
+   public void onKidUpdated(int kidId)
    {
       Intent intent = new Intent(this, ManageKidsActivity.class);
       startActivity(intent);

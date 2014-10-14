@@ -64,11 +64,11 @@ public class ViewItemActivity extends Activity implements OnAddNewPhraseListener
       }
    }
    
-   public void onPhraseAdded(long kidId)
+   public void onPhraseAdded(int kidId)
    {
    }
    
-   public void onClickedShowDictionary(long kidId)
+   public void onClickedShowDictionary(int kidId)
    {
       Prefs.saveKidId(this, kidId);
       //Log.i(DEBUG_TAG, "Saved ID: " + kidId);
