@@ -185,7 +185,6 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
          return true;
       case R.id.action_dictionary:
          Intent dict_intent = new Intent(this, ItemListActivity.class);
-         Log.i(DEBUG_TAG, "Saving type: " + mType);
          Prefs.saveType(this, mType);
          dict_intent.putExtra(Prefs.TYPE, mType);
          startActivity(dict_intent);

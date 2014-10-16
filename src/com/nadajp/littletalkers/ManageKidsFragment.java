@@ -87,7 +87,7 @@ public class ManageKidsFragment extends ListFragment
             {
             case R.id.menu_delete:
                mItemsToDelete = listView.getCheckedItemIds();
-               Log.i(DEBUG_TAG, "Items to delete: " + mItemsToDelete.length);
+               //Log.i(DEBUG_TAG, "Items to delete: " + mItemsToDelete.length);
                deleteSelectedItems();
                mode.finish(); // Action picked, so close the CAB
                mNumSelected = 0;
@@ -147,7 +147,7 @@ public class ManageKidsFragment extends ListFragment
          mItemsToDelete = new long[1];
          mItemsToDelete[0] = singleId;
       }
-      Log.i(DEBUG_TAG, "Items to delete: " + mItemsToDelete.length);
+      //Log.i(DEBUG_TAG, "Items to delete: " + mItemsToDelete.length);
       for (long id : mItemsToDelete)
       {
          String filename = DbSingleton.get().getPicturePath((int) id);
@@ -173,7 +173,7 @@ public class ManageKidsFragment extends ListFragment
    {     
       // show kid detail view
       Intent intent = new Intent(this.getActivity(), KidProfileActivity.class);
-      Log.i(DEBUG_TAG, "Kid id: " + id);
+      //Log.i(DEBUG_TAG, "Kid id: " + id);
       intent.putExtra(Prefs.CURRENT_KID_ID, (int) id);
       startActivity(intent);     
    }

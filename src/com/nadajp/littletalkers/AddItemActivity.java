@@ -81,7 +81,7 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
       // When the given tab is selected, switch to the corresponding page in
       // the ViewPager.
       int position = tab.getPosition();
-      Log.i(DEBUG_TAG, "CURRENT POSITION: " + position);
+      //Log.i(DEBUG_TAG, "CURRENT POSITION: " + position);
       mViewPager.setCurrentItem(position);     
       ActionBar actionBar = getActionBar();
 

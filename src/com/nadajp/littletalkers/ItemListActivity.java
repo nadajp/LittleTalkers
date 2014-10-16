@@ -68,12 +68,12 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
       }
       
       mType = this.getIntent().getIntExtra(Prefs.TYPE, Prefs.TYPE_WORD);
-      Log.i(DEBUG_TAG, "TYPE IS: " + mType);
+      //Log.i(DEBUG_TAG, "TYPE IS: " + mType);
       
       if (savedInstanceState != null)
       {
          mType = savedInstanceState.getInt(Prefs.TYPE);
-         Log.i(DEBUG_TAG, "NEW TYPE IS: " + mType);
+         //Log.i(DEBUG_TAG, "NEW TYPE IS: " + mType);
          invalidateOptionsMenu();
       } 
       actionBar.setSelectedNavigationItem(mType); 
@@ -86,7 +86,7 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
       // When the given tab is selected, switch to the corresponding page in
       // the ViewPager.
       int position = tab.getPosition();
-      Log.i(DEBUG_TAG, "CURRENT POSITION: " + position);
+      //Log.i(DEBUG_TAG, "CURRENT POSITION: " + position);
       mViewPager.setCurrentItem(position);      
       ActionBar actionBar = getActionBar();      
       
