@@ -94,13 +94,15 @@ public class Utils
        Integer age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
        int current_month = today.get(Calendar.MONTH);
        int birth_month = dob.get(Calendar.MONTH);
+       int birth_day_of_month = dob.get(Calendar.DAY_OF_MONTH);
+       int current_day_of_month = today.get(Calendar.DAY_OF_MONTH);
        int months = 0;
        
        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR))
        {
            age--; 
            months = 12 - (birth_month - current_month);
-           if (birth_month == current_month)
+           if (birth_month == current_month || current_day_of_month < birth_day_of_month)
            {
               months--;
            }
@@ -108,6 +110,10 @@ public class Utils
        else
        {
           months = current_month - birth_month;
+          if (current_day_of_month < birth_day_of_month)
+          {
+             months--;
+          }
        }
               
        String ageString = age.toString() + " years, " + months + " months";
