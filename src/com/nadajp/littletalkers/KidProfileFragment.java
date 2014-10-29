@@ -6,6 +6,7 @@ import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,7 +14,9 @@ import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class KidProfileFragment extends Fragment
@@ -69,6 +72,19 @@ public class KidProfileFragment extends Fragment
                      + "!";
       words.setText(strWords);
       questions.setText(strQA);
+      
+      ImageView edit = (ImageView) view.findViewById(R.id.icon_edit);
+      edit.setOnClickListener(new OnClickListener() 
+      {
+         @Override
+         public void onClick(View v)
+         {
+            Intent intent = new Intent(v.getContext(), AddKidActivity.class);
+            intent.putExtra(Prefs.CURRENT_KID_ID, mKidId);
+            startActivity(intent); 
+         }
+         
+      });
       
       return view;
    }     

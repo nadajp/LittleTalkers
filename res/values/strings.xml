@@ -92,6 +92,7 @@
     <!-- profile -->
     <string name="words_and_phrases">Words/Phrases</string>
     <string name="questions_and_answers">Q and As</string>
+    <string name="edit_profile">Edit Profile</string>
     
     <!-- Manage LittleTalkers -->
     <string name="delete_kids_dialog">Are you sure you want to delete all selected Little Talkers and their word dictionaries?</string>
