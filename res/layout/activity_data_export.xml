@@ -50,7 +50,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:background="@drawable/ic_export"
+        android:background="@drawable/button_export"
         android:onClick="exportToCSV" />
 
 </RelativeLayout>
