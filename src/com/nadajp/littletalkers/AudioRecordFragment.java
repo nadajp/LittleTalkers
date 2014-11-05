@@ -3,6 +3,7 @@ package com.nadajp.littletalkers;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.OnErrorListener;
 import android.media.MediaRecorder.OnInfoListener;
@@ -116,6 +117,17 @@ public class AudioRecordFragment extends Fragment implements OnClickListener,
 
    private void startRecording()
    {
+      if (this.getActivity().getPackageManager().hasSystemFeature(
+            PackageManager.FEATURE_MICROPHONE) == false)
+      {
+         Toast.makeText(this.getActivity(), R.string.no_mic_available,
+               Toast.LENGTH_LONG).show();
+         Intent intent = new Intent();
+         this.getActivity().setResult(Activity.RESULT_CANCELED, intent);
+         this.getActivity().finish();
+         return;
+      }
+      
       mImgMic.startAnimation(mAnimation);
       mRecorder = new MediaRecorder();
       mRecorder.setOnErrorListener(this);

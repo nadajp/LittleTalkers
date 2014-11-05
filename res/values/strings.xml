@@ -51,6 +51,7 @@
     <string name="stop_recording">Tap the screen to stop recording</string>
     <string name="more">More</string>
     <string name="less">Less</string>
+    <string name="no_mic_available">This feature is not available on your device.</string>
     
 
     <!-- AddKid -->
