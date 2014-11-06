@@ -159,7 +159,7 @@
                 android:layout_height="match_parent"
                 android:drawableLeft="@drawable/ic_action_mic"
                 android:drawablePadding="10dp"
-                android:maxLength="25"
+                android:maxLength="20"
                 android:padding="15dp" />
 
             <Button
