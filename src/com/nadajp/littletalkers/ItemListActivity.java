@@ -67,7 +67,14 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
                .setTabListener(this));
       }
       
-      mType = this.getIntent().getIntExtra(Prefs.TYPE, Prefs.TYPE_WORD);
+      if (this.getIntent().hasExtra(Prefs.TYPE))
+      {
+         mType = this.getIntent().getIntExtra(Prefs.TYPE, Prefs.TYPE_WORD);
+      }
+      else
+      {
+        mType = Prefs.getType(this, Prefs.TYPE_WORD);   
+      }
       //Log.i(DEBUG_TAG, "TYPE IS: " + mType);
       
       if (savedInstanceState != null)
@@ -102,6 +109,17 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
       mType = position;
       Prefs.saveType(this, position);
    }
+   
+   public void onActivityResult(int requestCode, int resultCode, Intent data) 
+   {
+      if (requestCode == ItemListFragment.VIEW_ITEM) 
+      {
+           if(resultCode == RESULT_OK)
+           {
+              mType = data.getIntExtra(Prefs.TYPE, Prefs.TYPE_WORD);
+           }
+      }
+   } 
 
    @Override
    public void onTabUnselected(ActionBar.Tab tab,

@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MenuItem;
 
 import com.nadajp.littletalkers.ItemDetailFragment.OnAddNewPhraseListener;
 import com.nadajp.littletalkers.utils.Prefs;
@@ -68,6 +70,21 @@ public class ViewItemActivity extends Activity implements OnAddNewPhraseListener
    {
    }
    
+   @Override
+   public boolean onOptionsItemSelected(MenuItem item) 
+   {
+       if (item.getItemId() == android.R.id.home) 
+       {
+          Intent intent = new Intent(this, ItemListActivity.class);
+          mType = Prefs.getType(this, Prefs.TYPE_WORD);
+          intent.putExtra(Prefs.TYPE, mType);
+          startActivity(intent);
+          finish();
+          return true;
+       }
+       return super.onOptionsItemSelected(item);
+   }
+   
    public void onClickedShowDictionary(int kidId)
    {
       Prefs.saveKidId(this, kidId);
@@ -76,7 +93,9 @@ public class ViewItemActivity extends Activity implements OnAddNewPhraseListener
       intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
       intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
       mType = Prefs.getType(this, Prefs.TYPE_WORD);
+      intent.putExtra(Prefs.TYPE, mType);
       startActivity(intent);
+      finish();
    }
    
    @Override
