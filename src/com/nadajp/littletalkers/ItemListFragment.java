@@ -239,7 +239,6 @@ public abstract class ItemListFragment extends ListFragment
       int type = Prefs.getType(getActivity(), Prefs.TYPE_WORD);
       intent.putExtra(Prefs.TYPE, type);
       startActivity(intent);
-      this.getActivity().finish();
    }
    
    public void changeLanguage(String language)
