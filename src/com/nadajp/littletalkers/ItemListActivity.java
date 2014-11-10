@@ -109,17 +109,6 @@ public class ItemListActivity extends BaseActivity implements ActionBar.TabListe
       mType = position;
       Prefs.saveType(this, position);
    }
-   
-   public void onActivityResult(int requestCode, int resultCode, Intent data) 
-   {
-      if (requestCode == ItemListFragment.VIEW_ITEM) 
-      {
-           if(resultCode == RESULT_OK)
-           {
-              mType = data.getIntExtra(Prefs.TYPE, Prefs.TYPE_WORD);
-           }
-      }
-   } 
 
    @Override
    public void onTabUnselected(ActionBar.Tab tab,

@@ -2,7 +2,6 @@ package com.nadajp.littletalkers;
 
 import java.util.List;
 
-import com.nadajp.littletalkers.ItemDetailFragment.ShareDialog;
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
@@ -51,7 +50,6 @@ public abstract class ItemListFragment extends ListFragment
                                  // to delete if delete icon pressed)
    private static final int DELETE_SELECTED_WORDS_DIALOG_ID = 1;
    private static final String DEBUG_TAG = "ItemListFragment";
-   public static final int VIEW_ITEM = 1;
    protected SimpleCursorAdapter mscAdapter;
    //private View mHeaderView;
    protected ListRowViewBinder mViewBinder;
@@ -240,8 +238,8 @@ public abstract class ItemListFragment extends ListFragment
       intent.putExtra(ItemDetailFragment.ITEM_ID, id);
       int type = Prefs.getType(getActivity(), Prefs.TYPE_WORD);
       intent.putExtra(Prefs.TYPE, type);
-      startActivityForResult(intent, VIEW_ITEM);
       startActivity(intent);
+      this.getActivity().finish();
    }
    
    public void changeLanguage(String language)
