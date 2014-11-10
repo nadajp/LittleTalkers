@@ -681,8 +681,18 @@ public abstract class ItemDetailFragment extends Fragment implements
                         {
                            if (mPhraseEntered)
                            {
-                              ((ItemDetailFragment) getTargetFragment())
+                              if (((ItemDetailFragment) getTargetFragment()).mItemId > 0)
+                              {
+                                 ((ItemDetailFragment) getTargetFragment())
                                     .saveItem(false);
+                              }
+                              else
+                              {
+                                 ((ItemDetailFragment) getTargetFragment()).saveFile(true);
+                                 ((ItemDetailFragment) getTargetFragment())
+                                 .saveItem(false);
+                                 
+                              }
                            } else
                            {
                               ((ItemDetailFragment) getTargetFragment())
@@ -820,8 +830,9 @@ public abstract class ItemDetailFragment extends Fragment implements
    {
       if (mTempFile != null && mTempFile.exists())
       {
-         saveFile();
-      } else if (mOutFile != null && mOutFile.exists())
+         saveFile(false);
+      } 
+      else if (mOutFile != null && mOutFile.exists())
       {
          renameFile();
       }
@@ -939,7 +950,7 @@ public abstract class ItemDetailFragment extends Fragment implements
       mCurrentAudioFile = mOutFile.getAbsolutePath();
    }
 
-   private void saveFile()
+   private void saveFile(boolean replace)
    {
       mOutFile = new File(mDirectory, getFilename());
 
@@ -948,8 +959,16 @@ public abstract class ItemDetailFragment extends Fragment implements
          mOutFile.delete();
       }
 
-      mTempFile.renameTo(mOutFile);
-      
+      if (replace)
+      {
+         mTempFile2.renameTo(mOutFile);
+         mTempFile2.delete();
+         mTempFile2 = null;
+      }
+      else 
+      {
+         mTempFile.renameTo(mOutFile);
+      }
       /*
       if (mTempFile.renameTo(mOutFile))
       {
