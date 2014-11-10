@@ -23,7 +23,7 @@ public class KidProfileActivity extends Activity
                .add(R.id.container, new KidProfileFragment()).commit();
       }
       ActionBar actionBar = this.getActionBar();
-      Utils.setColor(actionBar, Utils.COLOR_RED, this);
+      Utils.setColor(actionBar, Utils.COLOR_ORANGE, this);
       actionBar.setDisplayShowHomeEnabled(true);
       actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
       actionBar.setTitle(R.string.title_activity_kid_profile);

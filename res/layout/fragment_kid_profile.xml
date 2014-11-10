@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/profile_picture"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/red"
+            android:textColor="@color/orange"
             android:textSize="22sp" />
 
         <TextView
