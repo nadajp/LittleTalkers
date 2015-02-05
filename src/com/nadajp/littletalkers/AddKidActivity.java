@@ -1,11 +1,13 @@
 package com.nadajp.littletalkers;
 
+import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;

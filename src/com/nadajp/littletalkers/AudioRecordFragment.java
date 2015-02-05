@@ -162,6 +162,7 @@ public class AudioRecordFragment extends Fragment implements OnClickListener,
    {
       mImgMic.clearAnimation();
       Intent intent = new Intent();
+      
       try
       {
          mRecorder.stop();

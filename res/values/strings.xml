@@ -137,6 +137,11 @@
     <string name="qa_info">Check the box next to a statement that came from your Little Talker. Check both if the Little Talker asked and answered the question.</string>
     <string name="qa_info_title">Question and Answer Help</string>
     
+    <string name="toast_no_google_account_selected">No Google Account Selected</string>
+    <string name="toast_exception_checking_authorization">Exception checking authorization</string>
+    <string name="toast_no_google_accounts_registered">No Google Accounts Registered</string>
+    <string name="toast_only_one_google_account_registered">Your only registered Google account was selected</string>
+    
     <string name="app_language">English</string>
     <!-- arrays -->
     <string-array name="choose_profile_pic_array">

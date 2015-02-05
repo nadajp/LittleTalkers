@@ -304,6 +304,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
 
       Prefs.saveKidId(getActivity(), mKidId);
       //Log.i(DEBUG_TAG, "Saving kid id to preferences: " + mKidId);
+      
       mListener.onKidAdded(mKidId);
    }
 

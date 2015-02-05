@@ -217,6 +217,9 @@ public class DbSingleton
       query = "SELECT _id, " + DbContract.Words.COLUMN_NAME_WORD + ", "
             + DbContract.Words.COLUMN_NAME_DATE + ", "
             + DbContract.Words.COLUMN_NAME_LANGUAGE + ", "
+            + DbContract.Words.COLUMN_NAME_TOWHOM + ", "
+            + DbContract.Words.COLUMN_NAME_NOTES + ", "
+            + DbContract.Words.COLUMN_NAME_AUDIO_FILE + ", "
             + DbContract.Words.COLUMN_NAME_TRANSLATION + " FROM Words WHERE "
             + DbContract.Words.COLUMN_NAME_KID + " = " + kidId + " ORDER BY "
             + Words.COLUMN_NAME_DATE + " ASC";
@@ -622,4 +625,17 @@ public class DbSingleton
       values.put(DbContract.Words.COLUMN_NAME_AUDIO_FILE, audioFile);
       mDb.update("Words", values, "_id=" + wordId, null);
    }
+   
+   public Cursor getKidsForExport()
+   {
+      String query = "SELECT * FROM Kids";
+      return mDb.rawQuery(query, null);
+   }
+   
+   public Cursor getAllWordsForBackup()
+   {
+      String query = "SELECT * FROM Words";
+      return mDb.rawQuery(query, null);
+   }
+   
 }
