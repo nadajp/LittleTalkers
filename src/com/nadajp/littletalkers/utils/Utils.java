@@ -1,11 +1,11 @@
 package com.nadajp.littletalkers.utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import android.app.ActionBar;
-
 import android.content.Context;
 import android.os.Environment;
 import android.text.format.DateUtils;
@@ -22,6 +22,12 @@ public class Utils
    public static final int COLOR_GREEN = 1;
    public static final int COLOR_RED = 2;
    public static final int COLOR_ORANGE = 3;
+   
+   // The following are used in caching data changes for server upload
+   public static final String ADD_WORD = "add_word";
+   public static final String UPDATE_WORD = "update_word";
+   public static final String ADD_QA = "add_qa";
+   public static final String UPDATE_QA = "update_qa";
 
    public static void setColor(ActionBar actionBar, int color, Context context)
    {
@@ -207,6 +213,22 @@ public class Utils
       audioFile.delete();
       audioFile = newfile;
       return audioFile;
+   }
+   
+   public static File getDataCacheFile(Context context)
+   {     
+      try { 
+         File file = new File(context.getFilesDir(), Prefs.FILENAME_CACHE_CHANGES);
+ 
+         //if file doesnt exists, then create it
+         if (!file.exists()){
+            file.createNewFile();
+         }
+         return file; 
+      }catch(IOException e){
+         e.printStackTrace();
+      }      return null;
+      
    }
 
 }

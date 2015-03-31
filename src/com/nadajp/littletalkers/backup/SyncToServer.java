@@ -24,12 +24,12 @@ import com.google.api.client.json.jackson2.JacksonFactory;
  * Upload all data for this user to the cloud. This will only be called
  * once, when the user signs up for the service and launches it
  */
-public class UploadUserData extends AsyncTask<Context, Integer, Long>
+public class SyncToServer extends AsyncTask<Context, Integer, Long>
 {
-   private static final String DEBUG_TAG = "UploadKidsTask";
+   private static final String DEBUG_TAG = "SyncToServerTask";
    private GoogleAccountCredential mCredential;
 
-   public UploadUserData(GoogleAccountCredential credential)
+   public SyncToServer(GoogleAccountCredential credential)
    {
       super();
       mCredential = credential;
@@ -45,13 +45,11 @@ public class UploadUserData extends AsyncTask<Context, Integer, Long>
          builder.setApplicationName(contexts[0].getString(R.string.app_name));
          Littletalkersapi ltEndpoint = builder.build();
          
-         UserProfile result = ltEndpoint.insertProfile().execute();
-         Long userId = result.getId();
-         Log.i(DEBUG_TAG, "User id: " + userId);
-         Prefs.saveUserId(contexts[0], userId);
+         Long userId = Prefs.getUserId(contexts[0]);
          
-         UserDataWrapper data = ServerBackupUtils.getUserData();       
-         ltEndpoint.insertUserData(userId, data);
+         
+         // UserDataWrapper data =  // get data from cache file     
+         //ltEndpoint.insertUserData(userId, data);
 
       } catch (IOException e)
       {

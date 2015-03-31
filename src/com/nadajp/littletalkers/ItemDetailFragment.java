@@ -45,12 +45,15 @@ import android.widget.ShareActionProvider;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.google.gson.Gson;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
@@ -986,6 +989,33 @@ public abstract class ItemDetailFragment extends Fragment implements
       return mCurrentKidId;
    }
 
+   public void addToCache(Object data, String type)
+   {
+      Gson gson = new Gson();
+      String json = gson.toJson(data);     
+      
+      try {
+ 
+         File file = new File(this.getActivity().getFilesDir(), Prefs.FILENAME_CACHE_CHANGES);
+ 
+         //if file doesnt exists, then create it
+         if (!file.exists()){
+            file.createNewFile();
+         }
+         //true = append file
+         FileWriter fileWriter = new FileWriter(file.getName(), true);
+              BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
+              bufferWriter.write(type);
+              bufferWriter.write(json);
+              bufferWriter.close();
+ 
+           System.out.println("Done");
+ 
+      } catch(IOException e){
+         e.printStackTrace();
+      }
+   }
+   
    public interface OnAddNewPhraseListener
    {
       public void onPhraseAdded(int kidId);

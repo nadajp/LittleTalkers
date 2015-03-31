@@ -37,44 +37,15 @@ public class MainActivity extends Activity implements AddKidListener
    public static final String ACCOUNT_TYPE = "littletalkers.com";
    // The account name
    public static final String ACCOUNT = "myaccount";
-   // Instance fields
-   public Account mAccount;
 
-   static final int REQUEST_ACCOUNT_PICKER = 2;
-   private static final int ACTIVITY_RESULT_FROM_ACCOUNT_SELECTION = 2222;
+   //private AuthorizationCheckTask mAuthTask;
 
-   private AuthorizationCheckTask mAuthTask;
-   private String mEmailAccount = "";
-
-   public SharedPreferences mSharedPrefs;
-   public GoogleAccountCredential mCredential;
-   public String mAccountName;
 
    @Override
    protected void onCreate(Bundle savedInstanceState)
    {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_main);
-    
-      mCredential = GoogleAccountCredential.usingAudience(this,
-            "server:client_id:" + AppConstants.WEB_CLIENT_ID);
-
-      setSelectedAccountName(Prefs.getAccountName(this));
-
-      if (mCredential.getSelectedAccountName() != null)
-      {
-         // Already signed in, begin app!
-         Log.i(DEBUG_TAG,
-               "Already signed in as " + mCredential.getSelectedAccountName()
-                     + ", begin sync!");
-         new UploadUserData(mCredential).execute(getApplicationContext());
-      
-      } else
-      {
-         Log.i(DEBUG_TAG,
-               "Not signed in, show login window or request an account");
-         chooseAccount();
-      }
 
       // Find out from shared preferences whether there are any kids yet
       int kidId = Prefs.getKidId(this, -1);
@@ -113,66 +84,6 @@ public class MainActivity extends Activity implements AddKidListener
       }
    }
 
-   // setSelectedAccountName definition
-   private void setSelectedAccountName(String accountName)
-   {
-      Prefs.saveAccountName(this, accountName);
-      mCredential.setSelectedAccountName(accountName);
-      this.mAccountName = accountName;
-   }
-
-   /*
-    * public class EndpointsTask extends AsyncTask<Context, Integer, Long> { //
-    * Use a builder to help formulate the API request. Kidendpoint.Builder
-    * endpointBuilder = new Kidendpoint.Builder(
-    * AndroidHttp.newCompatibleTransport(), new JacksonFactory(), credential);
-    * 
-    * Kidendpoint endpoint = endpointBuilder.build(); protected Long
-    * doInBackground(Context... contexts) { try { ArrayList<Kid> kids =
-    * ServerBackupUtils.getKids(); //endpoint.removeKid((long) 1).execute(); Kid
-    * result = endpoint.insertKid(kids.get(0)).execute(); Log.i(DEBUG_TAG,
-    * "Birthdate:" + Utils.getDateForDisplay(result.getBirthdate(),
-    * contexts[0])); Log.i(DEBUG_TAG, "Result: " + result); } catch (IOException
-    * e) { e.printStackTrace(); } return (long) 0;
-    * 
-    * } }
-    */
-
-   // used in endpoints, this allows user to select account
-   void chooseAccount()
-   {
-      startActivityForResult(AccountPicker.newChooseAccountIntent(null, null, new String[]{"com.google"},
-            false, null, null, null, null),
-            REQUEST_ACCOUNT_PICKER);
-   }
-
-   @Override
-   protected void onActivityResult(int requestCode, int resultCode, Intent data)
-   {
-      super.onActivityResult(requestCode, resultCode, data);
-      switch (requestCode)
-      {
-      case REQUEST_ACCOUNT_PICKER:
-         if (data != null && data.getExtras() != null)
-         {
-            String accountName = data.getExtras().getString(
-                  AccountManager.KEY_ACCOUNT_NAME);
-            if (accountName != null)
-            {
-               setSelectedAccountName(accountName);
-
-               // User is authorized.
-               Log.i(DEBUG_TAG, "Authorized user: " + accountName
-                     + ", starting upload");
-               new UploadUserData(mCredential).execute(this
-                     .getApplicationContext());
-
-            }
-         }
-         break;
-      }
-   }
-
    /**
     * Create a new dummy account for the sync adapter
     * 
@@ -206,6 +117,7 @@ public class MainActivity extends Activity implements AddKidListener
       startActivity(intent);
    }
 
+   /*
    public void performAuthCheck(String emailAccount)
    {
       // Cancel previously running tasks.
@@ -296,7 +208,7 @@ public class MainActivity extends Activity implements AddKidListener
       {
          mAuthTask = this;
       }
-
+*/
       /*
        * @Override protected void onPostExecute(Boolean success) { TextView
        * emailAddressTV = (TextView)
@@ -306,11 +218,11 @@ public class MainActivity extends Activity implements AddKidListener
        * unsuccessful, reset TextView to empty. emailAddressTV.setText(""); }
        * mAuthTask = null; }
        */
-
+/*
       @Override
       protected void onCancelled()
       {
          mAuthTask = null;
       }
-   }
+   }*/
 }

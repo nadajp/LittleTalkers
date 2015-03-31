@@ -11,9 +11,6 @@ import android.database.Cursor;
 
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.nadajp.littletalkers.database.DbContract.Kids;
 import com.nadajp.littletalkers.database.DbContract.Words;
 import com.nadajp.littletalkers.database.DbSingleton;
@@ -60,7 +57,7 @@ public class ServerBackupUtils
     }
 
     
-   private static ArrayList<Kid> getKids(Long userId)
+   private static ArrayList<Kid> getKids()
    {
       ArrayList<Kid> kids = new ArrayList<Kid>();
       Cursor cursor = DbSingleton.get().getKidsForExport();
@@ -69,7 +66,6 @@ public class ServerBackupUtils
          do
          {  
             Kid kid = new Kid();
-            //kid.setUserId(userId);
             kid.setId(cursor.getLong(cursor.getColumnIndex(Kids._ID)));
             kid.setName(cursor.getString(cursor.getColumnIndex(Kids.COLUMN_NAME_NAME)));
             kid.setBirthdate(cursor.getLong(cursor.getColumnIndex(Kids.COLUMN_NAME_BIRTHDATE_MILLIS)));
@@ -84,7 +80,6 @@ public class ServerBackupUtils
       return kids;
    }
    
-   
    public static ArrayList<Word> getWords()
    {
       ArrayList<Word> words = new ArrayList<Word>();
@@ -97,7 +92,7 @@ public class ServerBackupUtils
             word.setKidId(c.getLong(c.getColumnIndex(Words.COLUMN_NAME_KID)));
             word.setWord(c.getString(c.getColumnIndex(Words.COLUMN_NAME_WORD)));
             word.setLanguage(c.getString(c.getColumnIndex(Words.COLUMN_NAME_LANGUAGE)));
-            word.setDate(c.getString(c.getColumnIndex(Words.COLUMN_NAME_DATE)));
+            word.setDate(c.getLong(c.getColumnIndex(Words.COLUMN_NAME_DATE)));
             word.setLocation(c.getString(c.getColumnIndex(Words.COLUMN_NAME_LOCATION)));
             word.setTranslation(c.getString(c.getColumnIndex(Words.COLUMN_NAME_TRANSLATION)));
             word.setToWhom(c.getString(c.getColumnIndex(Words.COLUMN_NAME_TOWHOM)));
@@ -110,10 +105,10 @@ public class ServerBackupUtils
       return words;
    }
    
-   public static UserDataWrapper getUserData(Long userId)
+   public static UserDataWrapper getUserData()
    {
       UserDataWrapper data = new UserDataWrapper();
-      data.setKids(getKids(userId));
+      data.setKids(getKids());
       data.setWords(getWords());
       return data;
    }

@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.database.DbContract.Words;
+import com.nadajp.littletalkers.server.littletalkersapi.model.Word;
 
 public class DbSingleton
 {
@@ -214,13 +215,7 @@ public class DbSingleton
    {
       String query;
 
-      query = "SELECT _id, " + DbContract.Words.COLUMN_NAME_WORD + ", "
-            + DbContract.Words.COLUMN_NAME_DATE + ", "
-            + DbContract.Words.COLUMN_NAME_LANGUAGE + ", "
-            + DbContract.Words.COLUMN_NAME_TOWHOM + ", "
-            + DbContract.Words.COLUMN_NAME_NOTES + ", "
-            + DbContract.Words.COLUMN_NAME_AUDIO_FILE + ", "
-            + DbContract.Words.COLUMN_NAME_TRANSLATION + " FROM Words WHERE "
+      query = "SELECT * FROM Words WHERE "
             + DbContract.Words.COLUMN_NAME_KID + " = " + kidId + " ORDER BY "
             + Words.COLUMN_NAME_DATE + " ASC";
 
@@ -231,14 +226,7 @@ public class DbSingleton
    {
       String query;
 
-      query = "SELECT _id, " + DbContract.Questions.COLUMN_NAME_QUESTION + ", "
-            + DbContract.Questions.COLUMN_NAME_ANSWER + ", "
-            + DbContract.Questions.COLUMN_NAME_ASKED + ", "
-            + DbContract.Questions.COLUMN_NAME_ANSWERED + ", "
-            + DbContract.Questions.COLUMN_NAME_DATE + ", "
-            + DbContract.Questions.COLUMN_NAME_LANGUAGE + ", "
-            + DbContract.Questions.COLUMN_NAME_TOWHOM
-            + " FROM Questions WHERE " + DbContract.Questions.COLUMN_NAME_KID
+      query = "SELECT * FROM Questions WHERE " + DbContract.Questions.COLUMN_NAME_KID
             + " = " + kidId + " ORDER BY "
             + DbContract.Questions.COLUMN_NAME_DATE + " ASC";
 
@@ -510,6 +498,35 @@ public class DbSingleton
       {
          mDb.delete("Questions", "_id = " + id, null);
       }
+   }
+   
+   public long saveWord(Word word)
+   {
+   // check if word already exists for this kid
+      String query = "SELECT word FROM Words WHERE "
+            + DbContract.Words.COLUMN_NAME_KID + " = " + word.getKidId()
+            + " AND word = ?";
+      Cursor cursor = mDb.rawQuery(query, new String[] { word.getWord() });
+      if (cursor.getCount() > 0)
+      {
+         cursor.close();
+         return -1;
+      }
+      cursor.close();
+      ContentValues values = new ContentValues();
+      values.put(DbContract.Words.COLUMN_NAME_KID, word.getKidId());
+      values.put(DbContract.Words.COLUMN_NAME_WORD, word.getWord());
+      values.put(DbContract.Words.COLUMN_NAME_LANGUAGE, word.getLanguage());
+      values.put(DbContract.Words.COLUMN_NAME_DATE, word.getDate());
+      values.put(DbContract.Words.COLUMN_NAME_LOCATION, word.getLocation());
+      values.put(DbContract.Words.COLUMN_NAME_AUDIO_FILE, word.getAudioFileUri());
+      values.put(DbContract.Words.COLUMN_NAME_TRANSLATION, word.getTranslation());
+      values.put(DbContract.Words.COLUMN_NAME_TOWHOM, word.getToWhom());
+      values.put(DbContract.Words.COLUMN_NAME_NOTES, word.getNotes());
+
+      // Inserting Row
+      return mDb.insert("Words", null, values);
+      
    }
 
    public long saveWord(int kidId, String word, String language, long date,
