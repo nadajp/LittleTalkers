@@ -203,7 +203,7 @@
     <string name="logged_in">logged_in</string>
     <string name="sync">sync</string>
     <string name="account">account</string>
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_login">Log in or Upgrade</string>
     <string name="upgrade_info">Upgrade to synchronize your data between devices and to securely access it through the Little Talkers website.</string>
 
 </resources>

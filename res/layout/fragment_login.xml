@@ -9,7 +9,7 @@
     tools:context="com.nadajp.littletalkers.LoginActivity$PlaceholderFragment" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textUpgrade"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/upgrade_info" />

@@ -22,10 +22,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
-public class SettingsActivity extends Activity implements OnFragmentInteractionListener
+public class SettingsActivity extends Activity
 {
    private static final String DEBUG_TAG = "SettingsActivity";
-  
+   static final int REQUEST_ACCOUNT_PICKER = 1;
+   
    @Override
    protected void onCreate(Bundle savedInstanceState)
    {
@@ -61,18 +62,19 @@ public class SettingsActivity extends Activity implements OnFragmentInteractionL
       return super.onOptionsItemSelected(item);
    }
 
-   @Override
+  /* @Override
    public void onFragmentInteraction(Uri uri)
    {
       // TODO Auto-generated method stub
       
-   }
+   }  */
 
-   @Override
-   public void doSync()
+   // used in endpoints, this allows user to select account
+   void chooseAccount()
    {
-      // TODO Auto-generated method stub
-      
+      startActivityForResult(AccountPicker.newChooseAccountIntent(null, null, new String[]{"com.google"},
+            false, null, null, null, null),
+            REQUEST_ACCOUNT_PICKER);
    }
 
 }

@@ -11,7 +11,7 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper
 {
    private static final String DEBUG_TAG = "DatabaseHelper";
-   private static final int DB_VERSION = 1;
+   private static final int DB_VERSION = 2;
    private static final String DB_NAME = "littletalkers_db";
    private Context ctxt = null;
 
@@ -31,7 +31,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
          + DbContract.Kids.COLUMN_NAME_BIRTHDATE_MILLIS + " INTEGER,"
          + DbContract.Kids.COLUMN_NAME_DEFAULT_LOCATION + " TEXT,"
          + DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE + " TEXT,"
-         + DbContract.Kids.COLUMN_NAME_PICTURE_URI + " TEXT" + ");";
+         + DbContract.Kids.COLUMN_NAME_PICTURE_URI + " TEXT,"
+         + "is_dirty INTEGER);";
 
    // Words table create statement
    private static final String CREATE_TABLE_WORDS = "CREATE TABLE "
@@ -45,7 +46,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
          + DbContract.Words.COLUMN_NAME_LOCATION + " TEXT,"
          + DbContract.Words.COLUMN_NAME_TRANSLATION + " TEXT,"
          + DbContract.Words.COLUMN_NAME_TOWHOM + " TEXT,"
-         + DbContract.Words.COLUMN_NAME_NOTES + " TEXT" + ");";
+         + DbContract.Words.COLUMN_NAME_NOTES + " TEXT,"
+         + "is_dirty INTEGER);";
 
    // Questions table create statement
    private static final String CREATE_TABLE_QUESTIONS = "CREATE TABLE "
@@ -61,7 +63,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
          + DbContract.Questions.COLUMN_NAME_DATE + " INTEGER,"
          + DbContract.Questions.COLUMN_NAME_LOCATION + " TEXT,"
          + DbContract.Questions.COLUMN_NAME_AUDIO_FILE + " TEXT,"
-         + DbContract.Words.COLUMN_NAME_NOTES + " TEXT" + ");";
+         + DbContract.Words.COLUMN_NAME_NOTES + " TEXT,"
+         + "is_dirty INTEGER);";
 
    @Override
    public void onCreate(SQLiteDatabase db)
@@ -79,10 +82,11 @@ public class DatabaseHelper extends SQLiteOpenHelper
       Log.w(DEBUG_TAG, "Upgrading database from version " + oldVersion + " to "
             + newVersion + ", which will destroy all old data");
 
-      switch(oldVersion) 
+      switch (oldVersion) 
       {
         case 1:
-          //db.execSQL(DATABASE_CREATE_color);
+           db.execSQL("ALTER TABLE " + 
+                 DbContract.Kids.TABLE_NAME + " ADD COLUMN " + "is_dirty" + " INTEGER DEFAULT 1");
           // we want both updates, so no break statement here...
         case 2:
           //db.execSQL(DATABASE_CREATE_someothertable); 

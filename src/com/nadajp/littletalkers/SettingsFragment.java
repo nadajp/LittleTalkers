@@ -1,5 +1,8 @@
 package com.nadajp.littletalkers;
 
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+
+import com.nadajp.littletalkers.backup.SyncToServer;
 import com.nadajp.littletalkers.utils.Prefs;
 
 import android.app.Activity;
@@ -9,6 +12,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 
 /**
  * A simple {@link Fragment} subclass. Activities that contain this fragment
@@ -23,7 +27,11 @@ public class SettingsFragment extends PreferenceFragment
    // TODO: Rename parameter arguments, choose names that match
    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
    private static final String ARG_PARAM1 = "param1";
-   private static final String ARG_PARAM2 = "param2";
+   private static final String ARG_PARAM2 = "param2";  
+
+   public SharedPreferences mSharedPrefs;
+   public GoogleAccountCredential mCredential;
+   public String mAccountName;
    
    // TODO: Rename and change types of parameters
    private String mParam1;
@@ -76,7 +84,7 @@ public class SettingsFragment extends PreferenceFragment
          sync.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                       @Override
                       public boolean onPreferenceClick(Preference arg0) { 
-                          mListener.doSync();   
+                          new SyncToServer(mCredential).execute();
                           return true;
                       }
                   });
@@ -111,7 +119,7 @@ public class SettingsFragment extends PreferenceFragment
          mListener.onFragmentInteraction(uri);
       }
    }
-
+/*
    @Override
    public void onAttach(Activity activity)
    {
@@ -132,7 +140,7 @@ public class SettingsFragment extends PreferenceFragment
       super.onDetach();
       mListener = null;
    }
-
+*/
    /**
     * This interface must be implemented by activities that contain this
     * fragment to allow an interaction in this fragment to be communicated to

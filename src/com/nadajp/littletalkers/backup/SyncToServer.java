@@ -37,24 +37,13 @@ public class SyncToServer extends AsyncTask<Context, Integer, Long>
 
    protected Long doInBackground(Context... contexts)
    {
-      try
-      {
-         Littletalkersapi.Builder builder = new Littletalkersapi.Builder(
-               AndroidHttp.newCompatibleTransport(), new JacksonFactory(),
-               mCredential);
-         builder.setApplicationName(contexts[0].getString(R.string.app_name));
-         Littletalkersapi ltEndpoint = builder.build();
-         
-         Long userId = Prefs.getUserId(contexts[0]);
-         
-         
-         // UserDataWrapper data =  // get data from cache file     
-         //ltEndpoint.insertUserData(userId, data);
-
-      } catch (IOException e)
-      {
-         e.printStackTrace();
-      }
+      Littletalkersapi.Builder builder = new Littletalkersapi.Builder(
+            AndroidHttp.newCompatibleTransport(), new JacksonFactory(),
+            mCredential);
+      builder.setApplicationName(contexts[0].getString(R.string.app_name));
+      Littletalkersapi ltEndpoint = builder.build();
+      
+      Long userId = Prefs.getUserId(contexts[0]);
       return (long) 0;
 
    }

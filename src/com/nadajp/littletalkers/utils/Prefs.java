@@ -76,7 +76,7 @@ public class Prefs
    {
       SharedPreferences sharedPrefs = context.getSharedPreferences(
             SHARED_PREFS_FILENAME, Context.MODE_PRIVATE);
-      return sharedPrefs.getString(ACCOUNT_NAME, null);
+      return sharedPrefs.getString(ACCOUNT_NAME, "");
    }
    
    public static void saveAccountName(Context context, String accountName)

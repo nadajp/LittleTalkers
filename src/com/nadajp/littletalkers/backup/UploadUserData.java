@@ -26,7 +26,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
  */
 public class UploadUserData extends AsyncTask<Context, Integer, Long>
 {
-   private static final String DEBUG_TAG = "UploadKidsTask";
+   private static final String DEBUG_TAG = "UploadUserData";
    private GoogleAccountCredential mCredential;
 
    public UploadUserData(GoogleAccountCredential credential)
@@ -58,6 +58,5 @@ public class UploadUserData extends AsyncTask<Context, Integer, Long>
          e.printStackTrace();
       }
       return (long) 0;
-
    }
 }

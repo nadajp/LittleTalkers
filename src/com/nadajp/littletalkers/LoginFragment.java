@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass. Activities that contain this fragment
@@ -31,13 +32,12 @@ public class LoginFragment extends Fragment implements OnClickListener
    static final int REQUEST_ACCOUNT_PICKER = 2;
    private static final int ACTIVITY_RESULT_FROM_ACCOUNT_SELECTION = 2222;
    private static final String DEBUG_TAG = "LoginActivity";
+   private GoogleAccountCredential mCredential;
   
-   private String mEmailAccount = "";
+   private String mEmailAccount = Prefs.getAccountName(this.getActivity());
 
-   public SharedPreferences mSharedPrefs;
-   public GoogleAccountCredential mCredential;
-   public String mAccountName;
-
+   private Button btnLogIn;
+   private Button btnUpgrade;
    
    // TODO: Rename parameter arguments, choose names that match
    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -49,6 +49,7 @@ public class LoginFragment extends Fragment implements OnClickListener
    private String mParam2;
 
    private OnFragmentInteractionListener mListener;
+   private String mAccountName;
 
    /**
     * Use this factory method to create a new instance of this fragment using
@@ -85,6 +86,12 @@ public class LoginFragment extends Fragment implements OnClickListener
          mParam1 = getArguments().getString(ARG_PARAM1);
          mParam2 = getArguments().getString(ARG_PARAM2);
       }
+     
+      btnLogIn = (Button) this.getActivity().findViewById(R.id.button_login);
+      btnUpgrade = (Button) this.getActivity().findViewById(R.id.button_upgrade);
+      
+      btnLogIn.setOnClickListener(this);
+      btnUpgrade.setOnClickListener(this);
    }
 
    @Override
@@ -96,14 +103,14 @@ public class LoginFragment extends Fragment implements OnClickListener
       return view;
    }
 
-   // TODO: Rename method, update argument and hook method into UI event
+   /* TODO: Rename method, update argument and hook method into UI event
    public void onButtonPressed(Uri uri)
    {
       if (mListener != null)
       {
          mListener.onFragmentInteraction(uri);
       }
-   }
+   }*
 
    @Override
    public void onAttach(Activity activity)
@@ -124,7 +131,7 @@ public class LoginFragment extends Fragment implements OnClickListener
    {
       super.onDetach();
       mListener = null;
-   }
+   }*/
 
    /**
     * This interface must be implemented by activities that contain this
@@ -147,37 +154,16 @@ public class LoginFragment extends Fragment implements OnClickListener
       switch (v.getId())
       {
       case R.id.button_login:
-      
+         chooseAccount();
          break;
       case R.id.button_upgrade:
+         
+         break;
       default:
          return;
       }
    }
 
-   public void doSync()
-   {
-      mCredential = GoogleAccountCredential.usingAudience(this.getActivity(),
-            "server:client_id:" + AppConstants.WEB_CLIENT_ID);
-
-      setSelectedAccountName(Prefs.getAccountName(this.getActivity()));
-
-      if (mCredential.getSelectedAccountName() != null)
-      {
-         // Already signed in, begin app!
-         Log.i(DEBUG_TAG,
-               "Already signed in as " + mCredential.getSelectedAccountName()
-                     + ", begin sync!");
-         // new UploadUserData(mCredential).execute(getApplicationContext());
-         // new UpdateUserData(mCredential).execute(getApplicationContext());
-      
-      } else
-      {
-         Log.i(DEBUG_TAG,
-               "Not signed in, show login window or request an account");
-         chooseAccount();
-      }      
-   }
    
    // setSelectedAccountName definition
    private void setSelectedAccountName(String accountName)
