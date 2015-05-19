@@ -3,6 +3,7 @@
  */
 package com.nadajp.littletalkers.database;
 
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
@@ -10,11 +11,13 @@ import android.provider.BaseColumns;
  */
 public final class DbContract
 {
+   public static final String AUTHORITY = "com.nadajp.littletalkers.provider";
+ 
    // This class cannot be instantiated
    private DbContract()
    {
    }
-
+ 
    /**
     * Kids table contract
     */
@@ -24,7 +27,7 @@ public final class DbContract
       private Kids()
       {
       }
-
+            
       public static final String TABLE_NAME = "kids";
       public static final String _ID = "_id";
       public static final String COLUMN_NAME_NAME = "name";
@@ -32,12 +35,14 @@ public final class DbContract
       public static final String COLUMN_NAME_DEFAULT_LOCATION = "default_location";
       public static final String COLUMN_NAME_DEFAULT_LANGUAGE = "default_language";
       public static final String COLUMN_NAME_PICTURE_URI = "picture_uri";
+      
+      public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
    }
    
    /**
     * Words table contract
     */
-   public final class Words implements BaseColumns
+   public static abstract class Words implements BaseColumns
    {
       // This class cannot be instantiated
       private Words()
@@ -55,12 +60,14 @@ public final class DbContract
       public static final String COLUMN_NAME_TRANSLATION = "translation";
       public static final String COLUMN_NAME_TOWHOM = "towhom";
       public static final String COLUMN_NAME_NOTES = "notes";
+      
+      public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
    }
    
    /**
     * Questions table contract, for storing questions & answers
     */
-   public final class Questions implements BaseColumns
+   public static abstract class Questions implements BaseColumns
    {
       // This class cannot be instantiated
       private Questions()
@@ -80,5 +87,7 @@ public final class DbContract
       public static final String COLUMN_NAME_LOCATION = "location";
       public static final String COLUMN_NAME_AUDIO_FILE = "audio_file";
       public static final String COLUMN_NAME_NOTES = "notes";
+      
+      public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
    }
 }

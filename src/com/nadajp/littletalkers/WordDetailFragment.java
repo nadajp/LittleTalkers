@@ -1,5 +1,10 @@
 package com.nadajp.littletalkers;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
@@ -16,8 +21,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbSingleton;
+import com.nadajp.littletalkers.server.littletalkersapi.model.Word;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
@@ -101,7 +108,6 @@ public class WordDetailFragment extends ItemDetailFragment
       return shareBody;
    }
    
-
    public long savePhrase(boolean automatic)
    {
       if (mEditPhrase.length() == 0)
@@ -122,12 +128,24 @@ public class WordDetailFragment extends ItemDetailFragment
             : mEditTranslation.getText().toString();
       String towhom = mEditToWhom.getText().toString();
       String notes = mEditNotes.getText().toString();
+      
+      Word word = new Word();
+      word.setKidId((long) mCurrentKidId);
+      word.setWord(phrase);
+      word.setLocation(location);
+      word.setTranslation(translation);
+      word.setToWhom(towhom);
+      word.setNotes(notes);
+      word.setDate(msDate);
+      word.setAudioFileUri(mCurrentAudioFile);        
 
       // if adding new word, save it here
       if (mItemId == 0)
       {
-         mItemId = DbSingleton.get().saveWord(mCurrentKidId, phrase, mLanguage,
-               msDate, location, mCurrentAudioFile, translation, towhom, notes);
+         //mItemId = DbSingleton.get().saveWord(mCurrentKidId, phrase, mLanguage,
+         //      msDate, location, mCurrentAudioFile, translation, towhom, notes);
+         mItemId = DbSingleton.get().saveWord(word);
+
          if (mItemId == -1)
          {
             if (!automatic)
@@ -138,6 +156,9 @@ public class WordDetailFragment extends ItemDetailFragment
             }
             return -1;
          }
+         
+         // TODO add to cache file for upload
+         addToCache(word, Utils.ADD_WORD);
 
          // word was saved successfully
          Toast toast = Toast.makeText(this.getActivity(), R.string.word_saved,
@@ -163,7 +184,9 @@ public class WordDetailFragment extends ItemDetailFragment
             }
             return -1;
          }
-         // Word was updated successfully, show dictionary
+         // Word was updated successfully
+         // add to cache for sync
+         this.addToCache(word, Utils.UPDATE_WORD);
          Toast toast = Toast.makeText(this.getActivity(),
                R.string.word_updated, Toast.LENGTH_LONG);
          toast.show();
@@ -217,7 +240,7 @@ public class WordDetailFragment extends ItemDetailFragment
       mEditPhrase.setText(cursor.getString(cursor
             .getColumnIndex(DbContract.Words.COLUMN_NAME_WORD)));
 
-      // get date in miliseconds from db, convert to text, set current date
+      // get date in milliseconds from db, convert to text, set current date
       long rawdate = cursor.getLong(cursor
             .getColumnIndex(DbContract.Words.COLUMN_NAME_DATE));
       mEditDate.setText(Utils.getDateForDisplay(rawdate, this.getActivity()));
