@@ -1008,32 +1008,6 @@ public abstract class ItemDetailFragment extends Fragment implements
       return mCurrentKidId;
    }
 
-   public void addToCache(Object data, String type)
-   {
-      Gson gson = new Gson();
-      String json = gson.toJson(data);     
-      
-      try {
- 
-         File file = new File(this.getActivity().getFilesDir(), Prefs.FILENAME_CACHE_CHANGES);
- 
-         //if file doesnt exists, then create it
-         if (!file.exists()){
-            file.createNewFile();
-         }
-         //true = append file
-         FileWriter fileWriter = new FileWriter(file.getName(), true);
-              BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
-              bufferWriter.write(type);
-              bufferWriter.write(json);
-              bufferWriter.close();
- 
-           System.out.println("Done");
- 
-      } catch(IOException e){
-         e.printStackTrace();
-      }
-   }
    
    public interface OnAddNewPhraseListener
    {

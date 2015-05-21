@@ -9,17 +9,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class LoginActivity extends Activity
+public class UpgradeActivity extends Activity
 {
    @Override
    protected void onCreate(Bundle savedInstanceState)
    {
       super.onCreate(savedInstanceState);
-      setContentView(R.layout.activity_login);
+      setContentView(R.layout.activity_upgrade);
       if (savedInstanceState == null)
       {
          getFragmentManager().beginTransaction()
-               .add(R.id.container, new LoginFragment()).commit();
+               .add(R.id.container, new UpgradeFragment()).commit();
       }
    }
 

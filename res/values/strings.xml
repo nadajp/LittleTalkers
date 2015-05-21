@@ -191,19 +191,17 @@
     <string name="title_activity_kid_profile">View Profile</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_audio_record">AudioRecordActivity</string>
-    <string name="title_test_list">Tests</string>
-    <string name="title_test_detail">Test Detail</string>
-    <string name="title_activity_tab_test">TabTest</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="upgrade">Upgrade</string>
+    <string name="log_in">Log In</string>
     <string name="logged_in">logged_in</string>
     <string name="sync">sync</string>
     <string name="account">account</string>
-    <string name="title_activity_login">Log in or Upgrade</string>
-    <string name="upgrade_info">Upgrade to synchronize your data between devices and to securely access it through the Little Talkers website.</string>
+    <string name="title_activity_upgrade">Upgrade Little Talkers!</string>
+    <string name="upgrade_info1">Upgrade Little Talkers to:</string>
+    <string name="upgrade_info2">- Synchronize your data between devices</string>
+    <string name="upgrade_info3">- Securely access data through the Little Talkers website</string>
+    <string name="upgrade_info4">- Share your data with family and friends.</string>
 
 </resources>

@@ -1,15 +1,18 @@
 package com.nadajp.littletalkers;
 
+import com.google.android.gms.common.AccountPicker;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-
 import com.nadajp.littletalkers.backup.SyncToServer;
+import com.nadajp.littletalkers.backup.UploadUserData;
 import com.nadajp.littletalkers.utils.Prefs;
 
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.util.Log;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,13 +29,16 @@ public class SettingsFragment extends PreferenceFragment
 {
    // TODO: Rename parameter arguments, choose names that match
    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-   private static final String ARG_PARAM1 = "param1";
-   private static final String ARG_PARAM2 = "param2";  
-
+   static final int REQUEST_ACCOUNT_PICKER = 2;
+   private static final int ACTIVITY_RESULT_FROM_ACCOUNT_SELECTION = 2222;
+   private GoogleAccountCredential mCredential;
    public SharedPreferences mSharedPrefs;
-   public GoogleAccountCredential mCredential;
    public String mAccountName;
-   
+
+   private static final String ARG_PARAM1 = "param1";
+   private static final String ARG_PARAM2 = "param2";
+   private static final String DEBUG_TAG = "SettingsFragment";  
+ 
    // TODO: Rename and change types of parameters
    private String mParam1;
    private String mParam2;
@@ -73,25 +79,47 @@ public class SettingsFragment extends PreferenceFragment
       // Load the preferences from an XML resource
       addPreferencesFromResource(R.xml.preferences);
       Preference account = (Preference) findPreference("account");
-      
-      Boolean loggedIn = Prefs.getAccountName(getActivity()) == null ? false : true;
+      Boolean upgraded = true; //Prefs.getUpgraded(this.getActivity());
+      final Long userId = Prefs.getUserId(this.getActivity());
 
-      if (loggedIn)
+      if (upgraded)
       {
-         Preference sync = (Preference) findPreference("sync");
-         sync.setDefaultValue(loggedIn);
-         sync.setDependency("account");
-         sync.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                      @Override
-                      public boolean onPreferenceClick(Preference arg0) { 
-                          new SyncToServer(mCredential).execute();
-                          return true;
-                      }
-                  });
+         mCredential = GoogleAccountCredential
+               .usingAudience(this.getActivity(), AppConstants.AUDIENCE);
+
+         //Account stuff
+         setSelectedAccountName(Prefs.getAccountName(getActivity()));
+         if (mCredential.getSelectedAccountName() != null) 
+         {
+              Log.i(DEBUG_TAG, "Already signed in, begin app! - " + mCredential.getSelectedAccountName());
+              Preference sync = (Preference) findPreference("sync");
+              sync.setDefaultValue(upgraded);
+              sync.setDependency("account");
+              sync.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                         @Override
+                         public boolean onPreferenceClick(Preference arg0) { 
+                             if (userId != -1) {  // existing user, update
+                                Log.i(DEBUG_TAG, "Existing user, update!");
+                               new SyncToServer(mCredential).execute(SettingsFragment.this.getActivity());
+                             }
+                             else {  // new user, upload all data
+                                Log.i(DEBUG_TAG, "New user, upload all!");
+                                new UploadUserData(mCredential).execute(SettingsFragment.this.getActivity());
+                             }
+                             return true;
+                         }
+                     });
+         
+         } else {
+             // Not signed in, show login window or request an account.
+            chooseAccount();
+         }
+         
+        
       }
       else 
       {
-         Intent intent = new Intent(this.getActivity(), LoginActivity.class);
+         Intent intent = new Intent(this.getActivity(), UpgradeActivity.class);
          account.setIntent(intent);
          
          /*account.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
@@ -155,5 +183,47 @@ public class SettingsFragment extends PreferenceFragment
       // TODO: Update argument type and name
       public void onFragmentInteraction(Uri uri);      
       public void doSync();
+   }
+   
+   // setSelectedAccountName definition
+   private void setSelectedAccountName(String accountName)
+   {
+      Prefs.saveAccountName(this.getActivity(), accountName);
+      mCredential.setSelectedAccountName(accountName);
+      this.mAccountName = accountName;
+   }
+
+
+   // used in endpoints, this allows user to select account
+   void chooseAccount()
+   {
+      Intent intent = AccountPicker.newChooseAccountIntent(null, null, new String[]{"com.google"},
+            true, null, null, null, null);    
+      startActivityForResult(intent, REQUEST_ACCOUNT_PICKER);
+   }
+
+   @Override
+   public void onActivityResult(int requestCode, int resultCode, Intent data)
+   {
+      super.onActivityResult(requestCode, resultCode, data);
+      switch (requestCode)
+      {
+      case REQUEST_ACCOUNT_PICKER:
+         if (data != null && data.getExtras() != null)
+         {
+            String accountName = data.getExtras().getString(
+                  AccountManager.KEY_ACCOUNT_NAME);
+            if (accountName != null)
+            {
+               setSelectedAccountName(accountName);
+
+               // User is authorized.
+               Log.i(DEBUG_TAG, "Authorized user: " + accountName
+                     + ", starting upload");
+               new UploadUserData(mCredential).execute(this.getActivity());
+            }
+         }
+         break;
+      }
    }
 }

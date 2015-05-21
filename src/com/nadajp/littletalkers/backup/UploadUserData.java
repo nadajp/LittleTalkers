@@ -3,14 +3,10 @@ package com.nadajp.littletalkers.backup;
 import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.server.littletalkersapi.Littletalkersapi;
-import com.nadajp.littletalkers.server.littletalkersapi.model.Kid;
-import com.nadajp.littletalkers.server.littletalkersapi.model.Word;
 import com.nadajp.littletalkers.server.littletalkersapi.model.UserDataWrapper;
 import com.nadajp.littletalkers.server.littletalkersapi.model.UserProfile;
-import com.nadajp.littletalkers.server.littletalkersapi.model.WordCollection;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -42,14 +38,13 @@ public class UploadUserData extends AsyncTask<Context, Integer, Long>
          Littletalkersapi.Builder builder = new Littletalkersapi.Builder(
                AndroidHttp.newCompatibleTransport(), new JacksonFactory(),
                mCredential);
-         builder.setApplicationName(contexts[0].getString(R.string.app_name));
          Littletalkersapi ltEndpoint = builder.build();
-         
+
          UserProfile result = ltEndpoint.insertProfile().execute();
          Long userId = result.getId();
          Log.i(DEBUG_TAG, "User id: " + userId);
          Prefs.saveUserId(contexts[0], userId);
-         
+            
          UserDataWrapper data = ServerBackupUtils.getUserData();       
          ltEndpoint.insertUserData(userId, data);
 

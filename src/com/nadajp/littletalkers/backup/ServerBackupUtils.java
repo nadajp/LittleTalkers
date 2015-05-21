@@ -56,11 +56,11 @@ public class ServerBackupUtils
       });
     }
 
-    
    private static ArrayList<Kid> getKids()
    {
       ArrayList<Kid> kids = new ArrayList<Kid>();
-      Cursor cursor = DbSingleton.get().getKidsForExport();
+      Cursor cursor = DbSingleton.get().getKidsForSync();
+      
       if (cursor.moveToFirst())
       {
          do
@@ -83,7 +83,7 @@ public class ServerBackupUtils
    public static ArrayList<Word> getWords()
    {
       ArrayList<Word> words = new ArrayList<Word>();
-      Cursor c = DbSingleton.get().getAllWordsForBackup();
+      Cursor c = DbSingleton.get().getWordsForSync();
       if (c.moveToFirst())
       {
          do
@@ -112,4 +112,5 @@ public class ServerBackupUtils
       data.setWords(getWords());
       return data;
    }
+
 }

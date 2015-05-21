@@ -156,9 +156,6 @@ public class WordDetailFragment extends ItemDetailFragment
             }
             return -1;
          }
-         
-         // TODO add to cache file for upload
-         addToCache(word, Utils.ADD_WORD);
 
          // word was saved successfully
          Toast toast = Toast.makeText(this.getActivity(), R.string.word_saved,
@@ -185,8 +182,6 @@ public class WordDetailFragment extends ItemDetailFragment
             return -1;
          }
          // Word was updated successfully
-         // add to cache for sync
-         this.addToCache(word, Utils.UPDATE_WORD);
          Toast toast = Toast.makeText(this.getActivity(),
                R.string.word_updated, Toast.LENGTH_LONG);
          toast.show();

@@ -214,21 +214,6 @@ public class Utils
       audioFile = newfile;
       return audioFile;
    }
-   
-   public static File getDataCacheFile(Context context)
-   {     
-      try { 
-         File file = new File(context.getFilesDir(), Prefs.FILENAME_CACHE_CHANGES);
- 
-         //if file doesnt exists, then create it
-         if (!file.exists()){
-            file.createNewFile();
-         }
-         return file; 
-      }catch(IOException e){
-         e.printStackTrace();
-      }      return null;
-      
-   }
+
 
 }

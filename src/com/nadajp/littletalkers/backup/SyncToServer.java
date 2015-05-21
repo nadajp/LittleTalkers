@@ -2,6 +2,7 @@ package com.nadajp.littletalkers.backup;
 
 import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.utils.Prefs;
+import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.server.littletalkersapi.Littletalkersapi;
 import com.nadajp.littletalkers.server.littletalkersapi.model.Kid;
 import com.nadajp.littletalkers.server.littletalkersapi.model.Word;
@@ -28,6 +29,7 @@ public class SyncToServer extends AsyncTask<Context, Integer, Long>
 {
    private static final String DEBUG_TAG = "SyncToServerTask";
    private GoogleAccountCredential mCredential;
+   private Long mUserId;
 
    public SyncToServer(GoogleAccountCredential credential)
    {
@@ -44,6 +46,18 @@ public class SyncToServer extends AsyncTask<Context, Integer, Long>
       Littletalkersapi ltEndpoint = builder.build();
       
       Long userId = Prefs.getUserId(contexts[0]);
+      UserDataWrapper data = ServerBackupUtils.getUserData(); 
+      try
+      {
+         // change to update
+         ltEndpoint.insertUserData(userId, data);
+         DbSingleton.get().setNotDirty(data);
+      } catch (IOException e)
+      {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+      
       return (long) 0;
 
    }

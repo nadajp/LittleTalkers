@@ -8,8 +8,7 @@
         <Preference
             android:key="@string/sync"
             android:title="Sync Now"
-            android:summary="Click here to sync your data to the cloud now"
-            android:enabled="false"/>
+            android:summary="Click here to sync your data to the cloud now"/>
     </PreferenceScreen>
 
 </PreferenceScreen>

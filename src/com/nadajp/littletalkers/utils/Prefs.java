@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 public class Prefs
 {
    public static final String SHARED_PREFS_FILENAME = "com.nadajp.littletalkers.shared_prefs";
-   public static final String FILENAME_CACHE_CHANGES = "toSync.txt";
    public static final String ACCOUNT_NAME = "account_name";
    public static final String CURRENT_KID_ID = "current_kid_id";
    public static final String PROFILE_PIC_PATH = "profile_picture_path";
@@ -37,6 +36,7 @@ public class Prefs
    public static final String TEMP_FILE_STEM = "temp_file_stem";
    public static final String USER_ID = "user_id";
    public static final String LOGGED_IN = "logged_in";
+   public static final String UPGRADED = "upgraded";
 
    public static final String PHRASE = "phrase";
    public static final String ANSWER = "answer";
@@ -76,7 +76,7 @@ public class Prefs
    {
       SharedPreferences sharedPrefs = context.getSharedPreferences(
             SHARED_PREFS_FILENAME, Context.MODE_PRIVATE);
-      return sharedPrefs.getString(ACCOUNT_NAME, "");
+      return sharedPrefs.getString(ACCOUNT_NAME, null);
    }
    
    public static void saveAccountName(Context context, String accountName)
@@ -92,6 +92,12 @@ public class Prefs
    {
       SharedPreferences sharedPrefs = context.getSharedPreferences(SHARED_PREFS_FILENAME, Context.MODE_PRIVATE);
       return sharedPrefs.getBoolean(LOGGED_IN, false);      
+   }
+   
+   public static Boolean getUpgraded(Context context)
+   {
+      SharedPreferences sharedPrefs = context.getSharedPreferences(SHARED_PREFS_FILENAME, Context.MODE_PRIVATE);
+      return sharedPrefs.getBoolean(UPGRADED, false);      
    }
    
    public static Long getUserId(Context context)

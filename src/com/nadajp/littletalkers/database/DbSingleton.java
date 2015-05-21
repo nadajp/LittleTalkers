@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.database.DbContract.Words;
+import com.nadajp.littletalkers.server.littletalkersapi.model.Kid;
+import com.nadajp.littletalkers.server.littletalkersapi.model.UserDataWrapper;
 import com.nadajp.littletalkers.server.littletalkersapi.model.Word;
 
 public class DbSingleton
@@ -655,4 +657,30 @@ public class DbSingleton
       return mDb.rawQuery(query, null);
    }
    
+   public Cursor getKidsForSync()
+   {
+      String query = "SELECT * FROM Kids WHERE is_dirty = ?";
+      return mDb.rawQuery(query, new String[] { "1" });
+   }
+   
+   public Cursor getWordsForSync()
+   {
+      String query = "SELECT * FROM Words WHERE is_dirty = ?";
+      return mDb.rawQuery(query, new String[] { "1" });
+   }
+   
+   public void setNotDirty(UserDataWrapper data)
+   {
+      List<Kid> kids = data.getKids();
+      List<Word> words = data.getWords();
+      
+      ContentValues values = new ContentValues();
+      values.put("is_dirty", 0);
+      
+      for (Kid kid: kids)
+      {
+         mDb.update("Kids", values, DbContract.Kids._ID, new String[] {(kid.getId()).toString()});
+      }
+   }
+ 
 }
