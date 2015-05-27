@@ -679,7 +679,11 @@ public class DbSingleton
       
       for (Kid kid: kids)
       {
-         mDb.update("Kids", values, DbContract.Kids._ID, new String[] {(kid.getId()).toString()});
+         mDb.update("Kids", values, "_id=?", new String[] {(kid.getId()).toString()});
+      }
+      for (Word word: words)
+      {
+         mDb.update("Words", values, DbContract.Words.COLUMN_NAME_WORD + "=?", new String[] {(word.getWord())});
       }
    }
  

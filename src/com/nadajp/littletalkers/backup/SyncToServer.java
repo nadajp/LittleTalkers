@@ -49,16 +49,13 @@ public class SyncToServer extends AsyncTask<Context, Integer, Long>
       UserDataWrapper data = ServerBackupUtils.getUserData(); 
       try
       {
-         // change to update
-         ltEndpoint.insertUserData(userId, data);
-         DbSingleton.get().setNotDirty(data);
+         UserDataWrapper result = ltEndpoint.insertUserData(userId, data).execute();
       } catch (IOException e)
       {
          // TODO Auto-generated catch block
          e.printStackTrace();
-      }
-      
+      }   
+      DbSingleton.get().setNotDirty(data);
       return (long) 0;
-
    }
 }

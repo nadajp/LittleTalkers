@@ -32,7 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
          + DbContract.Kids.COLUMN_NAME_DEFAULT_LOCATION + " TEXT,"
          + DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE + " TEXT,"
          + DbContract.Kids.COLUMN_NAME_PICTURE_URI + " TEXT,"
-         + "is_dirty INTEGER);";
+         + "is_dirty INTEGER DEFAULT 1);";
 
    // Words table create statement
    private static final String CREATE_TABLE_WORDS = "CREATE TABLE "
@@ -47,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
          + DbContract.Words.COLUMN_NAME_TRANSLATION + " TEXT,"
          + DbContract.Words.COLUMN_NAME_TOWHOM + " TEXT,"
          + DbContract.Words.COLUMN_NAME_NOTES + " TEXT,"
-         + "is_dirty INTEGER);";
+         + "is_dirty INTEGER DEFAULT 1);";
 
    // Questions table create statement
    private static final String CREATE_TABLE_QUESTIONS = "CREATE TABLE "
@@ -64,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
          + DbContract.Questions.COLUMN_NAME_LOCATION + " TEXT,"
          + DbContract.Questions.COLUMN_NAME_AUDIO_FILE + " TEXT,"
          + DbContract.Words.COLUMN_NAME_NOTES + " TEXT,"
-         + "is_dirty INTEGER);";
+         + "is_dirty INTEGER DEFAULT 1);";
 
    @Override
    public void onCreate(SQLiteDatabase db)

@@ -1,7 +1,7 @@
 package com.nadajp.littletalkers.backup;
 
-import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.utils.Prefs;
+import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.server.littletalkersapi.Littletalkersapi;
 import com.nadajp.littletalkers.server.littletalkersapi.model.UserDataWrapper;
 import com.nadajp.littletalkers.server.littletalkersapi.model.UserProfile;
@@ -33,6 +33,7 @@ public class UploadUserData extends AsyncTask<Context, Integer, Long>
 
    protected Long doInBackground(Context... contexts)
    {
+      UserDataWrapper data = ServerBackupUtils.getUserData();       
       try
       {
          Littletalkersapi.Builder builder = new Littletalkersapi.Builder(
@@ -45,13 +46,22 @@ public class UploadUserData extends AsyncTask<Context, Integer, Long>
          Log.i(DEBUG_TAG, "User id: " + userId);
          Prefs.saveUserId(contexts[0], userId);
             
-         UserDataWrapper data = ServerBackupUtils.getUserData();       
-         ltEndpoint.insertUserData(userId, data);
-
+         UserDataWrapper wrapper = ltEndpoint.insertUserData(userId, data).execute();
+         Log.i(DEBUG_TAG, wrapper.getKids().get(0).getName());
+         
       } catch (IOException e)
       {
          e.printStackTrace();
       }
+      DbSingleton.get().setNotDirty(data);
       return (long) 0;
    }
+   
+   protected void onProgressUpdate(Integer... progress) {
+      //setProgressPercent(progress[0]);
+  }
+
+  protected void onPostExecute(Long result) {
+     //DbSingleton.get().setNotDirty(data);
+  }
 }

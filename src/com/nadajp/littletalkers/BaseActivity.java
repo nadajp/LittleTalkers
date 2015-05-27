@@ -1,13 +1,20 @@
 package com.nadajp.littletalkers;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
 import android.media.ThumbnailUtils;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -223,24 +230,24 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
          }
       }
       mCursorAdapter = null;
-      //exportDB();
+      exportDB();
    }
 
-   /*
+   
    public void exportDB()
    {
       try
       {
          File sd = Environment.getExternalStorageDirectory();
-         //Log.i("DEBUG_TAG", "Trying to export DB");
+         Log.i("DEBUG_TAG", "Trying to export DB");
 
          if (sd.canWrite())
          {
-            //Log.i("DEBUG_TAG", "Can write db");
+            Log.i("DEBUG_TAG", "Can write db");
 
             String currentDBPath = "/data/data/" + getPackageName()
                   + "/databases/littletalkers_db";
-            //Log.i(DEBUG_TAG, "currentDBPath = " + currentDBPath);
+            Log.i(DEBUG_TAG, "currentDBPath = " + currentDBPath);
             String backupDBPath = "LittleTalkers/LTbackup.db";
             File currentDB = new File(currentDBPath);
             File backupDB = new File(sd, backupDBPath);
@@ -272,7 +279,7 @@ public class BaseActivity extends Activity implements OnItemSelectedListener
       {
          Log.i(DEBUG_TAG, "Could not export DB");
       }
-   }*/
+   }
 
    @Override
    public void onSaveInstanceState(Bundle outState)
