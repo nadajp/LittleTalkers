@@ -203,5 +203,6 @@
     <string name="upgrade_info2">- Synchronize your data between devices</string>
     <string name="upgrade_info3">- Securely access data through the Little Talkers website</string>
     <string name="upgrade_info4">- Share your data with family and friends.</string>
+    <string name="title_activity_sync_now">SyncNowActivity</string>
 
 </resources>

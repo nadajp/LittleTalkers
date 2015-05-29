@@ -34,13 +34,14 @@ public class UploadUserData extends AsyncTask<Context, Integer, Long>
    protected Long doInBackground(Context... contexts)
    {
       UserDataWrapper data = ServerBackupUtils.getUserData();       
-      try
-      {
-         Littletalkersapi.Builder builder = new Littletalkersapi.Builder(
+
+      Littletalkersapi.Builder builder = new Littletalkersapi.Builder(
                AndroidHttp.newCompatibleTransport(), new JacksonFactory(),
                mCredential);
-         Littletalkersapi ltEndpoint = builder.build();
-
+      Littletalkersapi ltEndpoint = builder.build();
+     
+      try
+      {
          UserProfile result = ltEndpoint.insertProfile().execute();
          Long userId = result.getId();
          Log.i(DEBUG_TAG, "User id: " + userId);

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-
     <PreferenceScreen
         android:key="@string/account"
-        android:title="My Little Talkers Account"
-        android:summary="Synchronize all your data to the cloud" >   
+        android:summary="Synchronize all your data to the cloud"
+        android:title="My Little Talkers Account" >
         <Preference
             android:key="@string/sync"
-            android:title="Sync Now"
-            android:summary="Click here to sync your data to the cloud now"/>
+            android:summary="Click here to sync your data to the cloud now"
+            android:title="Sync Now"/>
+            <!-- android:widgetLayout="@layout/pref_widget_progressbar"/>-->
     </PreferenceScreen>
-
 </PreferenceScreen>
