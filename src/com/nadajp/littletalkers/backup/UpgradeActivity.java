@@ -1,7 +1,11 @@
-package com.nadajp.littletalkers;
+package com.nadajp.littletalkers.backup;
+
+import com.nadajp.littletalkers.R;
+import com.nadajp.littletalkers.R.id;
+import com.nadajp.littletalkers.R.layout;
+import com.nadajp.littletalkers.R.menu;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,20 +13,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 
-public class SyncNowActivity extends Activity
+public class UpgradeActivity extends Activity
 {
-
    @Override
    protected void onCreate(Bundle savedInstanceState)
    {
       super.onCreate(savedInstanceState);
-      setContentView(R.layout.activity_sync_now);
+      setContentView(R.layout.activity_upgrade);
       if (savedInstanceState == null)
       {
          getFragmentManager().beginTransaction()
-               .add(R.id.container, new PlaceholderFragment()).commit();
+               .add(R.id.container, new UpgradeFragment()).commit();
       }
    }
 
@@ -30,7 +32,7 @@ public class SyncNowActivity extends Activity
    public boolean onCreateOptionsMenu(Menu menu)
    {
       // Inflate the menu; this adds items to the action bar if it is present.
-      getMenuInflater().inflate(R.menu.sync_now, menu);
+      getMenuInflater().inflate(R.menu.login, menu);
       return true;
    }
 
@@ -48,23 +50,4 @@ public class SyncNowActivity extends Activity
       return super.onOptionsItemSelected(item);
    }
 
-   /**
-    * A placeholder fragment containing a simple view.
-    */
-   public static class PlaceholderFragment extends Fragment
-   {
-
-      public PlaceholderFragment()
-      {
-      }
-
-      @Override
-      public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState)
-      {
-         View rootView = inflater.inflate(R.layout.fragment_sync_now,
-               container, false);
-         return rootView;
-      }
-   }
 }

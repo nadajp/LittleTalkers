@@ -1,24 +1,16 @@
 package com.nadajp.littletalkers.backup;
 
 import com.nadajp.littletalkers.R;
-import com.nadajp.littletalkers.SettingsActivity;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.server.littletalkersapi.Littletalkersapi;
-import com.nadajp.littletalkers.server.littletalkersapi.model.Kid;
-import com.nadajp.littletalkers.server.littletalkersapi.model.Word;
 import com.nadajp.littletalkers.server.littletalkersapi.model.UserDataWrapper;
 import com.nadajp.littletalkers.server.littletalkersapi.model.UserProfile;
-import com.nadajp.littletalkers.server.littletalkersapi.model.WordCollection;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.preference.PreferenceFragment;
 import android.util.Log;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -34,13 +26,11 @@ public class SyncToServer extends AsyncTask<Context, Integer, Long>
    private static final String DEBUG_TAG = "SyncToServerTask";
    private GoogleAccountCredential mCredential;
    private Long mUserId;
-   private final PreferenceFragment mParent;
 
-   public SyncToServer(GoogleAccountCredential credential, final PreferenceFragment parent)
+   public SyncToServer(GoogleAccountCredential credential)
    {
       super();
       mCredential = credential;
-      mParent = parent;
    }
    
    @Override

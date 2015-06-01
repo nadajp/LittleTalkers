@@ -2,7 +2,7 @@ package com.nadajp.littletalkers;
 
 import com.google.android.gms.common.AccountPicker;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.nadajp.littletalkers.SettingsFragmentPrefs.OnFragmentInteractionListener;
+import com.nadajp.littletalkers.SettingsFragment.OnFragmentInteractionListener;
 import com.nadajp.littletalkers.backup.UploadUserData;
 import com.nadajp.littletalkers.utils.Prefs;
 
@@ -34,7 +34,7 @@ public class SettingsActivity extends Activity
       setContentView(R.layout.activity_settings);
       if (savedInstanceState == null)
       {
-         getFragmentManager().beginTransaction().add(R.id.container, new SettingsFragmentPrefs()).commit();
+         getFragmentManager().beginTransaction().add(R.id.container, new SettingsFragment()).commit();
       }
       this.getActionBar().setDisplayHomeAsUpEnabled(true);
    }

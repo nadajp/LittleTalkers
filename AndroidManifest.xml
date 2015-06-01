@@ -157,7 +157,7 @@
             android:parentActivityName=".MainActivity" >
         </activity>
         <activity
-            android:name=".UpgradeActivity"
+            android:name="com.nadajp.littletalkers.backup.UpgradeActivity"
             android:label="@string/title_activity_upgrade"
             android:parentActivityName=".SettingsActivity" >
             <meta-data
@@ -165,7 +165,7 @@
                 android:value="com.nadajp.littletalkers.SettingsActivity" />
         </activity>
         <activity
-            android:name=".SyncNowActivity"
+            android:name="com.nadajp.littletalkers.backup.SyncNowActivity"
             android:label="@string/title_activity_sync_now"
             android:parentActivityName=".SettingsActivity" >
             <meta-data

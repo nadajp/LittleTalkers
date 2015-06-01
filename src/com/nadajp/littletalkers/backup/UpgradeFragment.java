@@ -1,8 +1,10 @@
-package com.nadajp.littletalkers;
+package com.nadajp.littletalkers.backup;
 
 import com.google.android.gms.common.AccountPicker;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.nadajp.littletalkers.backup.UploadUserData;
+import com.nadajp.littletalkers.R;
+import com.nadajp.littletalkers.R.id;
+import com.nadajp.littletalkers.R.layout;
 import com.nadajp.littletalkers.utils.Prefs;
 
 import android.accounts.AccountManager;
