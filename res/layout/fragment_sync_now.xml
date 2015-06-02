@@ -12,14 +12,14 @@
         android:layout_marginTop="20dp"
         android:text="Click here to sync your data to the cloud now" />
 
-    <TextView
-        android:id="@+id/text_sync_now"
+    <Button
+        android:id="@+id/button_sync"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/sync_title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="@string/sync"
+        android:text="@string/sync_now"
         android:textSize="20sp"
         android:clickable="true" />
 
@@ -28,7 +28,7 @@
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_sync_now"
+        android:layout_below="@id/button_sync"
         android:layout_centerHorizontal="true"
         android:visibility="gone" />
 

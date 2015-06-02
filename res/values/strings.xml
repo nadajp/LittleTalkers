@@ -196,13 +196,16 @@
     <string name="upgrade">Upgrade</string>
     <string name="log_in">Log In</string>
     <string name="logged_in">logged_in</string>
-    <string name="sync">sync</string>
+    <string name="sync_title">Tap below to start sync.</string>
+    <string name="sync_now">Sync Now</string>
+    <string name="syncing">Syncing...</string>
+    <string name="sync_complete">Sync is Complete</string>
     <string name="account">account</string>
     <string name="title_activity_upgrade">Upgrade Little Talkers!</string>
     <string name="upgrade_info1">Upgrade Little Talkers to:</string>
     <string name="upgrade_info2">- Synchronize your data between devices</string>
     <string name="upgrade_info3">- Securely access data through the Little Talkers website</string>
     <string name="upgrade_info4">- Share your data with family and friends.</string>
-    <string name="title_activity_sync_now">SyncNowActivity</string>
+    <string name="title_activity_sync_now">Sync to Cloud</string>
 
 </resources>

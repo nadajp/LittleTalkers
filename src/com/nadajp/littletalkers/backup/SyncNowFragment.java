@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -39,7 +40,7 @@ public class SyncNowFragment extends Fragment
    private String mParam1;
    private String mParam2;
 
-   private TextView mTextSyncNow;
+   private Button  mButtonSyncNow;
    private ProgressBar mSpinner;
    
    private OnFragmentInteractionListener mListener;
@@ -90,14 +91,13 @@ public class SyncNowFragment extends Fragment
             .inflate(R.layout.fragment_sync_now, container, false);
 
       mSpinner = (ProgressBar) view.findViewById(R.id.progress);
-      mSpinner.setVisibility(View.GONE);
 
-      mTextSyncNow = (TextView) view.findViewById(R.id.text_sync_now);
+      mButtonSyncNow = (Button) view.findViewById(R.id.button_sync);
       final Long userId = Prefs.getUserId(this.getActivity());
       mCredential = GoogleAccountCredential
             .usingAudience(this.getActivity(), AppConstants.AUDIENCE);
-
-      mTextSyncNow.setOnClickListener(new View.OnClickListener()
+      mCredential.setSelectedAccountName(Prefs.getAccountName(this.getActivity()));
+      mButtonSyncNow.setOnClickListener(new View.OnClickListener()
       {
          @Override
          public void onClick(View v)
@@ -105,7 +105,7 @@ public class SyncNowFragment extends Fragment
             mSpinner.setVisibility(View.VISIBLE);
             if (userId != -1) {  // existing user, update
                Log.i(DEBUG_TAG, "Existing user, update!");
-               new SyncToServer(mCredential).execute(SyncNowFragment.this.getActivity());           
+               new SyncToServer(mCredential, mSpinner, mButtonSyncNow).execute(SyncNowFragment.this.getActivity());           
            }
             else {  // new user, upload all data
                Log.i(DEBUG_TAG, "New user, upload all!");

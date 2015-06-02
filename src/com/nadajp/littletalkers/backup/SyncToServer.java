@@ -12,6 +12,9 @@ import java.io.IOException;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -26,16 +29,23 @@ public class SyncToServer extends AsyncTask<Context, Integer, Long>
    private static final String DEBUG_TAG = "SyncToServerTask";
    private GoogleAccountCredential mCredential;
    private Long mUserId;
+   private ProgressBar mProgressBar;
+   private Button mButtonSync;
 
-   public SyncToServer(GoogleAccountCredential credential)
+   public SyncToServer(GoogleAccountCredential credential, ProgressBar progress, Button sync)
    {
       super();
       mCredential = credential;
+      mProgressBar = progress;
+      mButtonSync = sync;
    }
    
    @Override
-   protected void onPreExecute() {
-       super.onPreExecute();
+   protected void onPreExecute() 
+   {
+      super.onPreExecute();
+      mProgressBar.setVisibility(View.VISIBLE);
+      mButtonSync.setText(R.string.syncing);
    }
 
    protected Long doInBackground(Context... contexts)
@@ -84,6 +94,8 @@ public class SyncToServer extends AsyncTask<Context, Integer, Long>
   }
 
   protected void onPostExecute(Long result) {
-     //DbSingleton.get().setNotDirty(data);
+     mProgressBar.setVisibility(View.INVISIBLE);
+     mButtonSync.setText(R.string.sync_complete);
+     mButtonSync.setClickable(false);
   }
 }
