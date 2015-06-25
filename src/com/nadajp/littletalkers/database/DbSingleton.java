@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 
 import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.database.DbContract.Words;
@@ -171,8 +172,8 @@ public class DbSingleton
       return mDb.rawQuery(query, null);
    }
 
-   public Cursor getQuestions(int kidId, String sortColumn,
-         boolean bAscending, String language)
+   public Cursor getQuestions(int kidId, String sortColumn, boolean bAscending,
+         String language)
    {
       String query;
 
@@ -217,9 +218,8 @@ public class DbSingleton
    {
       String query;
 
-      query = "SELECT * FROM Words WHERE "
-            + DbContract.Words.COLUMN_NAME_KID + " = " + kidId + " ORDER BY "
-            + Words.COLUMN_NAME_DATE + " ASC";
+      query = "SELECT * FROM Words WHERE " + DbContract.Words.COLUMN_NAME_KID
+            + " = " + kidId + " ORDER BY " + Words.COLUMN_NAME_DATE + " ASC";
 
       return mDb.rawQuery(query, null);
    }
@@ -228,9 +228,9 @@ public class DbSingleton
    {
       String query;
 
-      query = "SELECT * FROM Questions WHERE " + DbContract.Questions.COLUMN_NAME_KID
-            + " = " + kidId + " ORDER BY "
-            + DbContract.Questions.COLUMN_NAME_DATE + " ASC";
+      query = "SELECT * FROM Questions WHERE "
+            + DbContract.Questions.COLUMN_NAME_KID + " = " + kidId
+            + " ORDER BY " + DbContract.Questions.COLUMN_NAME_DATE + " ASC";
 
       return mDb.rawQuery(query, null);
    }
@@ -501,10 +501,10 @@ public class DbSingleton
          mDb.delete("Questions", "_id = " + id, null);
       }
    }
-   
+
    public long saveWord(Word word)
    {
-   // check if word already exists for this kid
+      // check if word already exists for this kid
       String query = "SELECT word FROM Words WHERE "
             + DbContract.Words.COLUMN_NAME_KID + " = " + word.getKidId()
             + " AND word = ?";
@@ -521,14 +521,16 @@ public class DbSingleton
       values.put(DbContract.Words.COLUMN_NAME_LANGUAGE, word.getLanguage());
       values.put(DbContract.Words.COLUMN_NAME_DATE, word.getDate());
       values.put(DbContract.Words.COLUMN_NAME_LOCATION, word.getLocation());
-      values.put(DbContract.Words.COLUMN_NAME_AUDIO_FILE, word.getAudioFileUri());
-      values.put(DbContract.Words.COLUMN_NAME_TRANSLATION, word.getTranslation());
+      values.put(DbContract.Words.COLUMN_NAME_AUDIO_FILE,
+            word.getAudioFileUri());
+      values.put(DbContract.Words.COLUMN_NAME_TRANSLATION,
+            word.getTranslation());
       values.put(DbContract.Words.COLUMN_NAME_TOWHOM, word.getToWhom());
       values.put(DbContract.Words.COLUMN_NAME_NOTES, word.getNotes());
 
       // Inserting Row
       return mDb.insert("Words", null, values);
-      
+
    }
 
    public long saveWord(int kidId, String word, String language, long date,
@@ -591,7 +593,7 @@ public class DbSingleton
       values.put(DbContract.Questions.COLUMN_NAME_NOTES, notes);
 
       // Inserting Row
-     return mDb.insert("Questions", null, values);
+      return mDb.insert("Questions", null, values);
    }
 
    public boolean updateWord(long wordId, int kidId, String word,
@@ -644,47 +646,57 @@ public class DbSingleton
       values.put(DbContract.Words.COLUMN_NAME_AUDIO_FILE, audioFile);
       mDb.update("Words", values, "_id=" + wordId, null);
    }
-   
+
    public Cursor getKidsForExport()
    {
       String query = "SELECT * FROM Kids";
       return mDb.rawQuery(query, null);
    }
-   
+
    public Cursor getAllWordsForBackup()
    {
       String query = "SELECT * FROM Words";
       return mDb.rawQuery(query, null);
    }
-   
+
    public Cursor getKidsForSync()
    {
       String query = "SELECT * FROM Kids WHERE is_dirty = ?";
       return mDb.rawQuery(query, new String[] { "1" });
    }
-   
+
    public Cursor getWordsForSync()
    {
       String query = "SELECT * FROM Words WHERE is_dirty = ?";
       return mDb.rawQuery(query, new String[] { "1" });
    }
-   
+
    public void setNotDirty(UserDataWrapper data)
    {
       List<Kid> kids = data.getKids();
       List<Word> words = data.getWords();
-      
+
       ContentValues values = new ContentValues();
       values.put("is_dirty", 0);
-      
-      for (Kid kid: kids)
+
+      for (Kid kid : kids)
       {
-         mDb.update("Kids", values, "_id=?", new String[] {(kid.getId()).toString()});
+         mDb.update("Kids", values, "_id=?",
+               new String[] { (kid.getId()).toString() });
       }
-      for (Word word: words)
+      for (Word word : words)
       {
-         mDb.update("Words", values, DbContract.Words.COLUMN_NAME_WORD + "=?", new String[] {(word.getWord())});
+         mDb.update("Words", values, DbContract.Words.COLUMN_NAME_WORD + "=?",
+               new String[] { (word.getWord()) });
       }
    }
- 
+
+   public Cursor getResult(SQLiteQueryBuilder queryBuilder,
+         String[] projection, String selection, String[] selectionArgs,
+         String sortOrder)
+   {
+      return queryBuilder.query(mDb, projection, selection, selectionArgs,
+            null, null, sortOrder);
+   }
+
 }

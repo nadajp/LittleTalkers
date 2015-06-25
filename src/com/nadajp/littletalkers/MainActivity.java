@@ -9,16 +9,15 @@ import com.nadajp.littletalkers.MainFragment.AddKidListener;
 import com.nadajp.littletalkers.backup.ServerBackupUtils;
 import com.nadajp.littletalkers.backup.UploadUserData;
 import com.nadajp.littletalkers.database.DbContract;
-
 import com.nadajp.littletalkers.utils.Prefs;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.common.AccountPicker;
-
 import com.google.api.client.util.Strings;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -36,8 +35,9 @@ public class MainActivity extends Activity implements AddKidListener
    // An account type, in the form of a domain name
    public static final String ACCOUNT_TYPE = "littletalkers.com";
    // The account name
-   public static final String ACCOUNT = "myaccount";
-
+   public static final String ACCOUNT = "dummyaccount";
+   // Instance fields
+   Account mAccount;
    //private AuthorizationCheckTask mAuthTask;
 
 
@@ -52,7 +52,7 @@ public class MainActivity extends Activity implements AddKidListener
       // Log.i(DEBUG_TAG, "Kid Id in Main: " + kidId);
 
       // Create the dummy account
-      // mAccount = CreateSyncAccount(this);
+      mAccount = CreateSyncAccount(this);
 
       /*
        * Request the sync for the default account, authority, and manual sync
@@ -89,27 +89,28 @@ public class MainActivity extends Activity implements AddKidListener
     * 
     * @param context
     *           The application context
-    * 
-    *           public Account CreateSyncAccount(Context context) { // Create
-    *           the account type and default account Account newAccount = new
-    *           Account(ACCOUNT, ACCOUNT_TYPE); // Get an instance of the
-    *           Android account manager AccountManager accountManager =
-    *           (AccountManager) context .getSystemService(ACCOUNT_SERVICE); /*
-    *           Add the account and account type, no password or user data If
-    *           successful, return the Account object, otherwise report an
-    *           error.
-    * 
-    *           if (accountManager.addAccountExplicitly(newAccount, null, null))
-    *           { /* If you don't set android:syncable="true" in in your
-    *           <provider> element in the manifest, then call
-    *           context.setIsSyncable(account, AUTHORITY, 1) here.
-    * 
-    *           Log.i(DEBUG_TAG, "Created new account"); return newAccount; }
-    *           else { /* The account exists or some other error occurred. Log
-    *           this, report it, or handle it internally.
-    * 
-    *           Log.i(DEBUG_TAG, "already have account"); return newAccount; } }
     */
+   public Account CreateSyncAccount(Context context) { 
+      // Create }the account type and default account 
+      Account newAccount = new Account(ACCOUNT, ACCOUNT_TYPE); 
+      // Get an instance of the Android account manager 
+      AccountManager accountManager =
+      (AccountManager) context .getSystemService(ACCOUNT_SERVICE); 
+      /* Add the account and account type, no password or user data If
+       * successful, return the Account object, otherwise report an error.
+       */
+      if (accountManager.addAccountExplicitly(newAccount, null, null)) { 
+         /* If you don't set android:syncable="true" in in your
+          * <provider> element in the manifest, then call
+          * context.setIsSyncable(account, AUTHORITY, 1) here.*/
+      } else { 
+      /* The account exists or some other error occurred. Log
+       * this, report it, or handle it internally.*/
+       Log.i(DEBUG_TAG, "already have account"); 
+    }
+    return newAccount;
+}
+                    
    public void clickedAddKid()
    {
       Intent intent = new Intent(this, AddKidActivity.class);

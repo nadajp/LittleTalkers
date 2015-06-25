@@ -1,16 +1,16 @@
 package com.nadajp.littletalkers.contentprovider;
 
-import com.nadajp.littletalkers.database.DbContract;
-import com.nadajp.littletalkers.database.MainDatabaseHelper;
-
 import android.content.ContentProvider;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+
+import com.nadajp.littletalkers.database.DatabaseHelper;
+import com.nadajp.littletalkers.database.DbContract;
+import com.nadajp.littletalkers.database.DbSingleton;
 
 public class LTContentProvider extends ContentProvider
 {
@@ -18,7 +18,7 @@ public class LTContentProvider extends ContentProvider
     * Defines a handle to the database helper object. The MainDatabaseHelper
     * class is defined in a following snippet.
     */
-   private MainDatabaseHelper mDbHelper;
+   private DatabaseHelper mDbHelper;
 
    /**
     * Content authority for this provider.
@@ -29,9 +29,10 @@ public class LTContentProvider extends ContentProvider
     * Base URI. (content://com.example.android.network.sync.basicsyncadapter)
     */
    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-   
+  
    public static final Uri KIDS_URI = Uri.parse("content://" + CONTENT_AUTHORITY + "Kids");
    public static final Uri WORDS_URI = Uri.parse("content://" + CONTENT_AUTHORITY + "Words");
+   public static final Uri QAs_URI = Uri.parse("content://" + CONTENT_AUTHORITY + "QAs");
 
    /**
     * Path components for various type resources..
@@ -95,7 +96,7 @@ public class LTContentProvider extends ContentProvider
        * that the database itself isn't created or opened until
        * SQLiteOpenHelper.getWritableDatabase is called
        */
-      mDbHelper = new MainDatabaseHelper(getContext());
+      mDbHelper = new DatabaseHelper(getContext());
       return true;
    }
 
@@ -125,13 +126,19 @@ public class LTContentProvider extends ContentProvider
             queryBuilder.appendWhere(DbContract.Words._ID + "=" 
                 + uri.getLastPathSegment());
             break;
+         case ROUTE_QAS:
+            queryBuilder.setTables(DbContract.Words.TABLE_NAME);
+            break;
+         case ROUTE_QAS_ID:
+            queryBuilder.setTables(DbContract.Questions.TABLE_NAME);
+            queryBuilder.appendWhere(DbContract.Questions._ID + "=" 
+                + uri.getLastPathSegment());
+            break;
       default:
         throw new IllegalArgumentException("Unknown URI: " + uri);
       }
-
-      SQLiteDatabase db = mDbHelper.getReadableDatabase();
-      Cursor cursor = queryBuilder.query(db, projection, selection,
-          selectionArgs, null, null, sortOrder);
+      
+      Cursor cursor = DbSingleton.get().getResult(queryBuilder, projection, selection, selectionArgs, sortOrder);
       // make sure that potential listeners are getting notified
       cursor.setNotificationUri(getContext().getContentResolver(), uri);
 

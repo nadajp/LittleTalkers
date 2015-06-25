@@ -87,6 +87,10 @@ public class DatabaseHelper extends SQLiteOpenHelper
         case 1:
            db.execSQL("ALTER TABLE " + 
                  DbContract.Kids.TABLE_NAME + " ADD COLUMN " + "is_dirty" + " INTEGER DEFAULT 1");
+           db.execSQL("ALTER TABLE " + 
+                 DbContract.Words.TABLE_NAME + " ADD COLUMN " + "is_dirty" + " INTEGER DEFAULT 1");
+           db.execSQL("ALTER TABLE " + 
+                 DbContract.Questions.TABLE_NAME + " ADD COLUMN " + "is_dirty" + " INTEGER DEFAULT 1");
           // we want both updates, so no break statement here...
         case 2:
           //db.execSQL(DATABASE_CREATE_someothertable); 

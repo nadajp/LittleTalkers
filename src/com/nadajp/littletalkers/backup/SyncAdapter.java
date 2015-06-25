@@ -4,14 +4,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.nadajp.littletalkers.AppConstants;
+import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.database.DbContract;
+import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.database.DbContract.Kids;
 //import com.nadajp.littletalkers.kidendpoint.Kidendpoint;
 //import com.nadajp.littletalkers.kidendpoint.model.Kid;
 
+
+import com.nadajp.littletalkers.server.littletalkersapi.Littletalkersapi;
+import com.nadajp.littletalkers.server.littletalkersapi.model.UserDataWrapper;
+import com.nadajp.littletalkers.server.littletalkersapi.model.UserProfile;
+import com.nadajp.littletalkers.utils.Prefs;
 
 import android.accounts.Account;
 import android.content.AbstractThreadedSyncAdapter;
@@ -32,18 +41,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
 {
 
    // Global variables
+   private GoogleAccountCredential mCredential;
+   public String mAccountName;
    
    // Define a variable to contain a content resolver instance
    ContentResolver mContentResolver;
-
-   private static final String FEED_URL = "http://android-developers.blogspot.com/atom.xml";
-   private static final String SERVER_URL = "http://android-developers.blogspot.com/atom.xml";
 
    /**
     * Network connection timeout, in milliseconds.
     */
    private static final int NET_CONNECT_TIMEOUT_MILLIS = 15000; // 15 seconds
-
    /**
     * Network read timeout, in milliseconds.
     */
@@ -109,48 +116,49 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
    {
       /*
        * Put the data transfer code here.
-       */
-      
+       */      
       Log.i(DEBUG_TAG, "Performing Sync!");
 
+      mCredential = GoogleAccountCredential
+            .usingAudience(this.getContext(), AppConstants.AUDIENCE);
+      mCredential.setSelectedAccountName(Prefs.getAccountName(this.getContext()));
       
-      /*Kidendpoint.Builder builder = new Kidendpoint.Builder(
-             AndroidHttp.newCompatibleTransport(), 
-             new JacksonFactory(),
-             new HttpRequestInitializer() {
-                public void initialize(HttpRequest httpRequest) { }
-                });
-             
-         builder.setApplicationName("littletalkerstest");
-         Kidendpoint endpoint = CloudEndpointUtils.updateBuilder(
-            builder).build();
-         
-         Uri uri = DbContract.Kids.CONTENT_URI; // Get all entries
-         Cursor cursor = mContentResolver.query(uri, KIDS_PROJECTION, null, null, null);
-         assert cursor != null;
-         
-         ArrayList<Kid> kids = new ArrayList<Kid>();
-         if (cursor.moveToFirst())
-         {
-            do
-            {
-               Kid kid = new Kid();
-               kid.setId(cursor.getInt(cursor.getColumnIndex(Kids._ID)));
-               kid.setName(cursor.getString(cursor.getColumnIndex(Kids.COLUMN_NAME_NAME)));
-               kid.setBirthdate(cursor.getInt(cursor.getColumnIndex(Kids.COLUMN_NAME_BIRTHDATE_MILLIS)));
-               kid.setLocation(cursor.getString(cursor.getColumnIndex(Kids.COLUMN_NAME_DEFAULT_LOCATION)));
-               kid.setLanguage(cursor.getString(cursor.getColumnIndex(Kids.COLUMN_NAME_DEFAULT_LANGUAGE)));
-               kid.setPictureUri(cursor.getString(cursor.getColumnIndex(Kids.COLUMN_NAME_PICTURE_URI)));
-               kids.add(kid);
-            } while (cursor.moveToNext());
-         }
-         cursor.close();
-         
-         try {
-            endpoint.insertKid(kids.get(0)).execute();
-          } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-          } */
+      Littletalkersapi.Builder builder = new Littletalkersapi.Builder(
+            AndroidHttp.newCompatibleTransport(), new JacksonFactory(),
+            mCredential);
+      builder.setApplicationName(this.getContext().getString(R.string.app_name));
+      Littletalkersapi ltEndpoint = builder.build();
+      
+      Long userId = Prefs.getUserId(this.getContext());     
+      Log.i(DEBUG_TAG, "user id from Prefs: " + userId);
+      UserProfile profile = null;
+      try
+      {
+         profile = ltEndpoint.getProfileById(userId).execute();        
+      } catch (IOException e)
+      {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+         return;
+      }   
+      Log.i(DEBUG_TAG, "userId: " + profile.getId() + "  email: " + profile.getEmail());
+      if (profile.getId() != userId)
+      {
+         userId = profile.getId();
+         Prefs.saveUserId(this.getContext(), userId);
+      }
+      
+      // TODO: deletions
+      
+      UserDataWrapper data = ServerBackupUtils.getUserData(); 
+      try {
+         UserDataWrapper result = ltEndpoint.insertUserData(userId, data).execute();
+      } catch (IOException e)
+      {
+         e.printStackTrace();
+         return;
+      }
+      DbSingleton.get().setNotDirty(data);
+      
      }
 }
